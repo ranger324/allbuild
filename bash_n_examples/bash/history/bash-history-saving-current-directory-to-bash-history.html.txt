@@ -1,0 +1,837 @@
+   Link: canonical
+   Stack Overflow
+    1. Questions
+    2. Developer Jobs
+    3. Documentation beta
+    4. Tags
+    5. Users
+   _____________________ [ Submit ]
+
+  current community
+
+     * help chat
+       Stack Overflow
+     * Meta Stack Overflow
+
+  your communities
+
+   Sign up or log in to customize your list.
+
+  more stack exchange communities
+
+   company blog
+     * Tour Start here for a quick overview of the site
+     * Help Center Detailed answers to any questions you might have
+     * Meta Discuss the workings and policies of this site
+     * About Us Learn more about Stack Overflow the company
+     * Business Learn more about hiring developers or posting ads with us
+    1.  2.  Log In Sign Up
+   Link:
+   https://cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon.png?v=c78bd457575a
+   x Dismiss
+   Join the Stack Overflow Community
+   Stack Overflow is a community of 7.7 million programmers, just like you,
+   helping each other.
+   Join them; it only takes a minute:
+   Sign up
+
+                    Saving current directory to bash history
+
+   Ask Question
+
+              I'd like to save the current directory where the each command   
+              was issued alongside the command in the history. In order not   
+              to mess things up, I was thinking about adding the current      
+              directory as a comment at the end of the line. An example might 
+              help:                                                           
+                                                                              
+              $ cd /usr/local/wherever                                        
+              $ grep timmy accounts.txt                                       
+                                                                              
+   up vote 46 I'd like bash to save the last command as:                      
+   down vote                                                                  
+   favorite   grep timmy accounts.txt # /usr/local/wherever                   
+   27                                                                         
+              The idea is that this way I could immediately see where I       
+              issued the command.                                             
+                                                                              
+              bash                                                            
+                                                                              
+                                          asked Jun 3 '09 at 15:01            
+              share|improve this question [IMG]                               
+                                          Lajos Nagy                          
+                                          2,95273346                          
+                                                                              
+              add a comment |  expand to show all comments on this post       
+
+6 Answers
+
+   active oldest votes
+
+                                                                                              One-liner version                                                                                      
+                                                                                                                                                                                                     
+         Here is a one-liner version. It's the original. I've also posted a short function version and a long function version with several added features. I like the function versions because     
+         they won't clobber other variables in your environment and they're much more readable than the one-liner. This post has some information on how they all work which may not be duplicated   
+         in the others.                                                                                                                                                                              
+                                                                                                                                                                                                     
+           Add the following to your ~/.bashrc file:                                                                                                                                                 
+                                                                                                                                                                                                     
+         export PROMPT_COMMAND='hpwd=$(history 1); hpwd="${hpwd# *[0-9]*  }"; if [[ ${hpwd%% *} == "cd" ]]; then cwd=$OLDPWD; else cwd=$PWD; fi; hpwd="${hpwd% ### *} ### $cwd"; history -s "$hpwd"' 
+                                                                                                                                                                                                     
+         This makes a history entry that looks like:                                                                                                                                                 
+                                                                                                                                                                                                     
+         rm subdir/file ### /some/dir                                                                                                                                                                
+                                                                                                                                                                                                     
+         I use ### as a comment delimiter to set it apart from comments that the user might type and to reduce the chance of collisions when stripping old path comments that would otherwise        
+         accumulate if you press enter on a blank command line. Unfortunately, the side affect is that a command like echo " ### " gets mangled, although that should be fairly rare.                
+                                                                                                                                                                                                     
+         Some people will find the fact that I reuse the same variable name to be unpleasant. Ordinarily I wouldn't, but here I'm trying to minimize the footprint. It's easily changed in any case. 
+                                                                                                                                                                                                     
+         It blindly assumes that you aren't using HISTTIMEFORMAT or modifying the history in some other way. It would be easy to add a date command to the comment in lieu of the HISTTIMEFORMAT     
+         feature. However, if you need to use it for some reason, it still works in a subshell since it gets unset automatically:                                                                    
+                                                                                                                                                                                                     
+         $ htf="%Y-%m-%d %R "    # save it for re-use                                                                                                                                                
+         $ (HISTTIMEFORMAT=$htf; history 20)|grep 11:25                                                                                                                                              
+                                                                                                                                                                                                     
+         There are a couple of very small problems with it. One is if you use the history command like this, for example:                                                                            
+                                                                                                                                                                                                     
+         $ history 3                                                                                                                                                                                 
+up vote  echo "hello world" ### /home/dennis                                                                                                                                                         
+37 down  ls -l /tmp/file ### /home/dennis                                                                                                                                                            
+vote     history 3                                                                                                                                                                                   
+accepted                                                                                                                                                                                             
+         The result will not show the comment on the history command itself, even though you'll see it if you press up-arrow or issue another history command.                                       
+                                                                                                                                                                                                     
+         The other is that commands with embedded newlines leave an uncommented copy in the history in addition to the commented copy.                                                               
+                                                                                                                                                                                                     
+         There may be other problems that show up. Let me know if you find any.                                                                                                                      
+                                                                                                                                                                                                     
+           How it works                                                                                                                                                                              
+                                                                                                                                                                                                     
+         Bash executes a command contained in the PROMPT_COMMAND variable each time the PS1 primary prompt is issued. This little script takes advantage of that to grab the last command in the     
+         history, add a comment to it and save it back.                                                                                                                                              
+                                                                                                                                                                                                     
+         Here it is split apart with comments:                                                                                                                                                       
+                                                                                                                                                                                                     
+         hpwd=$(history 1)              # grab the most recent command                                                                                                                               
+         hpwd="${hpwd# *[0-9]*  }"      # strip off the history line number                                                                                                                          
+         if [[ ${hpwd%% *} == "cd" ]]   # if it's a cd command, we want the old directory                                                                                                            
+         then                           #   so the comment matches other commands "where *were* you when this was done?"                                                                             
+             cwd=$OLDPWD                                                                                                                                                                             
+         else                                                                                                                                                                                        
+             cwd=$PWD                                                                                                                                                                                
+         fi                                                                                                                                                                                          
+         hpwd="${hpwd% ### *} ### $cwd" # strip off the old ### comment if there was one so they                                                                                                     
+                                        #   don't accumulate, then build the comment                                                                                                                 
+         history -s "$hpwd"             # replace the most recent command with itself plus the comment                                                                                               
+                                                                                                                                                                                                     
+                                                             answered Jun 4 '09 at 3:49                                                                                                              
+         share|improve this answer edited Jun 8 '09 at 16:44                      [IMG]                                                                                                              
+                                                                      Dennis Williamson                                                                                                              
+                                                                           195k49273338                                                                                                              
+              Nasty... I thought about that but decided it's too complex. +1 for that – TheBonsai Jun 4 '09 at 7:14                                                                                  
+              In the pattern where you remove the history number, why do you need to escape the second two spaces, but not the first? – Lajos Nagy Jun 5 '09 at 16:00                                
+              Sorry, those escapes aren't necessary - they're leftovers from some debugging. I'm going to edit the answer later today with that and some other minor refinements. Thanks for         
+              pointing it out - I had forgotten that one. – Dennis Williamson Jun 5 '09 at 16:45                                                                                                     
+              I removed the unnecessary escapes from the spaces and changed two of the strip instructions so the "cd" one makes a long match (%%) and the comment one (###) makes a short match (%). 
+              I will have a much better version to post in the next day or so. – Dennis Williamson Jun 6 '09 at 3:06                                                                                 
+         1    I get two lines in the result of history, one without the comment, one with the comment. – Gauthier Jun 8 '15 at 7:53                                                                  
+                                                                                                                                                                                                     
+          |  show 4 more comments                                                                                                                                                                    
+
+       hcmnt - long function version                                                                                           
+                                                                                                                               
+     Here is a long version in the form of a function. It's a monster, but it adds several useful features. I've also posted a 
+     one-liner (the original) and a shorter function. I like the function versions because they won't clobber other variables  
+     in your environment and they're much more readable than the one-liner. Read the entry for the one-liner and the commments 
+     in the function below for additional information on how it works and some limitations. I've posted each version in its    
+     own answer in order to keep things more organized.                                                                        
+                                                                                                                               
+     To use this one, save it in a file called hcmnt in a location like /usr/local/bin (you can chmod +x it if you want) then  
+     source it in your ~/.bashrc like this:                                                                                    
+                                                                                                                               
+     source /usr/local/bin/hcmnt                                                                                               
+     export hcmntextra='date "+%Y%m%d %R"'                                                                                     
+     export PROMPT_COMMAND='hcmnt'                                                                                             
+                                                                                                                               
+     Don't edit the function's file where PROMPT_COMMAND or hcmntextra are set. Leave them as is so they remain as defaults.   
+     Include them in your .bashrc as shown above and edit them there to set options for hcmnt or to change or unset            
+     hcmntextra. Unlike the short function, with this one you must both have the hcmntextra variable set and use the -e option 
+     to make that feature work.                                                                                                
+                                                                                                                               
+     You can add several options which are documented (with a couple of examples) in the comments in the function. One notable 
+     feature is to have the history entry with appended comment logged to a file and leave the actual history untouched. In    
+     order to use this function, just add the -l filename option like so:                                                      
+                                                                                                                               
+     export PROMPT_COMMAND="hcmnt -l ~/histlog"                                                                                
+                                                                                                                               
+     You can use any combination of options, except that -n and -t are mutually exclusive.                                     
+                                                                                                                               
+     #!/bin/bash                                                                                                               
+     hcmnt() {                                                                                                                 
+                                                                                                                               
+     # adds comments to bash history entries (or logs them)                                                                    
+                                                                                                                               
+     # by Dennis Williamson - 2009-06-05 - updated 2009-06-19                                                                  
+     # http://stackoverflow.com/questions/945288/saving-current-directory-to-bash-history                                      
+     # (thanks to Lajos Nagy for the idea)                                                                                     
+                                                                                                                               
+     # the comments can include the directory                                                                                  
+     # that was current when the command was issued                                                                            
+     # plus optionally, the date or other information                                                                          
+                                                                                                                               
+     # set the bash variable PROMPT_COMMAND to the name                                                                        
+     # of this function and include these options:                                                                             
+                                                                                                                               
+         # -e - add the output of an extra command contained in the hcmntextra variable                                        
+         # -i - add ip address of terminal that you are logged in *from*                                                       
+         #      if you're using screen, the screen number is shown                                                             
+         #      if you're directly logged in, the tty number or X display number is shown                                      
+         # -l - log the entry rather than replacing it in the history                                                          
+         # -n - don't add the directory                                                                                        
+         # -t - add the from and to directories for cd commands                                                                
+         # -y - add the terminal device (tty)                                                                                  
+         # text or a variable                                                                                                  
+                                                                                                                               
+     # Example result for PROMPT_COMMAND='hcmnt -et $LOGNAME'                                                                  
+     #     when hcmntextra='date "+%Y%m%d %R"'                                                                                 
+     # cd /usr/bin ### mike 20090605 14:34 /home/mike -> /usr/bin                                                              
+                                                                                                                               
+     # Example for PROMPT_COMMAND='hcmnt'                                                                                      
+     # cd /usr/bin ### /home/mike                                                                                              
+                                                                                                                               
+     # Example for detailed logging:                                                                                           
+     #     when hcmntextra='date "+%Y%m%d %R"'                                                                                 
+     #     and PROMPT_COMMAND='hcmnt -eityl ~/.hcmnt.log $LOGNAME@$HOSTNAME'                                                   
+     #     $ tail -1 ~/.hcmnt.log                                                                                              
+     #     cd /var/log ### dave@hammerhead /dev/pts/3 192.168.1.1 20090617 16:12 /etc -> /var/log                              
+                                                                                                                               
+                                                                                                                               
+     # INSTALLATION: source this file in your .bashrc                                                                          
+                                                                                                                               
+         # will not work if HISTTIMEFORMAT is used - use hcmntextra instead                                                    
+         export HISTTIMEFORMAT=                                                                                                
+                                                                                                                               
+         # HISTTIMEFORMAT still works in a subshell, however, since it gets unset automatically:                               
+                                                                                                                               
+         #   $ htf="%Y-%m-%d %R "    # save it for re-use                                                                      
+         #   $ (HISTTIMEFORMAT=$htf; history 20)|grep 11:25                                                                    
+                                                                                                                               
+         local script=$FUNCNAME                                                                                                
+                                                                                                                               
+         local hcmnt=                                                                                                          
+         local cwd=                                                                                                            
+         local extra=                                                                                                          
+         local text=                                                                                                           
+         local logfile=                                                                                                        
+                                                                                                                               
+         local options=":eil:nty"                                                                                              
+         local option=                                                                                                         
+         OPTIND=1                                                                                                              
+         local usage="Usage: $script [-e] [-i] [-l logfile] [-n|-t] [-y] [text]"                                               
+                                                                                                                               
+         local newline=$'\n' # used in workaround for bash history newline bug                                                 
+         local histline=     # used in workaround for bash history newline bug                                                 
+                                                                                                                               
+         local ExtraOpt=                                                                                                       
+         local LogOpt=                                                                                                         
+         local NoneOpt=                                                                                                        
+         local ToOpt=                                                                                                          
+         local tty=                                                                                                            
+         local ip=                                                                                                             
+                                                                                                                               
+         # *** process options to set flags ***                                                                                
+up                                                                                                                             
+vote     while getopts $options option                                                                                         
+14       do                                                                                                                    
+down         case $option in                                                                                                   
+vote             e ) ExtraOpt=1;;        # include hcmntextra                                                                  
+                 i ) ip="$(who --ips -m)" # include the terminal's ip address                                                  
+                     ip=($ip)                                                                                                  
+                     ip="${ip[4]}"                                                                                             
+                     if [[ -z $ip ]]                                                                                           
+                     then                                                                                                      
+                         ip=$(tty)                                                                                             
+                     fi;;                                                                                                      
+                 l ) LogOpt=1            # log the entry                                                                       
+                     logfile=$OPTARG;;                                                                                         
+                 n ) if [[ $ToOpt ]]                                                                                           
+                     then                                                                                                      
+                         echo "$script: can't include both -n and -t."                                                         
+                         echo $usage                                                                                           
+                         return 1                                                                                              
+                     else                                                                                                      
+                         NoneOpt=1       # don't include path                                                                  
+                     fi;;                                                                                                      
+                 t ) if [[ $NoneOpt ]]                                                                                         
+                     then                                                                                                      
+                         echo "$script: can't include both -n and -t."                                                         
+                         echo $usage                                                                                           
+                         return 1                                                                                              
+                     else                                                                                                      
+                         ToOpt=1         # cd shows "from -> to"                                                               
+                     fi;;                                                                                                      
+                 y ) tty=$(tty);;                                                                                              
+                 : ) echo "$script: missing filename: -$OPTARG."                                                               
+                     echo $usage                                                                                               
+                     return 1;;                                                                                                
+                 * ) echo "$script: invalid option: -$OPTARG."                                                                 
+                     echo $usage                                                                                               
+                     return 1;;                                                                                                
+             esac                                                                                                              
+         done                                                                                                                  
+                                                                                                                               
+         text=($@)                       # arguments after the options are saved to add to the comment                         
+         text="${text[*]:$OPTIND - 1:${#text[*]}}"                                                                             
+                                                                                                                               
+         # *** process the history entry ***                                                                                   
+                                                                                                                               
+         hcmnt=$(history 1)              # grab the most recent command                                                        
+                                                                                                                               
+         # save history line number for workaround for bash history newline bug                                                
+         histline="${hcmnt%  *}"                                                                                               
+                                                                                                                               
+         hcmnt="${hcmnt# *[0-9]*  }"     # strip off the history line number                                                   
+                                                                                                                               
+         if [[ -z $NoneOpt ]]            # are we adding the directory?                                                        
+         then                                                                                                                  
+             if [[ ${hcmnt%% *} == "cd" ]]    # if it's a cd command, we want the old directory                                
+             then                             #   so the comment matches other commands "where *were* you when this was done?" 
+                 if [[ $ToOpt ]]                                                                                               
+                 then                                                                                                          
+                     cwd="$OLDPWD -> $PWD"    # show "from -> to" for cd                                                       
+                 else                                                                                                          
+                     cwd=$OLDPWD              # just show "from"                                                               
+                 fi                                                                                                            
+             else                                                                                                              
+                 cwd=$PWD                     # it's not a cd, so just show where we are                                       
+             fi                                                                                                                
+         fi                                                                                                                    
+                                                                                                                               
+         if [[ $ExtraOpt && $hcmntextra ]]    # do we want a little something extra?                                           
+         then                                                                                                                  
+             extra=$(eval "$hcmntextra")                                                                                       
+         fi                                                                                                                    
+                                                                                                                               
+         # strip off the old ### comment if there was one so they don't accumulate                                             
+         # then build the string (if text or extra aren't empty, add them plus a space)                                        
+         hcmnt="${hcmnt% ### *} ### ${text:+$text }${tty:+$tty }${ip:+$ip }${extra:+$extra }$cwd"                              
+                                                                                                                               
+         if [[ $LogOpt ]]                                                                                                      
+         then                                                                                                                  
+             # save the entry in a logfile                                                                                     
+             echo "$hcmnt" >> $logfile || echo "$script: file error." ; return 1                                               
+         else                                                                                                                  
+                                                                                                                               
+             # workaround for bash history newline bug                                                                         
+             if [[ $hcmnt != ${hcmnt/$newline/} ]] # if there a newline in the command                                         
+             then                                                                                                              
+                 history -d $histline # then delete the current command so it's not duplicated                                 
+             fi                                                                                                                
+                                                                                                                               
+             # replace the history entry                                                                                       
+             history -s "$hcmnt"                                                                                               
+         fi                                                                                                                    
+                                                                                                                               
+     } # END FUNCTION hcmnt                                                                                                    
+                                                                                                                               
+     # set a default (must use -e option to include it)                                                                        
+     export hcmntextra='date "+%Y%m%d %R"'      # you must be really careful to get the quoting right                          
+                                                                                                                               
+     # start using it                                                                                                          
+     export PROMPT_COMMAND='hcmnt'                                                                                             
+                                                                                                                               
+     update 2009-06-19: Added options useful for logging (ip and tty), a workaround for the duplicate entry problem, removed   
+     extraneous null assignments                                                                                               
+                                                                                                                               
+                                                         answered Jun 6 '09 at 22:17                                           
+     share|improve this answer edited Mar 8 '11 at 23:12                       [IMG]                                           
+                                                                   Dennis Williamson                                           
+                                                                        195k49273338                                           
+          "HISTTIMEFORMAT still works in a subshell, however, since it gets unset automatically" - when the subshell exits     
+          – Dennis Williamson Nov 20 '09 at 19:00                                                                              
+          Thanks for this! One little thing is that nulling HISTTIMEFORMAT instead of unsetting it means that .bash_history    
+          gets some annoying timestamp lines. I changed the nulling line to if [[ ${!HISTTIMEFORMAT[@]} ]]; then unset         
+          HISTTIMEFORMAT; fi, using the funky test described at stackoverflow.com/questions/874389/… – Janus Jan 21 '11 at     
+          3:27                                                                                                                 
+          @Janus: I don't think the test is necessary. You can unset a variable that is not set without error. – Dennis        
+          Williamson Jan 21 '11 at 6:12                                                                                        
+                                                                                                                               
+     add a comment |  expand to show all comments on this post                                                                 
+
+      You could install Advanced Shell History, an open source tool that writes  
+      your bash or zsh history to a sqlite database. This records things like    
+      the current working directory, the command exit code, command start and    
+      stop times, session start and stop times, tty, etc.                        
+                                                                                 
+      If you want to query the history database, you can write your own SQL      
+      queries, save them and make them available within the bundled ash_query    
+      tool. There are a few useful prepackaged queries, but since I know SQL     
+      pretty well, I usually just open the database and query interactively when 
+      I need to look for something.                                              
+                                                                                 
+      One query I find very useful, though, is looking at the history of the     
+      current working directory. It helps me remember where I left off when I    
+      was working on something.                                                  
+                                                                                 
+      vagrant@precise32:~$ ash_query -q CWD                                      
+      session                                                                    
+          when                   what                                            
+      1                                                                          
+          2014-08-27 17:13:07    ls -la                                          
+          2014-08-27 17:13:09    cd .ash                                         
+          2014-08-27 17:16:27    ls                                              
+          2014-08-27 17:16:33    rm -rf advanced-shell-history/                  
+          2014-08-27 17:16:35    ls                                              
+          2014-08-27 17:16:37    less postinstall.sh                             
+          2014-08-27 17:16:57    sudo reboot -n                                  
+                                                                                 
+      And the same history using the current working directory (and anything     
+      below it):                                                                 
+                                                                                 
+ up   vagrant@precise32:~$ ash_query -q RCWD                                     
+ vote session                                                                    
+ 9        where                                                                  
+ down         when                   what                                        
+ vote 1                                                                          
+          /home/vagrant/advanced-shell-history                                   
+              2014-08-27 17:11:34    nano ~/.bashrc                              
+              2014-08-27 17:12:54    source /usr/lib/advanced_shell_history/bash 
+              2014-08-27 17:12:57    source /usr/lib/advanced_shell_history/bash 
+              2014-08-27 17:13:05    cd                                          
+          /home/vagrant                                                          
+              2014-08-27 17:13:07    ls -la                                      
+              2014-08-27 17:13:09    cd .ash                                     
+          /home/vagrant/.ash                                                     
+              2014-08-27 17:13:10    ls                                          
+              2014-08-27 17:13:11    ls -l                                       
+              2014-08-27 17:13:16    sqlite3 history.db                          
+              2014-08-27 17:13:43    ash_query                                   
+              2014-08-27 17:13:50    ash_query -Q                                
+              2014-08-27 17:13:56    ash_query -q DEMO                           
+              2014-08-27 17:14:39    ash_query -q ME                             
+              2014-08-27 17:16:26    cd                                          
+          /home/vagrant                                                          
+              2014-08-27 17:16:27    ls                                          
+              2014-08-27 17:16:33    rm -rf advanced-shell-history/              
+              2014-08-27 17:16:35    ls                                          
+              2014-08-27 17:16:37    less postinstall.sh                         
+              2014-08-27 17:16:57    sudo reboot -n                              
+                                                                                 
+      FWIW - I'm the author and maintainer of the project.                       
+                                                                                 
+                                                    answered Aug 30 '14 at 20:03 
+      share|improve this answer    edited Mar 16 at                        [IMG] 
+                                              18:39                carl.anderson 
+                                                                          596511 
+                                                                                 
+      add a comment |  expand to show all comments on this post                  
+
+                                   hcmnts - short function version                               
+                                                                                                 
+     Here is a short version in the form of a function. I've also posted a one-liner (the        
+     original) and a longer function with several added features. I like the function versions   
+     because they won't clobber other variables in your environment and they're much more        
+     readable than the one-liner. Read the entry for the one-liner for additional information on 
+     how this works and some limitations. I've posted each version in its own answer in order to 
+     keep things more organized.                                                                 
+                                                                                                 
+     To use this one, save it in a file called hcmnts in a location like /usr/local/bin (you can 
+     chmod +x it if you want) then source it in your ~/.bashrc like this:                        
+                                                                                                 
+     source /usr/local/bin/hcmnts                                                                
+                                                                                                 
+     Comment out the line that sets hcmntextra if you don't want the date and time (or you can   
+     change its format or use some other command besides date).                                  
+                                                                                                 
+     That's all there is to it.                                                                  
+                                                                                                 
+     #!/bin/bash                                                                                 
+     hcmnts() {                                                                                  
+         # adds comments to bash history entries                                                 
+                                                                                                 
+         # the *S*hort version of hcmnt (which has many more features)                           
+                                                                                                 
+         # by Dennis Williamson                                                                  
+         # http://stackoverflow.com/questions/945288/saving-current-directory-to-bash-history    
+         # (thanks to Lajos Nagy for the idea)                                                   
+                                                                                                 
+         # INSTALLATION: source this file in your .bashrc                                        
+                                                                                                 
+up       # will not work if HISTTIMEFORMAT is used - use hcmntextra instead                      
+vote     export HISTTIMEFORMAT=                                                                  
+6                                                                                                
+down     # HISTTIMEFORMAT still works in a subshell, however, since it gets unset automatically: 
+vote                                                                                             
+         #   $ htf="%Y-%m-%d %R "    # save it for re-use                                        
+         #   $ (HISTTIMEFORMAT=$htf; history 20)|grep 11:25                                      
+                                                                                                 
+         local hcmnt                                                                             
+         local cwd                                                                               
+         local extra                                                                             
+                                                                                                 
+         hcmnt=$(history 1)                                                                      
+         hcmnt="${hcmnt# *[0-9]*  }"                                                             
+                                                                                                 
+         if [[ ${hcmnt%% *} == "cd" ]]                                                           
+         then                                                                                    
+             cwd=$OLDPWD                                                                         
+         else                                                                                    
+             cwd=$PWD                                                                            
+         fi                                                                                      
+                                                                                                 
+         extra=$(eval "$hcmntextra")                                                             
+                                                                                                 
+         hcmnt="${hcmnt% ### *}"                                                                 
+         hcmnt="$hcmnt ### ${extra:+$extra }$cwd"                                                
+                                                                                                 
+         history -s "$hcmnt"                                                                     
+     }                                                                                           
+     export hcmntextra='date +"%Y%m%d %R"'                                                       
+     export PROMPT_COMMAND='hcmnts'                                                              
+                                                                                                 
+                                                         answered Jun 6 '09 at 22:12             
+     share|improve this answer edited Jun 8 '09 at 16:42                       [IMG]             
+                                                                   Dennis Williamson             
+                                                                        195k49273338             
+                                                                                                 
+     add a comment |  expand to show all comments on this post                                   
+
+     Gentleman this works better.. The only thing I can not figure out is how to make the script NOT log to syslog on login and  
+     log the last command in history. But works like a charm so far.                                                             
+                                                                                                                                 
+     #!/bin/bash                                                                                                                 
+                                                                                                                                 
+     trackerbash() {                                                                                                             
+         # adds comments to bash history entries                                                                                 
+                                                                                                                                 
+         # by Dennis Williamson                                                                                                  
+         # http://stackoverflow.com/questions/945288/saving-current-directory-to-bash-history                                    
+         # (thanks to Lajos Nagy for the idea)                                                                                   
+                                                                                                                                 
+         #Supper Enhanced by QXT                                                                                                 
+                                                                                                                                 
+                                                                                                                                 
+         # INSTALLATION: source this file in your .bashrc                                                                        
+                                                                                                                                 
+         export HISTTIMEFORMAT=                                                                                                  
+     #    export HISTTIMEFORMAT='%F   %T    '                                                                                    
+                                                                                                                                 
+         local hcmnt                                                                                                             
+         local cwd                                                                                                               
+         local extra                                                                                                             
+         local thistty                                                                                                           
+         local whoiam                                                                                                            
+         local sudouser                                                                                                          
+         local shelldate                                                                                                         
+up       local TRACKIP                                                                                                           
+vote     local TRACKHOST                                                                                                         
+1                                                                                                                                
+down                                                                                                                             
+vote             thistty=`/usr/bin/tty|/bin/cut -f3-4 -d/`                                                                       
+                 whoiam=`/usr/bin/whoami`                                                                                        
+                 sudouser=`last |grep $thistty |head -1 | awk '{ print $1 }' |cut -c 1-10`                                       
+                 hcmnt=$(history 1)                                                                                              
+                 hcmnt="${hcmnt# *[0-9]*  }"                                                                                     
+                 cwd=`pwd`                                                                                                       
+                                                                                                                                 
+                                                                                                                                 
+                                                                                                                                 
+                 hcmnt="${hcmnt% ### *}"                                                                                         
+                 hcmnt=" $hcmnt ${extra:+$extra }"                                                                               
+                                                                                                                                 
+                 shelldate=`date +"%Y %b %d %R:%S"`                                                                              
+                 TRACKHOST=`whoami | sed -r "s/.*\((.*)\).*/\\1/"`                                                               
+                 TRACKIP=`last |grep $thistty |head -1 | awk '{ print $3 }'`                                                     
+                                                                                                                                 
+                                                                                                                                 
+                 logger -p local1.notice -t bashtracker -i -- "$sudouser ${USER}: $thistty: $TRACKIP: $shelldate: $cwd : $hcmnt" 
+                 history -w                                                                                                      
+                                                                                                                                 
+     }                                                                                                                           
+     export PROMPT_COMMAND='trackerbash'                                                                                         
+                                                                                                                                 
+                                                                                                                                 
+                               answered Jun 28 '11 at 19:51                                                                      
+     share|improve this answer                        [IMG]                                                                      
+                                                      Riaan                                                                      
+                                                    2011212                                                                      
+          Hi, the one before works for me but this one doesnt seem to work. Is it working for everybody? – Rgonomike Apr 5 '12   
+          at 14:07                                                                                                               
+                                                                                                                                 
+     add a comment |  expand to show all comments on this post                                                                   
+
+             For those who want this in zsh I've modified Jeet Sukumaran's    
+             implementation and percol to allow interactive keyword searching 
+             and extraction of either the command or path it was executed in. 
+             It's also possible to filter out duplicate commands and hide     
+   up vote 1 fields (date, command, path)                                     
+   down vote                                                                  
+                                edited Jan 17 '16 at 21:12 answered Oct 3 '14 
+             share|improve this                      [IMG]            at 8:31 
+             answer                             Community♦              [IMG] 
+                                                        11       Gordon Wells 
+                                                                        11612 
+                                                                              
+             add a comment |  expand to show all comments on this post        
+
+Your Answer
+
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+    
+   draft saved
+   draft discarded
+   _____________________
+
+  Sign up or log in
+
+   Sign up using Google
+
+   Sign up using Facebook
+
+   Sign up using Email and Password
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+   [ Post Your Answer ] discard
+
+   By posting your answer, you agree to the privacy policy and terms of
+   service.
+
+Not the answer you're looking for? Browse other questions tagged bash or ask
+your own question.
+
+   asked  8 years, 3 months ago 
+   viewed 7,563 times           
+   active 5 months ago          
+
+   Get the weekly newsletter! In it, you'll get:
+
+     * The week's top questions and answers
+     * Important community announcements
+     * Questions that need answers
+   [ Sign up for the newsletter ]
+
+   see an example newsletter
+
+   By subscribing, you agree to the privacy policy and terms of service.
+
+    Linked
+
+   27
+   Bash. Test for a variable unset, using a function
+   5
+   Saving current directory to zsh history
+   3
+   How can I (from a script) add something to the zsh command history?
+   3
+   History of non-interactive shell commands
+   2
+   Is there any way to get bash command history before the ones in
+   ./bash_history?
+   0
+   Command/Script for Accurate command HISTORY?
+   1
+   How to save “history” automatically depending on the directory
+   3
+   Insert current path in bash command line
+
+    Related
+
+   3435
+   Getting the source directory of a Bash script from within
+   1397
+   String contains in Bash
+   1293
+   Check if a program exists from a Bash script
+   2038
+   How do I tell if a regular file does not exist in Bash?
+   1277
+   How do I split a string on a delimiter in Bash?
+   1346
+   Extract filename and extension in Bash
+   1044
+   How to count all the lines of code in a directory recursively?
+   529
+   Get current directory name (without full path) in a Bash script
+   1706
+   How to concatenate string variables in Bash?
+   1166
+   Echo newline in Bash prints literal \n
+
+    Hot Network Questions
+
+     * What does "tellus" mean?
+     * How to deal with the credit card debt from family member that has
+       passed away?
+     * How did Sansa and Theon survive the jump from Winterfell wall?
+     * How to append group row into dataframe
+     * Why would Fission be used in a world where Fusion reactors exist?
+     * Should I get a letter of recommendation from my mother, who is a
+       famous researcher in my field?
+     * Is belaying a lead more difficult than a top roped climber
+     * SPFx Replacement for Script Editor Web Part
+     * Why is the number '4' so prominent in the Death Note?
+     * How the get non italic greek letters like siunitx package?
+     * How to prevent cron jobs from being run during certain times in
+       Debian? (a 'gaming' / 'performance mode')
+     * Is the Subcategory of Infinite Sets a Groupoid?
+     * Why are lists the data structure of choice in functional languages?
+     * Idiom for explaining something too thoroughly
+     * Fast pairwise SameQ test of an ordered list
+     * Can a form be too easy to complete?
+     * Why does the EU care so much about the UK divorce payment?
+     * How do I copy a file larger than 4GB to a USB pen drive?
+     * Let's make Diet Haskell
+     * Did Henry VIII have his bedroom bricked up every night?
+     * Could compulsory experience-sharing make a utopia actually work?
+     * Can I insist the original routing upon flight cancellation?
+     * Why didn't Quirrell try to kill Ron and Hermione?
+     * Why does the Falcon 9 FT have a higher payload capacity to GTO than a
+       Zenit-3SL?
+   more hot questions
+   question feed
+
+      Stack Overflow
+
+     * Questions
+     * Jobs
+     * Developer Jobs Directory
+     * Documentation
+     * Help
+     * Mobile
+
+      Stack Overflow
+      Business
+
+     * Talent
+     * Ads
+     * Enterprise
+     * Insights
+
+      Company
+
+     * About
+     * Press
+     * Work Here
+     * Legal
+     * Privacy Policy
+     * Contact Us
+
+      Stack Exchange
+      Network
+
+     * Technology
+     * Life / Arts
+     * Culture / Recreation
+     * Science
+     * Other
+     * Stack Overflow
+     * Server Fault
+     * Super User
+     * Web Applications
+     * Ask Ubuntu
+     * Webmasters
+     * Game Development
+     * TeX - LaTeX
+     * Software Engineering
+     * Unix & Linux
+     * Ask Different (Apple)
+     * WordPress Development
+     * Geographic Information Systems
+     * Electrical Engineering
+     * Android Enthusiasts
+     * Information Security
+     * Database Administrators
+     * Drupal Answers
+     * SharePoint
+     * User Experience
+     * Mathematica
+     * Salesforce
+     * ExpressionEngine® Answers
+     * Blender
+     * Network Engineering
+     * Cryptography
+     * Code Review
+     * Magento
+     * Software Recommendations
+     * Signal Processing
+     * Emacs
+     * Raspberry Pi
+     * Programming Puzzles & Code Golf
+     * Ethereum
+     * Data Science
+     * Arduino
+     * more (27)
+     * Photography
+     * Science Fiction & Fantasy
+     * Graphic Design
+     * Movies & TV
+     * Music: Practice & Theory
+     * Worldbuilding
+     * Seasoned Advice (cooking)
+     * Home Improvement
+     * Personal Finance & Money
+     * Academia
+     * Law
+     * more (17)
+     * English Language & Usage
+     * Skeptics
+     * Mi Yodeya (Judaism)
+     * Travel
+     * Christianity
+     * English Language Learners
+     * Japanese Language
+     * Arqade (gaming)
+     * Bicycles
+     * Role-playing Games
+     * Anime & Manga
+     * Puzzling
+     * Motor Vehicle Maintenance & Repair
+     * more (32)
+     * MathOverflow
+     * Mathematics
+     * Cross Validated (stats)
+     * Theoretical Computer Science
+     * Physics
+     * Chemistry
+     * Biology
+     * Computer Science
+     * Philosophy
+     * more (10)
+     * Meta Stack Exchange
+     * Stack Apps
+     * API
+     * Data
+     * Area 51
+     * Blog
+     * Facebook
+     * Twitter
+     * LinkedIn
+
+   site design / logo © 2017 Stack Exchange Inc; user contributions licensed
+   under cc by-sa 3.0 with attribution required. rev 2017.9.5.26942
+
+   Stack Overflow works best with JavaScript enabled

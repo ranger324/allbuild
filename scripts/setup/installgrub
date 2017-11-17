@@ -1,0 +1,36 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+lsdev()
+{
+test -L /sys/block/$(ls /sys/block | head -n 1) && \
+    find /sys/devices -path "*/block/*" \( -name "sd[a-z]*" -o -name "ub[a-z]*" \) || \
+    find /sys/block \( -name "sd[a-z]*" -o -name "ub[a-z]*" \)
+}
+
+lsblk()
+{
+    lsdev | \
+    while read DEV; do
+	[ -f $DEV/dev ] || continue
+	echo "/dev/${DEV##*/}"
+    done
+}
+
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--menu "Install boot loader on device" 20 61 15 \
+	`lsblk | sort | sed "s/.*/& </"` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	[ ! -z "$choice" ] && grub-install $choice
+    ;;
+esac

@@ -1,0 +1,1 @@
+ar -q lib.a libutil/*.o

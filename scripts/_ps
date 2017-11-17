@@ -1,0 +1,3 @@
+#! /bin/sh
+
+exec ps o pid,ppid,command --ppid 2 -p 2 --deselect

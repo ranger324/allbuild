@@ -1,0 +1,18 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+$DIALOG --defaultno --yes-label UTC --no-label local --yesno "Hardware clock setup" 6 50
+clock=$?
+$HOME/setup/settimezone
+[ $clock = 0 ] && hwclock --noadjfile --hctosys --utc || hwclock --noadjfile --hctosys --localtime
+DATE=`$DIALOG --stdout --calendar "Set system date..." 3 50 0 0 0`
+[ $? != 0 ] && exit 1
+TIME=`$DIALOG --stdout --clear --timebox "Set system time..." 0 0`
+[ $? != 0 ] && exit 1
+DAY=`echo "$DATE $TIME" | cut -d / -f 1`
+REST=`echo "$DATE $TIME" | cut -d / -f 2-`
+date --set="$(echo $REST | sed "s%/%/$DAY/%")"
+[ $clock = 0 ] && hwclock --noadjfile --systohc --utc || hwclock --noadjfile --systohc --localtime
+
+[ $clock = 0 ] && sed -i 's/^clock=".*"/clock="UTC"/' /etc/conf.d/hwclock || sed -i 's/^clock=".*"/clock="local"/' /etc/conf.d/hwclock

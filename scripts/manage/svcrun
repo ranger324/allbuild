@@ -1,0 +1,29 @@
+#! /bin/bash
+
+: ${DIALOG=dialog}
+
+lsservices()
+{
+    find /etc/runlevels -maxdepth 1 -type l | sort | while read svc; do
+	SVCSTATUS=`rc-service ${svc##*/} status 2> /dev/null | cut -d : -f 2`
+	[ ! -z "$SVCSTATUS" ] && echo "${svc##*/}$SVCSTATUS"
+    done
+}
+
+while true; do
+SVC=`$DIALOG --stdout --backtitle "Run services" --title "" --clear --ok-label "Run/Stop" --cancel-label "Exit" --menu "Services:" 20 61 15 $(lsservices)`
+retval=$?
+case $retval in
+    0)
+	if [ "$SVC" != "" ]; then
+	    rc-service $SVC status | grep -qw "started$" && rc-service $SVC stop || rc-service $SVC start
+	fi
+    ;;
+    1)
+	break
+    ;;
+    255)
+	break
+    ;;
+esac
+done

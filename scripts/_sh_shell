@@ -1,0 +1,5 @@
+#! /bin/sh
+
+#$1 $$
+[ -z "$1" ] && echo "Give shell's pid" && exit 1
+exec ps -o command= $1

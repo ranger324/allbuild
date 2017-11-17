@@ -1,0 +1,54 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ -d /usr/share/zoneinfo ] || exit 0
+
+DIR=
+if [ -L /usr/share/zoneinfo/UTC ]; then
+    DIR=$(dirname $(readlink /usr/share/zoneinfo/UTC))
+fi
+
+tzlist(){
+if [ ! -z "$DIR" ]; then
+    find /usr/share/zoneinfo/$DIR -mindepth 2 -type f \( -path "*zoneinfo/$DIR/[ABCIMPU]*" -o -path "*zoneinfo/$DIR/Europe/*" \)
+    find /usr/share/zoneinfo/$DIR -mindepth 1 -maxdepth 1 -type f -path "*zoneinfo/$DIR/[A-Z]*" ! -name "GMT*"
+else
+    find /usr/share/zoneinfo -mindepth 2 -type f \( -path "*zoneinfo/[ABCIMPU]*" -o -path "*zoneinfo/Europe/*" \)
+    find /usr/share/zoneinfo -mindepth 1 -maxdepth 1 -type f -path "*zoneinfo/[A-Z]*" ! -name "GMT*"
+fi
+}
+
+if [ ! -z "$DIR" ]; then
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--menu "Select timezone" 20 61 15 \
+	`tzlist | sed "s%/usr/share/zoneinfo/$DIR/%%" | sort | sed "s/.*/& </"` 2> $tempfile
+else
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--menu "Select timezone" 20 61 15 \
+	`tzlist | sed "s%/usr/share/zoneinfo/%%" | sort | sed "s/.*/& </"` 2> $tempfile
+fi
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ ! -z "$DIR" ]; then
+	    [ -z $choice ] || ln -sf ../usr/share/zoneinfo/$DIR/$choice /etc/localtime
+	else
+	    [ -z $choice ] || ln -sf ../usr/share/zoneinfo/$choice /etc/localtime
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

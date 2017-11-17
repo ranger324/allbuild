@@ -1,0 +1,78 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ -e /etc/X11/98-monitor.conf -a -e /etc/X11/MonitorsDB ] || exit 0
+MONDB="/etc/X11/MonitorsDB"
+
+lsmanuf()
+{
+    cut -d ';' -f 1 $MONDB | sort -u | \
+    while read MF; do
+	case $MF in
+	    \#*|"") continue;;
+	    *) echo -n "\"$MF\" - ";;
+	esac
+    done
+}
+
+lstype()
+{
+    grep "^$1" $MONDB | cut -d ';' -f 2 | \
+    while read TP; do
+	case $TP in
+	    \#*|"") continue;;
+	    *) echo -n "\"$TP\" - ";;
+	esac
+    done
+}
+
+sh -c "$DIALOG --extra-button --extra-label \"Remove\" --menu \"Select manufacturer\" 20 61 15 $(lsmanuf) 2> $tempfile"
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ ! -z "$choice" ]; then
+	    MON="$choice"
+
+	    sh -c "$DIALOG --menu \"Select type\" 20 61 15 $(lstype "$MON") 2> $tempfile"
+	    retval=$?
+
+	    choice=`cat $tempfile`
+	    case $retval in
+		0)
+			if [ ! -z "$choice" ]; then
+			    cp /etc/X11/98-monitor.conf /etc/X11/xorg.conf.d
+			    HS=`grep "^$MON; $choice;" $MONDB | cut -d ';' -f 4`
+			    VR=`grep "^$MON; $choice;" $MONDB | cut -d ';' -f 5`
+			    sed -i "s%.*HorizSync.*%    HorizSync $HS%" /etc/X11/xorg.conf.d/98-monitor.conf
+			    sed -i "s%.*VertRefresh.*%    VertRefresh $VR%" /etc/X11/xorg.conf.d/98-monitor.conf
+			    rm -f /etc/X11/98-monitor.conf.save
+			fi
+		;;
+		1)
+		    #cancel pressed
+		;;
+		255)
+		    #ESC pressed
+		;;
+	    esac
+
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    3)
+	rm -f /etc/X11/xorg.conf.d/98-monitor.conf
+	rm -f /etc/X11/98-monitor.conf.save
+	#extra button pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

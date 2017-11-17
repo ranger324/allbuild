@@ -1,0 +1,3 @@
+#!/bin/sh
+
+TTYPERM=620 login -f $1

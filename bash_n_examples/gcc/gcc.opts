@@ -1,0 +1,6 @@
+CCFLAGS   = [ '-Wall', '-Wextra', '-Wno-unused-parameter', '-Wno-ignored-qualifiers' ]
+
+if DEBUG:
+   CCFLAGS += [ '-g3', '-O0' ]
+else:
+   CCFLAGS += [ '-O2' ]

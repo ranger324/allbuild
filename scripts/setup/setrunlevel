@@ -1,0 +1,44 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ -d /etc/runlevels ] || exit 0
+
+echoservices()
+{
+    find /etc/runlevels -maxdepth 1 -type l | sort | sed 's%.*/%%' | \
+    while read SERV; do
+	[ -e /etc/runlevels/default/$SERV ] && echo "$SERV < on" || echo "$SERV < off"
+    done
+}
+
+$DIALOG --backtitle "Configure system settings" \
+	--title "" --clear \
+	--checklist "Setup services on default runlevel" 20 61 15 \
+	`echoservices` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	find /etc/runlevels -maxdepth 1 -type l | sort | sed 's%.*/%%' | \
+	while read SERV; do
+	    [ "${choice/$SERV/}" != "${choice}" ] && ln -sf /etc/init.d/$SERV /etc/runlevels/default/$SERV || \
+		rm /etc/runlevels/default/$SERV 2> /dev/null
+	done
+	#clone default runlevel
+	rm -f /etc/runlevels/noX/*
+	cp -P /etc/runlevels/default/* /etc/runlevels/noX
+	rm -f /etc/runlevels/noX/xdm
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

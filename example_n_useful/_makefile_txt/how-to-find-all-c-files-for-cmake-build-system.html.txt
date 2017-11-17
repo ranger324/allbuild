@@ -1,0 +1,435 @@
+   Link: canonical
+   Stack Overflow
+    1. Questions
+    2. Developer Jobs
+    3. Documentation beta
+    4. Tags
+    5. Users
+   _____________________ [ Submit ]
+
+  current community
+
+     * help chat
+       Stack Overflow
+     * Meta Stack Overflow
+
+  your communities
+
+   Sign up or log in to customize your list.
+
+  more stack exchange communities
+
+   company blog
+     * Tour Start here for a quick overview of the site
+     * Help Center Detailed answers to any questions you might have
+     * Meta Discuss the workings and policies of this site
+     * About Us Learn more about Stack Overflow the company
+     * Business Learn more about hiring developers or posting ads with us
+    1.  2.  Log In Sign Up
+   Link:
+   https://cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon.png?v=c78bd457575a
+
+                              Learn, Share, Build
+
+   Each month, over 50 million developers come to Stack Overflow to learn,
+   share their knowledge, and build their careers.
+
+   Join the worldâ**s largest developer community.
+
+   Sign Up
+
+                how to find all *.c files for Cmake build system
+
+   Ask Question
+
+         I want to find all .c files under a directory and add them all to SRC files to compile in    
+         cmake. How can I do this in CMakeList.txt.                                                   
+                                                                                                      
+         for regular makefiles I can create                                                           
+                                                                                                      
+up vote  SPECIFIED_SRC_FILE  = $(foreach d,$(SPECIFIED_SRC_DIRS),$(wildcard $(addprefix $(d)/*,*.c))) 
+37 down                                                                                               
+vote     but I couldn't get how to do something like this in CMakeList.txt.                           
+favorite                                                                                              
+10       makefile cmake                                                                               
+                                                                                                      
+                                     edited Jul 22 '13 at 14:38                                       
+         share|improve this question                      [IMG] asked Jan 21 '10 at 13:51             
+                                                          svick user256537                            
+                                                   145k30240356                                       
+migrated from superuser.com Jan 21 '10 at 16:17
+         
+This question came from our site for computer enthusiasts and power users.
+              Note that "collect all source files with glob" is not recommended in CMake: We do not   
+              recommend using GLOB to collect a list of source files from your source tree. If no     
+              CMakeLists.txt file changes when a source is added or removed then the generated build  
+              system cannot know when to ask CMake to regenerate. -- from documentation – Franklin Yu 
+              Jan 2 at 23:39                                                                          
+                                                                                                      
+         add a comment |  expand to show all comments on this post                                    
+
+4 Answers
+
+   active oldest votes
+
+                   Try this:                                                  
+                                                                              
+                     AUX_SOURCE_DIRECTORY                                     
+                                                                              
+                     Find all source files in a directory.                    
+                                                                              
+                    AUX_SOURCE_DIRECTORY(dir VARIABLE)                        
+                                                                              
+                     Collects the names of all the source files in the        
+                     specified directory and stores the list in the variable  
+                     provided. This command is intended to be used by         
+                     projects that use explicit template instantiation.       
+                     Template instantiation files can be stored in a          
+                     "Templates" subdirectory and collected automatically     
+                     using this command to avoid manually listing all         
+                     instantiations.                                          
+   up vote 36 down                                                            
+   vote accepted     It is tempting to use this command to avoid writing the  
+                     list of source files for a library or executable target. 
+                     While this seems to work, there is no way for CMake to   
+                     generate a build system that knows when a new source     
+                     file has been added. Normally the generated build system 
+                     knows when it needs to rerun CMake because the           
+                     CMakeLists.txt file is modified to add a new source.     
+                     When the source is just added to the directory without   
+                     modifying this file, one would have to manually rerun    
+                     CMake to generate a build system incorporating the new   
+                     file.                                                    
+                                                                              
+                                      edited Jan 2 at  answered Jan 21 '10 at 
+                   share|improve this           13:26                   14:09 
+                   answer                       [IMG]                   [IMG] 
+                                               idmean              whitequark 
+                                           8,95962559              14.5k22139 
+                       make sure and read the last part that starts with "It  
+                   9   is tempting to use this command to avoid..."           
+                       – SaoPauloooo Oct 31 '11 at 19:21                      
+                       @SaoPauloooo, as it's written next, "there is no way   
+                       for Cmake to generate a buildsystem that knows when a  
+                   1   new source file has been added". This command is the   
+                       most close answer to OP's question. Fine for me.       
+                       – whitequark Nov 1 '11 at 11:24                        
+                                                                              
+                   add a comment |  expand to show all comments on this post  
+
+              How about the good old globbing?                                
+                                                                              
+              FILE(GLOB MyCSources *.c)                                       
+              ADD_EXECUTABLE(MyExecutable ${MyCSources})                      
+   up vote 38                                                                 
+   down vote                     edited Jan 5 '16 at   answered Jul 29 '10 at 
+              share|improve this               12:54                    20:32 
+              answer                           [IMG]                    [IMG] 
+                                     Iharob Al Asimi                  Dat Chu 
+                                          43.8k53462               6,01343857 
+                   This works great, but does it avoid the caveat (that CMake 
+                   won't know when new files are added) in the other two      
+                   answers? – kylewm Apr 3 '12 at 0:08                        
+              1    No, it doesn't. You will still need to re-run CMake once a 
+                   new file is added. – Dat Chu Apr 25 '12 at 18:24           
+                   (which ended up being fine for my needs... easier than     
+              8    editing the CMakeList every time you add a source file)    
+                   – kylewm Apr 27 '12 at 22:45                               
+              4    There's also GLOB_RECURSE if you want to find the files    
+                   recursively. – emlai Jul 11 '16 at 14:45                   
+                                                                              
+              add a comment |  expand to show all comments on this post       
+
+     Yes, you have two options. Let's assume you the folder structure something similar to this.                    
+                                                                                                                    
+     â**â**â** autopilot                                                                                            
+                 â**Â Â  â**â**â** _AutoPilot.cpp                                                                   
+                 â**Â Â  â**â**â** _AutoPilot.h                                                                     
+                 â**Â Â  â**â**â** action                                                                           
+                 â**Â Â      â**â**â** ActionBase.cpp                                                               
+                 â**Â Â      â**â**â** ActionBase.h                                                                 
+                 â**Â Â      â**â**â** APcopter                                                                     
+                 â**Â Â      â**Â Â  â**â**â** APcopter_avoid.cpp                                                   
+                 â**Â Â      â**Â Â  â**â**â** APcopter_avoid.h                                                     
+                                                                                                                    
+     If you are to use AUX_SOURCE_DIRECTORY you have to add CMakeLists.txt each one of sub directories. Then you    
+up   have to include and link all those subdirectories. This is quite a difficult task. So you can you GLOB and do  
+vote the job very easily. This is how it is done.                                                                   
+1                                                                                                                   
+down   file(GLOB autopilot_sources ./*.cpp ./*/*.cpp ./*/*/*.cpp ./*/*/*/*.cpp ./*.c ./*/*.c ./*/*/*.c ./*/*/*/*.c) 
+vote   SET( autopilot ${autopilot_sources})                                                                         
+                                                                                                                    
+     If you want to create a library using above source code this is the command:                                   
+                                                                                                                    
+       ADD_LIBRARY ( autopilot  ${autopilot})                                                                       
+       TARGET_LINK_LIBRARIES ( autopilot)                                                                           
+                                                                                                                    
+     If you want to create an executable file using above source code this is the command:                          
+                                                                                                                    
+      ADD_EXECUTABLE(autopilot ${autopilot})                                                                        
+                                                                                                                    
+                               answered Jun 1 at 13:00                                                              
+     share|improve this answer                   [IMG]                                                              
+                                              GPrathap                                                              
+                                            1,99832335                                                              
+                                                                                                                    
+     add a comment |  expand to show all comments on this post                                                      
+
+           You can use AUX_SOURCE_DIRECTORY as @whitequark described, but it  
+           won't really work as you expect, as CMake will be unable to        
+           determine when new files are added (which is kind of the whole     
+   up vote point with using a wildcard).                                      
+   0 down                                                                     
+   vote                              answered Jan 23 '10 at 9:26              
+           share|improve this answer                       [IMG]              
+                                                         JesperE              
+                                                   46.1k11107167              
+               AUX_SOURCE_DIRECTORY is performed well for now. Thank you so   
+           2   much. AUX_SOURCE_DIRECTORY(${PROJECT_INC_DIR}control/src       
+               CTR_SOURCES) ADD_EXECUTABLE( ${EXE_NAME} ${CTR_SOURCES} )      
+               – user256537 Feb 1 '10 at 10:28                                
+                                                                              
+           add a comment |  expand to show all comments on this post          
+
+Your Answer
+
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+    
+   draft saved
+   draft discarded
+   _____________________
+
+  Sign up or log in
+
+   Sign up using Google
+
+   Sign up using Facebook
+
+   Sign up using Email and Password
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+   [ Post Your Answer ] discard
+
+   By posting your answer, you agree to the privacy policy and terms of
+   service.
+
+   asked  7 years, 6 months ago 
+   viewed 37,362 times          
+   active 1 month ago           
+
+   Upcoming Events
+
+     ----------------------------------------------------------------------
+
+   2017 Community Moderator Election
+   ends in 5 days
+
+    Linked
+
+   1
+   Undefined symbol for architecture error
+
+    Related
+
+   9
+   CMAKE: Build library and link against it
+   10
+   CMake can not find include files
+   15
+   How to get CMake to use existing Makefile?
+   56
+   CMake output/build directory
+   0
+   CMake - Build custom build paths for different configurations
+   1
+   CMake generated makefile does not expand all `make` variables
+   0
+   cmake: add 'install' target to 'all'
+   1
+   How to make package built with make install available for cmake?
+   0
+   CMake OBJECT file flags not working
+   5
+   CMake one build directory for multiple projects
+
+    Hot Network Questions
+
+     * Is the prefix "di-" more Latin-like than "bi-"?
+     * How can we handle overqualified applicants for an entry level
+       position?
+     * What is it called when you search for something on the internet and
+       end up looking for other and it goes in endless meander?
+     * if a school is accepting applications for faculty through September
+       15, when does the job start?
+     * Why does Japan have its own emoji in Unicode?
+     * Intuitive approach to topology
+     * In construction, you cut (???) the corners of a building to keep it
+       from featuring straight angles. What's the word I'm looking for?
+     * Meaning of "Itâ**s stuff like that" in a sentence
+     * How to tell friends something goes against my religion?
+     * What is a Hopeful Wordâ*¢?
+     * Do the circles overlap?
+     * What are the current breakthroughs of Geometric Complexity Theory?
+     * What's the in-universe relevance for the name of Spider-Man:
+       Homecoming?
+     * Completely burnt out at work but not sure how to continue
+     * If Kanji are necessary to disambiguate homophones, how come it's still
+       used, being that Japanese people seem to know the difference when
+       speaking?
+     * Did Dumbledore know about the Dumbledore's Army before it was
+       discovered by Umbridge?
+     * What is the use of that Internal rail?
+     * Is a higher salary worth not having a 401k?
+     * View files without lines with certain string
+     * What exactly happens to the signals hitting a common mode choke?
+     * Why isn't `|` treated literally in a glob pattern?
+     * Restricted mini challenges Cop's Thread
+     * How to handle senior developer delegating code instead of doing it?
+     * How do I effectively forestall gifts for my birthday?
+   more hot questions
+   question feed
+
+      Stack Overflow
+
+     * Questions
+     * Jobs
+     * Developer Jobs Directory
+     * Documentation
+     * Help
+     * Mobile
+
+      Stack Overflow
+      Business
+
+     * Talent
+     * Ads
+     * Enterprise
+     * Insights
+
+      Company
+
+     * About
+     * Press
+     * Work Here
+     * Legal
+     * Privacy Policy
+     * Contact Us
+
+      Stack Exchange
+      Network
+
+     * Technology
+     * Life / Arts
+     * Culture / Recreation
+     * Science
+     * Other
+     * Stack Overflow
+     * Server Fault
+     * Super User
+     * Web Applications
+     * Ask Ubuntu
+     * Webmasters
+     * Game Development
+     * TeX - LaTeX
+     * Software Engineering
+     * Unix & Linux
+     * Ask Different (Apple)
+     * WordPress Development
+     * Geographic Information Systems
+     * Electrical Engineering
+     * Android Enthusiasts
+     * Information Security
+     * Database Administrators
+     * Drupal Answers
+     * SharePoint
+     * User Experience
+     * Mathematica
+     * Salesforce
+     * ExpressionEngine® Answers
+     * Blender
+     * Network Engineering
+     * Cryptography
+     * Code Review
+     * Magento
+     * Software Recommendations
+     * Signal Processing
+     * Emacs
+     * Raspberry Pi
+     * Programming Puzzles & Code Golf
+     * Ethereum
+     * Data Science
+     * Arduino
+     * more (26)
+     * Photography
+     * Science Fiction & Fantasy
+     * Graphic Design
+     * Movies & TV
+     * Music: Practice & Theory
+     * Worldbuilding
+     * Seasoned Advice (cooking)
+     * Home Improvement
+     * Personal Finance & Money
+     * Academia
+     * Law
+     * more (17)
+     * English Language & Usage
+     * Skeptics
+     * Mi Yodeya (Judaism)
+     * Travel
+     * Christianity
+     * English Language Learners
+     * Japanese Language
+     * Arqade (gaming)
+     * Bicycles
+     * Role-playing Games
+     * Anime & Manga
+     * Puzzling
+     * Motor Vehicle Maintenance & Repair
+     * more (32)
+     * MathOverflow
+     * Mathematics
+     * Cross Validated (stats)
+     * Theoretical Computer Science
+     * Physics
+     * Chemistry
+     * Biology
+     * Computer Science
+     * Philosophy
+     * more (10)
+     * Meta Stack Exchange
+     * Stack Apps
+     * API
+     * Data
+     * Area 51
+     * Blog
+     * Facebook
+     * Twitter
+     * LinkedIn
+
+   site design / logo © 2017 Stack Exchange Inc; user contributions licensed
+   under cc by-sa 3.0 with attribution required. rev 2017.7.27.26630
+
+   Stack Overflow works best with JavaScript enabled

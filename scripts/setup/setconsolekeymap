@@ -1,0 +1,41 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ -d /lib/kbd/keymaps -o -d /usr/share/keymaps ] || exit 0
+
+if [ -d /lib/kbd/keymaps ]; then
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--radiolist "Select console keyboard layout" 20 61 15 \
+	`find /lib/kbd/keymaps/i386 -name "*.map.gz" ! -path "*/include/*" | sed -e 's%.*/%%' -e 's/.map.gz$//' | sort -u | sed 's/.*/& < off/'` 2> $tempfile
+else
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--radiolist "Select console keyboard layout" 20 61 15 \
+	`find /usr/share/keymaps/i386 -name "*.map.gz" ! -path "*/include/*" | sed -e 's%.*/%%' -e 's/.map.gz$//' | sort -u | sed 's/.*/& < off/'` 2> $tempfile
+fi
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ -z $choice ]; then
+	    sed -i "s%.*keymap=.*%keymap=us%" /etc/conf.d/keymaps
+	    loadkeys us
+	else
+	    sed -i "s%.*keymap=.*%keymap=$choice%" /etc/conf.d/keymaps
+	    loadkeys $choice
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

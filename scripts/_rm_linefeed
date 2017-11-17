@@ -1,0 +1,7 @@
+#! /bin/bash
+
+if [ "$1" = "-notrunc" ]; then
+    tr '\n' ' ' < /dev/stdin
+else
+    tr '\n' ' ' < /dev/stdin | head -c -1
+fi

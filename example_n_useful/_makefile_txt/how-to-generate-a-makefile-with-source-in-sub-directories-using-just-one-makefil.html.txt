@@ -1,0 +1,856 @@
+   Link: canonical
+   Stack Overflow
+    1. Questions
+    2. Developer Jobs
+    3. Documentation beta
+    4. Tags
+    5. Users
+   _____________________ [ Submit ]
+
+  current community
+
+     * help chat
+       Stack Overflow
+     * Meta Stack Overflow
+
+  your communities
+
+   Sign up or log in to customize your list.
+
+  more stack exchange communities
+
+   company blog
+     * Tour Start here for a quick overview of the site
+     * Help Center Detailed answers to any questions you might have
+     * Meta Discuss the workings and policies of this site
+     * About Us Learn more about Stack Overflow the company
+     * Business Learn more about hiring developers or posting ads with us
+    1.  2.  Log In Sign Up
+   Link:
+   https://cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon.png?v=c78bd457575a
+
+                              Learn, Share, Build
+
+   Each month, over 50 million developers come to Stack Overflow to learn,
+   share their knowledge, and build their careers.
+
+   Join the worldâ**s largest developer community.
+
+   Sign Up
+
+    How to generate a Makefile with source in sub-directories using just one
+                                    makefile
+
+   Ask Question
+
+         I have source in a bunch of subdirectories like:                                              
+                                                                                                       
+         src/widgets/apple.cpp                                                                         
+         src/widgets/knob.cpp                                                                          
+         src/tests/blend.cpp                                                                           
+         src/ui/flash.cpp                                                                              
+                                                                                                       
+         In the root of the project I want to generate a single Makefile using a rule like:            
+                                                                                                       
+up vote  %.o: %.cpp                                                                                    
+49 down     $(CC) -c $<                                                                                
+vote                                                                                                   
+favorite build/test.exe: build/widgets/apple.o build/widgets/knob.o build/tests/blend.o src/ui/flash.o 
+35          $(LD) build/widgets/apple.o .... build/ui/flash.o -o build/test.exe                        
+                                                                                                       
+         When I try this it does not find a rule for build/widgets/apple.o. Can I change something so  
+         that the %.o: %.cpp is used when it needs to make build/widgets/apple.o ?                     
+                                                                                                       
+         makefile                                                                                      
+                                                                                                       
+                                     asked Oct 23 '08 at 19:56                                         
+         share|improve this question [IMG]                                                             
+                                     Jeroen Dirks                                                      
+                                     3,287103758                                                       
+                                                                                                       
+         add a comment |  expand to show all comments on this post                                     
+
+7 Answers
+
+   active oldest votes
+
+                   The reason is that your rule                               
+                                                                              
+                   %.o: %.cpp                                                 
+                          ...                                                 
+                                                                              
+                   expects the .cpp file to reside in the same directory as   
+                   the .o your building. Since test.exe in your case depends  
+                   on build/widgets/apple.o (etc), make is expecting          
+                   apple.cpp to be build/widgets/apple.cpp.                   
+                                                                              
+                   You can use VPATH to resolve this:                         
+                                                                              
+                   VPATH = src/widgets                                        
+                                                                              
+                   BUILDDIR = build/widgets                                   
+                                                                              
+                   $(BUILDDIR)/%.o: %.cpp                                     
+                         ...                                                  
+                                                                              
+                   When attempting to build "build/widgets/apple.o", make     
+                   will search for apple.cpp in VPATH. Note that the build    
+                   rule has to use special variables in order to access the   
+                   actual filename make finds:                                
+                                                                              
+                   $(BUILDDIR)/%.o: %.cpp                                     
+                           $(CC) $< -o $@                                     
+                                                                              
+                   Where "$<" expands to the path where make located the      
+                   first dependency.                                          
+                                                                              
+                   Also note that this will build all the .o files in         
+   up vote 58 down build/widgets. If you want to build the binaries in        
+   vote accepted   different directories, you can do something like           
+                                                                              
+                   build/widgets/%.o: %.cpp                                   
+                           ....                                               
+                                                                              
+                   build/ui/%.o: %.cpp                                        
+                           ....                                               
+                                                                              
+                   build/tests/%.o: %.cpp                                     
+                           ....                                               
+                                                                              
+                   I would recommend that you use "canned command sequences"  
+                   in order to avoid repeating the actual compiler build      
+                   rule:                                                      
+                                                                              
+                   define cc-command                                          
+                   $(CC) $(CFLAGS) $< -o $@                                   
+                   endef                                                      
+                                                                              
+                   You can then have multiple rules like this:                
+                                                                              
+                   build1/foo.o build1/bar.o: %.o: %.cpp                      
+                       $(cc-command)                                          
+                                                                              
+                   build2/frotz.o build2/fie.o: %.o: %.cpp                    
+                       $(cc-command)                                          
+                                                                              
+                                      edited Aug 27    answered Oct 23 '08 at 
+                   share|improve this  '15 at 18:36                     20:39 
+                   answer                     [IMG]                     [IMG] 
+                                            hmijail                   JesperE 
+                                             805519             46.1k11107167 
+                        VPATH does not allow you to have different source     
+                   1    files with the same name in different directories,    
+                        which defeats the purpose of directories in the first 
+                        place. – Maxim Egorushkin Jul 17 '13 at 12:58         
+                        Eh, no I don't think it does. Organizing your source  
+                   10   code in different directories has more benefits than  
+                        allowing multiple source files with the same name.    
+                        – JesperE Jul 17 '13 at 15:59                         
+                        I have tried to follow your solution and created      
+                        targets of the form .build/cwrapper/%.o: %.c %.cpp.   
+                        However, when I use these as dependency, e.g.         
+                        cwrapper: .build/cwrapper/%.o, make complains: "No    
+                        rule to make target `.build/cwrapper/%.o'". What am I 
+                        doing wrong? – Raphael Feb 3 at 9:25                  
+                                                                              
+                   add a comment |  expand to show all comments on this post  
+
+        This does the trick:                                                  
+                                                                              
+        CC        := g++                                                      
+        LD        := g++                                                      
+                                                                              
+        MODULES   := widgets test ui                                          
+        SRC_DIR   := $(addprefix src/,$(MODULES))                             
+        BUILD_DIR := $(addprefix build/,$(MODULES))                           
+                                                                              
+        SRC       := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))     
+        OBJ       := $(patsubst src/%.cpp,build/%.o,$(SRC))                   
+        INCLUDES  := $(addprefix -I,$(SRC_DIR))                               
+                                                                              
+        vpath %.cpp $(SRC_DIR)                                                
+                                                                              
+        define make-goal                                                      
+        $1/%.o: %.cpp                                                         
+            $(CC) $(INCLUDES) -c $$< -o $$@                                   
+        endef                                                                 
+                                                                              
+        .PHONY: all checkdirs clean                                           
+                                                                              
+        all: checkdirs build/test.exe                                         
+                                                                              
+   up   build/test.exe: $(OBJ)                                                
+   vote     $(LD) $^ -o $@                                                    
+   59                                                                         
+   down                                                                       
+   vote checkdirs: $(BUILD_DIR)                                               
+                                                                              
+        $(BUILD_DIR):                                                         
+            @mkdir -p $@                                                      
+                                                                              
+        clean:                                                                
+            @rm -rf $(BUILD_DIR)                                              
+                                                                              
+        $(foreach bdir,$(BUILD_DIR),$(eval $(call make-goal,$(bdir))))        
+                                                                              
+        This Makefile assumes you have your include files in the source       
+        directories. Also it checks if the build directories exist, and       
+        creates them if they do not exist.                                    
+                                                                              
+        The last line is the most important. It creates the implicit rules    
+        for each build using the function make-goal, and it is not necessary  
+        write them one by one                                                 
+                                                                              
+        You can also add automatic dependency generation, using Tromey's way  
+                                                                              
+                                                       answered Mar 20 '10 at 
+                                  edited Mar 20 '10 at                  19:08 
+        share|improve this answer                19:14                  [IMG] 
+                                                                     Manzill0 
+                                                                        59143 
+             Very good, excatly what I was looking for ;) Thank you Manzill0  
+             – Geoffroy May 29 '11 at 11:47                                   
+             Your use of foreach really helped me. I create a long list of C  
+             files that I generate an individual object file. Thanks! – Eric  
+             Cope Sep 21 '11 at 6:59                                          
+             @Manzill0 the following question has the same set of issues when 
+             dealing with multiple targets and their dependencies?            
+             stackoverflow.com/questions/30043480/… – Sami Kenjat May 5 '15   
+             at 5:29                                                          
+             This is really helpful, unfortunately calling mkdir everytime    
+             really slows down the build process. I haven't found a           
+             workaround for that. – 2501 Nov 13 '16 at 11:20                  
+             I get Makefile:34: *** missing separator. Stop. And 34 is that   
+             'most important' function. It also doesn't get syntax            
+             highlighting. Only when I put a variable name and a = in front   
+             – kim366 Jan 24 at 16:54                                         
+                                                                              
+        add a comment |  expand to show all comments on this post             
+
+     Thing is $@ will include the entire (relative) path to the source file which is in turn used to  
+     construct the object name (and thus its relative path)                                           
+                                                                                                      
+     We use:                                                                                          
+                                                                                                      
+     #####################                                                                            
+     # rules to build the object files                                                                
+     $(OBJDIR_1)/%.o: %.c                                                                             
+         @$(ECHO) "$< -> $@"                                                                          
+         @test -d $(OBJDIR_1) || mkdir -pm 775 $(OBJDIR_1)                                            
+         @test -d $(@D) || mkdir -pm 775 $(@D)                                                        
+         @-$(RM) $@                                                                                   
+         $(CC) $(CFLAGS) $(CFLAGS_1) $(ALL_FLAGS) $(ALL_DEFINES) $(ALL_INCLUDEDIRS:%=-I%) -c $< -o $@ 
+up                                                                                                    
+vote This creates an object directory with name specified in $(OBJDIR_1) and subdirectories according 
+4    to subdirectories in source.                                                                     
+down                                                                                                  
+vote For example (assume objs as toplevel object directory), in Makefile:                             
+                                                                                                      
+     widget/apple.cpp                                                                                 
+     tests/blend.cpp                                                                                  
+                                                                                                      
+     results in following object directory:                                                           
+                                                                                                      
+     objs/widget/apple.o                                                                              
+     objs/tests/blend.o                                                                               
+                                                                                                      
+                               edited Sep 15 '09 at 23:49                                             
+     share|improve this answer                      [IMG] answered Sep 15 '09 at 13:33                
+                                                      sth                    Tim Ruijs                
+                                             141k34220321                                             
+                                                                                                      
+     add a comment |  expand to show all comments on this post                                        
+
+     This will do it without painful manipulation or multiple command sequences:                   
+                                                                                                   
+     build/%.o: src/%.cpp                                                                          
+     src/%.o: src/%.cpp                                                                            
+     %.o:                                                                                          
+         $(CC) -c $< -o $@                                                                         
+                                                                                                   
+     build/test.exe: build/widgets/apple.o build/widgets/knob.o build/tests/blend.o src/ui/flash.o 
+         $(LD) $^ -o $@                                                                            
+                                                                                                   
+up   JasperE has explained why "%.o: %.cpp" won't work; this version has one pattern rule (%.o:)   
+vote with commands and no prereqs, and two pattern rules (build/%.o: and src/%.o:) with prereqs    
+3    and no commands. (Note that I put in the src/%.o rule to deal with src/ui/flash.o, assuming   
+down that wasn't a typo for build/ui/flash.o, so if you don't need it you can leave it out.)       
+vote                                                                                               
+     build/test.exe needs build/widgets/apple.o,                                                   
+     build/widgets/apple.o looks like build/%.o, so it needs src/%.cpp (in this case               
+     src/widgets/apple.cpp),                                                                       
+     build/widgets/apple.o also looks like %.o, so it executes the CC command and uses the prereqs 
+     it just found (namely src/widgets/apple.cpp) to build the target (build/widgets/apple.o)      
+                                                                                                   
+                               answered Sep 16 '09 at 0:43                                         
+     share|improve this answer                       [IMG]                                         
+                                                      Beta                                         
+                                               61.3k690119                                         
+          This breaks, because your %.o: rule does not have prerequisites, yet refers to them via  
+          $< (which is therefore empty). "No input files", sorry. – DevSolar Nov 24 '11 at 10:32   
+                                                                                                   
+     add a comment |  expand to show all comments on this post                                     
+
+     This is another trick.                                                                     
+                                                                                                
+     In main 'Makefile' define SRCDIR for each source dir and include 'makef.mk' for each value 
+     of SRCDIR. In each source dir put file 'files.mk' with list of source files and compile    
+     options for some of them. In main 'Makefile' one can define compile options and exclude    
+     files for each value of SRCDIR.                                                            
+                                                                                                
+     Makefile:                                                                                  
+                                                                                                
+     PRG             := prog-name                                                               
+                                                                                                
+     OPTIMIZE        := -O2 -fomit-frame-pointer                                                
+                                                                                                
+     CFLAGS += -finline-functions-called-once                                                   
+     LDFLAGS += -Wl,--gc-section,--reduce-memory-overheads,--relax                              
+                                                                                                
+                                                                                                
+     .DEFAULT_GOAL   := hex                                                                     
+                                                                                                
+     OBJDIR          := obj                                                                     
+                                                                                                
+     MK_DIRS         := $(OBJDIR)                                                               
+                                                                                                
+                                                                                                
+     SRCDIR          := .                                                                       
+     include         makef.mk                                                                   
+                                                                                                
+     SRCDIR := crc                                                                              
+     CFLAGS_crc := -DCRC8_BY_TABLE -DMODBUS_CRC_BY_TABLE                                        
+     ASFLAGS_crc := -DCRC8_BY_TABLE -DMODBUS_CRC_BY_TABLE                                       
+     include makef.mk                                                                           
+                                                                                                
+     ################################################################                           
+                                                                                                
+     CC              := avr-gcc -mmcu=$(MCU_TARGET) -I.                                         
+     OBJCOPY         := avr-objcopy                                                             
+     OBJDUMP         := avr-objdump                                                             
+                                                                                                
+     C_FLAGS         := $(CFLAGS) $(REGS) $(OPTIMIZE)                                           
+     CPP_FLAGS       := $(CPPFLAGS) $(REGS) $(OPTIMIZE)                                         
+     AS_FLAGS        := $(ASFLAGS)                                                              
+     LD_FLAGS        := $(LDFLAGS) -Wl,-Map,$(OBJDIR)/$(PRG).map                                
+                                                                                                
+                                                                                                
+     C_OBJS          := $(C_SRC:%.c=$(OBJDIR)/%.o)                                              
+     CPP_OBJS        := $(CPP_SRC:%.cpp=$(OBJDIR)/%.o)                                          
+     AS_OBJS         := $(AS_SRC:%.S=$(OBJDIR)/%.o)                                             
+                                                                                                
+     C_DEPS          := $(C_OBJS:%=%.d)                                                         
+     CPP_DEPS        := $(CPP_OBJS:%=%.d)                                                       
+     AS_DEPS         := $(AS_OBJS:%=%.d)                                                        
+                                                                                                
+     OBJS            := $(C_OBJS) $(CPP_OBJS) $(AS_OBJS)                                        
+     DEPS            := $(C_DEPS) $(CPP_DEPS) $(AS_DEPS)                                        
+                                                                                                
+                                                                                                
+     hex:  $(PRG).hex                                                                           
+     lst:  $(PRG).lst                                                                           
+                                                                                                
+                                                                                                
+     $(OBJDIR)/$(PRG).elf : $(OBJS)                                                             
+         $(CC) $(C_FLAGS) $(LD_FLAGS) $^ -o $@                                                  
+                                                                                                
+     %.lst: $(OBJDIR)/%.elf                                                                     
+         -@rm $@ 2> /dev/nul                                                                    
+         $(OBJDUMP) -h -s -S $< > $@                                                            
+                                                                                                
+     %.hex: $(OBJDIR)/%.elf                                                                     
+         -@rm $@ 2> /dev/nul                                                                    
+         $(OBJCOPY) -j .text -j .data -O ihex $< $@                                             
+                                                                                                
+                                                                                                
+     $(C_OBJS) : $(OBJDIR)/%.o : %.c Makefile                                                   
+         $(CC) -MMD -MF $@.p.d -c $(C_FLAGS) $(C_FLAGS_$(call clear_name,$<)) $< -o $@          
+         @sed -e 's,.*:,SRC_FILES += ,g' < $@.p.d > $@.d                                        
+         @sed -e "\$$s/$$/ $(subst /,\/,$(dir $<))files.mk\n/" < $@.p.d >> $@.d                 
+         @sed -e 's,^[^:]*: *,,' -e 's,^[ \t]*,,' -e 's, \\$$,,' -e 's,$$, :,' < $@.p.d >> $@.d 
+         -@rm -f $@.p.d                                                                         
+                                                                                                
+     $(CPP_OBJS) : $(OBJDIR)/%.o : %.cpp Makefile                                               
+         $(CC) -MMD -MF $@.p.d -c $(CPP_FLAGS) $(CPP_FLAGS_$(call clear_name,$<)) $< -o $@      
+         @sed -e 's,.*:,SRC_FILES += ,g' < $@.p.d > $@.d                                        
+         @sed -e "\$$s/$$/ $(subst /,\/,$(dir $<))files.mk\n/" < $@.p.d >> $@.d                 
+         @sed -e 's,^[^:]*: *,,' -e 's,^[ \t]*,,' -e 's, \\$$,,' -e 's,$$, :,' < $@.p.d >> $@.d 
+         -@rm -f $@.p.d                                                                         
+                                                                                                
+     $(AS_OBJS) : $(OBJDIR)/%.o : %.S Makefile                                                  
+         $(CC) -MMD -MF $@.p.d -c $(AS_FLAGS) $(AS_FLAGS_$(call clear_name,$<)) $< -o $@        
+         @sed -e 's,.*:,SRC_FILES += ,g' < $@.p.d > $@.d                                        
+         @sed -e "\$$s/$$/ $(subst /,\/,$(dir $<))files.mk\n/" < $@.p.d >> $@.d                 
+         @sed -e 's,^[^:]*: *,,' -e 's,^[ \t]*,,' -e 's, \\$$,,' -e 's,$$, :,' < $@.p.d >> $@.d 
+         -@rm -f $@.p.d                                                                         
+                                                                                                
+                                                                                                
+     clean:                                                                                     
+         -@rm -rf $(OBJDIR)/$(PRG).elf                                                          
+         -@rm -rf $(PRG).lst $(OBJDIR)/$(PRG).map                                               
+         -@rm -rf $(PRG).hex $(PRG).bin $(PRG).srec                                             
+         -@rm -rf $(PRG)_eeprom.hex $(PRG)_eeprom.bin $(PRG)_eeprom.srec                        
+         -@rm -rf $(MK_DIRS:%=%/*.o) $(MK_DIRS:%=%/*.o.d)                                       
+up       -@rm -f tags cscope.out                                                                
+vote                                                                                            
+3    #   -rm -rf $(OBJDIR)/*                                                                    
+down #   -rm -rf $(OBJDIR)                                                                      
+vote #   -rm $(PRG)                                                                             
+                                                                                                
+                                                                                                
+     tag: tags                                                                                  
+     tags: $(SRC_FILES)                                                                         
+         if [ -e tags ] ; then ctags -u $? ; else ctags $^ ; fi                                 
+         cscope -U -b $^                                                                        
+                                                                                                
+                                                                                                
+     # include dep. files                                                                       
+     ifneq "$(MAKECMDGOALS)" "clean"                                                            
+     -include $(DEPS)                                                                           
+     endif                                                                                      
+                                                                                                
+                                                                                                
+     # Create directory                                                                         
+     $(shell mkdir $(MK_DIRS) 2>/dev/null)                                                      
+                                                                                                
+     makef.mk                                                                                   
+                                                                                                
+     SAVE_C_SRC := $(C_SRC)                                                                     
+     SAVE_CPP_SRC := $(CPP_SRC)                                                                 
+     SAVE_AS_SRC := $(AS_SRC)                                                                   
+                                                                                                
+     C_SRC :=                                                                                   
+     CPP_SRC :=                                                                                 
+     AS_SRC :=                                                                                  
+                                                                                                
+                                                                                                
+     include $(SRCDIR)/files.mk                                                                 
+     MK_DIRS += $(OBJDIR)/$(SRCDIR)                                                             
+                                                                                                
+                                                                                                
+     clear_name = $(subst /,_,$(1))                                                             
+                                                                                                
+                                                                                                
+     define rename_var                                                                          
+     $(2)_$(call clear_name,$(SRCDIR))_$(call clear_name,$(1)) := \                             
+         $($(subst _,,$(2))_$(call clear_name,$(SRCDIR))) $($(call clear_name,$(1)))            
+     $(call clear_name,$(1)) :=                                                                 
+     endef                                                                                      
+                                                                                                
+                                                                                                
+     define proc_lang                                                                           
+                                                                                                
+     ORIGIN_SRC_FILES := $($(1)_SRC)                                                            
+                                                                                                
+     ifneq ($(strip $($(1)_ONLY_FILES)),)                                                       
+     $(1)_SRC := $(filter $($(1)_ONLY_FILES),$($(1)_SRC))                                       
+     else                                                                                       
+                                                                                                
+     ifneq ($(strip $(ONLY_FILES)),)                                                            
+     $(1)_SRC := $(filter $(ONLY_FILES),$($(1)_SRC))                                            
+     else                                                                                       
+     $(1)_SRC := $(filter-out $(EXCLUDE_FILES),$($(1)_SRC))                                     
+     endif                                                                                      
+                                                                                                
+     endif                                                                                      
+                                                                                                
+     $(1)_ONLY_FILES :=                                                                         
+     $(foreach name,$($(1)_SRC),$(eval $(call rename_var,$(name),$(1)_FLAGS)))                  
+     $(foreach name,$(ORIGIN_SRC_FILES),$(eval $(call clear_name,$(name)) :=))                  
+                                                                                                
+     endef                                                                                      
+                                                                                                
+                                                                                                
+     $(foreach lang,C CPP AS, $(eval $(call proc_lang,$(lang))))                                
+                                                                                                
+                                                                                                
+     EXCLUDE_FILES :=                                                                           
+     ONLY_FILES :=                                                                              
+                                                                                                
+                                                                                                
+     SAVE_C_SRC += $(C_SRC:%=$(SRCDIR)/%)                                                       
+     SAVE_CPP_SRC += $(CPP_SRC:%=$(SRCDIR)/%)                                                   
+     SAVE_AS_SRC += $(AS_SRC:%=$(SRCDIR)/%)                                                     
+                                                                                                
+     C_SRC := $(SAVE_C_SRC)                                                                     
+     CPP_SRC := $(SAVE_CPP_SRC)                                                                 
+     AS_SRC := $(SAVE_AS_SRC)                                                                   
+                                                                                                
+     ./files.mk                                                                                 
+                                                                                                
+     C_SRC   := main.c                                                                          
+     CPP_SRC :=                                                                                 
+     AS_SRC  := timer.S                                                                         
+                                                                                                
+     main.c += -DDEBUG                                                                          
+                                                                                                
+     ./crc/files.mk                                                                             
+                                                                                                
+     C_SRC    := byte-modbus-crc.c byte-crc8.c                                                  
+     AS_SRC   := modbus-crc.S crc8.S modbus-crc-table.S crc8-table.S                            
+                                                                                                
+     byte-modbus-crc.c += --std=gnu99                                                           
+     byte-crc8.c       += --std=gnu99                                                           
+                                                                                                
+                                                         answered Jul 22 '13 at 8:41            
+     share|improve this answer edited Jul 23 '13 at 1:30                       [IMG]            
+                                                                                iLya            
+                                                                                 313            
+                                                                                                
+     add a comment |  expand to show all comments on this post                                  
+
+       Here is my solution, inspired from Beta's answer. It's simpler than the   
+       other proposed solutions                                                  
+                                                                                 
+       I have a project with several C files, stored in many subdirectories. For 
+       example:                                                                  
+                                                                                 
+       src/lib.c                                                                 
+       src/aa/a1.c                                                               
+       src/aa/a2.c                                                               
+       src/bb/b1.c                                                               
+       src/cc/c1.c                                                               
+                                                                                 
+       Here is my Makefile (in the src/ directory):                              
+                                                                                 
+       # make       -> compile the shared library "libfoo.so"                    
+       # make clean -> remove the library file and all object files (.o)         
+       # make all   -> clean and compile                                         
+       SONAME  = libfoo.so                                                       
+       SRC     = lib.c   \                                                       
+                 aa/a1.c \                                                       
+                 aa/a2.c \                                                       
+                 bb/b1.c \                                                       
+                 cc/c1.c                                                         
+       # compilation options                                                     
+  up   CFLAGS  = -O2 -g -W -Wall -Wno-unused-parameter -Wbad-function-cast -fPIC 
+  vote # linking options                                                         
+  2    LDFLAGS = -shared -Wl,-soname,$(SONAME)                                   
+  down                                                                           
+  vote # how to compile individual object files                                  
+       OBJS    = $(SRC:.c=.o)                                                    
+       .c.o:                                                                     
+           $(CC) $(CFLAGS) -c $< -o $@                                           
+                                                                                 
+       .PHONY: all clean                                                         
+                                                                                 
+       # library compilation                                                     
+       $(SONAME): $(OBJS) $(SRC)                                                 
+           $(CC) $(OBJS) $(LDFLAGS) -o $(SONAME)                                 
+                                                                                 
+       # cleaning rule                                                           
+       clean:                                                                    
+           rm -f $(OBJS) $(SONAME) *~                                            
+                                                                                 
+       # additional rule                                                         
+       all: clean lib                                                            
+                                                                                 
+       This example works fine for a shared library, and it should be very easy  
+       to adapt for any compilation process.                                     
+                                                                                 
+                                 answered Jan 25 '14 at 19:23                    
+       share|improve this answer                        [IMG]                    
+                                              Amaury Bouchard                    
+                                                          512                    
+                                                                                 
+       add a comment |  expand to show all comments on this post                 
+
+             Usually, you create a Makefile in each subdirectory, and write   
+             in the top-level Makefile to call make in the subdirectories.    
+                                                                              
+   up vote 0 This page may help: http://www.gnu.org/software/make/            
+   down vote                                                                  
+                                       answered Oct 23 '08 at 20:02           
+             share|improve this answer                        [IMG]           
+                                                          stephanea           
+                                                             807610           
+                 This is commonly done, but is full of problems. The main one 
+                 is that no one make process knows about all of the           
+             1   dependencies, so things like -j2 on multicore systems won't  
+                 work. See aegis.sourceforge.net/auug97.pdf – KeithB Oct 23   
+                 '08 at 21:11                                                 
+                 Keith's reference is to an excellent paper called 'Recursive 
+                 Make Considered Harmful'. This is a contribution to the      
+             4   series of articles starting with Dijkstra's 'Go To           
+                 Considered Harmful' letter, and culminating in "'Considered  
+                 Harmful' Considered Harmful". – Jonathan Leffler Oct 23 '08  
+                 at 21:28                                                     
+                 It's done usually because people don't understand how to     
+             4   write Makefiles. One Makefile per directory sucks. – mxcl    
+                 Oct 7 '09 at 17:29                                           
+                                                                              
+             add a comment |  expand to show all comments on this post        
+
+Your Answer
+
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+    
+   draft saved
+   draft discarded
+   _____________________
+
+  Sign up or log in
+
+   Sign up using Google
+
+   Sign up using Facebook
+
+   Sign up using Email and Password
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+   [ Post Your Answer ] discard
+
+   By posting your answer, you agree to the privacy policy and terms of
+   service.
+
+Not the answer you're looking for? Browse other questions tagged makefile or ask
+your own question.
+
+   asked  8 years, 9 months ago 
+   viewed 104,917 times         
+   active 1 year, 3 months ago  
+
+   Upcoming Events
+
+     ----------------------------------------------------------------------
+
+   2017 Community Moderator Election
+   ends in 5 days
+
+    Visit Chat
+
+    Linked
+
+   1
+   How to create proper makefile
+   0
+   Generate object files in subdirectory using a Makefile
+   0
+   Can I have one makefile to build a hierarchical project?
+   2
+   How to write a single makefile, c files are in src and h files are in inc
+   folder?
+   0
+   Makefile error when compiling with gfortran on Mac OS
+   -1
+   Using same namespace in C++ for two classes declared and defined in
+   separate files
+   0
+   In creating a makefile with subdirectories in windows, % wildcard stops
+   working
+   1
+   How do I organize the source code of a CUDA C project using subfolders?
+   1
+   Makefile with Build and Source Sub-Directories
+   0
+   Make recipe to prevent rebuilding of non-dependent targets
+   see more linked questionsâ*¦
+
+    Related
+
+   96
+   Makefiles with source files in different directories
+   4
+   How to specify a makefile target in a different directory?
+   3
+   Makefiles, building source from another folder with obj files into
+   subfolder of current?
+   3
+   Is there a **simple** way to redirect object file creation into a
+   specified directory with Makefile project?
+   4
+   Makefile: Compiling from directory to another directory
+   1
+   Makefile with Build and Source Sub-Directories
+   1
+   substituting folder path in $(SOURCES) of a makefile
+   0
+   How to create a generic Makefile that checks sources for any given target
+   name?
+   1
+   Makefile: automatic target in other directories
+   0
+   How to compile files that reside in different directory in Makefile?
+
+    Hot Network Questions
+
+     * What's the explanation for this Twilight Zone episode?
+     * How do I effectively forestall gifts for my birthday?
+     * Do most mathematicians know most topics in mathematics?
+     * My manager asked me to hide project costs. Is it unethical for me to
+       comply?
+     * Has anyone, based on great performance, ever been awarded a higher
+       degree than the one they enrolled for?
+     * Satellite Velocities: Relative or Absolute?
+     * How close can planes fly to each other over the ocean?
+     * Is a higher salary worth not having a 401k?
+     * Did Dumbledore know about the Dumbledore's Army before it was
+       discovered by Umbridge?
+     * What is it called when you search for something on the internet and
+       end up looking for other and it goes in endless meander?
+     * Why are "the rich" more able to identify the party which represent
+       their interests than "the poor"?
+     * How would deafening as punishment be carried out?
+     * What are the current breakthroughs of Geometric Complexity Theory?
+     * What is the use of that Internal rail?
+     * Listify a number
+     * What happens if you have a medical emergency after deplaning but
+       before passing passport control?
+     * Did Yuri Gagarin really hear a ticking sound during his journey into
+       outer space?
+     * What exactly happens to the signals hitting a common mode choke?
+     * What kind of wire connectors are these?
+     * if a school is accepting applications for faculty through September
+       15, when does the job start?
+     * Cannot convert from List<Bar> to List<Foo>
+     * Would pyrokinesis be an effective defense?
+     * Does a "Photon Box" have gravitational mass?
+     * Professor to whom I broke my promise is now a collaborator. What to
+       say?
+   more hot questions
+   question feed
+
+      Stack Overflow
+
+     * Questions
+     * Jobs
+     * Developer Jobs Directory
+     * Documentation
+     * Help
+     * Mobile
+
+      Stack Overflow
+      Business
+
+     * Talent
+     * Ads
+     * Enterprise
+     * Insights
+
+      Company
+
+     * About
+     * Press
+     * Work Here
+     * Legal
+     * Privacy Policy
+     * Contact Us
+
+      Stack Exchange
+      Network
+
+     * Technology
+     * Life / Arts
+     * Culture / Recreation
+     * Science
+     * Other
+     * Stack Overflow
+     * Server Fault
+     * Super User
+     * Web Applications
+     * Ask Ubuntu
+     * Webmasters
+     * Game Development
+     * TeX - LaTeX
+     * Software Engineering
+     * Unix & Linux
+     * Ask Different (Apple)
+     * WordPress Development
+     * Geographic Information Systems
+     * Electrical Engineering
+     * Android Enthusiasts
+     * Information Security
+     * Database Administrators
+     * Drupal Answers
+     * SharePoint
+     * User Experience
+     * Mathematica
+     * Salesforce
+     * ExpressionEngine® Answers
+     * Blender
+     * Network Engineering
+     * Cryptography
+     * Code Review
+     * Magento
+     * Software Recommendations
+     * Signal Processing
+     * Emacs
+     * Raspberry Pi
+     * Programming Puzzles & Code Golf
+     * Ethereum
+     * Data Science
+     * Arduino
+     * more (26)
+     * Photography
+     * Science Fiction & Fantasy
+     * Graphic Design
+     * Movies & TV
+     * Music: Practice & Theory
+     * Worldbuilding
+     * Seasoned Advice (cooking)
+     * Home Improvement
+     * Personal Finance & Money
+     * Academia
+     * Law
+     * more (17)
+     * English Language & Usage
+     * Skeptics
+     * Mi Yodeya (Judaism)
+     * Travel
+     * Christianity
+     * English Language Learners
+     * Japanese Language
+     * Arqade (gaming)
+     * Bicycles
+     * Role-playing Games
+     * Anime & Manga
+     * Puzzling
+     * Motor Vehicle Maintenance & Repair
+     * more (32)
+     * MathOverflow
+     * Mathematics
+     * Cross Validated (stats)
+     * Theoretical Computer Science
+     * Physics
+     * Chemistry
+     * Biology
+     * Computer Science
+     * Philosophy
+     * more (10)
+     * Meta Stack Exchange
+     * Stack Apps
+     * API
+     * Data
+     * Area 51
+     * Blog
+     * Facebook
+     * Twitter
+     * LinkedIn
+
+   site design / logo © 2017 Stack Exchange Inc; user contributions licensed
+   under cc by-sa 3.0 with attribution required. rev 2017.7.27.26630
+
+   Stack Overflow works best with JavaScript enabled

@@ -1,0 +1,29 @@
+#! /bin/sh
+
+validfs()
+{
+    test -e /sbin/fsck.$1
+    [ $? = 0 ] && rv1=0 || rv1=1
+    [ "$rv1" = "1" ] && return 1 || return 0
+}
+
+lsdev()
+{
+test -L /sys/block/$(ls /sys/block | head -n 1) && \
+    find /sys/devices -path "*/block/*" \( -name "sd[a-z]*" -o -name "ub[a-z]*" \) | sed "s%.*/%%" || \
+    find /sys/block \( -name "sd[a-z]*" -o -name "ub[a-z]*" \) | sed "s%.*/%%"
+}
+
+lsdev | \
+while read dev; do
+    type=`blkid -o udev -s TYPE -p /dev/$dev`
+    if [ ! -z "$type" ]; then
+	grep -q "^/dev/$dev " /proc/mounts && continue
+	eval $type
+	validfs $ID_FS_TYPE || continue
+	case "$ID_FS_TYPE" in
+	    vfat) fsck.vfat -a /dev/$dev;;
+	    *) fsck -y $1 /dev/$dev;;
+	esac
+    fi
+done

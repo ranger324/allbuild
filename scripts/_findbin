@@ -1,0 +1,24 @@
+#! /bin/sh
+
+if [ "$1" = "--file" ]; then
+    if [ "$(uname -m)" = "x86_64" ]; then
+	find -type f | while read file; do file "$file" | grep -q "ELF 64-bit" && echo "$file"; done
+    else
+	find -type f | while read file; do file "$file" | grep -q "ELF 32-bit" && echo "$file"; done
+    fi
+else
+    if [ ! -z "$1" ]; then
+        if [ ! -d "$1" ]; then
+            echo "Directory not found: $1"
+            exit 1
+        fi
+        DIR="$1"
+        cd "$DIR"
+    fi
+    find -type f -printf "%P\n" | \
+    while read line; do
+	if [ "$(od -v -x -j 1 -N 3 "$line" 2> /dev/null | head -n 1 | cut -d ' ' -f 2-)" = "4c45 0046" ]; then
+	    echo "$line"
+	fi
+    done
+fi

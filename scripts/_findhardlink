@@ -1,0 +1,7 @@
+#! /bin/sh
+
+find -mindepth 1 -type f -printf "%n %p\n"| grep -v "^1 " | \
+while read num name; do
+    inode=`LC_ALL=C stat "$name" | grep "Inode:" | sed "s/[[:space:]]\+/ /g" | cut -d " " -f 4`
+    echo "$inode $name"
+done

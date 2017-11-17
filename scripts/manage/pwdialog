@@ -1,0 +1,36 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+if [ -z "$1" ]; then
+    PWD1=`$DIALOG --title "Password" --stdout --insecure --passwordbox "Enter root password" 10 51`
+else
+    PWD1=`$DIALOG --title "Password" --stdout --insecure --passwordbox "Enter user's password" 10 51`
+fi
+retval=$?
+
+case $retval in
+    0)
+	PWD2=`$DIALOG --clear --title "Password" --stdout --insecure --passwordbox "Re-enter password" 10 51`
+	if [ "$PWD1" = "$PWD2" ]; then
+	    [ -z "$PWD1" ] && exit 1
+	    openvt -c 11 -- passwd $1 &
+	    echo "Updating..."
+	    sleep 1
+	    $HOME/manage/sendkeys /dev/tty11 "$PWD1"
+	    $HOME/manage/sendkeys /dev/tty11 "\n"
+	    sleep 1
+	    $HOME/manage/sendkeys /dev/tty11 "$PWD1"
+	    $HOME/manage/sendkeys /dev/tty11 "\n"
+	else
+	    exit 1
+	fi
+	unset PWD1 PWD2
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

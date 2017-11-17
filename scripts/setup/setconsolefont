@@ -1,0 +1,45 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ -d /lib/kbd/consolefonts -o -d /usr/share/consolefonts ] || exit 0
+
+if [ -d /lib/kbd/consolefonts ]; then
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--radiolist "Select console font" 20 61 15 \
+	`find /lib/kbd/consolefonts -name "*.psf.gz" -o -name "*.psfu.gz" | sed -e 's%.*/%%' -e 's%\.psf\.gz$%%' -e 's%\.psfu\.gz$%%' -e 's/.*/& < off/' | sort` 2> $tempfile
+else
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--radiolist "Select console font" 20 61 15 \
+	`find /usr/share/consolefonts -name "*.psf.gz" -o -name "*.psfu.gz" | sed -e 's%.*/%%' -e 's%\.psf\.gz$%%' -e 's%\.psfu\.gz$%%' -e 's/.*/& < off/' | sort` 2> $tempfile
+fi
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ -z $choice ]; then
+	    sed -i "s%.*consolefont=.*%#consolefont=$choice%" /etc/conf.d/consolefont
+	    exit 0
+	else
+	    sed -i "s%.*consolefont=.*%consolefont=$choice%" /etc/conf.d/consolefont
+	fi
+	#if vtnum 1-6 then...
+	if CNUM=`fgconsole 2> /dev/null`; then
+		STR=$(seq -s '|' 6)
+		[ "${STR/$CNUM//}" = "${STR}" ] || setfont $choice
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

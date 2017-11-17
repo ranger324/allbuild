@@ -1,0 +1,3 @@
+#! /bin/sh
+
+findmnt /media > /dev/null || mount -t tmpfs tmpfs /media

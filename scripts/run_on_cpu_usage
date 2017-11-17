@@ -1,0 +1,42 @@
+#! /bin/sh
+
+[ -z "$1" ] && exit 1
+#CMD=`echo "$@" | sed -n 's/.*[[:space:]]\+--[[:space:]]\+\(.*\)/\1/p'`
+#[ -z "$CMD" ] && exit 1
+#procname=`echo "$@" | sed 's/[[:space:]]\+--[[:space:]]\+.*//'`
+
+echomatch()
+{
+    echo -ne "@"
+    for i in $(seq 1 $NUM); do
+	echo -ne "[3-9][3-9]@"
+    done
+}
+
+CMD="$@"
+
+CNT=1
+NUM=3
+
+MATCH=`echomatch`
+
+CPUP="@"
+while true; do
+    CPU=`_cpu_usage2 -n`
+    [ "$CPU" = 100 ] && CPU=99
+    [ "${#CPU}" = 1 ] && CPU="0$CPU"
+    BUFNUM=`echo -n "${CPUP//[^@]}" | wc -c`
+
+    if [ "$BUFNUM" = "$(expr $NUM + 1)" ]; then
+	TMP=${CPUP:1}
+	CPUP="@${TMP#*@}${CPU}@"
+    else
+	CPUP="${CPUP}${CPU}@"
+    fi
+
+    [ "${CPUP//$MATCH/}" != "${CPUP}" ] && $CMD
+
+    [ "$CNT" = "$NUM" ] && CNT=1 || CNT=`expr $CNT + 1`
+    #$(( $CNT + 1))
+    sleep 0.6
+done

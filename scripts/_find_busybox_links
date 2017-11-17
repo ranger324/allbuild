@@ -1,0 +1,3 @@
+#! /bin/sh
+
+find /bin /sbin /usr/bin /usr/sbin -type l | while read line; do echo -n "$line "; readlink $line; done | grep "[ /]busybox$"

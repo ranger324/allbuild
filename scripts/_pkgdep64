@@ -1,0 +1,19 @@
+#! /bin/bash
+
+lspkgsource()
+{
+for i in ${depends[@]} ${makedepends[@]}; do
+    PKG=$(echo $i | sed 's/[=<>].*//')
+    echo "$INSTALLED" | grep -qw "$PKG" || echo $PKG
+done
+}
+
+[ ! -f PKGBUILD64 ] && exit 1
+[ -e "$1" ] && source "$1" || source PKGBUILD64
+INSTALLED="$(pacman -Q | cut -d " " -f 1)"
+NEEDPKG="$(lspkgsource)"
+if [ ! -z "$NEEDPKG" ]; then
+    pacman -S $NEEDPKG --noconfirm
+    exit $?
+fi
+exit 0

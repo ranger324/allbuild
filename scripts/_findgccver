@@ -1,0 +1,8 @@
+#! /bin/sh
+
+_findbin | \
+while read line; do
+    if TMPSTR=`strings -a $line | grep "GCC: (GNU)"`; then
+	echo "$line ---- $(echo $TMPSTR | head -n 1 | sed 's/^.*: //' | head -c 11)"
+    fi
+done

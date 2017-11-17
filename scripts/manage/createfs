@@ -1,0 +1,70 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+
+lslinpart()
+{
+for drv in $(find /dev -maxdepth 1 -name "[hs]d[a-z]" -o -name "ub[a-z]" | sort); do
+    LC_ALL=C sfdisk -d $drv 2> /dev/null | grep "^/dev/" | \
+    while read LINE; do
+	if echo "$LINE" | grep -q "type=83"; then
+	    echo -n "$(echo "$LINE" | cut -d : -f 1 | tr -d " ") "
+	    eval $(echo "$LINE" | cut -d : -f 2 | cut -d , -f 2 | tr -d " ")
+	    echo -n "$(expr $size \* 512 / 1048576)MB "
+	fi
+    done
+done
+}
+
+$DIALOG --backtitle "Create filesystem on device" \
+	--title "" --clear \
+	--menu "Select partition" 20 61 15 \
+	`lslinpart` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ ! -z "$choice" ]; then
+	    DEV=$choice
+
+	    $DIALOG --backtitle "Create filesystem on device" \
+		--title "" --clear --default-item ext4 \
+		--menu "Select filesystem to create ($DEV)" 20 61 15 \
+		`find /sbin -name "mkfs.*" | cut -d "." -f 2 | grep -v "bfs\|cramfs\|ext4dev" | sort | sed 's/.*/& </'` 2> $tempfile
+
+	    retval=$?
+
+	    choice=`cat $tempfile`
+	    case $retval in
+		0)
+			if [ ! -z "$choice" ]; then
+			    [ "$choice" = "xfs" ] && mkfsopt="-f"
+			    [ "$choice" = "jfs" ] && mkfsopt="-q"
+			    [ "$choice" = "reiserfs" ] && mkfsopt="-q"
+			    [ "$choice" = "reiser4" ] && mkfsopt="-y"
+			    mkfs.$choice $mkfsopt $DEV
+			fi
+		;;
+		1)
+		    #cancel pressed
+		;;
+		255)
+		    #ESC pressed
+		;;
+	    esac
+
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

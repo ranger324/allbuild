@@ -1,0 +1,16 @@
+#! /bin/sh
+
+#params: procname... -- cmd
+
+[ -z "$1" ] && exit 1
+CMD=`echo "$@" | sed -n 's/.*[[:space:]]\+--[[:space:]]\+\(.*\)/\1/p'`
+[ -z "$CMD" ] && exit 1
+procname=`echo "$@" | sed 's/[[:space:]]\+--[[:space:]]\+.*//'`
+
+#echo $CMD
+#echo $procname
+
+while true; do
+    sleep 0.3
+    pidof $procname > /dev/null && $CMD
+done

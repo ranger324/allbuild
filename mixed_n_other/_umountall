@@ -1,0 +1,5 @@
+#! /bin/sh
+
+echo "Unmounting /media devices"
+cd /media
+ls | xargs -r umount

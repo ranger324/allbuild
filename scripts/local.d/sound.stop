@@ -1,0 +1,4 @@
+#! /bin/sh
+
+#start-stop-daemon -K -q -p /run/start_sound.pid
+start-stop-daemon -K -q -p /run/start_sound.pid

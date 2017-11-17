@@ -1,0 +1,1 @@
+find \( -type f -a \( \( ! -group root -o ! -user root \) -o \( ! -perm 755 -a ! -perm 644 \) \) \) -o \( -type d -a \( ! -group root -o ! -user root -o ! -perm 755 \) \) | while read line; do stat -c "%u %g %a %n" $line ; done

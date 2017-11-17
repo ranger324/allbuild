@@ -1,0 +1,547 @@
+   Link: canonical
+   Stack Overflow
+    1. Questions
+    2. Developer Jobs
+    3. Documentation beta
+    4. Tags
+    5. Users
+   _____________________ [ Submit ]
+
+  current community
+
+     * help chat
+       Stack Overflow
+     * Meta Stack Overflow
+
+  your communities
+
+   Sign up or log in to customize your list.
+
+  more stack exchange communities
+
+   company blog
+     * Tour Start here for a quick overview of the site
+     * Help Center Detailed answers to any questions you might have
+     * Meta Discuss the workings and policies of this site
+     * About Us Learn more about Stack Overflow the company
+     * Business Learn more about hiring developers or posting ads with us
+    1.  2.  Log In Sign Up
+   Link:
+   https://cdn.sstatic.net/Sites/stackoverflow/img/apple-touch-icon.png?v=c78bd457575a
+
+                              Learn, Share, Build
+
+   Each month, over 50 million developers come to Stack Overflow to learn,
+   share their knowledge, and build their careers.
+
+   Join the worldâ**s largest developer community.
+
+   Sign Up
+
+       How can I create a Makefile for C projects with SRC, OBJ, and BIN
+                                subdirectories?
+
+   Ask Question
+
+           A few months ago, I came up with the following generic Makefile for   
+           school assignments:                                                   
+                                                                                 
+           # ------------------------------------------------                    
+           # Generic Makefile                                                    
+           #                                                                     
+           # Author: yanick.rochon@gmail.com                                     
+           # Date  : 2010-11-05                                                  
+           #                                                                     
+           # Changelog :                                                         
+           #   0.01 - first version                                              
+           # ------------------------------------------------                    
+                                                                                 
+           # project name (generate executable with this name)                   
+           TARGET   = projectname                                                
+                                                                                 
+           CC       = gcc -std=c99 -c                                            
+           # compiling flags here                                                
+           CFLAGS   = -Wall -I.                                                  
+                                                                                 
+           LINKER   = gcc -o                                                     
+           # linking flags here                                                  
+           LFLAGS   = -Wall                                                      
+                                                                                 
+           SOURCES  := $(wildcard *.c)                                           
+           INCLUDES := $(wildcard *.h)                                           
+           OBJECTS  := $(SOURCES:.c=*.o)                                         
+           rm       = rm -f                                                      
+                                                                                 
+           $(TARGET): obj                                                        
+               @$(LINKER) $(TARGET) $(LFLAGS) $(OBJECTS)                         
+               @echo "Linking complete!"                                         
+                                                                                 
+           obj: $(SOURCES) $(INCLUDES)                                           
+               @$(CC) $(CFLAGS) $(SOURCES)                                       
+               @echo "Compilation complete!"                                     
+                                                                                 
+           clean:                                                                
+               @$(rm) $(TARGET) $(OBJECTS)                                       
+               @echo "Cleanup complete!"                                         
+                                                                                 
+           This will basically compile every .c and .h file to generate .o files 
+           and the executable projectname all in the same folder.                
+                                                                                 
+           Now, I'd like to push this a little. How can I write a Makefile to    
+           compile a C project with the following directory structure?           
+                                                                                 
+            ./                                                                   
+            ./Makefile                                                           
+            ./src/*.c;*.h                                                        
+            ./obj/*.o                                                            
+            ./bin/<executable>                                                   
+                                                                                 
+           In other words, I'd like to have a Makefile that compiles C sources   
+           from ./src/ into ./obj/ and then link everything to create the        
+           executable in ./bin/.                                                 
+                                                                                 
+           I've tried to read different Makefiles, but I simply can't make them  
+           work for the project structure above; instead, the project fails to   
+           compile with all sorts of errors. Sure, I could use full blown IDE    
+           (Monodevelop, Anjuta, etc.), but I honestly prefer to stick with      
+           gEdit and the good ol' terminal.                                      
+  up vote                                                                        
+  56 down  Is there a guru who can give me a working solution, or clear          
+  vote     information about how this can be done? Thank you!                    
+  favorite                                                                       
+  32       ** UPDATE (v4) **                                                     
+                                                                                 
+           The final solution :                                                  
+                                                                                 
+           # ------------------------------------------------                    
+           # Generic Makefile                                                    
+           #                                                                     
+           # Author: yanick.rochon@gmail.com                                     
+           # Date  : 2011-08-10                                                  
+           #                                                                     
+           # Changelog :                                                         
+           #   2010-11-05 - first version                                        
+           #   2011-08-10 - added structure : sources, objects, binaries         
+           #                thanks to http://stackoverflow.com/users/128940/beta 
+           #   2017-04-24 - changed order of linker params                       
+           # ------------------------------------------------                    
+                                                                                 
+           # project name (generate executable with this name)                   
+           TARGET   = projectname                                                
+                                                                                 
+           CC       = gcc                                                        
+           # compiling flags here                                                
+           CFLAGS   = -std=c99 -Wall -I.                                         
+                                                                                 
+           LINKER   = gcc                                                        
+           # linking flags here                                                  
+           LFLAGS   = -Wall -I. -lm                                              
+                                                                                 
+           # change these to proper directories where each file should be        
+           SRCDIR   = src                                                        
+           OBJDIR   = obj                                                        
+           BINDIR   = bin                                                        
+                                                                                 
+           SOURCES  := $(wildcard $(SRCDIR)/*.c)                                 
+           INCLUDES := $(wildcard $(SRCDIR)/*.h)                                 
+           OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)                    
+           rm       = rm -f                                                      
+                                                                                 
+                                                                                 
+           $(BINDIR)/$(TARGET): $(OBJECTS)                                       
+               @$(LINKER) $(OBJECTS) $(LFLAGS) -o $@                             
+               @echo "Linking complete!"                                         
+                                                                                 
+           $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c                             
+               @$(CC) $(CFLAGS) -c $< -o $@                                      
+               @echo "Compiled "$<" successfully!"                               
+                                                                                 
+           .PHONY: clean                                                         
+           clean:                                                                
+               @$(rm) $(OBJECTS)                                                 
+               @echo "Cleanup complete!"                                         
+                                                                                 
+           .PHONY: remove                                                        
+           remove: clean                                                         
+               @$(rm) $(BINDIR)/$(TARGET)                                        
+               @echo "Executable removed!"                                       
+                                                                                 
+           c makefile                                                            
+                                                                                 
+                                                         asked Aug 10 '11 at     
+                                        edited Apr 25 at 0:41                    
+           share|improve this question              4:25 [IMG]                   
+                                                         Yanick Rochon           
+                                                         29.3k1478137            
+                What is the specific question here? – Oliver Charlesworth Aug 10 
+                '11 at 0:44                                                      
+                Im not sure I understand what you want to do. – Tom Aug 10 '11   
+                at 0:44                                                          
+                Updated the Makefile. I'm getting close, but I have trouble with 
+                the automatic variables, so it seems anyway – Yanick Rochon Aug  
+                10 '11 at 3:06                                                   
+                I just found a solution. If someone care to find something       
+                better, the Makefile can still be improved. – Yanick Rochon Aug  
+                10 '11 at 4:05                                                   
+                @YanickRochon I didn't mean to criticize your English skills.    
+                But for the PHONY targets to make any sense you most definitely  
+           2    can't write BANANA ;)                                            
+                gnu.org/software/make/manual/html_node/Phony-Targets.html – joni 
+                Mar 10 '16 at 5:54                                               
+                                                                                 
+            |  show 2 more comments                                              
+
+3 Answers
+
+   active oldest votes
+
+              First, your $(OBJECTS) rule is problematic, because 1) it's     
+              kind of indiscriminate, making all sources prerequisites of     
+              every object, 2) it often uses the wrong source (as you         
+              discovered with file1.o and file2.o) 3) it tries to build       
+              executables instead of stopping at objects, and 4) the name of  
+              the target (foo.o) is not what the rule will actually produce   
+              (obj/foo.o). I suggest the following:                           
+                                                                              
+              OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)              
+                                                                              
+              $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c                       
+                  $(CC) $(CFLAGS) -c $< -o $@                                 
+                  @echo "Compiled "$<" successfully!"                         
+                                                                              
+              The $(TARGET) rule has the same problem that the target name    
+              does not actually describe what the rule builds. For that       
+              reason, if you type make several times, Make will rebuild the   
+              target each time, even though there is no reason to. A small    
+   up vote 19 change fixes that:                                              
+   down vote                                                                  
+   accepted   $(BINDIR)/$(TARGET): $(OBJECTS)                                 
+                  $(LINKER) $@ $(LFLAGS) $(OBJECTS)                           
+                  @echo "Linking complete!"                                   
+                                                                              
+              Once that's all in order, you might consider more sophisticated 
+              dependency handling; if you modify one of the header files,     
+              this makefile will not know which objects/executables must be   
+              rebuilt. But that can wait for another day.                     
+                                                                              
+              EDIT:                                                           
+              Sorry, I omitted part of the $(OBJECTS) rule above; I've        
+              corrected it. (I wish I could use "strike" inside a code        
+              sample.)                                                        
+                                                                              
+                                                          answered Aug 10 '11 
+              share|improve this          edited Aug 10               at 4:29 
+              answer                       '11 at 12:46                 [IMG] 
+                                                                         Beta 
+                                                                  61.3k690119 
+                   with your suggested changes, I get : obj/file1.o: In       
+                   function 'main': \n main.c:(.text+0x0): multiple           
+                   definition of 'main' \n obj/main.o:main.c:(.text+0x0):     
+                   first defined here – Yanick Rochon Aug 10 '11 at 5:18      
+                   @Yanick Rochon: Do you have multiple main functions? Maybe 
+                   one in file1.c and one in main.c? If so then you will not  
+                   be able to link these objects; there can be only one main  
+                   in an executable. – Beta Aug 10 '11 at 5:49                
+                   No, I do not. Everything works fine with the last version  
+                   I posted in the question. When I change my Makefile to     
+                   what you suggest (and I do understand the benefits of what 
+                   you're saying) that's what I get. I just pasted file1.c    
+                   but it gives the same message to every single files of the 
+                   project. And main.c is the only one with a main            
+                   function... and main.c imports file1.h and file2.h         
+                   (there's no relation between file1.c and file2.c), but I   
+                   doubt the problem comes from there. – Yanick Rochon Aug 10 
+                   '11 at 6:25                                                
+                   @Yanick Rochon: I made a mistake pasting the first line of 
+                   my $(OBJECTS) rule; I've edited it. With the bad line I    
+                   got an error, but not the one you got... – Beta Aug 10 '11 
+                   at 12:48                                                   
+                   Wow! it works! Thank you! – Yanick Rochon Aug 11 '11 at    
+                   3:56                                                       
+                                                                              
+              add a comment |  expand to show all comments on this post       
+
+     You can add the -I flag to the compiler flags (CFLAGS) to indicate where the     
+     compiler should look for source files , and the -o flag to indicate where the    
+     binary should be left:                                                           
+                                                                                      
+     CFLAGS   = -Wall -I./src                                                         
+     TARGETPATH = ./bin                                                               
+                                                                                      
+     $(TARGET): obj                                                                   
+         @$(LINKER) $(TARGETPATH)/$(TARGET) $(LFLAGS) $(OBJECTS)                      
+         @echo "Linking complete!"                                                    
+                                                                                      
+     In order to drop the object files into the obj directory, use the -o option when 
+     compiling. Also, look at the $@ and $< automatic variables.                      
+                                                                                      
+     For example, consider this simple Makefile                                       
+up                                                                                    
+vote CFLAGS= -g -Wall -O3                                                             
+3    OBJDIR= ./obj                                                                    
+down                                                                                  
+vote SRCS=$(wildcard *.c)                                                             
+     OBJS=$(SRCS:.c=.o )                                                              
+     all:$(OBJS)                                                                      
+                                                                                      
+     %.o: %.c                                                                         
+        $(CC) $(CFLAGS) -c $< -o $(OBJDIR)/$@                                         
+                                                                                      
+     Update>                                                                          
+                                                                                      
+     By looking at your makefile, I realize you are using the -o flag. Good. Continue 
+     using it, but add a target directory variable to indicate where the output file  
+     should be written.                                                               
+                                                                                      
+                                                         answered Aug 10 '11 at 1:01  
+     share|improve this answer edited Aug 10 '11 at 1:20                       [IMG]  
+                                                                                 Tom  
+                                                                       25.1k17102149  
+          could you be more specific? Do you mean adding -l ... to the CFLAGS and ... 
+          there's already the -o argument to the linker (LINKER) – Yanick Rochon Aug  
+          10 '11 at 1:03                                                              
+          Yes, the CFLAGS, and yes, keep using -o, just add the TARGETPATH variable.  
+          – Tom Aug 10 '11 at 1:07                                                    
+          Thank you, I have made the modifications, but it seems I'm still missing    
+          somethings (see the update on the question) – Yanick Rochon Aug 10 '11 at   
+          1:16                                                                        
+          what are you typing in? – Tom Aug 10 '11 at 1:24                            
+          just make, from where the Makefile sits – Yanick Rochon Aug 10 '11 at 1:25  
+                                                                                      
+      |  show 5 more comments                                                         
+
+             I have stopped writing makefiles these days, if your intention   
+             is to learn go ahead, else you have good makefile generator that 
+             comes with eclipse CDT. If you want some maintainability /       
+             multiple project support with in your build tree, have a look at 
+             the following -                                                  
+   up vote 2                                                                  
+   down vote https://github.com/dmoulding/boilermake I found this pretty      
+             good..!                                                          
+                                                                              
+                                       answered Aug 10 '11 at 8:03            
+             share|improve this answer                       [IMG]            
+                                                            Kamath            
+                                                        2,00641839            
+                                                                              
+             add a comment |  expand to show all comments on this post        
+
+protected by Yanick Rochon Feb 10 '14 at 13:39
+
+   Thank you for your interest in this question. Because it has attracted
+   low-quality or spam answers that had to be removed, posting an answer now
+   requires 10 reputation on this site (the association bonus does not
+   count).
+
+   Would you like to answer one of these unanswered questions instead?
+
+Not the answer you're looking for? Browse other questions tagged c makefile or
+ask your own question.
+
+   asked  5 years, 11 months ago 
+   viewed 44,396 times           
+   active 3 months ago           
+
+   Upcoming Events
+
+     ----------------------------------------------------------------------
+
+   2017 Community Moderator Election
+   ends in 5 days
+
+    Linked
+
+   4
+   Makefile C subdirectory rule to make obj
+   1
+   How to write `make` file for separate source and build directory for large
+   program with mixed Fortran F77 and F90 code
+   1
+   Understanding a makefile
+   0
+   Appropriate Makefile to replace a gcc compile/link run?
+   1
+   how to use git with a package I am distributing
+
+    Related
+
+   2
+   How can I build variants of an executable with one makefile?
+   1
+   Makefile Subdirectories
+   3
+   Makefiles, building source from another folder with obj files into
+   subfolder of current?
+   0
+   Makefile not working - Adding new files
+   0
+   How to have a sometimes empty dependency in makefiles?
+   -3
+   How can I remove the undefined reference in my code?
+   0
+   Makefile that generates obj files in subdirectory in Windows nmake
+   3
+   How do I correct my Makefile so that it builds all my source files?
+   (Answer: check for hidden tabs)
+   -1
+   How to make a makefile for C and C++, with sources in subdirectories
+   2
+   How to include both C and C++ files in makefile directives
+
+    Hot Network Questions
+
+     * What is it called when you search for something on the internet and
+       end up looking for other and it goes in endless meander?
+     * What's the explanation for this Twilight Zone episode?
+     * What happens if you have a medical emergency after deplaning but
+       before passing passport control?
+     * Would pyrokinesis be an effective defense?
+     * Meaning of "Itâ**s stuff like that" in a sentence
+     * (bash) Script A, wait for script B, but not its child process
+     * Are rare burgers safe?
+     * How can we handle overqualified applicants for an entry level
+       position?
+     * When do you write the "real" code in TDD?
+     * What medical costs burden the military enough to warrant banning all
+       transgender people?
+     * Why are "the rich" more able to identify the party which represent
+       their interests than "the poor"?
+     * Can I exile a token copy of Greenwarden of Murasa for its second
+       ability?
+     * Project Euler Problem #8: Largest product in a series
+     * Cannot convert from List<Bar> to List<Foo>
+     * Suggestions for mathematical solitaire against boredom
+     * What exactly happens to the signals hitting a common mode choke?
+     * Within Fibonacci Numbers
+     * Why didn't the Hogwarts ghosts know about the Chamber of Secrets?
+     * LED current driver
+     * How would deafening as punishment be carried out?
+     * What is the use of that Internal rail?
+     * A fun, catchy way to say the opposite of a 'no-brainer'?
+     * Is there a term for the part of a word that "pluralizes" it?
+     * Should I change my take-home exam policy because of one suspected
+       cheater?
+   more hot questions
+   question feed
+
+      Stack Overflow
+
+     * Questions
+     * Jobs
+     * Developer Jobs Directory
+     * Documentation
+     * Help
+     * Mobile
+
+      Stack Overflow
+      Business
+
+     * Talent
+     * Ads
+     * Enterprise
+     * Insights
+
+      Company
+
+     * About
+     * Press
+     * Work Here
+     * Legal
+     * Privacy Policy
+     * Contact Us
+
+      Stack Exchange
+      Network
+
+     * Technology
+     * Life / Arts
+     * Culture / Recreation
+     * Science
+     * Other
+     * Stack Overflow
+     * Server Fault
+     * Super User
+     * Web Applications
+     * Ask Ubuntu
+     * Webmasters
+     * Game Development
+     * TeX - LaTeX
+     * Software Engineering
+     * Unix & Linux
+     * Ask Different (Apple)
+     * WordPress Development
+     * Geographic Information Systems
+     * Electrical Engineering
+     * Android Enthusiasts
+     * Information Security
+     * Database Administrators
+     * Drupal Answers
+     * SharePoint
+     * User Experience
+     * Mathematica
+     * Salesforce
+     * ExpressionEngine® Answers
+     * Blender
+     * Network Engineering
+     * Cryptography
+     * Code Review
+     * Magento
+     * Software Recommendations
+     * Signal Processing
+     * Emacs
+     * Raspberry Pi
+     * Programming Puzzles & Code Golf
+     * Ethereum
+     * Data Science
+     * Arduino
+     * more (26)
+     * Photography
+     * Science Fiction & Fantasy
+     * Graphic Design
+     * Movies & TV
+     * Music: Practice & Theory
+     * Worldbuilding
+     * Seasoned Advice (cooking)
+     * Home Improvement
+     * Personal Finance & Money
+     * Academia
+     * Law
+     * more (17)
+     * English Language & Usage
+     * Skeptics
+     * Mi Yodeya (Judaism)
+     * Travel
+     * Christianity
+     * English Language Learners
+     * Japanese Language
+     * Arqade (gaming)
+     * Bicycles
+     * Role-playing Games
+     * Anime & Manga
+     * Puzzling
+     * Motor Vehicle Maintenance & Repair
+     * more (32)
+     * MathOverflow
+     * Mathematics
+     * Cross Validated (stats)
+     * Theoretical Computer Science
+     * Physics
+     * Chemistry
+     * Biology
+     * Computer Science
+     * Philosophy
+     * more (10)
+     * Meta Stack Exchange
+     * Stack Apps
+     * API
+     * Data
+     * Area 51
+     * Blog
+     * Facebook
+     * Twitter
+     * LinkedIn
+
+   site design / logo © 2017 Stack Exchange Inc; user contributions licensed
+   under cc by-sa 3.0 with attribution required. rev 2017.7.27.26630
+
+   Stack Overflow works best with JavaScript enabled

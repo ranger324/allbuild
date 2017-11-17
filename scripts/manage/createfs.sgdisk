@@ -1,0 +1,66 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+gptlspart()
+{
+    for drv in $(find /dev -maxdepth 1 -name "[hs]d[a-z]" -o -name "ub[a-z]" | sort); do
+	LC_ALL=C sgdisk -p $drv | grep "Linux filesystem$" | \
+	while read num start end size amo rest; do
+	    echo "$drv$num $size$amo"
+	done
+    done
+}
+#LC_ALL=C fdisk -l | grep "^/dev/.*Linux$" | cut -d " " -f 1 | sed 's/.*/& </'
+
+$DIALOG --backtitle "Create filesystem on device" \
+	--title "" --clear \
+	--menu "Select partition" 20 61 15 \
+	`gptlspart` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ ! -z "$choice" ]; then
+	    DEV=$choice
+
+	    $DIALOG --backtitle "Create filesystem on device" \
+		--title "" --clear --default-item ext4 \
+		--menu "Select filesystem to create ($DEV)" 20 61 15 \
+		`find /sbin -name "mkfs.*" | cut -d "." -f 2 | grep -v "bfs\|cramfs\|ext4dev" | sort | sed 's/.*/& </'` 2> $tempfile
+
+	    retval=$?
+
+	    choice=`cat $tempfile`
+	    case $retval in
+		0)
+			if [ ! -z "$choice" ]; then
+			    [ "$choice" = "xfs" ] && mkfsopt="-f"
+			    [ "$choice" = "jfs" ] && mkfsopt="-q"
+			    [ "$choice" = "reiserfs" ] && mkfsopt="-q"
+			    [ "$choice" = "reiser4" ] && mkfsopt="-y"
+			    mkfs.$choice $mkfsopt $DEV
+			fi
+		;;
+		1)
+		    #cancel pressed
+		;;
+		255)
+		    #ESC pressed
+		;;
+	    esac
+
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

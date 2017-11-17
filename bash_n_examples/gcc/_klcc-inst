@@ -1,0 +1,5 @@
+CC=/usr/bin/klcc LDFLAGS=-static make -i
+#for i in *.o; do
+##klcc -static $i lib.a -o $(echo $i | sed 's/\.o$//')
+#klcc -shared $i lib.a -o $(echo $i | sed 's/\.o$//').shared
+#done

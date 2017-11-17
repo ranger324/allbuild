@@ -1,0 +1,3 @@
+#DIALOGRC=whiptail.rc
+#export DIALOGRC
+#~/.dialogrc

@@ -1,0 +1,14 @@
+#! /bin/sh
+
+[ "$1" = "-n" ] && nofile=1 && shift
+if [ ! -z "$1" ]; then
+    DIR=$1
+    [ ! -d "$DIR" ] && echo "No such directory" && exit 1
+    cd $DIR
+fi
+
+if [ "$nofile" = "1" ]; then
+    _findbin | xargs -r -i sh -c 'readelf -d {} | grep "^ 0x[0-9a-f]\+ (NEEDED)" | grep -o "\[.*\]"'
+else
+    _findbin | xargs -r -i sh -c 'echo "./{}"; readelf -d {} | grep "^ 0x[0-9a-f]\+ (NEEDED)" | grep -o "\[.*\]"'
+fi

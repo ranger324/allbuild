@@ -1,0 +1,410 @@
+   Link: canonical
+
+  current community
+
+     * chat
+       Super User
+     * Meta Super User
+
+  your communities
+
+   Sign up or log in to customize your list.
+
+  more stack exchange communities
+
+   company blog
+   Stack Exchange Inbox  Reputation and Badges
+   sign up log in tour help 
+     * Tour Start here for a quick overview of the site
+     * Help Center Detailed answers to any questions you might have
+     * Meta Discuss the workings and policies of this site
+     * About Us Learn more about Stack Overflow the company
+     * Business Learn more about hiring developers or posting ads with us
+   _____________________
+   Super User
+     * Questions
+     * Tags
+     * Users
+     * Badges
+     * Unanswered
+     * Ask Question
+   Link:
+   https://cdn.sstatic.net/Sites/superuser/img/apple-touch-icon.png?v=0ad5b7a83e49
+   _
+   Super User is a question and answer site for computer enthusiasts and
+   power users. Join them; it only takes a minute:
+
+   Sign up
+   Here's how it works:
+    1. Anybody can ask a question
+    2. Anybody can answer
+    3. The best answers are voted up and rise to the top
+
+                      A command before every bash command
+
+                   Does anyone know a mean of putting a 'time' command before 
+                   every command in a bash session?                           
+                                                                              
+   up vote 16 down command-line bash shell                                    
+   vote favorite                                                              
+   13                                     edited Mar 7 '10 at asked Mar 7 '10 
+                   share|improve this                   19:27 at 19:16        
+                   question                             [IMG] [IMG]           
+                                                quack quixote jthoenes        
+                                                 32.7k1077115 8315            
+                   1    so... you want to automatically prepend 'time' to     
+                        every commandline? – quack quixote Mar 7 '10 at 19:27 
+                   1    yes, excaptly ... for performance mesuarament         
+                        obviously – jthoenes Mar 7 '10 at 19:39               
+                        related superuser.com/questions/167283/… – lesmana    
+                        Aug 25 '10 at 2:40                                    
+                                                                              
+                   add a comment |  expand to show all comments on this post  
+
+4 Answers
+
+   active oldest votes
+
+                   Sorry for the wrong answer before, I missunderstood your   
+                   question.                                                  
+                                                                              
+                   To have the time added before every command that you       
+                   execute on the shell you can do something like this        
+                                                                              
+                   bind 'RETURN: "\e[1~time \e[4~\n"'                         
+                                                                              
+                   This will rebind the return key. Now every time you press  
+                   return instead of writing a newline \n it will go to the   
+                   beginning of the line, enter the text 'time' and a space,  
+                   go to the end of the line and enter the newline \n thereby 
+                   producing the desired effect.                              
+                                                                              
+   up vote 34 down If you don't want to sacrifice your Enter Key you could    
+   vote accepted   make a 'second' benchmark-enter Key like F12 by binding    
+                   the command like this                                      
+                                                                              
+                   bind '"\e[24~": "\e[1~time \e[4~\n"'                       
+                                                                              
+                   Now instead of replacing the return key you bound F12.     
+                                                                              
+                   The background of all this is that bash uses GNU readline  
+                   to read commands. So readline would be a good starting     
+                   point for further command manipulation, etc.               
+                                                                              
+                                             answered Mar 7 '10 at 20:36      
+                   share|improve this answer                       [IMG]      
+                                                           Lukas Loesche      
+                                                                   62654      
+                        +1 nice solution! i like the idea of having a         
+                   1    benchmarking enter key separate from the regular      
+                        enter key. – quack quixote Mar 11 '10 at 5:13         
+                        that's a clever idea. How can you generalize it to    
+                        execute a user-defined function before every command? 
+                        I don't know how to combine bash code and a readline  
+                        function in the same binding. – Gilles Aug 14 '10 at  
+                        11:29                                                 
+                                                                              
+                   add a comment |  expand to show all comments on this post  
+
+                  I realize that this is outside of the scope of this         
+                  question but...                                             
+                                                                              
+                  In zsh (which, is to my knowledge a super set of bash) if   
+                  you set the following variable in your .zshrc file:         
+                                                                              
+                  export REPORTTIME=5                                         
+                                                                              
+   up vote 5 down Every command that takes longer than 5 seconds (I'm pretty  
+   vote           sure) will display the output of time. All commands that    
+                  complete more quickly don't. And in those cases one doesn't 
+                  really care, so it's nice to not clutter things up. There   
+                  are also a lot of other cool features in zsh that you might 
+                  enjoy while you're at it.                                   
+                                                                              
+                                            answered Mar 8 '10 at 2:34        
+                  share|improve this answer                      [IMG]        
+                                                              tychoish        
+                                                                  1613        
+                       Nice tip. While zsh surely has a superset of the       
+                       functionality of bash, its syntax is not a superset of 
+                       the syntax of bash, so it is not a â**drop inâ**       
+                       replacement. – Chris Johnsen Mar 8 '10 at 6:11         
+                                                                              
+                  add a comment |  expand to show all comments on this post   
+
+                  PS1 seems like the standard way to do something like this.  
+                                                                              
+   up vote 0 down                           answered Mar 7 '10 at 21:44       
+   vote           share|improve this answer                       [IMG]       
+                                                          Jason Sundram       
+                                                             1,81641929       
+                  2    It modifies the display, not the actual executed       
+                       command. – grawity Mar 8 '10 at 15:21                  
+                       @grawity Right - but it would get you exactly what you 
+                       want ... the time prepended to every line. – Jason     
+                       Sundram Mar 10 '10 at 1:29                             
+                       Which is completely different from what time does (it  
+                  3    measures how long did it take for a command to         
+                       execute). – grawity Mar 10 '10 at 12:29                
+                       @grawity, I guess you're right -- you'd have to do the 
+                       subtraction yourself. Looks like @Jrobert had the same 
+                       idea. – Jason Sundram Mar 10 '10 at 18:20              
+                                                                              
+                  add a comment |  expand to show all comments on this post   
+
+          Include \t in your prompt string. It will include the time in your  
+          prompt at the point where you include it. See:                      
+   up     http://www.ibm.com/developerworks/linux/library/l-tip-prompt/       
+   vote 0                                                                     
+   down                             answered Mar 8 '10 at 0:05                
+   vote   share|improve this answer                      [IMG]                
+                                                       JRobert                
+                                                     5,7601525                
+               That's the current time at the time the prompt is generated,   
+               not the time it took to execute the previous command. – Dennis 
+               Williamson Mar 8 '10 at 6:28                                   
+               True; and the difference between that and the next prompt's    
+               current time is the run-time (minus typing time, of course -   
+               pasting is your friend here). No key reassignments necessary.  
+               – JRobert Mar 8 '10 at 13:05                                   
+                                                                              
+          add a comment |  expand to show all comments on this post           
+
+Your Answer
+
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+    
+   draft saved
+   draft discarded
+   _____________________
+
+  Sign up or log in
+
+   Sign up using Google
+
+   Sign up using Facebook
+
+   Sign up using Email and Password
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+   [ Post Your Answer ] discard
+
+   By posting your answer, you agree to the privacy policy and terms of
+   service.
+
+Not the answer you're looking for? Browse other questions tagged command-line
+bash shell or ask your own question.
+
+   asked  7 years, 6 months ago 
+   viewed 3,883 times           
+   active 7 years, 6 months ago 
+
+    Linked
+
+   91
+   Does bash have a hook that is run before executing a command?
+   6
+   REPORTTIME for Bash
+   5
+   Is there a way to preprocess input to bash?
+   1
+   How can I make Bash (or Zsh) run a particular command before each entered
+   command?
+
+    Related
+
+   5
+   bash command history update before execution of command
+   2
+   Invoke a script for every command typed at shell prompt?
+   1
+   Bash preexecute
+   0
+   Ubuntu nested bash shell
+   2
+   Long commands typed in bash overwrite the same line
+   0
+   How to create a command shortcut in BASH or ZSHRC shells?
+   2
+   Alias/script to log the command history before exiting terminal?
+   1
+   Bash: How to output command to next prompt for user to use?
+   -1
+   a bash pipe command exit code rule
+   0
+   run a command off a random shuf result in bash
+
+    Hot Network Questions
+
+     * How to deal politely with people asking about your job but unable to
+       understand it?
+     * I have painful/weak knees - which practitioner is best to see?
+     * Son was sent home from sleepover for behavior
+     * I am Chinese. Which name is my surname and which is my last name, for
+       a flight booking?
+     * How to deal with the credit card debt from family member that has
+       passed away?
+     * How did Rammus get this fast?
+     * Is it rude to offer my seat up on public transit to someone who is
+       much older than me but not yet a senior?
+     * What do Devils eat, and how do they get it?
+     * What is going on at Wall fortifications other than Castle Black?
+     * Can I travel within a week still? I didn't realize my passport expired
+       over a month ago
+     * Why are lists the data structure of choice in functional languages?
+     * Can I Settle Down?
+     * When to use Static variables in Apex controller?
+     * Why do stars appear as circles, not points?
+     * Should I get a letter of recommendation from my mother, who is a
+       famous researcher in my field?
+     * Can I insist the original routing upon flight cancellation?
+     * Why does the US not just accept North Korea's nuclear ambitions and
+       attempt to mend relationships?
+     * SPFx Replacement for Script Editor Web Part
+     * Former manager who left company is asking for documentation I prepared
+       as his direct report
+     * Is it appropriate to ask the professor a trick question?
+     * Right way to make cake batter that asks for butter and oil
+     * Asked to secretly obtain coworker's knowledge before he gets fired
+     * Fast pairwise SameQ test of an ordered list
+     * Is belaying a lead more difficult than a top roped climber
+   more hot questions
+   question feed
+
+      Super User
+
+     * Tour
+     * Help
+     * Chat
+     * Contact
+     * Feedback
+     * Mobile
+
+      Company
+
+     * Stack Overflow
+     * Stack Overflow Business
+     * Developer Jobs
+     * About
+     * Press
+     * Legal
+     * Privacy Policy
+
+      Stack Exchange
+      Network
+
+     * Technology
+     * Life / Arts
+     * Culture / Recreation
+     * Science
+     * Other
+     * Stack Overflow
+     * Server Fault
+     * Super User
+     * Web Applications
+     * Ask Ubuntu
+     * Webmasters
+     * Game Development
+     * TeX - LaTeX
+     * Software Engineering
+     * Unix & Linux
+     * Ask Different (Apple)
+     * WordPress Development
+     * Geographic Information Systems
+     * Electrical Engineering
+     * Android Enthusiasts
+     * Information Security
+     * Database Administrators
+     * Drupal Answers
+     * SharePoint
+     * User Experience
+     * Mathematica
+     * Salesforce
+     * ExpressionEngine® Answers
+     * Blender
+     * Network Engineering
+     * Cryptography
+     * Code Review
+     * Magento
+     * Software Recommendations
+     * Signal Processing
+     * Emacs
+     * Raspberry Pi
+     * Programming Puzzles & Code Golf
+     * Ethereum
+     * Data Science
+     * Arduino
+     * more (27)
+     * Photography
+     * Science Fiction & Fantasy
+     * Graphic Design
+     * Movies & TV
+     * Music: Practice & Theory
+     * Worldbuilding
+     * Seasoned Advice (cooking)
+     * Home Improvement
+     * Personal Finance & Money
+     * Academia
+     * Law
+     * more (17)
+     * English Language & Usage
+     * Skeptics
+     * Mi Yodeya (Judaism)
+     * Travel
+     * Christianity
+     * English Language Learners
+     * Japanese Language
+     * Arqade (gaming)
+     * Bicycles
+     * Role-playing Games
+     * Anime & Manga
+     * Puzzling
+     * Motor Vehicle Maintenance & Repair
+     * more (32)
+     * MathOverflow
+     * Mathematics
+     * Cross Validated (stats)
+     * Theoretical Computer Science
+     * Physics
+     * Chemistry
+     * Biology
+     * Computer Science
+     * Philosophy
+     * more (10)
+     * Meta Stack Exchange
+     * Stack Apps
+     * API
+     * Data
+     * Area 51
+     * Blog
+     * Facebook
+     * Twitter
+     * LinkedIn
+
+   site design / logo © 2017 Stack Exchange Inc; user contributions licensed
+   under cc by-sa 3.0 with attribution required. rev 2017.9.5.26942
+
+   Super User works best with JavaScript enabled

@@ -1,0 +1,61 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+echoprops()
+{
+dte=
+dtt=
+while read LINE; do
+case "$LINE" in
+    "[Desktop Entry]")
+	dte=true
+	dtt=true
+    ;;
+    Name=*)
+	if [ $dte ]; then
+	    echo "Name='${LINE#Name=}'"
+	    dte=
+	fi
+    ;;
+esac
+done < "$1"
+}
+
+ls_sessions()
+{
+for i in /usr/share/xsessions/*; do
+    eval $(echoprops $i)
+    session_file=`echo $i | sed -e 's|.*/||' -e 's/\.desktop$//'`
+    echo -n "$session_file "
+    echo "$Name" | tr ' ' _
+done
+}
+
+#ls_sessions
+#exit 0
+
+$DIALOG --backtitle "Select default desktop environment" \
+	--title "" --clear \
+	--menu "" 20 61 15 \
+	`ls_sessions` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ ! -z "$choice" ]; then
+	    sed -i "s|__default__|/usr/share/xsessions/$choice.desktop|" /var/lib/lxdm/lxdm.conf
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

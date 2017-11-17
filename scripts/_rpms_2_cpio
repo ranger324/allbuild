@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ls *.rpm 2> /dev/null | xargs -r -i sh -c 'rpm2cpio "{}" > "{}.cpio"'

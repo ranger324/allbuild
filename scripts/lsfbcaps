@@ -1,0 +1,32 @@
+#! /bin/bash
+
+listmods()
+{
+(find /lib/modules/$LINVER/kernel/drivers/staging -type f -name "*fb.ko" -path "*fb/*"; \
+find /lib/modules/$LINVER/kernel/drivers/video -type f -name "*.ko" ! -path "*/backlight/*") 2> /dev/null | sed -e 's%.*/%%' -e 's/\.ko$//' | sort
+}
+
+listmods_gz()
+{
+(find /lib/modules/$LINVER/kernel/drivers/staging -type f -name "*fb.ko.gz" -path "*fb/*"; \
+find /lib/modules/$LINVER/kernel/drivers/video -type f -name "*.ko.gz" ! -path "*/backlight/*") 2> /dev/null | sed -e 's%.*/%%' -e 's/\.ko\.gz$//' | sort
+}
+
+procmods()
+{
+while read MOD; do
+    if modinfo -k $LINVER $MOD | grep -q "^alias:"; then
+	modinfo -k $LINVER $MOD | grep -q "^parm:[[:space:]]*mode_option" && echo "$MOD*" || echo "$MOD"
+    fi
+done
+}
+
+LINVER="$1"
+[ -z "$LINVER" ] && LINVER=`uname -r`
+[ ! -d /lib/modules/$LINVER ] && exit 1
+
+module=`head -n 1 /lib/modules/$LINVER/modules.dep | cut -d : -f 1`
+
+[ "$(echo "$module" | sed 's/\.gz$//')" != "$module" ] && gz=1
+
+[ $gz ] && listmods_gz | procmods || listmods | procmods

@@ -1,0 +1,11 @@
+#! /bin/bash
+
+#moves files from current directory if exists in current directory's subdirectories
+[ -z "$1" ] && echo "Type an argument" && exit 1
+mkdir -p _tmp
+find -mindepth 1 -maxdepth 1 -type f -printf "%f\n" | \
+while read line; do
+    ASD=`find -mindepth 2 -type f -name "$line" -printf "%f\n"`
+    [ -z "$ASD" ] && continue
+    echo "$ASD" | grep -Fqx "$line" && mv "$line" _tmp
+done

@@ -1,0 +1,36 @@
+#! /bin/sh
+
+validfs()
+{
+    cat /lib/modules/`uname -r`/modules.builtin /lib/modules/`uname -r`/modules.order 2> /dev/null | \
+    grep -q "kernel/fs/.*/$1.ko"
+    [ $? = 0 ] && rv1=0 || rv1=1
+    test -e /sbin/mount.$1
+    [ $? = 0 ] && rv2=0 || rv2=1
+    grep -v "^nodev" /proc/filesystems | grep -qw "$1"
+    [ $? = 0 ] && rv3=0 || rv3=1
+    [ "$rv1$rv2$rv3" = "111" ] && return 1 || return 0
+}
+
+mount -t tmpfs tmpfs /media
+
+find /sys/devices -path "*/block/*" \( -name "sd*" -o -name "ub*" -o -name "hd*" \) | sed "s%.*/%%" | \
+while read dev; do
+    type=`blkid -o udev -s TYPE -p /dev/$dev`
+    if [ ! -z "$type" ]; then
+	grep -qw "^/dev/$dev" /proc/mounts && continue
+	eval $type
+	validfs $ID_FS_TYPE || continue
+	UUID=`blkid -p -s UUID -o value /dev/$dev`
+	case "$ID_FS_TYPE" in
+	    vfat|ntfs)
+		mkdir -p /media/$UUID > /dev/null 2>&1 && \
+		mount /dev/$dev /media/$UUID
+	    ;;
+	    *)
+		mkdir -p /media/$UUID > /dev/null 2>&1 && \
+		mount /dev/$dev /media/$UUID
+	    ;;
+	esac
+    fi
+done

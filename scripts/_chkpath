@@ -1,0 +1,13 @@
+#! /bin/bash
+#*#_check_if_exists_with_path
+#check if files found in current dir and subdirs exists on destination with its original path
+[ -d "$1" ] || exit 1
+DIR1=`pwd`
+DIR2="$1"
+
+find "$DIR1" -type f | \
+while read FILE; do
+    if [ ! -e "$DIR2/${FILE#${DIR1}/}" ]; then
+	echo "$FILE"
+    fi
+done

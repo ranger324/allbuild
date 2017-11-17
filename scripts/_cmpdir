@@ -1,0 +1,12 @@
+#! /bin/bash
+#--check file#dir1
+[ -d "$1" ] || exit 1
+DIR1=`pwd`
+DIR2="$1"
+
+find "$DIR1" -type f | \
+while read FILE; do
+    if [ -e "$DIR2/${FILE#${DIR1}/}" ]; then
+	cmp "$FILE" "$DIR2/${FILE#${DIR1}/}" > /dev/null 2>&1 || echo "*$FILE"
+    fi
+done

@@ -1,0 +1,71 @@
+#! /bin/sh
+
+[ "$1" = "-r" ] && opts="-o ro"
+
+validfs()
+{
+    cat /lib/modules/`uname -r`/modules.builtin /lib/modules/`uname -r`/modules.order 2> /dev/null | \
+    grep -q "kernel/fs/.*/$1.ko"
+    [ $? = 0 ] && rv1=0 || rv1=1
+    test -e /sbin/mount.$1
+    [ $? = 0 ] && rv2=0 || rv2=1
+    grep -v "^nodev" /proc/filesystems | grep -qw "$1"
+    [ $? = 0 ] && rv3=0 || rv3=1
+    cat /lib/modules/`uname -r`/modules.alias 2> /dev/null | \
+    grep -q "^alias fs-$1 "
+    [ $? = 0 ] && rv4=0 || rv4=1
+
+    [ "$rv1$rv2$rv3$rv4" = "1111" ] && return 1 || return 0
+}
+
+pidof udisks-daemon > /dev/null && udisk=1
+pidof udisksd > /dev/null && udisk2=1
+if [ -z "$udisk" -a -z "$udisk2" ]; then
+    [ ! -d /media ] && mkdir /media
+    ! mountpoint /media > /dev/null && mount -t tmpfs tmpfs /media
+fi
+
+find /sys/devices -path "*/block/*" \( -name "sd*" -o -name "ub*" -o -name "hd*" -o -name "mmcblk*" \) | sed "s%.*/%%" | \
+while read dev; do
+    type=`blkid -o udev -s TYPE -p /dev/$dev`
+    if [ ! -z "$type" ]; then
+	eval $type
+	validfs $ID_FS_TYPE || continue
+
+	[ "$ID_FS_TYPE" = "ufs" ] && continue
+
+	if [ "$ID_FS_TYPE" = "iso9660" ]; then
+	    grep -q "^/dev/$(echo "$dev" | sed 's%[0-9]\+$%%') " /proc/mounts && continue
+	else
+	    grep -q "^/dev/$dev " /proc/mounts && continue
+	fi
+	UUID=`blkid -p -s UUID -o value /dev/$dev`
+	[ -z "$UUID" ] && UUID=$dev
+	case "$ID_FS_TYPE" in
+	    vfat|ntfs)
+		if [ -z "$udisk" -a -z "$udisk2" ]; then
+		    mkdir -p /media/$UUID > /dev/null 2>&1 && \
+			mount $opts /dev/$dev /media/$UUID
+		else
+		    if [ ! -z "$udisk" ]; then
+			udiskctl mount $opts -b /dev/$dev
+		    else
+			udisksctl mount $opts -b /dev/$dev
+		    fi
+		fi
+	    ;;
+	    *)
+		if [ -z "$udisk" -a -z "$udisk2" ]; then
+		    mkdir -p /media/$UUID > /dev/null 2>&1 && \
+			mount $opts /dev/$dev /media/$UUID
+		else
+		    if [ ! -z "$udisk" ]; then
+			udiskctl mount $opts -b /dev/$dev
+		    else
+			udisksctl mount $opts -b /dev/$dev
+		    fi
+		fi
+	    ;;
+	esac
+    fi
+done

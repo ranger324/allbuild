@@ -1,0 +1,8 @@
+#! /bin/sh
+
+WAITPID=$1
+shift
+while [ -e /proc/$WAITPID ]; do
+    sleep 0.5
+done
+exec "$@"

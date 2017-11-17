@@ -1,0 +1,5 @@
+#! /bin/sh
+
+#start-stop-daemon -S -b -q -m -p /run/start_sound.pid -x run_on_process -- gcc make -- ogg123 /_snd/filling-your-inbox.ogg
+#start-stop-daemon -S -b -q -m -p /run/start_sound.pid -x run_on_process -- gcc make -- aplay /_snd/noise.wav
+start-stop-daemon -S -b -q -m -p /run/start_sound.pid -x run_on_cpu_usage -- aplay -q /_snd/noise.wav

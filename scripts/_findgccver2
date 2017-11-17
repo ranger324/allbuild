@@ -1,0 +1,7 @@
+#! /bin/sh
+
+_findbin | \
+while read line; do
+    echo "./$line"
+    readelf -p .comment "$line" 2> /dev/null | sed -n 's/^[[:space:]]\+\[.*\][[:space:]]\+\(GCC:.*\)/\1/p'
+done

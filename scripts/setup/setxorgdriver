@@ -1,0 +1,35 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ -d /usr/lib/xorg -a -e /etc/X11/xorg.conf.d/80-xorg-driver.conf ] || exit 0
+
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--radiolist "Select xorg driver" 20 61 15 \
+	`find /usr/lib/xorg/modules/drivers -name "*_drv.so" | sed -e 's%.*/%%' -e 's/_drv.so$//' | grep -v "^modesetting" | sort | sed 's/.*/& < off/'` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ -z $choice ]; then
+	    sed -i "s%.*Driver.*%#    Driver \"fbdev\"%" /etc/X11/xorg.conf.d/80-xorg-driver.conf
+	    sed -i "s%.*### AUTOUPDATE_.*%### AUTOUPDATE_ON%" /etc/X11/xorg.conf.d/80-xorg-driver.conf
+	    [ -L /etc/runlevels/boot/xorgsetup ] && rc-service xorgsetup restart 2> /dev/null
+	else
+	    sed -i "s%.*Driver.*%    Driver \"$choice\"%" /etc/X11/xorg.conf.d/80-xorg-driver.conf
+	    sed -i "s%.*### AUTOUPDATE_.*%### AUTOUPDATE_OFF%" /etc/X11/xorg.conf.d/80-xorg-driver.conf
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

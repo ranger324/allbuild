@@ -1,0 +1,44 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ -r /usr/share/X11/xkb/rules/evdev.lst -a -e /etc/X11/xorg.conf.d/90-inputclass-setting.conf ] || exit 0
+
+list_keymaps(){
+    LN1=`expr $(grep -n "^! layout" /usr/share/X11/xkb/rules/evdev.lst | cut -d : -f 1) + 1`
+    LN2=`expr $(grep -n "^! variant" /usr/share/X11/xkb/rules/evdev.lst | cut -d : -f 1) - 2`
+    sed -n "${LN1},${LN2}p" /usr/share/X11/xkb/rules/evdev.lst | \
+    while read MAP DESC; do
+	case $MAP in
+	    nec_*) echo "jp ${DESC// /_} off";;
+	    *) echo "$MAP ${DESC// /_} off";;
+	esac
+    done
+}
+
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--radiolist "Select Xkeyboard layout" 20 61 15 \
+	`list_keymaps | sort` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ -z $choice ]; then
+	    sed -i "s%.*Option.*\"xkb_layout\".*%#    Option \"xkb_layout\" \"us\"%" /etc/X11/xorg.conf.d/90-inputclass-setting.conf
+	else
+	    sed -i "s%.*Option.*\"xkb_layout\".*%    Option \"xkb_layout\" \"$choice\"%" /etc/X11/xorg.conf.d/90-inputclass-setting.conf
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

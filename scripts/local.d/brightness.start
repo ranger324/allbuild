@@ -1,0 +1,5 @@
+#! /bin/sh
+
+hour=`date +%H`
+[ "${hour:0:1}" = "0" ] && hour=${hour:1}
+[ "${hour}" -ge 7 -a "${hour}" -le 18 ] && sh /bin/_brightness.sh 4 || sh /bin/_brightness.sh 2

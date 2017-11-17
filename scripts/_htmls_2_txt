@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ls *.html 2> /dev/null | xargs -r -i sh -c 'links -dump "{}" > "{}.txt"'
+#find -mindepth 1 -maxdepth 1 -name "*.html" | xargs -r -i sh -c 'links -dump "{}" > "{}.txt"'
+#find -mindepth 1 -maxdepth 1 -name "*.html" -print0 | xargs -r -0 -i sh -c 'links -dump "{}" > "{}.txt"'

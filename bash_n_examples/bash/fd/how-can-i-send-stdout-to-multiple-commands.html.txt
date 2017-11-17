@@ -1,0 +1,588 @@
+   Link: canonical
+
+  current community
+
+     * chat
+       Unix & Linux
+     * Unix & Linux Meta
+
+  your communities
+
+   Sign up or log in to customize your list.
+
+  more stack exchange communities
+
+   company blog
+   Stack Exchange Inbox  Reputation and Badges
+   sign up log in tour help 
+     * Tour Start here for a quick overview of the site
+     * Help Center Detailed answers to any questions you might have
+     * Meta Discuss the workings and policies of this site
+     * About Us Learn more about Stack Overflow the company
+     * Business Learn more about hiring developers or posting ads with us
+   _____________________
+   Unix & Linux
+     * Questions
+     * Tags
+     * Users
+     * Badges
+     * Unanswered
+     * Ask Question
+   Link:
+   https://cdn.sstatic.net/Sites/unix/img/apple-touch-icon.png?v=5cf7fe716a89
+   _
+   Unix & Linux Stack Exchange is a question and answer site for users of
+   Linux, FreeBSD and other Un*x-like operating systems. Join them; it only
+   takes a minute:
+
+   Sign up
+   Here's how it works:
+    1. Anybody can ask a question
+    2. Anybody can answer
+    3. The best answers are voted up and rise to the top
+
+                  How can I send stdout to multiple commands?
+
+             There are some commands which filter or act on input, and then   
+             pass it along as output, I think usually to stdout - but some    
+             commands will just take the stdin and do whatever they do with   
+             it, and output nothing.                                          
+                                                                              
+             I'm most familiar with OS X and so there are two that come to    
+             mind immediately are pbcopy and pbpaste- which are means of      
+             accessing the system clipboard.                                  
+                                                                              
+             Anyhow, I know that if I want to take stdout and spit the output 
+             to go to both stdout and a file then I can use the tee command.  
+             And I know a little about xargs, but I don't think that's what   
+             I'm looking for.                                                 
+                                                                              
+             I want to know how I can split stdout to go between two (or      
+             more) commands. For example:                                     
+                                                                              
+             cat file.txt | stdout-split -c1 pbcopy -c2 grep -i errors        
+                                                                              
+             There is probably a better example than that one, but I really   
+             am interested in knowing how I can send stdout to a command that 
+             does not relay it and while keeping stdout from being "muted" -  
+   up vote   I'm not asking about how to cat a file and grep part of it and   
+   117 down  copy it to the clipboard - the specific commands are not that    
+   vote      important.                                                       
+   favorite                                                                   
+   63        Also - I'm not asking how to send this to a file and stdout -    
+             this may be a "duplicate" question (sorry) but I did some        
+             looking and could only find similar ones that were asking about  
+             how to split between stdout and a file - and the answers to      
+             those questions seemed to be tee, which I don't think will work  
+             for me.                                                          
+                                                                              
+             Finally, you may ask "why not just make pbcopy the last thing in 
+             the pipe chain?" and my response is 1) what if I want to use it  
+             and still see the output in the console? 2) what if I want to    
+             use two commands which do not output stdout after they process   
+             the input?                                                       
+                                                                              
+             Oh, and one more thing - I realize I could use tee and a named   
+             pipe (mkfifo) but I was hoping for a way this could be done      
+             inline, concisely, without a prior setup :)                      
+                                                                              
+             shell command-line io-redirection                                
+                                                                              
+                                       edited Jan 7 '12 at asked Jan 7 '12 at 
+             share|improve this                      23:57 3:32               
+             question                                [IMG] [IMG]              
+                                                    Gilles cwd                
+                                             436k878191316 10.4k46104143      
+                  Possible Duplicate of                                       
+                  unix.stackexchange.com/questions/26964/… – Nikhil Mulley    
+                  Jan 7 '12 at 12:58                                          
+                                                                              
+             add a comment |  expand to show all comments on this post        
+
+7 Answers
+
+   active oldest votes
+
+         You can use tee and process substitution for this:                      
+                                                                                 
+         cat file.txt | tee >(pbcopy) | grep errors                              
+                                                                                 
+         This will send all the output of cat file.txt to pbcopy, and you'll     
+         only get the result of grep on your console.                            
+up vote                                                                          
+164 down You can put multiple processes in the tee part:                         
+vote                                                                             
+accepted cat file.txt | tee >(pbcopy) >(do_stuff) >(do_more_stuff) | grep errors 
+                                                                                 
+                                   edited May 31 '15 at    answered Jan 7 '12 at 
+                                                   7:51                     9:29 
+         share|improve this answer                [IMG]                    [IMG] 
+                                             Community♦                      Mat 
+                                                      1             33.5k6104119 
+              tee but with two (or more) stdout options - sweet! – cwd Jan 7 '12 
+              at 15:08                                                           
+              Not a concern with pbcopy, but worth mentioning in general:        
+              whatever the process substitution outputs is also seen by the next 
+              pipe segment, after the original input; e.g.: seq 3 | tee >(cat    
+         9    -n) | cat -e (cat -n numbers the input lines, cat -e marks         
+              newlines with $; you'll see that cat -e is applied to both the     
+              original input (first) and (then) the output from cat -n). Output  
+              from multiple process substitutions will arrive in                 
+              non-deterministic order. – mklement0 Dec 9 '14 at 4:47             
+              The >( only works in bash. If you try that using for instance sh   
+         21   it won't work. It's important to make this notice. – AAlvz Dec 16  
+              '14 at 16:31                                                       
+              @AAlvz: Good point: process substitution is not a POSIX feature;   
+              dash, which act as sh on Ubuntu, doesn't support it, and even Bash 
+         4    itself deactivates the feature when invoked as sh or when set -o   
+              posix is in effect. However, it's not just Bash that supports      
+              process substitutions: ksh and zsh support them too (not sure      
+              about others). – mklement0 Apr 15 '15 at 2:59                      
+              @mklement0 that doesn't appear to be true. On zsh (Ubuntu 14.04)   
+              your line prints: 1 1 2 2 3 3 1$ 2$ 3$ Which is sad, because I     
+              really wanted the functionality to be as you say it. – Aktau Oct   
+              21 '16 at 9:56                                                     
+                                                                                 
+          |  show 4 more comments                                                
+
+              You can specify multiple file names to tee, and in addition the 
+              standard output can be piped into one command. To dispatch the  
+              output to multiple commands, you need to create multiple pipes  
+              and specify each of them as one output of tee. There are        
+              several ways to do this.                                        
+                                                                              
+                Process substitution                                          
+                                                                              
+              If your shell is ksh93, bash or zsh, you can use process        
+              substitution. This is a way to pass a pipe to a command that    
+              expects a file name. The shell creates the pipe and passes a    
+              file name like /dev/fd/3 to the command. The number is the file 
+              descriptor that the pipe is connected to. Some unix variants do 
+              not support /dev/fd; on these, a named pipe is used instead     
+              (see below).                                                    
+                                                                              
+              tee >(command1) >(command2) | command3                          
+                                                                              
+                File descriptors                                              
+                                                                              
+              In any POSIX shell, you can use multiple file descriptors       
+              explicitly. This requires a unix variant that supports /dev/fd, 
+              since all but one of the outputs of tee must be specified by    
+   up vote 82 name.                                                           
+   down vote                                                                  
+              { { { tee /dev/fd/3 /dev/fd/4 | command1 >&9;                   
+                  } 3>&1 | command2 >&9;                                      
+                } 4>&1 | command3 >&9;                                        
+              } 9>&1                                                          
+                                                                              
+                Named pipes                                                   
+                                                                              
+              The most basic and portable method is to use named pipes. The   
+              downside is that you need to find a writable directory, create  
+              the pipes, and clean up afterwards.                             
+                                                                              
+              tmp_dir=$(mktemp -d)                                            
+              mkfifo "$tmp_dir/f1" "$tmp_dir/f2"                              
+              command1 <"$tmp_dir/f1" & pid1=$!                               
+              command2 <"$tmp_dir/f2" & pid2=$!                               
+              tee "$tmp_dir/f1" "$tmp_dir/f2" | command3                      
+              rm -rf "$tmp_dir"                                               
+              wait $pid1 $pid2                                                
+                                                                              
+                                 edited Apr 13 at      answered Jul 19 '12 at 
+              share|improve this            12:36                       22:38 
+              answer                        [IMG]                       [IMG] 
+                                       Community♦                      Gilles 
+                                                1               436k878191316 
+                  Thanks so much for providing the two alternative versions   
+              5   for those who don't want to rely on bash or a certain ksh.  
+                  – trr Jul 2 '13 at 4:08                                     
+                                                                              
+              add a comment |  expand to show all comments on this post       
+
+        Just play with process substitution.                                  
+                                                                              
+        mycommand_exec |tee >(grep ook > ook.txt) >(grep eek > eek.txt)       
+   up                                                                         
+   vote grep are two binaries which have the same output from mycommand_exec  
+   11   as their process specific input.                                      
+   down                                                                       
+   vote                           answered Jan 7 '12 at 12:59                 
+        share|improve this answer                       [IMG]                 
+                                                Nikhil Mulley                 
+                                                    5,6531943                 
+             ook. eek! thanks :) – cwd Jan 7 '12 at 15:06                     
+                                                                              
+        add a comment |  expand to show all comments on this post             
+
+           If you are using zsh then you can take advantage of the power of   
+           MULTIOS feature, i.e. get rid of tee command completely:           
+                                                                              
+           uname >file1 >file2                                                
+                                                                              
+           will just write the output of uname to two different files: file1  
+           and file2, what is equivalent of uname | tee file1 >file2          
+                                                                              
+           Similarly redirection of standard inputs                           
+                                                                              
+           wc -l <file1 <file2                                                
+   up vote                                                                    
+   11 down is equivalent of cat file1 file2 | wc -l (please note that this is 
+   vote    not the same as wc -l file1 file2, the later counts number of      
+           lines in each file separately).                                    
+                                                                              
+           Of course you can also use MULTIOS to redirect output not to files 
+           but to other processes, using process substitution, e.g.:          
+                                                                              
+           echo abc > >(grep -o a) > >(tr b x) > >(sed 's/c/y/')              
+                                                                              
+                                     answered Dec 22 '14 at 1:24              
+           share|improve this answer                       [IMG]              
+                                                          jimmij              
+                                                      24.5k85682              
+               Good to know. MULTIOS is an option that is ON by default (and  
+           3   can be turned off with unsetopt MULTIOS). – mklement0 Apr 15   
+               '15 at 3:39                                                    
+                                                                              
+           add a comment |  expand to show all comments on this post          
+
+             Capture the command STDOUT to a variable and re-use it as many   
+             times as you like:                                               
+                                                                              
+             commandoutput="$(command-to-run)"                                
+             echo "$commandoutput" | grep -i errors                           
+             echo "$commandoutput" | pbcopy                                   
+                                                                              
+   up vote 4 If you need to capture STDERR too, then use 2>&1 at the end of   
+   down vote the command, like so:                                            
+                                                                              
+             commandoutput="$(command-to-run 2>&1)"                           
+                                                                              
+                                edited Jan 7 '12 at     answered Jan 7 '12 at 
+             share|improve this                6:04                      3:43 
+             answer                           [IMG]                     [IMG] 
+                                            Patrick                 laebshade 
+                                       40.7k9103143                  1,526813 
+                  Where are variables stored? If you were dealing with a      
+             1    large file or something of that sort, wouldn't this hog up  
+                  a lot of memory? Are variables limited in size? – cwd Jan 7 
+                  '12 at 4:09                                                 
+                  what if $commandoutput is huge?, its better to use pipes    
+                  and process substitution. – Nikhil Mulley Jan 7 '12 at      
+                  13:00                                                       
+                  Obviously this solution is possible only when you know the  
+                  size of the output will easily fit in memory, and you're OK 
+             3    with buffering the entire output before running the next    
+                  commands on it. Pipes solve these two problems by allowing  
+                  arbitrary length data and streaming it in real time to the  
+                  receiver as it's generated. – trr Jun 23 '13 at 12:15       
+                  This is a good solution if you have small output, and you   
+             1    know that the output will be text and not binary. (shell    
+                  variables often aren't binary safe) – Rucent88 Jul 20 '14   
+                  at 4:48                                                     
+                  I can't get this to work with binary data. I think it's     
+                  something with echo trying to interpret null bytes or some  
+                  other noncharacter data. – Rolf May 21 at 16:13             
+                                                                              
+             add a comment |  expand to show all comments on this post        
+
+     For a reasonably small output produced by a command, we can redirect the output to temporary file, and send those         
+     temporary file to commands in loop. This can be useful when order of executed commands might matter.                      
+                                                                                                                               
+     The following script , for example, could do that:                                                                        
+                                                                                                                               
+     #!/bin/sh                                                                                                                 
+                                                                                                                               
+     temp=$( mktemp )                                                                                                          
+     cat /dev/stdin > "$temp"                                                                                                  
+                                                                                                                               
+up   for arg                                                                                                                   
+vote do                                                                                                                        
+4        eval "$arg" < "$temp"                                                                                                 
+down done                                                                                                                      
+vote rm "$temp"                                                                                                                
+                                                                                                                               
+     Test run on Ubuntu 16.04 with /bin/sh as dash shell:                                                                      
+                                                                                                                               
+     $ cat /etc/passwd | ./multiple_pipes.sh  'wc -l'  'grep "root"'                                                           
+     48                                                                                                                        
+     root:x:0:0:root:/root:/bin/bash                                                                                           
+                                                                                                                               
+                               edited Feb 5 at 20:20 answered Feb 5 at 19:38                                                   
+     share|improve this answer                 [IMG]                   [IMG]                                                   
+                                             terdon♦     Sergiy Kolodyazhnyy                                                   
+                                        106k23186331                4,959831                                                   
+                                                                                                                               
+     add a comment |  expand to show all comments on this post                                                                 
+
+                  This may be of use: http://www.spinellis.gr/sw/dgsh/        
+                  (directed graph shell) Seems like a bash replacement        
+                  supporting an easier syntax for "multipipe" commands.       
+   up vote 0 down                                                             
+   vote                                     answered Dec 13 '16 at 18:14      
+                  share|improve this answer                        [IMG]      
+                                                                  sivann      
+                                                                   27916      
+                                                                              
+                  add a comment |  expand to show all comments on this post   
+
+Your Answer
+
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+   __________________________________________________________________________
+    
+   draft saved
+   draft discarded
+   _____________________
+
+  Sign up or log in
+
+   Sign up using Google
+
+   Sign up using Facebook
+
+   Sign up using Email and Password
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+  Post as a guest
+
+   Name _______________________________  
+   Email _______________________________ 
+
+   [ Post Your Answer ] discard
+
+   By posting your answer, you agree to the privacy policy and terms of
+   service.
+
+Not the answer you're looking for? Browse other questions tagged shell
+command-line io-redirection or ask your own question.
+
+   asked  5 years, 7 months ago 
+   viewed 89,634 times          
+   active 6 months ago          
+
+   Blog
+
+     ----------------------------------------------------------------------
+
+   A Tale of Two Industries: How Programming Languages Differ Between
+   Wealthy…
+
+    Linked
+
+   8
+   Command redirection to multiple files: command >file1 >file2
+   1
+   Pipe output of one command to two others
+   1
+   Combine command output along with the input
+   28
+   Pipe to multiple files in the shell
+   53
+   When would you use an additional file descriptor?
+   4
+   evaluate multiple patterns from program output and write into pattern
+   specific files
+   2
+   how to move (not copy) files from one server to another?
+   3
+   How to pipe a command output to multiple programs
+   11
+   What is the portable (POSIX) way to achieve process substitution?
+   3
+   Write data to both a file and a serial port â** can I use tee?
+   see more linked questionsâ*¦
+
+    Related
+
+   11
+   Use HERE file and redirect output of command
+   6
+   How to send stderr to stdout with a pipe to another command?
+   5
+   Replacing stdout with stderr
+   15
+   How to capture ordered STDOUT/STDERR and add timestamp/prefixes?
+   1
+   Redirect output to stdout and pipe to a binary
+   17
+   How can I implement a circular flow of data among interconnected commands?
+   8
+   Command redirection to multiple files: command >file1 >file2
+   1
+   How to send supervise stdout to multilog and a second process
+   1
+   using stdout twice (but not tee as I know it)
+   1
+   How can I send stdout to multiple commands in fish shell?
+
+    Hot Network Questions
+
+     * Customers take issue with employee's social media posts
+     * How to handle very opinionated and aggressive friend?
+     * Expert quote on entropy for uncrackable password
+     * Can cancers caused due to viruses be contagious?
+     * When do polynomials eventually differentiate to zero?
+     * Can a dedicated amateur astronomer spot a rogue asteroid?
+     * In an online conversation, is it okay to use "guys" to address
+       everyone?
+     * What can the KSP game actually teach about spaceflight and orbital
+       mechanics, and what are its limitations?
+     * Which one is correct? My teacher is too tired to explain vs. My
+       teacher is too tired explaining
+     * What is odor (smell)?
+     * Why does the pardon of Arpaio show contempt for the rule of law?
+     * How to avoid being seen as a cash cow by my family?
+     * Is there any limit to the number of databases you can put on one SQL
+       server?
+     * I lost the source code for programs I released as GPL. What to do?
+     * Avoid displayed formulas at the top of pages in ConTeXt
+     * What is the purpose of prospecting ore rocks in RuneScape?
+     * Will it be considered duplicate submission in a venue, if we knew that
+       the article will be rejected for sure in another venue?
+     * Array Factorization
+     * Decimal Numbers in the Graphical Modeler
+     * Does it make sense to insure something when you could bear its loss?
+     * Is the conference "ICCTCEEC" a scam?
+     * What is the opposite of "aegrescit medendo"?
+     * Why was the person who passed the sentence in the Season 7 finale not
+       also the executioner?
+     * Math Behind Buying a House
+   more hot questions
+   question feed
+
+      Unix & Linux
+
+     * Tour
+     * Help
+     * Chat
+     * Contact
+     * Feedback
+     * Mobile
+
+      Company
+
+     * Stack Overflow
+     * Stack Overflow Business
+     * Developer Jobs
+     * About
+     * Press
+     * Legal
+     * Privacy Policy
+
+      Stack Exchange
+      Network
+
+     * Technology
+     * Life / Arts
+     * Culture / Recreation
+     * Science
+     * Other
+     * Stack Overflow
+     * Server Fault
+     * Super User
+     * Web Applications
+     * Ask Ubuntu
+     * Webmasters
+     * Game Development
+     * TeX - LaTeX
+     * Software Engineering
+     * Unix & Linux
+     * Ask Different (Apple)
+     * WordPress Development
+     * Geographic Information Systems
+     * Electrical Engineering
+     * Android Enthusiasts
+     * Information Security
+     * Database Administrators
+     * Drupal Answers
+     * SharePoint
+     * User Experience
+     * Mathematica
+     * Salesforce
+     * ExpressionEngine® Answers
+     * Blender
+     * Network Engineering
+     * Cryptography
+     * Code Review
+     * Magento
+     * Software Recommendations
+     * Signal Processing
+     * Emacs
+     * Raspberry Pi
+     * Programming Puzzles & Code Golf
+     * Ethereum
+     * Data Science
+     * Arduino
+     * more (27)
+     * Photography
+     * Science Fiction & Fantasy
+     * Graphic Design
+     * Movies & TV
+     * Music: Practice & Theory
+     * Worldbuilding
+     * Seasoned Advice (cooking)
+     * Home Improvement
+     * Personal Finance & Money
+     * Academia
+     * Law
+     * more (17)
+     * English Language & Usage
+     * Skeptics
+     * Mi Yodeya (Judaism)
+     * Travel
+     * Christianity
+     * English Language Learners
+     * Japanese Language
+     * Arqade (gaming)
+     * Bicycles
+     * Role-playing Games
+     * Anime & Manga
+     * Puzzling
+     * Motor Vehicle Maintenance & Repair
+     * more (32)
+     * MathOverflow
+     * Mathematics
+     * Cross Validated (stats)
+     * Theoretical Computer Science
+     * Physics
+     * Chemistry
+     * Biology
+     * Computer Science
+     * Philosophy
+     * more (10)
+     * Meta Stack Exchange
+     * Stack Apps
+     * API
+     * Data
+     * Area 51
+     * Blog
+     * Facebook
+     * Twitter
+     * LinkedIn
+
+   site design / logo © 2017 Stack Exchange Inc; user contributions licensed
+   under cc by-sa 3.0 with attribution required. rev 2017.8.30.26894
+
+   Linux is a registered trademark of Linus Torvalds. UNIX is a registered
+   trademark of The Open Group.
+   This site is not affiliated with Linus Torvalds or The Open Group in any
+   way.
+   Unix & Linux Stack Exchange works best with JavaScript enabled

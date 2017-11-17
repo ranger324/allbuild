@@ -1,0 +1,172 @@
+#! /bin/sh
+
+#2011 Raminos production (raminux.sf.net)
+
+: ${DIALOG=dialog}
+
+pacman -Sy > /dev/null 2>&1
+newmd5=`md5sum /var/lib/pacman/sync/core.db | cut -d ' ' -f 1`
+
+DATABASE=/var/lib/instpkg/packages.data
+CFG=/var/lib/instpkg/settings.include
+
+[ ! -d /var/lib/instpkg ] && mkdir -p /var/lib/instpkg
+[ ! -f $CFG ] && touch $CFG
+grep -q "md5sum=" $CFG || echo "md5sum=" >> $CFG
+grep -q "bysize=" $CFG || echo "bysize=" >> $CFG
+grep -q "showsize=" $CFG || echo "showsize=true" >> $CFG
+grep -q "infobutton=" $CFG || echo "infobutton=" >> $CFG
+grep -q "selectall=" $CFG || echo "selectall=" >> $CFG
+source $CFG
+
+if [ "$newmd5" != "$md5sum" ]; then
+    sed -i "s/md5sum=.*/md5sum=$newmd5/" $CFG
+    $HOME/manage/update_pkgdb
+fi
+
+[ ! -f $DATABASE ] && $HOME/manage/update_pkgdb
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/tmpfile$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+pkgmenu()
+{
+if [ $showsize ]; then
+    if [ $bysize ]; then
+	grep "^${GRPPAIR/,/ } " $DATABASE | cut -d ' ' -f 3-5 | sort -n -k 3 -r | \
+	while read NAME VER SIZE; do
+	    if [ $selectall ]; then
+		[ -d /var/lib/pacman/local/$NAME-$VER ] && \
+		    echo "$NAME $(expr $SIZE / 1024)KB(*) on" || \
+		    echo "$NAME $(expr $SIZE / 1024)KB(-) on"
+	    else
+		[ -d /var/lib/pacman/local/$NAME-$VER ] && \
+		    echo "$NAME $(expr $SIZE / 1024)KB(*) off" || \
+		    echo "$NAME $(expr $SIZE / 1024)KB(-) off"
+	    fi
+	done
+    else
+	grep "^${GRPPAIR/,/ } " $DATABASE | cut -d ' ' -f 3-5 | \
+	while read NAME VER SIZE; do
+	    if [ $selectall ]; then
+		[ -d /var/lib/pacman/local/$NAME-$VER ] && \
+		    echo "$NAME $(expr $SIZE / 1024)KB(*) on" || \
+		    echo "$NAME $(expr $SIZE / 1024)KB(-) on"
+	    else
+		[ -d /var/lib/pacman/local/$NAME-$VER ] && \
+		    echo "$NAME $(expr $SIZE / 1024)KB(*) off" || \
+		    echo "$NAME $(expr $SIZE / 1024)KB(-) off"
+	    fi
+	done
+    fi
+else
+    grep "^${GRPPAIR/,/ } " $DATABASE | cut -d ' ' -f 3,4 | \
+    while read NAME VER; do
+	if [ $selectall ]; then
+	    [ -d /var/lib/pacman/local/$NAME-$VER ] && \
+		echo "$NAME $VER(*) on" || \
+		echo "$NAME $VER(-) on"
+	else
+	    [ -d /var/lib/pacman/local/$NAME-$VER ] && \
+		echo "$NAME $VER(*) off" || \
+		echo "$NAME $VER(-) off"
+	fi
+    done
+fi
+}
+
+noinfodialog()
+{
+    choice=`$DIALOG --backtitle "Install packages" --stdout \
+	--title "" --ok-label "Add" --cancel-label "Back" \
+	--checklist "Select packages" 20 61 15 \
+	$(pkgmenu) 2> /dev/null`
+    retval=$?
+    case $retval in
+	0)
+	    if [ ! -z "$choice" ]; then
+		echo -n "$choice " >> $tempfile
+		break
+	    fi
+	;;
+	*)  break;;
+    esac
+}
+
+infodialog()
+{
+    choice=`$DIALOG --backtitle "Install packages" --stdout \
+	--title "" --default-item "${choice//\"/}" --ok-label "Add" \
+	--extra-button --extra-label "Info" --cancel-label "Back" \
+	--checklist "Select packages" 20 61 15 \
+	$(pkgmenu) 2> /dev/null`
+    retval=$?
+    case $retval in
+	0)
+	    if [ ! -z "$choice" ]; then
+		echo -n "$choice " >> $tempfile
+		break
+	    fi
+	;;
+	3)
+	    if [ ! -z "$choice" ]; then
+		for i in $choice; do
+		    $DIALOG --title "${i//\"/}" --msgbox "Description:\n\n$(grep "^${GRPPAIR/,/ } ${i//\"/} " $DATABASE | cut -d " " -f 6-)" 10 61 2> /dev/null
+		done
+	    fi
+	;;
+	*)  break;;
+    esac
+}
+
+setupdialog()
+{
+    choice=`$DIALOG --backtitle "instpkg settings" --stdout \
+	--title "" --checklist "Setup options" 20 61 15 \
+	infobutton - $([ $infobutton ] && echo on || echo off) \
+	showsize - $([ $showsize ] && echo on || echo off) \
+	bysize - $([ $bysize ] && echo on || echo off) \
+	selectall - $([ $selectall ] && echo on || echo off) 2> /dev/null`
+    retval=$?
+    case $retval in
+	0)
+	    for i in infobutton showsize bysize selectall; do
+		[ "$choice" != "${choice/"$i"/}" ] && sed -i "s/$i=.*/$i=true/" $CFG || sed -i "s/$i=.*/$i=/" $CFG
+	    done
+	    source $CFG
+	;;
+    esac
+}
+
+GRPMENU=`cut -d ' ' -f 1,2 $DATABASE | sort -u | tr ' ' ',' | sed 's/.*/& -/'`
+while true; do
+GRPPAIR=`$DIALOG --backtitle "Install packages" --stdout \
+	--title "" --clear --default-item "$GRPPAIR" \
+	--extra-button --extra-label "Install" \
+	--menu "Select packages" 20 61 15 \
+	$GRPMENU "<setup>" - 2> /dev/null`
+retval=$?
+case $retval in
+    0)
+	if [ "$GRPPAIR" = "<setup>" ]; then
+	    setupdialog
+	    continue
+	fi
+	if [ ! -z "$GRPPAIR" ]; then
+	    while true; do
+	    if [ $infobutton ]; then
+		infodialog
+	    else
+		noinfodialog
+	    fi
+	    done
+	fi
+    ;;
+    3)
+	[ ! -z "$(cat $tempfile)" ] && pacman -Sf $(cat $tempfile | tr -d '"' | tr '/' ' ')
+	break
+	#extra button pressed
+    ;;
+    *)  break;;
+esac
+done

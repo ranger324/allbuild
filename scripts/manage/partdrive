@@ -1,0 +1,49 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+lsdev()
+{
+test -L /sys/block/$(ls /sys/block | head -n 1) && \
+    find /sys/devices -path "*/block/*" \( -name "sd[a-z]" -o -name "ub[a-z]" \) || \
+    find /sys/block \( -name "sd[a-z]" -o -name "ub[a-z]" \)
+}
+
+lsdrives()
+{
+for drv in $(lsdev); do
+    echo -n "/dev/$(basename $drv) "
+    cd $drv
+    dirrel="$(readlink device)"
+    [ -e $dirrel/model ] && model=`cat $dirrel/vendor | sed 's/ *$//' | tr ' ' _`_`cat $dirrel/model | sed 's/ *$//' | tr ' ' _` && echo "$model" && continue
+    dirrel=$(dirname $(readlink device))
+    [ -e $dirrel/manufacturer ] && model=`cat $dirrel/manufacturer | sed 's/ *$//' | tr ' ' _`_`cat $dirrel/product | sed 's/ *$//' | tr ' ' _` && echo "$model" && continue
+    echo "-"
+done
+}
+
+$DIALOG --backtitle "Partition your disks" \
+	--title "" --clear \
+	--menu "" 20 61 15 \
+	`lsdrives` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ ! -z "$choice" ]; then
+	    cfdisk $choice
+	    hdparm -z $choice
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

@@ -1,0 +1,32 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ -e /etc/X11/99-resolution.conf ] || exit 0
+
+$DIALOG --radiolist "Select resolution" 20 61 15 640x480 - off  800x600 - off  1024x768 - off  1280x1024 - off  1400x1050 - off  1600x1200 - off  1280x800 - off  1360x768 - off  1440x900 - off 1600x900 - off 1680x1050 - off  1920x1080 - off  1920x1200 - off  2560x1600 - off  2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ ! -z "$choice" ]; then
+	    cp /etc/X11/99-resolution.conf /etc/X11/xorg.conf.d
+	    sed -i "s%.*Modes.*%    Modes \"$choice\"%" /etc/X11/xorg.conf.d/99-resolution.conf
+	    rm -f /etc/X11/99-resolution.conf.save
+	else
+	    rm -f /etc/X11/xorg.conf.d/99-resolution.conf
+	    rm -f /etc/X11/99-resolution.conf.save
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

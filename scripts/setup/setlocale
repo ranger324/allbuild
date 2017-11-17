@@ -1,0 +1,28 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+[ ! -f /etc/default/locale ] && echo LANG= > /etc/default/locale
+
+$DIALOG --backtitle "Configuring system settings" \
+	--title "" --clear \
+	--radiolist "Select default locale" 20 61 15 \
+	`locale -a | grep ".utf8" | sed 's/.*/& < off/'` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	sed -i "s%.*LANG=.*%LANG=$choice%" /etc/default/locale
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac

@@ -1,0 +1,6 @@
+#! /bin/sh
+
+if ! findmnt /tmpfs >/dev/null; then
+    mount -t tmpfs tmpfs /tmpfs
+    cp -RpP /b/* /tmpfs
+fi

@@ -1,0 +1,7 @@
+#! /bin/bash
+
+#for i in patch*.xz; do [ ! -e "$i" ] && break; xz -d $i; FN=${i%.xz}; mv $FN linux-${FN#patch-}.patch; gzip linux-${FN#patch-}.patch; done
+#for i in patch*.lz; do [ ! -e "$i" ] && break; lzip -d $i; FN=${i%.lz}; mv $FN linux-${FN#patch-}.patch; gzip linux-${FN#patch-}.patch; done
+
+ls patch*.xz 2> /dev/null | xargs -r -i sh -c 'i={}; xz -d $i; FN=${i%.xz}; mv $FN linux-${FN#patch-}.patch; gzip linux-${FN#patch-}.patch'
+ls patch*.lz 2> /dev/null | xargs -r -i sh -c 'i={}; lzip -d $i; FN=${i%.lz}; mv $FN linux-${FN#patch-}.patch; gzip linux-${FN#patch-}.patch'

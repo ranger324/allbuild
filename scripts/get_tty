@@ -1,0 +1,6 @@
+#! /bin/bash
+
+trap '' 2
+tty > /run/ttynum
+stty eof undef
+stubdd if=/dev/stdin of=/dev/null

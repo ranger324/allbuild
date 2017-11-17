@@ -1,0 +1,12 @@
+#! /bin/bash
+
+if [ ! -z "$1" ]; then
+    DIR=$1
+    [ ! -d "$DIR" ] && echo "No such directory" && exit 1
+    cd $DIR
+fi
+
+_findbin | \
+while read file; do
+    ldd "$file" 2> /dev/null | grep -q "not found" && echo "$file" && ldd "$file"
+done
