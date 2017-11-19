@@ -1,0 +1,30 @@
+
+keep your files organized (in place)
+put them into directories - name directories (subcategories)
+(some additional files will be created :( )
+
+-put common category files into ??comm directory (where ? is a
+numeric character) and create something.commident files to identify
+category. (touch something.commident)
+
+-put alternate group names (only the ident-file) to .tags directory
+by creating something.tagident files. (touch something.tagident)
+
+init:
+sh _init_searchfs.sh
+clear:
+sh _clear_searchfs.sh
+
+find: (shell filename expansion "*cmd" "?*")
+sh _find_group_defs.sh -a cmd script prog
+sh _find_group_defs.sh -a cmd script -prog
+sh _find_group_defs.sh -o cmd script prog
+sh _find_group_defs.sh -a bash example | xargs -r grep sed
+
+-o or (group .. group)
+-a and (group where "true" some other group)
+default is -o
+
+invert search group names like -compress (only in "and" mode (-a))
+other option: "*" (list groups)
+without parameter: list all

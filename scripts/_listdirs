@@ -1,0 +1,4 @@
+#! /bin/bash
+
+export LC_COLLATE=C
+find -mindepth 1 -type d -printf "%P/\n" | sort
