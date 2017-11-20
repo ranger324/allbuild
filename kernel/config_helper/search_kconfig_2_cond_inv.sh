@@ -1,5 +1,5 @@
 #list config symbol parts of "Kconfig"s
-#chech "help" key word
+#check "help" key word
 find -type f -name "Kconfig" | \
 while read file; do
     sh _find_file_section.sh -o -u -z -n -1 -2 "^[[:space:]]\+help$\|^[[:space:]]\+---help---$" "$file" "^config\|^menuconfig" "^comment\|^if\|^config\|^endif\|^choice\|^endchoice\|^endmenu\|^menuconfig\|^source\|^#"
