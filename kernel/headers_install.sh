@@ -1,0 +1,2 @@
+make headers_check
+make INSTALL_HDR_PATH=dest headers_install

@@ -1,0 +1,28 @@
+#kernel configuration may take a lot of time
+#by searching "descriptions" it may take less
+#ugly words
+#(firmware; free firmware; software; hardware)
+#(copy scripts to kernel source dir)
+
+#simplified (dependency not "managed"; simple grep)
+#needs review
+#gives some automation
+#- no "default y" lines
+
+#init config
+#eg.: make allmodconfig
+#eg.: make x86_64_defconfig
+sh kernel_config_init.sh
+
+#review (ugly words)
+sh kernel_config_review.sh
+
+#disable symbols - turn off features (there may be not exact dependency)
+sh kernel_config_helper.sh
+#disable symbols without dependency (replace searched symbols)
+(sh kernel_config_helper_nodep.sh)
+#disable symbols without some "addition" (functions to disable)
+(sh kernel_config_helper_wo_add.sh)
+
+#clear drivers
+sh kconfig_clear_drivers.sh
