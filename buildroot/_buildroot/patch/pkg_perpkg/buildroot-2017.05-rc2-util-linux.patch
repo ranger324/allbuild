@@ -1,0 +1,12 @@
+diff -Naurp buildroot-2017.05-rc2/package/util-linux/util-linux.mk buildroot-2017.05-rc2-patch/package/util-linux/util-linux.mk
+--- buildroot-2017.05-rc2/package/util-linux/util-linux.mk	2017-05-17 08:27:16.000000000 +0000
++++ buildroot-2017.05-rc2-patch/package/util-linux/util-linux.mk	2017-05-22 08:49:13.084743200 +0000
+@@ -32,6 +32,8 @@ UTIL_LINUX_CONF_OPTS += \
+ 	--without-systemd \
+ 	--with-systemdsystemunitdir=no
+ 
++UTIL_LINUX_CONF_OPTS += --enable-all-programs
++
+ # We don't want the host-busybox dependency to be added automatically
+ HOST_UTIL_LINUX_DEPENDENCIES = host-pkgconf
+ 

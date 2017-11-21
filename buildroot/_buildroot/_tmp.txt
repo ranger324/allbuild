@@ -1,0 +1,52 @@
+check-bin-arch slow process
+
+define step_pkg_size_start
+	(cd $(TARGET_DIR) ; find . -type f) | sort > \
+		$($(PKG)_DIR)/.br_filelist_before
+endef
+
+# This hook will be called after the target installation of a
+# package. We store in a file named .br_filelist_after the list of
+# files (and their MD5) currently installed in the target. We then do
+# a diff with the .br_filelist_before to compute the list of files
+# installed by this package.
+define step_pkg_size_end
+	(cd $(TARGET_DIR); find . -type f) | sort > \
+		$($(PKG)_DIR)/.br_filelist_after
+	comm -13 $($(PKG)_DIR)/.br_filelist_before $($(PKG)_DIR)/.br_filelist_after | \
+		while read file ; do \
+			echo "$(1),$${file}" >> $(BUILD_DIR)/packages-file-list.txt ; \
+		done
+endef
+
+define step_pkg_size
+	$(if $(filter install-target,$(2)),\
+		$(if $(filter start,$(1)),$(call step_pkg_size_start,$(3))) \
+		$(if $(filter end,$(1)),$(call step_pkg_size_end,$(3))))
+endef
+GLOBAL_INSTRUMENTATION_HOOKS += step_pkg_size
+
+define check_bin_arch
+	$(if $(filter end-install-target,$(1)-$(2)),\
+		support/scripts/check-bin-arch -p $(3) \
+			-l $(BUILD_DIR)/packages-file-list.txt \
+			-r $(TARGET_READELF) \
+			-a $(BR2_READELF_ARCH_NAME))
+endef
+
+#GLOBAL_INSTRUMENTATION_HOOKS += check_bin_arch
+
+#define step_check_build_dir_one
+#	if [ -d $(2) ]; then \
+#		printf "%s: installs files in %s\n" $(1) $(2) >&2; \
+#		exit 1; \
+#	fi
+#endef
+
+define step_check_build_dir
+#	$(if $(filter install-staging,$(2)),\
+#		$(if $(filter end,$(1)),$(call step_check_build_dir_one,$(3),$(STAGING_DIR)/$(O))))
+	$(if $(filter install-target,$(2)),\
+		$(if $(filter end,$(1)),$(call step_check_build_dir_one,$(3),$(TARGET_DIR)/$(O))))
+endef
+GLOBAL_INSTRUMENTATION_HOOKS += step_check_build_dir

@@ -1,0 +1,54 @@
+"Audio and video applications"#apps media
+"Audio/Sound"#libs media
+"Compression and decompression"#libs pack
+"Compressors and decompressors"#apps pack
+"Crypto"#libs crypt
+"Cursors"#themes cursor
+"Database"#libs database
+"Debugging, profiling and benchmark"#apps debug
+"Development tools"#base development
+"Erlang libraries/modules"#development erlang
+"External AngularJS plugins"#development other
+"External jQuery plugins"#development other
+"External nginx modules"#development other
+"External php extensions"#development other
+"External python modules"#development python
+"Filesystem"#libs filesystem
+"Filesystem and flash utilities"#apps filesystem
+"Firmware"#libs firmware
+"Fonts"#desktop fonts
+"Games"#xapps games
+"Graphic applications"#xapps utilities
+"Graphic libraries"#libs graphics
+"Graphics"#libs graphics
+"Hardware handling"#base hardware
+"Icons"#themes icons
+"Interpreter languages and scripting"#apps development
+"Javascript"#libs development
+"JSON/XML"#libs development
+"Logging"#libs system
+"Lua libraries/modules"#development lua
+"Mail"#apps mail
+"Miscellaneous"#apps utilities
+"Mono libraries/modules"#development mono
+"Multimedia"#libs media
+"Networking"#libs network
+"Networking applications"#apps network
+"Other"#libs other
+"Other GUIs"#libs qt
+"Package managers"#base package
+"Perl libraries/modules"#development perl
+"QT libraries and helper libraries"#base xlib
+"Real-Time"#base realtime
+"Security"#base security
+"Shells"#base shell
+"Sounds"#themes sound
+"System tools"#base system
+"Tcl libraries/modules"#development tcl
+"Text and terminal handling"#libs text
+"Text editors and viewers"#apps editor
+"Themes"#themes other
+"Utilities"#apps system
+"X applications"#xapps other
+"X libraries and helper libraries"#base xlib
+"X window managers"#desktop winmanager

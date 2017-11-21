@@ -1,0 +1,3 @@
+#! /bin/sh
+
+while read line; do ln -snf $line; done < /dev/stdin

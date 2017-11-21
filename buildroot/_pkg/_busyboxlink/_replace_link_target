@@ -1,0 +1,3 @@
+#! /bin/sh
+
+while read FILE LINK; do echo "$LINK $FILE"; done < /dev/stdin

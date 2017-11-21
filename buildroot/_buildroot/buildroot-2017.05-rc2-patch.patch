@@ -1,0 +1,384 @@
+diff -Naur buildroot-2017.05-rc2/fs/common.mk buildroot-2017.05-rc2-patch/fs/common.mk
+--- buildroot-2017.05-rc2/fs/common.mk	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/fs/common.mk	2017-05-26 12:09:29.362586185 +0200
+@@ -83,7 +83,7 @@
+ 	cat $$(ROOTFS_USERS_TABLES) >> $$(USERS_TABLE)
+ endif
+ 	$$(call PRINTF,$$(PACKAGES_USERS)) >> $$(USERS_TABLE)
+-	PATH=$$(BR_PATH) $$(TOPDIR)/support/scripts/mkusers $$(USERS_TABLE) $$(TARGET_DIR) >> $$(FAKEROOT_SCRIPT)
++	PATH=$$(BR_PATH) USRGRPDIR=$$(BUILD_DIR) $$(TOPDIR)/support/scripts/mkusers $$(USERS_TABLE) $$(TARGET_DIR) >> $$(FAKEROOT_SCRIPT)
+ ifneq ($$(ROOTFS_DEVICE_TABLES),)
+ 	cat $$(ROOTFS_DEVICE_TABLES) > $$(FULL_DEVICE_TABLE)
+ ifeq ($$(BR2_ROOTFS_DEVICE_CREATION_STATIC),y)
+@@ -91,7 +91,6 @@
+ endif
+ endif
+ 	$$(call PRINTF,$$(PACKAGES_PERMISSIONS_TABLE)) >> $$(FULL_DEVICE_TABLE)
+-	echo "$$(HOST_DIR)/usr/bin/makedevs -d $$(FULL_DEVICE_TABLE) $$(TARGET_DIR)" >> $$(FAKEROOT_SCRIPT)
+ 	$$(foreach s,$$(call qstrip,$$(BR2_ROOTFS_POST_FAKEROOT_SCRIPT)),\
+ 		echo "echo '$$(TERM_BOLD)>>>   Executing fakeroot script $$(s)$$(TERM_RESET)'" >> $$(FAKEROOT_SCRIPT); \
+ 		echo $$(s) $$(TARGET_DIR) $$(BR2_ROOTFS_POST_SCRIPT_ARGS) >> $$(FAKEROOT_SCRIPT)$$(sep))
+diff -Naur buildroot-2017.05-rc2/package/pkg-autotools.mk buildroot-2017.05-rc2-patch/package/pkg-autotools.mk
+--- buildroot-2017.05-rc2/package/pkg-autotools.mk	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/package/pkg-autotools.mk	2017-06-19 12:11:57.579970056 +0200
+@@ -184,9 +184,6 @@
+ 	$$($$(PKG)_CONF_ENV) \
+ 	CONFIG_SITE=/dev/null \
+ 	./configure \
+-		--target=$$(GNU_TARGET_NAME) \
+-		--host=$$(GNU_TARGET_NAME) \
+-		--build=$$(GNU_HOST_NAME) \
+ 		--prefix=/usr \
+ 		--exec-prefix=/usr \
+ 		--sysconfdir=/etc \
+@@ -223,7 +220,7 @@
+ 		--prefix="$$(HOST_DIR)/usr" \
+ 		--sysconfdir="$$(HOST_DIR)/etc" \
+ 		--localstatedir="$$(HOST_DIR)/var" \
+-		--enable-shared --disable-static \
++		--enable-shared --enable-static \
+ 		--disable-gtk-doc \
+ 		--disable-gtk-doc-html \
+ 		--disable-doc \
+@@ -246,21 +243,21 @@
+ # This has to come before autoreconf
+ ifeq ($$($(2)_GETTEXTIZE),YES)
+ $(2)_PRE_CONFIGURE_HOOKS += GETTEXTIZE_HOOK
+-$(2)_DEPENDENCIES += host-gettext
++$(2)_DEPENDENCIES += gettext
+ endif
+ $(2)_PRE_CONFIGURE_HOOKS += AUTORECONF_HOOK
+ # default values are not evaluated yet, so don't rely on this defaulting to YES
+-ifneq ($$($(2)_LIBTOOL_PATCH),NO)
+-$(2)_PRE_CONFIGURE_HOOKS += LIBTOOL_PATCH_HOOK
+-endif
+-$(2)_DEPENDENCIES += host-automake host-autoconf host-libtool
++#ifneq ($$($(2)_LIBTOOL_PATCH),NO)
++#$(2)_PRE_CONFIGURE_HOOKS += LIBTOOL_PATCH_HOOK
++#endif
++$(2)_DEPENDENCIES += automake autoconf libtool
+ 
+ else # ! AUTORECONF = YES
+ 
+ # default values are not evaluated yet, so don't rely on this defaulting to YES
+-ifneq ($$($(2)_LIBTOOL_PATCH),NO)
+-$(2)_POST_PATCH_HOOKS += LIBTOOL_PATCH_HOOK
+-endif
++#ifneq ($$($(2)_LIBTOOL_PATCH),NO)
++#$(2)_POST_PATCH_HOOKS += LIBTOOL_PATCH_HOOK
++#endif
+ 
+ endif
+ 
+diff -Naur buildroot-2017.05-rc2/package/pkg-cmake.mk buildroot-2017.05-rc2-patch/package/pkg-cmake.mk
+--- buildroot-2017.05-rc2/package/pkg-cmake.mk	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/package/pkg-cmake.mk	2017-05-28 07:53:29.486425397 +0200
+@@ -143,7 +143,7 @@
+ 
+ # Since some CMake modules (even upstream ones) use pgk_check_modules
+ # primitives to find {C,LD}FLAGS, add it to the dependency list.
+-$(2)_DEPENDENCIES += host-pkgconf
++$(2)_DEPENDENCIES += pkgconf
+ 
+ $(2)_DEPENDENCIES += $(BR2_CMAKE_HOST_DEPENDENCY)
+ 
+@@ -240,14 +240,14 @@
+ $(HOST_DIR)/usr/share/buildroot/toolchainfile.cmake:
+ 	@mkdir -p $(@D)
+ 	sed \
+-		-e 's#@@STAGING_SUBDIR@@#$(call qstrip,$(STAGING_SUBDIR))#' \
++		-e 's#@@STAGING_SUBDIR@@##' \
+ 		-e 's#@@TARGET_CFLAGS@@#$(call qstrip,$(TARGET_CFLAGS))#' \
+ 		-e 's#@@TARGET_CXXFLAGS@@#$(call qstrip,$(TARGET_CXXFLAGS))#' \
+ 		-e 's#@@TARGET_FCFLAGS@@#$(call qstrip,$(TARGET_FCFLAGS))#' \
+ 		-e 's#@@TARGET_LDFLAGS@@#$(call qstrip,$(TARGET_LDFLAGS))#' \
+-		-e 's#@@TARGET_CC@@#$(subst $(HOST_DIR)/,,$(call qstrip,$(TARGET_CC)))#' \
+-		-e 's#@@TARGET_CXX@@#$(subst $(HOST_DIR)/,,$(call qstrip,$(TARGET_CXX)))#' \
+-		-e 's#@@TARGET_FC@@#$(subst $(HOST_DIR)/,,$(call qstrip,$(TARGET_FC)))#' \
++		-e 's#@@TARGET_CC@@#$(shell echo $(TARGET_CC) | sed 's%^/%%')#' \
++		-e 's#@@TARGET_CXX@@#$(shell echo $(TARGET_CXX) | sed 's%^/%%')#' \
++		-e 's#@@TARGET_FC@@#$(shell echo $(TARGET_FC) | sed 's%^/%%')#' \
+ 		-e 's#@@CMAKE_SYSTEM_PROCESSOR@@#$(call qstrip,$(CMAKE_SYSTEM_PROCESSOR))#' \
+ 		-e 's#@@TOOLCHAIN_HAS_FORTRAN@@#$(if $(BR2_TOOLCHAIN_HAS_FORTRAN),1,0)#' \
+ 		-e 's#@@CMAKE_BUILD_TYPE@@#$(if $(BR2_ENABLE_DEBUG),Debug,Release)#' \
+diff -Naur buildroot-2017.05-rc2/package/pkg-generic.mk buildroot-2017.05-rc2-patch/package/pkg-generic.mk
+--- buildroot-2017.05-rc2/package/pkg-generic.mk	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/package/pkg-generic.mk	2017-09-12 05:27:33.271806373 +0200
+@@ -55,6 +55,20 @@
+ endef
+ GLOBAL_INSTRUMENTATION_HOOKS += step_time
+ 
++define step_initsys
++	printf \
++	$(if $(BR2_INIT_BUSYBOX), \
++	    busybox) \
++	$(if $(BR2_INIT_SYSV), \
++	    sysv) \
++	$(if $(BR2_INIT_SYSTEMD), \
++	    systemd) \
++	$(if $(BR2_INIT_NONE), \
++	    none) \
++		>"$(BUILD_DIR)/build-sysinit.log"
++endef
++GLOBAL_INSTRUMENTATION_HOOKS += step_initsys
++
+ # Hooks to collect statistics about installed files
+ 
+ # This hook will be called before the target installation of a
+@@ -62,7 +76,7 @@
+ # files currently installed in the target. Note that the MD5 is also
+ # stored, in order to identify if the files are overwritten.
+ define step_pkg_size_start
+-	(cd $(TARGET_DIR) ; find . -type f -print0 | xargs -0 md5sum) | sort > \
++	(cd $(TARGET_DIR) ; find . -type f) | sort > \
+ 		$($(PKG)_DIR)/.br_filelist_before
+ endef
+ 
+@@ -72,10 +86,10 @@
+ # a diff with the .br_filelist_before to compute the list of files
+ # installed by this package.
+ define step_pkg_size_end
+-	(cd $(TARGET_DIR); find . -type f -print0 | xargs -0 md5sum) | sort > \
++	(cd $(TARGET_DIR); find . -type f) | sort > \
+ 		$($(PKG)_DIR)/.br_filelist_after
+ 	comm -13 $($(PKG)_DIR)/.br_filelist_before $($(PKG)_DIR)/.br_filelist_after | \
+-		while read hash file ; do \
++		while read file ; do \
+ 			echo "$(1),$${file}" >> $(BUILD_DIR)/packages-file-list.txt ; \
+ 		done
+ endef
+@@ -96,15 +110,7 @@
+ 			-a $(BR2_READELF_ARCH_NAME))
+ endef
+ 
+-GLOBAL_INSTRUMENTATION_HOOKS += check_bin_arch
+-
+-# This hook checks that host packages that need libraries that we build
+-# have a proper DT_RPATH or DT_RUNPATH tag
+-define check_host_rpath
+-	$(if $(filter install-host,$(2)),\
+-		$(if $(filter end,$(1)),support/scripts/check-host-rpath $(3) $(HOST_DIR)))
+-endef
+-GLOBAL_INSTRUMENTATION_HOOKS += check_host_rpath
++#GLOBAL_INSTRUMENTATION_HOOKS += check_bin_arch
+ 
+ define step_check_build_dir_one
+ 	if [ -d $(2) ]; then \
+@@ -308,15 +289,22 @@
+ 	@$(call step_start,install-target)
+ 	@$(call MESSAGE,"Installing to target")
+ 	$(foreach hook,$($(PKG)_PRE_INSTALL_TARGET_HOOKS),$(call $(hook))$(sep))
++	$(if $($(PKG)_USERS),$(call PRINTF,$($(PKG)_USERS)) > _scripts/$($(PKG)_NAME).users)
++	$(Q)echo -n > _scripts/$($(PKG)_NAME).deps
++	$(foreach e,$($(PKG)_DEPENDENCIES), \
++		$(Q)support/scripts/echodep \
++			$($(PKG)_NAME) $(e)$(sep))
++	$(Q)support/scripts/echorev $($(PKG)_NAME)
+ 	+$($(PKG)_INSTALL_TARGET_CMDS)
+ 	$(if $(BR2_INIT_SYSTEMD),\
+ 		$($(PKG)_INSTALL_INIT_SYSTEMD))
+ 	$(if $(BR2_INIT_SYSV)$(BR2_INIT_BUSYBOX),\
+ 		$($(PKG)_INSTALL_INIT_SYSV))
+-	$(foreach hook,$($(PKG)_POST_INSTALL_TARGET_HOOKS),$(call $(hook))$(sep))
+-	$(Q)if test -n "$($(PKG)_CONFIG_SCRIPTS)" ; then \
+-		$(RM) -f $(addprefix $(TARGET_DIR)/usr/bin/,$($(PKG)_CONFIG_SCRIPTS)) ; \
+-	fi
++#	$(foreach hook,$($(PKG)_POST_INSTALL_TARGET_HOOKS),$(call $(hook))$(sep))
++	$(Q)echo NAME=$($(PKG)_NAME) > $(BUILD_DIR)/.package_source
++	$(Q)echo VERSION=$($(PKG)_VERSION) >> $(BUILD_DIR)/.package_source
++	$(Q)echo SOURCE_DIR=$(@D) >> $(BUILD_DIR)/.package_source
++	$(Q)support/scripts/procpkg $(BUILD_DIR)/.package_source
+ 	@$(call step_end,install-target)
+ 	$(Q)touch $@
+ 
+diff -Naur buildroot-2017.05-rc2/package/pkg-python.mk buildroot-2017.05-rc2-patch/package/pkg-python.mk
+--- buildroot-2017.05-rc2/package/pkg-python.mk	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/package/pkg-python.mk	2017-05-30 01:09:21.123321776 +0200
+@@ -163,15 +163,15 @@
+ #   - otherwise, we depend on the one requested by *_NEEDS_HOST_PYTHON.
+ #
+ ifeq ($(4),target)
+-$(2)_DEPENDENCIES += $$(if $$(BR2_PACKAGE_PYTHON3),host-python3 python3,host-python python)
++$(2)_DEPENDENCIES += $$(if $$(BR2_PACKAGE_PYTHON3),python3,python)
+ else
+ ifeq ($$($(2)_NEEDS_HOST_PYTHON),)
+-$(2)_DEPENDENCIES += $$(if $$(BR2_PACKAGE_PYTHON3),host-python3,host-python)
++$(2)_DEPENDENCIES += $$(if $$(BR2_PACKAGE_PYTHON3),python3,python)
+ else
+ ifeq ($$($(2)_NEEDS_HOST_PYTHON),python2)
+-$(2)_DEPENDENCIES += host-python
++$(2)_DEPENDENCIES += python
+ else ifeq ($$($(2)_NEEDS_HOST_PYTHON),python3)
+-$(2)_DEPENDENCIES += host-python3
++$(2)_DEPENDENCIES += python3
+ else
+ $$(error Incorrect value '$$($(2)_NEEDS_HOST_PYTHON)' for $(2)_NEEDS_HOST_PYTHON)
+ endif
+@@ -185,7 +185,7 @@
+ # depend on itself!).
+ ifeq ($$($(2)_SETUP_TYPE),setuptools)
+ ifneq ($(2),HOST_PYTHON_SETUPTOOLS)
+-$(2)_DEPENDENCIES += host-python-setuptools
++$(2)_DEPENDENCIES += python-setuptools
+ endif
+ endif
+ 
+diff -Naur buildroot-2017.05-rc2/support/misc/toolchainfile.cmake.in buildroot-2017.05-rc2-patch/support/misc/toolchainfile.cmake.in
+--- buildroot-2017.05-rc2/support/misc/toolchainfile.cmake.in	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/support/misc/toolchainfile.cmake.in	2017-05-26 19:14:10.855804863 +0200
+@@ -49,8 +49,8 @@
+ set(CMAKE_INSTALL_SO_NO_EXE 0)
+ 
+ set(CMAKE_PROGRAM_PATH "${RELOCATED_HOST_DIR}/usr/bin")
+-set(CMAKE_SYSROOT "${RELOCATED_HOST_DIR}/@@STAGING_SUBDIR@@")
+-set(CMAKE_FIND_ROOT_PATH "${RELOCATED_HOST_DIR}/@@STAGING_SUBDIR@@")
++set(CMAKE_SYSROOT "${RELOCATED_HOST_DIR}@@STAGING_SUBDIR@@")
++set(CMAKE_FIND_ROOT_PATH "${RELOCATED_HOST_DIR}@@STAGING_SUBDIR@@")
+ set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+ set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+ set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+diff -Naur buildroot-2017.05-rc2/support/scripts/echodep buildroot-2017.05-rc2-patch/support/scripts/echodep
+--- buildroot-2017.05-rc2/support/scripts/echodep	1970-01-01 01:00:00.000000000 +0100
++++ buildroot-2017.05-rc2-patch/support/scripts/echodep	2017-06-05 18:10:56.283335424 +0200
+@@ -0,0 +1,46 @@
++#!/bin/bash
++
++set -e
++
++main() {
++    local pkgname="${1}"
++    local pkgdep="${2}"
++    [ ! -d _scripts ] && mkdir _scripts
++    case "${pkgdep}" in
++	busybox|skeleton|toolchain)
++	;;
++	host-automake|host-autoconf|host-libtool|host-tzdata)
++	;;
++	automake|autoconf|libtool)
++	;;
++	udev)
++	    echo "eudev" >> _scripts/"${pkgname}.deps"
++	;;
++	jpeg)
++	    echo "jpeg-turbo" >> _scripts/"${pkgname}.deps"
++	;;
++	python)
++	    case "${pkgname}" in
++		libxml2|libxslt)
++		;;
++		*)
++		    echo "${pkgdep}" >> _scripts/"${pkgname}.deps"
++		;;
++	    esac
++	;;
++	python-setuptools)
++	    case "${pkgname}" in
++		python-setuptools)
++		;;
++		*)
++		    echo "${pkgdep}" >> _scripts/"${pkgname}.deps"
++		;;
++	    esac
++	;;
++	*)
++	    echo "${pkgdep}" >> _scripts/"${pkgname}.deps"
++	;;
++    esac
++}
++
++main "${@}"
+diff -Naur buildroot-2017.05-rc2/support/scripts/echorev buildroot-2017.05-rc2-patch/support/scripts/echorev
+--- buildroot-2017.05-rc2/support/scripts/echorev	1970-01-01 01:00:00.000000000 +0100
++++ buildroot-2017.05-rc2-patch/support/scripts/echorev	2017-06-03 08:58:58.043249237 +0200
+@@ -0,0 +1,16 @@
++#!/bin/bash
++
++set -e
++
++main() {
++    local pkgname="${1}"
++    [ ! -d _scripts ] && mkdir _scripts
++    if [ -e _scripts/"${pkgname}.rev" ]; then
++	REV=`cat _scripts/"${pkgname}.rev"`
++	echo "$(expr $REV + 1)" > _scripts/"${pkgname}.rev"
++    else
++	echo 1 > _scripts/"${pkgname}.rev"
++    fi
++}
++
++main "${@}"
+diff -Naur buildroot-2017.05-rc2/support/scripts/mkusers buildroot-2017.05-rc2-patch/support/scripts/mkusers
+--- buildroot-2017.05-rc2/support/scripts/mkusers	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/support/scripts/mkusers	2017-05-26 12:11:07.835914254 +0200
+@@ -31,13 +31,13 @@
+ USERS_TABLE="${1}"
+ TARGET_DIR="${2}"
+ shift 2
+-PASSWD="${TARGET_DIR}/etc/passwd"
+-SHADOW="${TARGET_DIR}/etc/shadow"
+-GROUP="${TARGET_DIR}/etc/group"
++PASSWD="${USRGRPDIR}/tmp_passwd"
++SHADOW="${USRGRPDIR}/tmp_shadow"
++GROUP="${USRGRPDIR}/tmp_group"
+ # /etc/gshadow is not part of the standard skeleton, so not everybody
+ # will have it, but some may have it, and its content must be in sync
+ # with /etc/group, so any use of gshadow must be conditional.
+-GSHADOW="${TARGET_DIR}/etc/gshadow"
++GSHADOW="${USRGRPDIR}/tmp_gshadow"
+ 
+ # We can't simply source ${BR2_CONFIG} as it may contains constructs
+ # such as:
+diff -Naur buildroot-2017.05-rc2/support/scripts/procpkg buildroot-2017.05-rc2-patch/support/scripts/procpkg
+--- buildroot-2017.05-rc2/support/scripts/procpkg	1970-01-01 01:00:00.000000000 +0100
++++ buildroot-2017.05-rc2-patch/support/scripts/procpkg	2017-06-19 05:32:45.763966828 +0200
+@@ -0,0 +1,16 @@
++#!/bin/bash
++
++set -e
++
++main() {
++    local pkginfo="${1}"
++    source ${pkginfo}
++    [ ! -d _scripts ] && mkdir _scripts
++    case "${NAME}" in
++	perl)
++	    echo ${VERSION} > _scripts/perl.ver
++	;;
++    esac
++}
++
++main "${@}"
+diff -Naur buildroot-2017.05-rc2/toolchain/toolchain-wrapper.c buildroot-2017.05-rc2-patch/toolchain/toolchain-wrapper.c
+--- buildroot-2017.05-rc2/toolchain/toolchain-wrapper.c	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/toolchain/toolchain-wrapper.c	2017-05-26 01:57:30.789712055 +0200
+@@ -27,7 +27,7 @@
+ static char ccache_path[PATH_MAX];
+ #endif
+ static char path[PATH_MAX];
+-static char sysroot[PATH_MAX];
++//static char sysroot[PATH_MAX];
+ 
+ /**
+  * GCC errors out with certain combinations of arguments (examples are
+@@ -47,7 +47,7 @@
+ 	ccache_path,
+ #endif
+ 	path,
+-	"--sysroot", sysroot,
++/*	"--sysroot", sysroot,*/
+ #ifdef BR_ABI
+ 	"-mabi=" BR_ABI,
+ #endif
+@@ -221,12 +221,6 @@
+ 		return 3;
+ 	}
+ #endif
+-	ret = snprintf(sysroot, sizeof(sysroot), "%s/" BR_SYSROOT, absbasedir);
+-	if (ret >= sizeof(sysroot)) {
+-		perror(__FILE__ ": overflow");
+-		return 3;
+-	}
+-
+ 	cur = args = malloc(sizeof(predef_args) +
+ 			    (sizeof(char *) * (argc + EXCLUSIVE_ARGS)));
+ 	if (args == NULL) {

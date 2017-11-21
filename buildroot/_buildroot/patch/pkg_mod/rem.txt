@@ -1,0 +1,3 @@
+#initscripts
+avahi
+rpi-userland

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+main() {
+    local pkginfo="${1}"
+    source ${pkginfo}
+    [ ! -d _scripts ] && mkdir _scripts
+    case "${NAME}" in
+	perl)
+	    echo ${VERSION} > _scripts/perl.ver
+	;;
+    esac
+}
+
+main "${@}"

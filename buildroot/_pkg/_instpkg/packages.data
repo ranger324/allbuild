@@ -1,0 +1,556 @@
+apps development apr-util 1.5.1-1 790528 Apache Portable Runtime Utility Library
+apps development bdwgc 0.103-1 1265664 a garbage collector for C and C++
+apps development bin86 0.16.17-1 172032 this is a simple assember and linker for 8086 - 80386 machine code
+apps development check 0.10.0-1 864256 check is a unit testing framework for C. It features a simple interface for defining unit tests, putting little in the way of the developer
+apps development cmake 3.4.3-1 29483008 cmake - cross-platform Makefile generator
+apps development cppunit 1.12.1-1 1290240 CppUnit is the C++ port of the famous JUnit framework for unit testing
+apps development fpc 3.0.0-1 122908672 Free Pascal Compiler
+apps development fpc-src 3.0.0-1 281239552 Free Pascal Compiler Sources
+apps development FreeBASIC 1.05.0-1 34902016 FreeBASIC Compiler
+apps development gdb 7.11-1 8679424 The GNU debugger
+apps development ghostscript 9.18-1 66170880 ghostscript is actually two programs: a language interpreter, and a graphics library
+apps development llvm 3.8.0-1 198504448 Low Level Virtual Machine (LLVM)
+apps development mercurial 3.7.1-1 14368768 fast scalable distributed SCM (revision control, version control) system
+apps development nasm 2.12.01-1 1622016 NASM, the Netwide Assembler
+apps development ninja 1.6.0-1 208896 Ninja is a small build system with a focus on speed
+apps development re2c 0.16-1 368640 re2c is a tool for generating C-based recognizers from regular expressions
+apps development ruby 2.0.0.648-1 94109696 ruby is the interpreted scripting language for quick and easy object-oriented programming
+apps development yasm 1.3.0-1 3485696 yasm - The Yasm Modular Assembler
+apps docutils docbook-dsssl 1.79-1 2605056 these are DSSSL stylesheets for the DocBook DTD
+apps docutils docbook-utils 0.6.14-1 401408 shell scripts to manage DocBook documents
+apps docutils docbook-xsl 1.75.2-1 14544896 DocBook XSL V1.75.2
+apps docutils enscript 1.6.6-1 2248704 Enscript converts ASCII files to PostScript and stores generated output to a file or sends it directly to the printer
+apps docutils itstool 2.0.2-1 147456 itstool - convert between XML and PO using ITS
+apps docutils openjade 1.3.2-1 3100672 this package contains - a DSSSL processor called OpenJade
+apps docutils OpenSP 1.5.2-1 4071424 this package contains an SGML parser called OpenSP
+apps docutils paps 0.6.8-1 81920 paps is a a program that renders UTF8 files in PostScript through pango
+apps docutils sgml-common 0.6.3-1 372736 sgml-common package gathers very basic stuff necessary to work with SGML and XML
+apps docutils sgml-dtd-3.1 1-1 356352 DocBook V3.1
+apps docutils sgml-dtd-4.2 1-1 397312 DocBook V4.2
+apps docutils sgml-dtd-4.3 1-1 417792 DocBook V4.3
+apps docutils sgml-dtd-4.4 1-1 417792 DocBook V4.4
+apps docutils sgml-dtd-4.5 1-1 434176 DocBook V4.5
+apps docutils xml-dtd-4.1.2 1-1 483328 DocBook XML V4.1.2
+apps docutils xml-dtd-4.2 1-1 491520 DocBook XML V4.2
+apps docutils xml-dtd-4.3 1-1 520192 DocBook XML V4.3
+apps docutils xml-dtd-4.4 1-1 565248 DocBook XML V4.4
+apps docutils xml-dtd-4.5 1-1 573440 DocBook XML V4.5
+apps docutils xml-dtd-5.0 1-1 2707456 DocBook XML V5.0
+apps editors joe 3.7-1 1478656 JOE is the professional freeware ASCII text screen editor for UNIX
+apps mediatools fluidsynth 1.1.5-1 32497664 FluidSynth is a software real-time synthesizer based on the Soundfont 2 specifications
+apps mediatools mpg123 1.23.3-1 868352 mpg123 - MPEG 1.0/2.0/2.5 audio player
+apps network lftp 4.6.5-1 3325952 lftp is CLI file transfer program. It supports FTP, HTTP, FISH and SFTP protocols, has lots of features including mirror
+apps network ncftp 3.2.5-1 1224704 NcFTP is a free set of programs that use the File Transfer Protocol
+apps network rsync 3.1.2-1 544768 rsync is a fast and extraordinarily versatile file copying tool for both remote and local files
+apps utilities cdparanoia-III 10.2-1 360448 this CDDA reader distribution ('cdparanoia') reads audio from the CDROM directly as data, with no analog step between, and writes the data to a file or pipe as .wav, .aifc or as raw 16 bit linear PCM
+apps utilities cdrkit 1.1.11-1 2736128 cdrkit allows you to create CD's on a CD-Recorder
+apps utilities cdrtools 3.00-1 5259264 cdrecord allows you to create CD's on a CD-Recorder
+apps utilities p7zip 9.20.1-1 1191936 ncdu (NCurses Disk Usage) is a curses-based version of the well-known 'du', and provides a fast way to see what directories are using your disk space
+apps utilities unrar 4.0.7-1 212992 portable UnRAR version
+apps utilities unzip 6.0-1 512000 Info-ZIP group's portable UnZip zipfile-extraction program
+apps utilities upx 3.08-1 1527808 The Ultimate Packer for eXecutables
+apps utilities wcalc 2.5-1 294912 natural language calculator - which successfully interpret any valid mathematical expression
+apps utilities zip 3.0-1 593920 zip 3.0 is a compression and file packaging utility
+base core acl 2.2.52-1 626688 access control list package
+base core acpid 2.0.23-1 225280 daemon for Advanced Configuration and Power Interface
+base core alsa-lib 1.1.0-1 4009984 ALSA library installation
+base core alsa-utils 1.1.0-1 2203648 Advanced Linux Sound Architecture - Utilities
+base core attr 2.4.47-1 393216 extended attributes are name:value pairs associated permanently with files and directories, similar to the environment strings associated with a process
+base core bash 4.3.42-1 6897664 GNU Project's Bourne Again SHell
+base core bc 1.06-1 184320 bc is an arbitrary precision numeric processing language
+base core busybox-utils 1.16.2-3 479232 several busybox utilities
+base core bzip2 1.0.6-1 286720 program and library for lossless, block-sorting data compression
+base core ca-certificate 0.151028-1 2564096 ca-certificate
+base core coreutils 8.25-1 14729216 these are the GNU core utilities. This package is the union of the GNU fileutils, sh-utils, and textutils packages
+base core cpio 2.12-1 1105920 GNU cpio, a program to manage archives of files
+base core cpupower 3.2.0-1 290816 cpupower - Shows and sets processor power related values
+base core cryptsetup 1.7.0-1 1175552 cryptsetup - setup cryptographic volumes for dm-crypt (including LUKS extension)
+base core dbus 1.10.4-1 1650688 D-Bus is a simple system for interprocess communication and coordination
+base core dbus-glib 0.104-1 1167360 D-BUS is a simple IPC library based on messages
+base core dhcpcd 6.9.4-1 417792 dhcpcd - DHCP client daemon
+base core dialog 1.2.150920-1 1224704 text based dialogbox creator
+base core e2fsprogs 1.42.13-1 4259840 the EXT2FS library is designed to allow user-level programs to manipulate an ext2 filesystem
+base core ed 1.9-1 102400 GNU ed is an 8-bit clean, more or less POSIX-compliant implementation of the standard Unix line editor
+base core ethtool 4.2-1 290816 ethtool - Display or change ethernet card settings
+base core eventlog 0.2.12-1 81920 the EventLog library aims to be a replacement of the simple syslog() API provided on UNIX systems
+base core expat 2.1.0-1 495616 this is Expat, a C library for parsing XML, written by James Clark
+base core fbset 2.1-1 106496 fbset - show and modify frame buffer device settings
+base core fbv 1.0.0.2-1 61440 fbv (FrameBuffer Viewer) is a simple program to view pictures on a linux framebuffer device
+base core fbvd 1.0.0.2-1 69632 fbv (FrameBuffer Viewer) is a simple program to view pictures on a linux framebuffer device
+base core fcron 3.0.6-1 1204224 fcron - daemon to execute scheduled tasks
+base core file 5.20-1 3166208 file type identification utility
+base core findutils 4.6.0-1 2260992 this package contains the GNU find, xargs, and locate programs
+base core fuse 2.9.4-1 757760 FUSE (Filesystem in Userspace) is a simple interface for userspace programs to export a virtual filesystem to the Linux kernel
+base core gawk 4.1.1-1 2498560 pattern scanning and processing language
+base core gdbm 1.11-1 651264 GNU dbm is a set of database routines that use extendible hashing and works similar to the standard UNIX dbm routines
+base core gettext 0.19.7-1 19062784 gettext provides tools and library functions to internationalize programs
+base core glib 2.46.2-1 41832448 this is GLib version 2.46. GLib is the low-level core library that forms the basis for projects such as GTK+ and GNOME
+base core glibc 2.23-1 150712320 GNU C Libraries and utilities
+base core gmp 6.1.0-1 1982464 GNU MP is a library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating point numbers
+base core gpm 1.20.7-1 438272 the gpm (general purpose mouse) daemon tries to be a useful mouse server for applications running on the Linux console
+base core gptfdisk 1.0.1-1 679936 GPT fdisk (aka gdisk and sgdisk) and FixParts
+base core grep 2.24-1 1294336 grep, egrep, fgrep - print lines matching a pattern
+base core groff 1.22.3-1 20230144 groff is the GNU document formatting system
+base core grub 2.0-1 21975040 this is GRUB 2, the second version of the GRand Unified Bootloader
+base core gtkmm 2.24.4-1 63508480 this is gtkmm, a C++ API for GTK+
+base core gtkmm3 3.18.0-1 167899136 this is gtkmm, a C++ API for GTK+
+base core gzip 1.6-1 249856 gzip (GNU zip) is a compression utility designed to be a replacement for 'compress'
+base core hdparm 9.45-1 151552 hdparm - get/set SATA/IDE device parameters
+base core iana-etc 2.30-1 806912 the iana-etc package installs services(5) and protocols(5) using data from the Internet Assigned Numbers Authority <http://www.iana.org/>
+base core inetutils 1.9.2-1 901120 this is a distribution of common networking utilities and servers
+base core iproute2 4.3.0-1 2093056 release of the Linux traffic control engine
+base core iptables 1.6.0-1 1400832 iptables is used to set up, maintain, and inspect the tables of IPv4/IPv6 packet filter rules in the Linux kernel
+base core iw 4.3-1 180224 iw - show / manipulate wireless devices and their configuration
+base core jfsutils 1.1.15-1 1105920 IBM's Journaled File System (JFS) for Linux
+base core kbd 1.15.5-1 5947392 this package contains keytable files and keyboard utilities
+base core kmod 22-1 372736 kmod - Linux kernel module handling
+base core laptop-mode-tools 1.68.1-1 606208 Laptop Mode Tools
+base core less 481-1 237568 paginator program similar to 'more' or 'pg'
+base core libarchive2 2.8.5-1 299008 a library for reading and writing streaming archives
+base core libarchive 3.1.2-1 3178496 a library for reading and writing streaming archives
+base core libatasmart 0.19-1 204800 LIBATASMART ATA S.M.A.R.T. Reading and Parsing Library
+base core libcap 2.24-1 28672 this is a library for getting and setting POSIX.1e (formerly POSIX 6) draft 15 capabilities
+base core libfetch 2.33-1 188416 libfetch is a high-level library for retrieving and uploading files using Uniform Resource Locators (URLs)
+base core libffi 3.2.1-1 163840 the libffi library provides a portable, high level programming interface to various calling conventions
+base core libgcrypt 1.6.4-1 905216 libgcrypt is a general purpose crypto library based on the code used in GnuPG
+base core libgpg-error 1.20-1 880640 this is a library that defines common error values for all GnuPG components
+base core libidn 1.32-1 1265664 libidn is a package for internationalized string handling based on the Stringprep, Punycode, IDNA and TLD specifications
+base core libnih 1.0.3-1 864256 libnih is a light-weight 'standard library' of C functions to ease the development of other libraries and applications
+base core libnl 3.2.25-1 2551808 convenience library for netlink sockets
+base core libnscd 2.0.2-1 49152 this library provides an easy interface for normal programs to communicate with the nscd daemon from the GNU C Library
+base core libpipeline 1.4.1-1 212992 libpipeline is a C library for setting up and running pipelines of processes, without needing to involve shell command-line parsing which is often error-prone and insecure
+base core libtirpc 1.0.1-1 831488 TI-RPC is an enhanced version of TS-RPC that requires the UNIX System V Transport Layer Interface (TLI) or an equivalent X/Open Transport Interface (XTI)
+base core libunistring 0.9.6-1 4382720 this library provides functions for manipulating Unicode strings and for manipulating C strings according to the Unicode standard
+base core libusb 1.0.20-1 331776 libusb is a library for USB device access from Linux userspace
+base core libusb-compat 0.1.5-1 90112 libusb is a library for USB device access from Linux userspace
+base core libx86 1.1-1 352256 a hardware-independent library for executing real-mode x86 code
+base core Linux-PAM 1.2.1-1 2908160 pluggable authentication modules library
+base core logrotate 3.7.9-1 102400 logrotate - rotates, compresses, and mails system logs
+base core LVM2 2.02.139-1 4145152 this package contains the LVM2 and device-mapper tools and libraries
+base core man-db 2.7.1-1 2015232 man formats and displays the on-line manual pages
+base core man-pages 4.04-1 10371072 this package contains Linux man pages for sections 2, 3, 4, 5, and 7
+base core mc 4.8.15-1 7618560 Midnight Commander - an NC like file manager
+base core mdadm 3.3.2-1 1064960 mdadm - manage MD devices
+base core mdev 1.16.2-8 61440 mdev - mini udev for busybox
+base core mingetty 1.08-1 40960 mingetty - minimal getty for consoles
+base core mpc 1.0.3-1 348160 mpc is a complex floating-point library with exact rounding
+base core mpfr 3.1.4-1 1478656 MPFR is a portable library written in C for arbitrary precision arithmetic on floating-point numbers
+base core nano 2.4.3-1 2342912 an enhanced clone of the Pico text editor
+base core ncurses 6.0-1 9846784 the ncurses libraries implement the curses API
+base core net-tools 1.60.160112-1 544768 this package includes the important tools for controlling the network subsystem of the Linux kernel
+base core ntfs-3g 2015.3.14-1 2252800 the NTFS-3G driver is an open source, freely available read/write NTFS driver for Linux, FreeBSD, Mac OS X, NetBSD, OpenSolaris, QNX and Haiku
+base core openrc 0.10.5-1 987136 stops and starts services for the specified runlevel
+base core openssl 1.0.2.7-1 11984896 the OpenSSL Project is a collaborative effort to develop a robust, commercial-grade, fully featured, and Open Source toolkit implementing the Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) protocols as well as a full-strength general purpose cryptography library
+base core os-prober 1.39-1 225280 this is a small package that may be depended on by any bootloader installer package to detect other filesystems with operating systems on them
+base core pacman 3.5.4-3 2920448 package manager utility
+base core parted 3.2-1 3108864 GNU Parted is a program for manipulating partition tables
+base core pciutils 3.4.1-2 1544192 utility for displaying information about PCI devices
+base core pcmciautils 018-1 102400 Linux Kernel 2.6 PCMCIA
+base core pcre 8.38-1 2928640 perl-compatible regular expression library
+base core popt 1.16-1 581632 this is the popt(3) command line option parsing library
+base core procps 3.3.11-1 1355776 process management utilities
+base core psmisc 22.18-1 712704 process management utilities
+base core pwdutils 3.2.19-1 1667072 this is a collection of utilities to manage the passwd information stored in local files, NIS, NIS+ or LDAP and can replace the shadow suite complete
+base core read-edid 2.0.0-1 53248 this package will try to read the monitor details directly from the monitor
+base core readline 6.3-1 1183744 the Readline library provides a set of functions for use by applications that allow users to edit command lines as they are typed in
+base core reiserfsprogs 3.6.23-1 1028096 reiserfs is a file system based on balanced tree algorithms, which is described at www.namesys.com
+base core sed 4.1.5-2 663552 GNU stream editor package
+base core slang 2.2.4-1 4272128 slang is an interpreted language that was designed from the start to be easily embedded into a program to provide it with a powerful extension language
+base core sqlite 3.10.2-1 3018752 SQLite: An Embeddable SQL Database Engine
+base core sudo 1.8.3.0.2-1 1970176 sudo is a program designed to allow a sysadmin to give limited root privileges to users and log root activity
+base core sysfsutils 2.1.0-1 225280 Sysfs Utilities Package - Includes Libsysfs(v. 2.1.0)
+base core syslog-ng 3.0.10-1 372736 syslog-ng reads and logs messages to the system console, log files, other machines and/or users as specified by its configuration file
+base core tar 1.28-1 2818048 GNU 'tar' saves many files together into a single tape or disk archive, and can restore individual files from the archive
+base core tcp_wrappers 7.6-1 229376 TCP/IP daemon wrapper package
+base core texinfo 6.0-1 9392128 the GNU Project distributes most of its on-line manuals in the 'Info format', which you read using an 'Info reader'
+base core udev 3.1.5-1 7184384 linux userspace device management
+base core unionfs-fuse 1.0-1 131072 unionfs-fuse - A userspace unionfs implementation
+base core upstart 1.5-1 1110016 upstart is an event-based replacement for the /sbin/init daemon which handles starting of tasks and services during boot, stopping them during shutdown and supervising them while the system is running
+base core usbutils 008-1 978944 utility for displaying information about USB buses
+base core util-linux 2.27.1-1 13275136 util-linux is a random collection of Linux utilities
+base core v86d 0.1.10-1 122880 v86d -- A x86 Emulation Daemon
+base core vbetool 1.2.2-1 888832 vbetool - run real-mode video BIOS code to alter hardware state
+base core wget 1.17.1-1 2805760 GNU Wget is a free utility for non-interactive download of files from the Web
+base core which 2.20-1 57344 which takes one or more arguments. for each of its arguments it prints to stdout the full path of the executables
+base core wireless_tools 29-1 290816 this package contains the Wireless tools, used to manipulate the Wireless Extensions
+base core wpa_supplicant 2.5-1 1191936 wpa_supplicant and hostapd v2.5
+base core xfsprogs 4.3.0-1 4943872 program for creating, checking and repairing xfs filesystem
+base core xz 5.2.2-1 1273856 XZ Utils provide a general purporse data compression library and command line tools
+base core zlib 1.2.8-1 339968 data compression library
+base daemon apmd 3.2.2-1 86016 apmd - Advanced Power Management (APM) daemon
+base daemon avahi 0.6.31-1 2527232 avahi is a free, LGPL mDNS/DNS-SD implementation
+base daemon bind 9.10.3.3-1 52436992 BIND version 9 is a major rewrite of nearly all aspects of the underlying BIND architecture
+base daemon colord 1.2.12-1 4431872 colord is a system service that makes it easy to manage, install and generate color profiles to accurately color manage input and output devices
+base daemon cups 2.1.3-1 14667776 CUPS is a standards-based, open source printing system developed by Apple Inc. for Mac OS® X and other UNIX®-like operating systems
+base daemon dhcp 4.2.3-1 7118848 Internet Systems Consortium DHCP Distribution
+base daemon dnsmasq 2.63-1 315392 dnsmasq - A lightweight DHCP and caching DNS server
+base daemon git 2.7.0-1 21811200 GIT - the stupid content tracker
+base daemon hplip 3.16.3-1 22794240 HP Linux Imaging and Printing (HPLIP)
+base daemon ntp 4.2.8.0.6-1 4890624 this is Network Time Protocol Version 4 (NTP) distribution for Unix and Windows/NT systems
+base daemon openssh 5.9.0.1-1 2437120 OpenSSH SSH daemon
+base daemon portmap 6.0-1 90112 portmap - DARPA port to RPC program number mapper
+base daemon rpcbind 0.2.3-1 118784 universal addresses to RPC program number mapper
+base daemon samba 3.6.25-1 138059776 this is the release version of Samba, the free SMB and CIFS client and server for UNIX and other operating systems
+base daemon smartmontools 6.4-1 1560576 smartmontools - S.M.A.R.T. utility toolset for Darwin/Mac OSX, FreeBSD, Linux, NetBSD, OpenBSD, Solaris, and Windows
+base daemon subversion 1.7.10-1 9859072 subversion, a version control system
+base daemon vsftpd 3.0.3-1 225280 vsftpd is an FTP server, or daemon. The 'vs' stands for Very Secure
+base development autoconf 2.69-1 2342912 autoconf is a tool for producing shell scripts that automatically configure software source code packages to adapt to many kinds of Posix-like systems
+base development automake 1.15-1 1908736 this is Automake, a Makefile generator
+base development binutils 2.26-1 18104320 this package contains various GNU compilers, assemblers, linkers, debuggers, etc., plus their support routines, definitions, and documentation
+base development bison 3.0.4-1 2486272 bison is a general-purpose parser generator that converts an annotated context-free grammar into an LALR(1) or GLR parser for that grammar
+base development diffutils 3.3-1 425984 this directory contains the GNU diff, diff3, sdiff, and cmp utilities
+base development flex 2.6.0-1 1720320 this is flex, the fast lexical analyzer generator
+base development gcc 5.3.0-1 111218688 GNU C Compiler
+base development gperf 3.0.4-1 258048 this is GNU gperf - it is a program that generates perfect hash functions for sets of key words
+base development intltool 0.51.0-1 204800 extract translatable strings from various source files
+base development libtool 2.4.4-1 2482176 this is GNU Libtool, a generic library support script
+base development lua 5.3.2-1 1122304 lua is a powerful, light-weight programming language designed for extending applications
+base development m4 1.4.17-1 282624 m4 is a macro processor, in the sense that it copies its input to the output, expanding macros as it goes
+base development make 4.1-1 1515520 the 'make' utility automatically determines which pieces of a large program need to be recompiled, and issues commands to recompile them
+base development patch 2.7-1 188416 with patch utility you can apply a diff file to an original
+base development perl 5.22.1-1 42713088 perl is a general-purpose programming language originally developed for text manipulation and now used for a wide range of tasks including system administration, web development, network programming, GUI development, and more
+base development pkg-config 0.28-1 114688 pkg-config is a script to make putting together all the build flags when compiling/linking a lot easier
+base development Python 2.7.11-1 82968576 python is an interpreted, interactive, object-oriented programming language
+base development Python3 3.5.1-1 123789312 python is an interpreted, interactive, object-oriented programming language
+base development tcl 8.6.4-1 8871936 tcl provides a powerful platform for creating integration applications that tie together diverse applications, protocols, devices, and frameworks
+base filesystem btrfs-progs 4.5-1 4702208 Btrfs is a copy on write (COW) filesystem for Linux aimed at implementing advanced features while focusing on fault tolerance, repair and easy administration
+base filesystem cifs-utils 6.5-1 217088 this is the release version of cifs-utils, a package of utilities for doing and managing mounts of the Linux CIFS filesystem
+base filesystem dosfstools 3.0.28-1 315392 dosfsck - check and repair MS-DOS file systems; mkdosfs - create an MS-DOS file system under Linux
+base filesystem exfat-utils 1.2.3-1 212992 exfat-utils - exfat filesystem utilities
+base filesystem ext4fuse 0.1.3-1 36864 this is a read-only implementation of ext4 for FUSE
+base filesystem fatattr 1.0.1-1 36864 utilities to control attributes on a FAT filesystem
+base filesystem fatresize 1.0.2-1 28672 The FAT16/FAT32 non-destructive resizer
+base filesystem fuse-exfat 1.2.3-1 61440 mount.exfat-fuse - mount an exFAT file system
+base filesystem fuseiso 1.3-1 49152 mount ISO filesystem images as a non-root user
+base filesystem hfsplus 1.0.4-1 323584 this package is a set of tools that allow acces to HFS+ fomatted volumes
+base filesystem hfsprogs 332.25-1 270336 hfsprogs - hfs filesystem utilities
+base filesystem hfsutils 3.2.6-1 204800 hfsutils - tools for reading and writing Macintosh HFS volumes
+base filesystem makebootfat 1.4-1 86016 makebootfat is a command line tool part of the AdvanceCD project able to make bootable FAT filesystems
+base filesystem mtools 4.0.18-1 397312 mtools is a collection of utilities to access MS-DOS disks from GNU and Unix without mounting them
+base filesystem nilfs-utils 2.1.4-1 503808 NILFS - the new implementation of a log-structured file system
+base filesystem posixovl 1.1.100321-1 61440 posix overlay filesystem
+base filesystem squashfs 4.2-1 225280 SQUASHFS 4.0 - A squashed read-only filesystem for Linux
+base filesystem UDFclient 0.7.5-1 917504 UDFclient toolkit
+base fonts dejavu-fonts-ttf 2.33-2 9322496 the DejaVu fonts are a font family based on the Bitstream Vera Fonts (http://gnome.org/fonts/)
+base fonts freefont-ttf 120503-1 10850304 The GNU FreeFont project aims to provide a useful set of free scalable (i.e., OpenType) fonts covering as much as possible of the ISO 10646/Unicode UCS (Universal Character Set)
+base fonts liberation-fonts 2.00.1-1 4120576 the Liberation Fonts is font collection which aims to provide document layout compatibility as usage of Times New Roman, Arial, Courier New
+base fonts unifont 8.0.01-1 35667968 Unifont - A bitmapped font with full Unicode Plane 0 (BMP) coverage which is converted into a TrueType font
+base fonts urwfonts 8.71-1 9588736 collection of minimum popular high quality TrueType fonts
+base kernel kernel-tools 1.00-16 3072000 installkernel and initrd tools
+base kernel linux-bsrc-R4.4 4.4.7-1 84357120 stripped linux source
+base kernel linux-firmware 4.4.0-1 82665472 linux firmware
+base kernel linux-header 4.3.3-1 5828608 linux kernel header
+base kernel linux-R4.1 4.1.21-1 103399424 linux kernel
+base kernel linux-R4.4 4.4.8-1 136413184 linux kernel
+base kernel linux-R4.5 4.5.2-1 108994560 linux kernel
+base kernel linux-R4.6 4.6.0-1 83435520 linux kernel
+base libs apr 1.4.6-1 1372160 Apache Portable Runtime library
+base libs atk 2.18.0-1 3645440 Accessibility Toolkit
+base libs atkmm 2.24.2-1 5853184 atkmm is the C++ binding for the ATK library
+base libs at-spi2-atk 2.18.1-1 278528 ATK/D-Bus Bridge
+base libs at-spi2-core 2.18.3-1 2510848 Accessibility Technology software library
+base libs cairo 1.14.6-1 5939200 cairo is a 2D graphics library with support for multiple output devices
+base libs cairomm 1.12.0-1 4603904 this library provides a C++ interface to cairo
+base libs cups-filters 1.8.3-1 2748416 Library for reading and writing cups filters
+base libs curl 7.47.1-1 3084288 curl is a command line tool for transferring data specified with URL syntax
+base libs cyrus-sasl 2.1.26-1 843776 this is the Cyrus SASL API implentation. It can be used on the client or server side to provide authentication and authorization services
+base libs db 4.8.30-1 12165120 this is version 4.8.30 of Berkeley DB from Oracle
+base libs elfutils 0.165-1 3747840 a collection of utilities and DSOs to handle compiled objects
+base libs ffcall 1.10-1 307200 ffcall - foreign function call libraries
+base libs fftw 3.3.4-1 3026944 FFTW is a free collection of fast C routines for computing the Discrete Fourier Transform in one or more dimensions
+base libs flac 1.2.1-1 7245824 FLAC - Free Lossless Audio Codec
+base libs flashplayer 11.2.202.616-1 17522688 Adobe Flashplayer
+base libs fltk 1.3.3-1 6598656 Fast Light Tool Kit (FLTK) Version 1.3.3
+base libs foomatic-db 4.0.160309-1 77316096 the collected knowledge about printers, drivers, and driver options in XML files, used by foomatic-db-engine to generate PPD files
+base libs foomatic-db-engine 4.0.12.160309-1 798720 Foomatic's database engine generates PPD files from the data in Foomatic's XML database. It also contains scripts to directly generate print queues and handle jobs
+base libs foomatic-db-nonfree 4.0.160309-1 2084864 the collected knowledge about printers, drivers, and driver options in XML files, used by foomatic-db-engine to generate PPD files
+base libs freeglut 3.0.0-1 798720 freeglut, the Free openGL Utility Toolkit, is meant to be a free alternative to Mark Kilgard's GLUT library
+base libs freetype 2.6.3-1 2740224 FreeType is a freely available software library to render fonts
+base libs gamin 0.1.10-2 294912 gamin is a file and directory monitoring system defined to be a subset of the FAM (File Alteration Monitor) system
+base libs gdk-pixbuf 2.32.3-1 5521408 image loading and scaling
+base libs giflib 5.1.3-1 270336 GIFLIB is a package of portable tools and library routines for working with GIF images
+base libs glew 1.13.0-1 2265088 The OpenGL Extension Wrangler library
+base libs glibmm 2.46.3-1 48443392 this is glibmm, a C++ API for parts of glib that are useful for C++
+base libs glu 9.0.0-1 602112 Mesa OpenGL Utility library
+base libs gnutls 3.4.8-1 8499200 this is the GNUTLS library.  GNUTLS implements the TLS/SSL (Transport Layer Security aka Secure Sockets Layer) protocol
+base libs gss 1.0.3-1 745472 Generic Security Service Library (GSSLib)
+base libs gst-libav 1.8.0-1 15327232 This module contains a GStreamer plugin for FFmpeg, as well as an internal copy of the FFmpeg source code
+base libs gst-plugins-base 1.8.0-1 12787712 This is GStreamer, a framework for streaming media
+base libs gst-plugins-good 1.8.0-1 9768960 This is GStreamer, a framework for streaming media
+base libs gstreamer 1.8.0-1 15196160 This is GStreamer, a framework for streaming media
+base libs gtk+ 2.24.30-1 52518912 this is GTK+ version 2.24. GTK+, which stands for the Gimp ToolKit, is a library for creating graphical user interfaces for the X Window System
+base libs gtk+3 3.18.9-1 66232320 this is GTK+ version 3.18. GTK+, which stands for the Gimp ToolKit, is a library for creating graphical user interfaces for the X Window System
+base libs guile 2.0.11-1 16515072 guile is an interpreter for Scheme, packaged as a library that you can link into your applications to give them their own scripting language
+base libs gutenprint 5.2.11-1 269287424 gutenprint, formerly named Gimp-Print, is a suite of printer drivers that may be used with most common UNIX print spooling systems, including CUPS, lpr, LPRng, or others
+base libs harfbuzz 1.2.4-1 2125824 this is HarfBuzz, a text shaping library
+base libs icu4c 56.1-1 35205120 ICU; International Components for Unicode
+base libs ijs 0.35-1 131072 IJS (InkJet Server) Raster Image Transport Protocol
+base libs imlib2 1.4.8-1 1699840 this is the Imlib 2 library - a library that does image file loading and saving as well as rendering, manipulation, arbitrary polygon support, etc
+base libs jbigkit 2.1-1 282624 JBIG-KIT lossless image compression library
+base libs jpeg 9.0.2-1 798720 the Independent JPEG Group's JPEG software
+base libs jre 8.0.77-1 196288512 Java Runtime Environment
+base libs json-c 0.12-1 229376 JSON implementation in C
+base libs lcms2 2.7-1 1175552 LCMS Color Management Library
+base libs libavc1394 0.5.4-1 204800 libavc1394 is a programming interface to the AV/C specification from the 1394 Trade Assocation
+base libs libbsd 0.8.2-1 655360 libbsd - Utility functions from BSD systems
+base libs libcanberra 0.30-1 626688 libcanberra is an implementation of the [32]XDG Sound Theme and Name Specifications, for generating event sounds on free desktops
+base libs libcroco 0.6.11-1 1757184 libcroco is a standalone css2 parsing and manipulation library
+base libs libdaemon 0.14-1 147456 libdaemon is a lightweight C library that eases the writing of UNIX daemons
+base libs libdv 1.0.0-1 409600 The Quasar DV codec (libdv) is a software codec for DV video
+base libs libepoxy 1.3.1-1 2400256 epoxy GL dispatch Library
+base libs libevent 2.0.22-1 1875968 libevent is an asynchronous notification event loop library
+base libs libexif 0.6.21-1 2740224 library for easy access to EXIF data
+base libs libfm 1.2.3.150703-1 4317184 a glib/gio-based lib used to develop file managers providing some file management utilities
+base libs libfm-extra 1.2.3.150703-1 73728 extra package of the glib/gio-based lib used to develop file managers providing some file management utilities
+base libs libgd 2.1.1-1 1904640 GD is an open source code library for the dynamic creation of images by programmers
+base libs libglade 2.6.4-1 602112 this library allows you to load glade interface files in a program at runtime
+base libs libgphoto2 2.5.9-1 7299072 libgphoto2 is a library that can be used by applications to access various digital cameras
+base libs libgudev 230-1 110592 this is libgudev, a library providing GObject bindings for libudev
+base libs libgusb 0.2.8-1 577536 GUsb is a GObject wrapper for libusb1 that makes it easy to do asynchronous control, bulk and interrupt transfers with proper cancellation and integration into a mainloop
+base libs libical 2.0.0-1 2183168 LIBICAL -- an implementation of iCalendar protocols and data formats
+base libs libid3tag 0.15.1.0.2-1 225280 libid3tag - ID3 tag manipulation library
+base libs libiec61883 1.2.0-1 241664 the libiec61883 library provides an higher level API for streaming DV, MPEG-2 and audio over IEEE1394
+base libs libieee1284 0.2.11-1 397312 this library is intended to be used by applications that need to communicate with (or at least identify) devices that are attached via a parallel port
+base libs libmikmod 3.1.12-1 888832 this is libmikmod, version 3.1.12, a portable sound library for Unix and other systems
+base libs libmng 2.0.3-1 1302528 libmng - Multiple-image Network Graphics (MNG) Reference Library
+base libs libmodplug 0.8.8.1-1 405504 libmodplug v0.8 - the best quality MOD-playing software available
+base libs libnfsidmap 0.26-1 163840 library to help mapping id's, mainly for NFSv4
+base libs libnotify 0.7.6-1 315392 Desktop Notifications Library
+base libs libogg 1.3.2-1 704512 ogg project codecs use the ogg bitstream format to arrange the raw, compressed bitstream into a more robust, useful form
+base libs libpng 1.6.21-1 864256 Portable Network Graphics (PNG) format
+base libs libraw1394 2.1.0-1 323584 libraw1394 is the only supported interface to the kernel side raw1394 of the Linux IEEE-1394 subsystem, which provides direct access to the connected 1394 buses to user space
+base libs libsigc++ 2.6.2-1 14520320 libsigc++ -- The Typesafe Callback Framework for C++
+base libs libsndfile 1.0.24-1 1662976 a library to handle various audio file formats
+base libs libtasn1 4.7-1 479232 this is GNU Libtasn1, a small ASN.1 library.
+base libs libtheora 1.1.1-1 2932736 theora is Xiph.Org's first publicly released video codec, intended for use within the Ogg's project's Ogg multimedia streaming system
+base libs libvorbis 1.3.5-1 2633728 vorbis is a general purpose audio and music encoding format contemporary to MPEG-4's AAC and TwinVQ, the next generation beyond MPEG audio layer 3
+base libs libvpx 1.5.0-1 7217152 WebM VP8 Codec SDK
+base libs libwebp 0.5.0-1 1228800 WebP codec: library to encode and decode images in WebP format
+base libs libxml2 2.9.3-1 11698176 XML toolkit from the GNOME project
+base libs libxslt 1.1.28-1 3223552 XSLT support for libxml2
+base libs lzo 2.06-1 606208 LZO - a real-time data compression library
+base libs neon 0.30.1-1 1507328 neon is an HTTP and WebDAV client library, with a C language API
+base libs net-snmp 5.7.3-1 12746752 Simple Network Management Protocol
+base libs nettle 3.1.1-1 1781760 nettle is a cryptographic library that is designed to fit easily in more or less any context: In crypto toolkits for object-oriented languages (C++, Python, Pike, ...), in applications like LSH or GNUPG, or even in kernel space
+base libs nspr 4.11-1 1617920 The Netscape Portable Runtime
+base libs nss 3.21-1 18878464 Network Security Services
+base libs openal-soft 1.13-1 417792 OpenAL is a cross-platform 3D audio API
+base libs openjpeg 2.1.0-1 618496 OPENJPEG LIBRARY and APPLICATIONS
+base libs openldap 2.4.44-1 6479872 OpenLDAP Software 2.4, a suite of the Lightweight Directory Access Protocol (v3) servers, clients, utilities, and development tools
+base libs pango 1.38.1-1 3436544 pango is a library for layout and rendering of text, with an emphasis on internationalization
+base libs pangomm 2.38.1-1 6213632 this is pangomm, a C++ API for Pango
+base libs poppler 0.42.0-1 6586368 this is poppler, a PDF rendering library
+base libs poppler-data 0.4.7-1 12496896 this package consists of encoding files for use with poppler
+base libs pulseaudio 8.0-1 8065024 pulseaudio - The PulseAudio Sound System
+base libs qpdf 6.0.0-1 2977792 this is the QPDF package - PDF transformation library
+base libs qt4 4.8.7-1 97935360 Qt is a multiplatform C++ GUI application framework
+base libs qtwebkit4 2.3.4-1 35676160 webkit - browser library
+base libs rarian 0.8.1-1 786432 rarian is designed to be a replacement for scrollkeeper
+base libs sane-backends 1.0.25-1 16490496 SANE stands for Scanner Access Now Easy
+base libs SDL 1.2.15-1 2535424 this is the Simple DirectMedia Layer, a general API that provides low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D framebuffer across multiple platforms
+base libs SDL2 2.0.4-1 4771840 this is the Simple DirectMedia Layer, a generic API that provides low level access to audio, keyboard, mouse, and display framebuffer across multiple platforms
+base libs SDL2_image 2.0.1-1 217088 this is the Simple DirectMedia Layer, a generic API that provides low level access to audio, keyboard, mouse, and display framebuffer across multiple platforms
+base libs SDL_gfx 2.0.24-1 344064 SDL graphics drawing primitives and other support functions
+base libs SDL_image 1.2.12-1 176128 this is a simple library to load images of various formats as SDL surfaces
+base libs SDL_mixer 1.2.12-1 503808 simple multi-channel audio mixer
+base libs SDL_net 1.2.8-1 90112 SDL portable network library
+base libs SDL_sound 1.0.3-1 516096 SDL_sound is a library that handles the decoding of several popular sound file formats, such as .WAV and .MP3
+base libs smpeg 0.4.5.070621-1 761856 SDL MPEG Player Library (SMPEG)
+base libs speex 1.2-1 1060864 an open-source, patent-free speech codec
+base libs startup-notification 0.12-1 151552 startup notification protocol
+base libs taglib 1.7-1 1167360 Audio meta-data library
+base libs tiff 4.0.6-1 3715072 libtiff is a library for reading and writing data files encoded with the 'Tag Image File' format, Revision 6.0 (or revision 5.0 or revision 4.0)
+base libs tk 8.6.4-1 4882432 Tk graphical toolkit for the Tcl scripting language
+base libs ucl 1.03-1 204800 UCL is a portable lossless data compression library written in ANSI C
+base libs v4l-utils 1.10.0-1 3141632 Linux V4L2 and DVB API utilities and v4l libraries (libv4l)
+base network bridge-utils 1.5-1 57344 this package contains utilities for configuring the linux ethernet bridge
+base network ebtables 2.0.10.4-1 311296 ebtables (v2.0.10-4) - Ethernet bridge frame table administration
+base network mISDNuser 2.0.19-1 802816 this package contain the libmisdn library and some utilities for the mISDN version 2 Linux ISDN stack
+base network nfs-utils 1.3.3-1 806912 this is version 1.3.3 of nfs-utils, the Linux NFS utility package
+base network ppp 2.4.7-1 843776 the Point-to-Point Protocol (PPP) provides a standard way to establish a network connection over a serial link
+base network pptp 1.7.2-1 176128 establishes the client side of a Virtual Private Network (VPN) using the Point-to-Point Tunneling Protocol (PPTP)
+base network rp-pppoe 3.12-1 348160 PPP Over Ethernet (xDSL support)
+base perlmod XML-Parser 2.44-1 622592 this is a Perl extension interface to James Clark's XML parser, expat
+base pythonmod pyxdg 0.19-1 335872 PyXDG contains implementations of freedesktop.org standards in python
+base shell tcsh 6.19.00-1 1216512 tcsh is a version of the Berkeley C-Shell, with the addition of: a command line editor, command and file name completion, listing, etc. and a bunch of small additions to the shell itself
+base system bluez 5.37-1 3952640 BlueZ - Bluetooth protocol stack for Linux
+base system fbterm 1.7.0-1 139264 FbTerm - a fast FrameBuffer based TERMinal emulator for linux
+base system htop 1.0.1-1 180224 this is htop, an interactive process viewer
+base system keyutils 1.5.9-1 307200 Linux Key Management Utilities
+base system p11-kit 0.23.2-1 1437696 P11-KIT - Provides a way to load and enumerate PKCS_11 modules
+base system pmount 0.9.23-1 897024 pmount - mount arbitrary hotpluggable devices as normal user
+base system quota 4.00-1 1208320 quota - display disk usage and limits
+base system quotatool 1.6.2-1 53248 Command-line utility for filesystem quotas on Linux, Mac OS X, FreeBSD, OpenBSD, NetBSD, Solaris and AIX
+base system usb-modeswitch 2.3.0-1 1974272 usb_modeswitch - control the mode of 'multi-state' USB devices
+base xdata hicolor-icon-theme 0.12-1 1433600 this is the default fallback theme used by implementations of the icon theme specification
+base xdata shared-mime-info 1.1-1 7454720 freedesktop.org shared MIME database spec
+base xdata xbitmaps 1.1.0-1 458752 bitmaps that are shared between X applications
+base xdata xcursor-themes 1.0.4-1 4055040 default set of cursor themes for use with libXcursor
+base xdata xkeyboard-config 2.13-1 6459392 X Keyboard Extension
+base xdata xorg-cf-files 1.0.6-1 1441792 xorg-cf-files package contains the data files for the imake utility
+base xdriver xf86-input-evdev 2.10.1-1 135168 xf86-input-evdev - Generic Linux input driver for the Xorg X server
+base xdriver xf86-video-amdgpu 1.0.1-1 188416 amdgpu - AMD RADEON GPU video driver
+base xdriver xf86-video-ast 1.1.5-1 143360 xf86-video-ast - ASpeed Technologies graphics driver for Xorg X server
+base xdriver xf86-video-ati 7.6.1-1 507904 ati - ATI video driver
+base xdriver xf86-video-chips 1.2.6-1 163840 chips - Chips and Technologies video driver
+base xdriver xf86-video-cirrus 1.5.3-1 131072 cirrus - Cirrus Logic video driver
+base xdriver xf86-video-fbdev 0.4.4-1 65536 xf86-video-fbdev - video driver for framebuffer device
+base xdriver xf86-video-geode 2.11.18-1 319488 xf86-video-geode -- AMD Geode GX and LX graphics driver for X.org
+base xdriver xf86-video-i740 1.3.5-1 94208 i740 - Intel i740 video driver
+base xdriver xf86-video-intel 2.99.160331-1 2301952 intel - Intel video driver
+base xdriver xf86-video-mach64 6.9.5-1 196608 ATI Mach64 driver
+base xdriver xf86-video-mga 1.6.4-1 180224 mga - Matrox video driver
+base xdriver xf86-video-modesetting 0.9.0-1 90112 modesetting - video driver for framebuffer device
+base xdriver xf86-video-nouveau 1.0.12-1 270336 nouveau - NVIDIA video driver
+base xdriver xf86-video-openchrome 0.4.0-1 512000 openchrome - video driver for VIA Unichromes
+base xdriver xf86-video-r128 6.10.1-1 159744 r128 - ATI Rage 128 video driver
+base xdriver xf86-video-s3virge 1.10.7-1 118784 s3virge - S3 ViRGE video driver
+base xdriver xf86-video-savage 2.3.8-1 192512 savage - S3 Savage video driver
+base xdriver xf86-video-sis 0.10.8-1 638976 sis - SiS and XGI video driver
+base xdriver xf86-video-tdfx 1.4.6-1 106496 tdfx - 3Dfx video driver
+base xdriver xf86-video-trident 1.3.7-1 184320 trident - Trident video driver
+base xdriver xf86-video-vmware 13.1.0-1 106496 vmware - VMware SVGA video driver
+base xfont xorg-font 1.1-1 37449728 xorg font package
+base xlib glamor-egl 0.6.0-1 323584 glamor - Open-source X.org graphics common driver based on GL library
+base xlib libdmx 1.1.3-1 159744 libdmx - X Window System DMX (Distributed Multihead X) extension library
+base xlib libdrm 2.4.67-1 929792 libdrm - userspace library for drm
+base xlib libevdev 1.4.6-1 352256 Handler library for evdev events
+base xlib libfontenc 1.1.3-1 98304 libfontenc - font encoding library
+base xlib libICE 1.0.9-1 548864 libICE - Inter-Client Exchange Library
+base xlib libpciaccess 0.13.4-1 126976 xorg/lib/libpciaccess - Generic PCI access library
+base xlib libSM 1.2.2-1 352256 libSM - X Session Management Library
+base xlib libva 1.7.0-1 1945600 Userspace Video Acceleration (VA) core interface
+base xlib libva-intel-driver 1.7.0-1 1921024 VA driver for Intel G45 & HD Graphics family
+base xlib libvdpau 1.1.1-1 307200 The Video Decode and Presentation API for UNIX
+base xlib libX11 1.6.3-1 16289792 libX11 - Core X11 protocol client library
+base xlib libXau 1.0.8-1 114688 A Sample Authorization Protocol for X
+base xlib libXaw 1.0.13-1 2842624 Xaw is a widget set based on the X Toolkit Intrinsics (Xt) Library
+base xlib libXaw3d 1.6.2-1 1306624 X 3D Athena Widgets Library
+base xlib libxcb 1.11.1-1 13479936 libxcb provides an interface to the X Window System protocol, which replaces the current Xlib interface
+base xlib libXcomposite 0.4.4-1 118784 libXcomposite - client library for the Composite extension to the X11 protocol
+base xlib libXcursor 1.1.14-1 286720 libXcursor - X Window System Cursor management library
+base xlib libXdamage 1.1.4-1 57344 this package contains the library for the X Damage extension
+base xlib libXdmcp 1.1.2-1 200704 libXdmcp - X Display Manager Control Protocol library
+base xlib libXext 1.3.3-1 696320 libXext - library for common extensions to the X11 protocol
+base xlib libXfixes 5.0.1-1 102400 this package contains header files and documentation for the XFIXES extension
+base xlib libXfont 1.5.1-1 696320 libXfont provides the core of the legacy X11 font system, handling the index files (fonts.dir, fonts.alias, fonts.scale), the various font file formats, and rasterizing them
+base xlib libXfont2 2.0.1-1 626688 libXfont provides the core of the legacy X11 font system, handling the index files (fonts.dir, fonts.alias, fonts.scale), the various font file formats, and rasterizing them
+base xlib libXfontcache 1.0.5-1 73728 Xfontcache - X-TrueType font cache extension client library
+base xlib libXft 2.3.2-1 278528 Xft - X FreeType library
+base xlib libXi 1.7.6-1 913408 libXi - library for the X Input Extension
+base xlib libXinerama 1.1.3-1 94208 libXinerama - API for Xinerama extension to X11 Protocol
+base xlib libxkbfile 1.0.9-1 409600 the xkbfile library
+base xlib libXmu 1.1.2-1 606208 this library contains miscellaneous utilities and is not part of the Xlib standard
+base xlib libXp 1.0.3-1 253952 libXp - X Print Client Library
+base xlib libXpm 3.5.11-1 278528 libXpm - X Pixmap (XPM) image file format library
+base xlib libXrandr 1.5.0-1 225280 libXrandr - X Resize, Rotate and Reflection extension library
+base xlib libXrender 0.9.9-1 172032 libXrender - library for the Render Extension to the X11 protocol
+base xlib libXres 1.0.7-1 94208 libXRes - X-Resource extension client library
+base xlib libXScrnSaver 1.2.2-1 131072 XScreenSaver - X11 Screen Saver extension client library
+base xlib libxshmfence 1.2-1 49152 libxshmfence - Shared memory 'SyncFence' synchronization primitive
+base xlib libXt 1.1.5-1 3608576 libXt - X Toolkit Intrinsics library
+base xlib libXtst 1.2.2-1 241664 libXtst provides the Xlib-based client API for the XTEST & RECORD extensions
+base xlib libXv 1.0.10-1 200704 libXv - library for the X Video (Xv) extension to the X Window System
+base xlib libXvMC 1.0.9-1 167936 X-Video Motion Compensation API
+base xlib libXxf86dga 1.1.4-1 196608 XDGA - Client library for the XFree86-DGA extension
+base xlib libXxf86misc 1.0.3-1 94208 libXxf86misc - Extension library for the XFree86-Misc X extension
+base xlib libXxf86vm 1.1.4-1 188416 libXxf86vm - Extension library for the XFree86-VidMode X extension
+base xlib mesa 11.2.0-1 38273024 Mesa3D library
+base xlib mtdev 1.1.5-1 102400 mtdev - Multitouch Protocol Translation Library (MIT license)
+base xlib pixman 0.34.0-1 1552384 pixman is a library that provides low-level pixel manipulation features such as image compositing and trapezoid rasterization
+base xlib xcb-util 0.4.0-1 98304 the xcb-util module provides a number of libraries which sit on top of libxcb, the core X protocol library
+base xlib xcb-util-keysyms 0.4.0-1 53248 XCB Keysyms library - the XCB util modules provides a number of libraries which sit on top of libxcb, the core X protocol library
+base xlib xtrans 1.3.5-1 319488 xtrans is a library of code that is shared among various X packages to handle network protocol transport in a modular fashion
+base xproto xcb-proto 1.11-1 901120 xcb-proto provides the XML-XCB protocol descriptions that libxcb uses to generate the majority of its code and API
+base xproto xorg-proto 1.2-1 3366912 xorg protocol package
+base xproto xorg-proto-extra 1.2-1 1167360 xorg protocol package
+base xproto xorg-proto-xextra 1.2-1 266240 xorg protocol package
+base xserver xorg-server 1.18.2-1 9326592 the X server accepts requests from client applications to create windows, which are (normally rectangular) 'virtual screens' that the client program can draw into
+base xutil appres 1.0.4-1 36864 appres - list X application resource database
+base xutil desktop-file-utils 0.22-1 192512 utilities for manipulating desktop files
+base xutil fontconfig 2.11.1-1 647168 font configuration and customization library
+base xutil font-util 1.3.1-1 307200 X.Org font package creation/installation utilities
+base xutil gccmakedep 1.0.3-1 32768 gccmakedep - create dependencies in makefiles using 'gcc -M'
+base xutil iceauth 1.0.7-1 53248 the iceauth program is used to edit and display the authorization information used in connecting with ICE
+base xutil imake 1.0.7-1 126976 imake - C preprocessor interface to the make utility
+base xutil intel-gpu-tools 1.14-1 7233536 Intel GPU Tools is a collection of tools for development and testing of the Intel DRM driver
+base xutil makedepend 1.0.5-1 57344 makedepend - create dependencies in makefiles
+base xutil mkfontscale 1.1.2-1 57344 mkfontscale - create an index of scalable font files for X
+base xutil numlockx 1.2-1 36864 this little thingy allows you to start X with NumLock turned on
+base xutil setxkbmap 1.3.1-1 49152 set the keyboard using the X Keyboard Extension
+base xutil util-macros 1.19.0-1 118784 this is a set of autoconf macros used by the configure.ac scripts in other Xorg modular packages
+base xutil x11perf 1.6.0-1 217088 x11perf - X11 server performance test program
+base xutil xauth 1.0.9-1 69632 xauth - X authority file utility
+base xutil xclock 1.0.7-1 86016 xclock - analog / digital clock for X
+base xutil xconsole 1.0.6-1 57344 xconsole - monitor system console messages with X
+base xutil xcursorgen 1.0.6-1 40960 xcursorgen prepares X11 cursor sets for use with libXcursor
+base xutil xdg-menu 0.7.5.2-1 208896 xdg-menu for archlinux - based on suse xdg-menu written by <nadvornik@suse.cz>
+base xutil xdg-utils 1.1.0-3 282624 the xdg-utils package is a set of simple scripts that provide basic desktop integration functions for any Free Desktop, such as Linux
+base xutil xhost 1.0.7-1 40960 xhost - server access control program for X
+base xutil xinit 1.3.4-1 614400 xinit - X Window System initializer
+base xutil xinput 1.6.2-1 77824 xinput is a utility to configure and test XInput devices
+base xutil xkbcomp 1.3.1-1 237568 xkbcomp - compile XKB keyboard description
+base xutil xkill 1.0.4-1 40960 xkill - kill a client by its X resource
+base xutil xlsfonts 1.0.5-1 45056 xlsfonts - server font list displayer for X
+base xutil xmessage 1.0.4-1 61440 xmessage - display a message or query in a window (X-based /bin/echo)
+base xutil xmodmap 1.0.9-1 61440 xmodmap - utility for modifying keymaps and pointer button mappings in X
+base xutil xorg-fontutil 1.2-1 843776 xorg fontutil package
+base xutil xprop 1.2.2-1 65536 xprop displays window and font properties of an X server
+base xutil xrandr 1.5.0-1 106496 xinput is a utility to configure and test XInput devices
+base xutil xrdb 1.1.0-1 57344 xrdb - X server resource database utility
+base xutil xset 1.2.3-1 65536 xset - user preference utility for X
+desktop gtktheme gtk-engines 2.20.2-1 2068480 gtk-engines provides a central location for commonly used GTK+ engines
+desktop gtktheme shiki-colors 4.6-2 1318912 gtk+-2 themes
+desktop icontheme Cheser-icons 2.32.4-1 44281856 Cheser Icon Theme
+desktop icontheme Faenza-icons 1.1-1 69754880 Icon theme project with tilish style, by Tiheum
+desktop icontheme nouveGnome-icons 110808-1 33177600 nouveGnome Icon Theme
+desktop icontheme nuvola-icons 0.2-1 40144896 nuvola Icon Theme
+desktop icontheme Tango-icons 0.8.90-1 18989056 Tango Icon Theme
+desktop modules fbpanel 6.1-1 614400 fbpanel is a lightweight GTK2-based panel for UNIX desktop
+desktop wallpaper wallpaper-extras 1-1 4808704 desktop wallpapers
+desktop winmanager openbox 3.4.11.2-7 2048000 openbox - A minimalistic, highly configurable, next generation window manager with extensive standards support
+desktop winmanager windowlab 1.40-1 90112 windowLab is a small and simple window manager of novel design
+gnome libs GConf 3.2.6-1 8982528 GConf is a configuration database system, functionally similar to the Windows registry but lots better
+gnome libs gnome-doc-utils 0.20.10-1 4882432 gnome-doc-utils is a collection of documentation utilities for the Gnome project
+gnome libs gtk-doc 1.24-1 2797568 GTK-Doc is used to document C code. It is typically used to document the public API of libraries, such as the GTK+ and GNOME libraries, but it can also be used to document application code
+gnome libs json-glib 1.0.4-1 2011136 JSON-GLib - A JSON parser for GLib-based libraries and applications
+gnome libs librsvg 2.36.4-1 1044480 this is librsvg - A high performance SVG rendering library associated with the Gnome Project
+gnome libs libwnck 2.30.7-1 4136960 libwnck is Window Navigator Construction Kit, i.e. a library to use for writing pagers and taskslists and stuff
+gnome libs vala 0.30.1-1 11546624 vala is a new programming language that aims to bring modern programming language features to GNOME developers without imposing any additional runtime requirements and without using a different ABI compared to applications and libraries written in C
+lxde libs lxdm 0.5.3-1 983040 LXDM - GUI login manager for LXDE
+lxde libs lxmenu-data 0.1.4-1 233472 this package provides files required to build freedesktop.org menu spec-compliant desktop menus for LXDE
+lxde libs lxsession 0.4.6.1-1 872448 LXSession is the default session manager of LXDE
+lxde libs menu-cache 1.0.0-1 176128 menu-cache is a library creating and utilizing caches to speed up the manipulation for freedesktop.org defined application menus
+lxde utils lxappearance 0.6.1-1 974848 desktop-independent theme switcher for GTK+
+lxde utils pcmanfm 1.2.4-1 2015232 system-file-manager - browse the file system and manage the files
+xapps development bluefish 2.2.5-1 12627968 this is the Bluefish HTML editor
+xapps development geany 1.23.1-1 11186176 Geany - A fast and lightweight IDE
+xapps development gtkdialog 0.8.3-1 364544 Gtkdialog - A small utility for fast and easy GUI building
+xapps development gtk-server 2.3.1-1 372736 this is the GTK-server. The GTK-server is a small tool to enable GUI access for shell scripts and interpreted programming languages
+xapps development lazarus 1.6-1 623202304 Delphi compatible cross-platform IDE
+xapps development Xdialog 2.3.1-2 958464 Xdialog is a X11 drop in replacement for cdialog
+xapps emulation dosbox 0.74-1 2670592 dosbox - an x86/DOS emulator with sound/graphics
+xapps emulation dosemu 1.4.0.110525-1 6709248 DOSEMU is a user-level program which uses certain special features of the Linux kernel and the 80386 processor to run MS-DOS/FreeDOS/
+xapps emulation wine 1.8.1-1 185794560 wine is a program which allows running Microsoft Windows programs (including DOS, Windows 3.x, Win32, and Win64 executables) on Unix
+xapps graphics feh 2.14.2-1 516096 feh - Imlib2 based image viewer
+xapps graphics ImageMagick 6.9.3.0.3-1 28729344 ImageMagick is a software suite to create, edit, and compose bitmap images
+xapps graphics viewnior 1.3-1 839680 viewnior - Fast and elegant image viewer
+xapps multimedia pavucontrol 3.0-1 999424 PulseAudio Volume Control 3.0
+xapps network firefox 38.7.1-1 135729152 firefox browser
+xapps network icecat 38.7.1-1 125169664 Icecat web browser
+xapps network opera 36.0.2130.32-1 185556992 Opera Web-browser
+xapps network QupZilla 1.1.0-1 5554176 QupZilla Web Browser - http://www.qupzilla.co.cc (http://qupzilla.blogspot.com/)
+xapps office beaver 0.4.1-1 589824 Beaver is an Early AdVanced EditoR
+xapps office epdfview 0.1.8-2 696320 ePDFView is a simple and lightweight PDF viewer
+xapps office galculator 2.0-1 1003520 a GTK 2 based scientific calculator
+xapps office leafpad 0.8.18.1-1 823296 Leafpad - GTK+ based simple text editor
+xapps office libreoffice 5.1.1.3-1 656343040 LibreOffice is a modern, easy-to-use, open source productivity suite for word processing, spreadsheets, presentations and more
+xapps system gparted 0.25.0-1 7159808 gparted is the Gnome Partition Editor for creating, reorganizing, and deleting disk partitions
+xapps system gsmartcontrol 0.8.7-1 1863680 GSmartControl - Hard disk drive health inspection tool
+xapps system obconf 2.0.3-1 606208 openbox configuration manager
+xapps system xscreensaver 5.34-1 24248320 XScreenSaver - a collection of free screen savers for X11 and MacOS
+xapps system xterm 324-1 786432 X terminal emulator
+xapps utilities doublecmd 0.7.0-1 30314496 Double Commander
+xapps utilities pcmanfm-mod 1.2.4-3 2289664 PCManFM-Mod is a minor fork of the legacy version of PCManFM 0.5.2
+xapps utilities xarchive 0.2.8.6-1 253952 gtk2.0 front-end for various command line archiving programs
+xapps utilities xarchiver 0.5.4-1 1654784 Xarchiver is the ultimate solution for handling archives on Linux and FreeBSD

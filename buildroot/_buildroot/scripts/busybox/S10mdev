@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# Start mdev....
+#
+
+case "$1" in
+  start)
+	echo "Starting mdev..."
+	echo /sbin/mdev >/proc/sys/kernel/hotplug
+	/sbin/mdev -s
+	# coldplug modules
+	OPWD=`pwd`
+	cd /sys/devices
+
+	mods=`find -type f -name "modalias"`
+	num=`echo "$mods" | wc -l`
+	numold=
+	processed=
+
+	IFS=$'\n'
+	while [ "$num" != "$numold" ]; do
+	    numold="$num"
+	    for mod in $mods; do
+		if ! echo "$processed" | grep -q "^$mod$"; then
+		    modprobe -qb "$(cat "$mod")"
+		    [ -z "$processed" ] && processed="$mod" || processed=`echo -ne "$processed\n$mod"`
+		fi
+	    done
+	    mods=`find -type f -name "modalias"`
+	    num=`echo "$mods" | wc -l`
+	done
+	cd "$OPWD"
+	;;
+  stop)
+	;;
+  restart|reload)
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?

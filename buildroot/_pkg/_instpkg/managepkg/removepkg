@@ -1,0 +1,91 @@
+#! /bin/sh
+
+#2011 Raminos production (raminux.sf.net)
+
+: ${DIALOG=dialog}
+
+DATABASE=/var/lib/instpkg/packages.local.data
+CFG=/var/lib/instpkg/settings.include
+
+[ ! -d /var/lib/instpkg ] && mkdir -p /var/lib/instpkg
+[ ! -f $CFG ] && touch $CFG
+grep -q "bysize=" $CFG || echo "bysize=" >> $CFG
+grep -q "showsize=" $CFG || echo "showsize=true" >> $CFG
+grep -q "selectall=" $CFG || echo "selectall=" >> $CFG
+source $CFG
+
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/tmpfile$$
+tempfile2=`mktemp 2> /dev/null` || tempfile2=/tmp/tmpfile2$$
+trap "rm -f $tempfile $tempfile2" 0 1 2 5 15
+
+
+ls /var/lib/pacman/local > $tempfile2
+if [ -f /var/lib/instpkg/locallist.data ]; then
+    if ! cmp $tempfile2 /var/lib/instpkg/locallist.data &> /dev/null; then
+	$HOME/manage/update_pkgdb local
+    fi
+else
+    $HOME/manage/update_pkgdb local
+fi
+
+
+pkgmenu()
+{
+if [ $showsize ]; then
+    if [ $bysize ]; then
+	grep "^${GRPPAIR/,/ } " $DATABASE | cut -d ' ' -f 3-5 | sort -n -k 3 -r | \
+	while read NAME VER SIZE; do
+	    [ $selectall ] && echo "$NAME $(expr $SIZE / 1024)KB on" || echo "$NAME $(expr $SIZE / 1024)KB off"
+	done
+    else
+	grep "^${GRPPAIR/,/ } " $DATABASE | cut -d ' ' -f 3-5 | \
+	while read NAME VER SIZE; do
+	    [ $selectall ] && echo "$NAME $(expr $SIZE / 1024)KB on" || echo "$NAME $(expr $SIZE / 1024)KB off"
+	done
+    fi
+else
+    grep "^${GRPPAIR/,/ } " $DATABASE | cut -d ' ' -f 3,4 | \
+    while read NAME VER; do
+	[ $selectall ] && echo "$NAME $VER on" || echo "$NAME $VER off"
+    done
+fi
+}
+
+GRPMENU=`cut -d ' ' -f 1,2 $DATABASE | sort -u | tr ' ' ',' | sed 's/.*/& -/'`
+while true; do
+GRPPAIR=`$DIALOG --backtitle "Remove packages" --stdout \
+	--title "" --clear --default-item "$GRPPAIR" \
+	--extra-button --extra-label "Remove" \
+	--menu "Select packages" 20 61 15 \
+	$GRPMENU 2> /dev/null`
+retval=$?
+case $retval in
+    0)
+	if [ ! -z "$GRPPAIR" ]; then
+	    while true; do
+	    choice=`$DIALOG --backtitle "Remove packages" --stdout \
+		--title "" --ok-label "Add" --cancel-label "Back" \
+		--checklist "Select packages" 20 61 15 \
+		$(pkgmenu) 2> /dev/null`
+	    retval=$?
+	    case $retval in
+		0)
+		    if [ ! -z "$choice" ]; then
+			echo -n "$choice " >> $tempfile
+			break
+		    fi
+		;;
+		*)  break;;
+	    esac
+	    done
+	fi
+    ;;
+    3)
+	[ ! -z "$(cat $tempfile)" ] && pacman -Rc $(cat $tempfile | tr -d '"' | tr '/' ' ')
+	break
+	#extra button pressed
+    ;;
+    *)  break;;
+esac
+done

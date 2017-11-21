@@ -1,0 +1,12 @@
+diff -Naurp buildroot-2017.05-rc2/Config.in buildroot-2017.05-rc2-patch/Config.in
+--- buildroot-2017.05-rc2/Config.in	2017-05-17 08:27:16.000000000 +0000
++++ buildroot-2017.05-rc2-patch/Config.in	2017-05-22 08:50:33.068072255 +0000
+@@ -97,7 +97,7 @@ menu "Commands"
+ 
+ config BR2_WGET
+ 	string "Wget command"
+-	default "wget --passive-ftp -nd -t 3"
++	default "wget --passive-ftp -nd -t 1 --timeout=5"
+ 
+ config BR2_SVN
+ 	string "Subversion (svn) command"

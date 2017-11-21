@@ -1,0 +1,25 @@
+diff -Naurp buildroot-2017.05-rc2/package/pkg-generic.mk buildroot-2017.05-rc2-patch/package/pkg-generic.mk
+--- buildroot-2017.05-rc2/package/pkg-generic.mk	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-patch/package/pkg-generic.mk	2017-05-25 18:42:06.422081481 +0200
+@@ -62,7 +62,7 @@ GLOBAL_INSTRUMENTATION_HOOKS += step_tim
+ # files currently installed in the target. Note that the MD5 is also
+ # stored, in order to identify if the files are overwritten.
+ define step_pkg_size_start
+-	(cd $(TARGET_DIR) ; find . -type f -print0 | xargs -0 md5sum) | sort > \
++	(cd $(TARGET_DIR) ; find . -type f) | sort > \
+ 		$($(PKG)_DIR)/.br_filelist_before
+ endef
+ 
+@@ -72,10 +72,10 @@ endef
+ # a diff with the .br_filelist_before to compute the list of files
+ # installed by this package.
+ define step_pkg_size_end
+-	(cd $(TARGET_DIR); find . -type f -print0 | xargs -0 md5sum) | sort > \
++	(cd $(TARGET_DIR); find . -type f) | sort > \
+ 		$($(PKG)_DIR)/.br_filelist_after
+ 	comm -13 $($(PKG)_DIR)/.br_filelist_before $($(PKG)_DIR)/.br_filelist_after | \
+-		while read hash file ; do \
++		while read file ; do \
+ 			echo "$(1),$${file}" >> $(BUILD_DIR)/packages-file-list.txt ; \
+ 		done
+ endef

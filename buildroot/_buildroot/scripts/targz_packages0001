@@ -1,0 +1,56 @@
+#! /bin/sh
+
+CREATEDIRS="\
+etc/pam.d \
+etc/profile.d \
+etc/init.d \
+etc \
+bin \
+sbin \
+lib \
+usr/share/doc \
+usr/share/man \
+usr/share/info \
+usr/share \
+usr/bin \
+usr/sbin \
+usr/lib \
+usr/include \
+usr \
+var/cache \
+var/lib \
+var/lock \
+var/log \
+var/spool \
+var \
+"
+
+DESTROOT=/root/buildroot-2017.05-rc2/output/target
+PKGDEST=/dest
+
+if [ "$1" = "start" ] && [ "$2" = "install-target" ]; then
+    for i in $CREATEDIRS; do
+	mkdir -p $DESTROOT/$i
+    done
+    ln -s share/doc $DESTROOT/usr/doc
+    ln -s share/man $DESTROOT/usr/man
+    ln -s share/info $DESTROOT/usr/info
+    ln -s lib $DESTROOT/usr/lib64
+    ln -s lib $DESTROOT/lib64
+fi
+
+if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
+    rm -f $DESTROOT/usr/share/info/dir
+
+    rm $DESTROOT/usr/doc
+    rm $DESTROOT/usr/man
+    rm $DESTROOT/usr/info
+    rm $DESTROOT/usr/lib64
+    rm $DESTROOT/lib64
+    for i in $CREATEDIRS; do
+	rmdir $DESTROOT/$i 2> /dev/null
+    done
+
+    cd $DESTROOT; tar czf $PKGDEST/$3.tar.gz *
+    rm -rf $DESTROOT/*
+fi

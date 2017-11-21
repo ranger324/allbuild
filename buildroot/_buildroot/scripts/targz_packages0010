@@ -1,0 +1,150 @@
+#! /bin/sh
+
+CREATEDIRS="\
+etc/pam.d \
+etc/profile.d \
+etc/init.d \
+etc \
+bin \
+sbin \
+lib \
+usr/share/doc \
+usr/share/man \
+usr/share/info \
+usr/share \
+usr/bin \
+usr/sbin \
+usr/lib \
+usr/include \
+usr \
+var/cache \
+var/lib \
+var/lock \
+var/log \
+var/spool \
+var \
+"
+
+PKG=$3
+
+###overwrite
+[ "$PKG" = "gcc-tgt" ] && PKG=gcc
+[ "$PKG" = "glibc-tgt" ] && PKG=glibc
+###overwrite
+
+DONTINSTALL=" skeleton toolchain toolchain-external toolchain-external-custom initscripts jpeg busybox coreutils "
+DONTINSTALL2=" getent jpeg toolchain-external toolchain-external-custom "
+
+echo "$DONTINSTALL2" | grep -q " $PKG " && exit 0
+
+echo "***********"
+pwd -P
+echo "***********"
+
+BRDIR=/root/buildroot-2017.05-rc2
+DESTROOT=$BRDIR/output/target
+PKGDEST=/dest
+retval=0
+echo "###### PKG_SCRIPT $PKG $(cat $BRDIR/output/build/build-sysinit.log)"
+
+if [ "$1" = "start" ] && [ "$2" = "install-target" ]; then
+    rm -rf $DESTROOT/*
+
+    for i in $CREATEDIRS; do
+	mkdir -p $DESTROOT/$i
+    done
+    ln -sf share/doc $DESTROOT/usr/doc
+    ln -sf share/man $DESTROOT/usr/man
+    ln -sf share/info $DESTROOT/usr/info
+    ln -sf lib $DESTROOT/usr/lib64
+    ln -sf lib $DESTROOT/lib64
+
+    [ -e $BRDIR/_scripts/$PKG.inst_start.sh ] && source $BRDIR/_scripts/$PKG.inst_start.sh
+fi
+
+if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
+    source $BRDIR/output/build/.package_source
+    #NAME
+    #VERSION
+    #SOURCE_DIR
+
+    ###overwrite
+    [ "$PKG" = "glibc" ] && NAME="glibc"
+    [ "$PKG" = "gcc" ] && NAME="gcc"
+    ###overwrite
+
+    ###overwrite
+    [ ! -e $BRDIR/_scripts/$PKG.rev ] && echo 1 > $BRDIR/_scripts/$PKG.rev
+    ###overwrite
+
+    REV=`cat $BRDIR/_scripts/$PKG.rev`
+    [ -e $BRDIR/_scripts/$PKG.ver ] && VERSION=`cat $BRDIR/_scripts/$PKG.ver`
+
+    if [ -e $DESTROOT/var/run ]; then
+	echo "###### PKG_SCRIPT $PKG /var/run"
+	if ! rmdir $DESTROOT/var/run 2> /dev/null; then
+	    (cd $DESTROOT/var/run && _mkcpio $BRDIR/_scripts/$PKG@run.cpio)
+	    rm -rf $DESTROOT/var/run 2> /dev/null
+	    if [ ! -e $BRDIR/_scripts/$PKG.inst_end.sh ]; then
+		echo "rm -rf \$DESTROOT/var/run 2> /dev/null" > $BRDIR/_scripts/$PKG.inst_end.sh
+	    fi
+	fi
+    fi
+
+
+    if [ -e $DESTROOT/usr/lib/perl5 ]; then
+	if [ -e $BRDIR/_scripts/perl.ver ]; then
+	    PERL=`cat $BRDIR/_scripts/perl.ver`
+	    rm -f $DESTROOT/usr/lib/perl5/$PERL/x86_64-linux/perllocal.pod
+	    find $DESTROOT/usr/lib/perl5/site_perl/$PERL/x86_64-linux/auto -name ".packlist" -type f | \
+		xargs sed -i -n '/^\/usr\//p'
+	fi
+    fi
+
+    rm -f $DESTROOT/usr/share/info/dir
+    rm -f $DESTROOT/tools/share/info/dir
+
+    rm $DESTROOT/usr/doc
+    rm $DESTROOT/usr/man
+    rm $DESTROOT/usr/info
+    rm $DESTROOT/usr/lib64
+    rm $DESTROOT/lib64
+    for i in $CREATEDIRS; do
+	rmdir $DESTROOT/$i 2> /dev/null
+    done
+
+    [ -e $BRDIR/_scripts/$PKG.inst_end.sh ] && source $BRDIR/_scripts/$PKG.inst_end.sh
+
+
+    mkdir -p $DESTROOT/var/lib/instpkg/local
+    mkdir -p $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV
+    mkdir -p $DESTROOT/var/lib/instpkg/local/.local
+    ln -sf ../$PKG-$VERSION-$REV $DESTROOT/var/lib/instpkg/local/.local/$PKG
+    SIZE=`du -sk $DESTROOT | grep -o "^[0-9]\+"`
+    echo -ne "NAME=$NAME\nVERSION=$VERSION\nREV=$REV\nDESC=\"\"\nSIZE=$SIZE\n" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/info
+
+    ###overwrite
+    [ ! -e $BRDIR/_scripts/$PKG.deps ] && touch $BRDIR/_scripts/$PKG.deps
+    ###overwrite
+
+    sort -u $BRDIR/_scripts/$PKG.deps > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends
+    cat $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends | tr '\n' ' ' | \
+	sed 's% $%%' > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depend@
+    GRP=`grep "package.*/$PKG/Config.in" $BRDIR/package/_pkgs.group@@@@ | cut -d " " -f 1-2`
+
+    ###overwrite
+    [ "$PKG" = "glibc" ] && GRP="base development"
+    [ "$PKG" = "gcc" ] && GRP="base development"
+    ###overwrite
+
+    echo "$GRP" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/groups
+
+
+    (cd $DESTROOT; tar czf $PKGDEST/$PKG-$VERSION-$REV.tar.gz *)
+    retval=$?
+#
+    echo "$DONTINSTALL" | grep -q " $PKG " || tar xzf $PKGDEST/$PKG-$VERSION-$REV.tar.gz -C /
+#
+    rm -rf $DESTROOT/*
+fi
+exit $retval

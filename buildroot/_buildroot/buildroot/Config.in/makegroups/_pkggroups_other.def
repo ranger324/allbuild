@@ -1,0 +1,9 @@
+./freescale-imx/Config.in:source#apps development
+./gstreamer1/Config.in:source#apps media
+./gstreamer/Config.in:source#apps media
+./kodi/Config.in:source#xapps other
+./kodi/Config.in:	source#xapps other
+./matchbox/Config.in:source#desktop winmanager
+./nvidia-tegra23/Config.in:source#base system
+./opengl/Config.in:source#libs opengl
+./qt5/Config.in:source#libs qt

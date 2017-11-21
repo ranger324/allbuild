@@ -1,0 +1,29 @@
+#! /bin/bash
+
+export LC_COLLATE=C
+#get params: / targz / targz --root / targz --root dir /
+[ -z "$1" ] && exit 1
+REMOVE_FROM_ROOT=0
+[ "$2" = "--root" ] && REMOVE_FROM_ROOT=1 && ROOT=/
+[ ! -z "$3" ] && ROOT="$3"
+
+#setup tempfiles
+tempfile1=`mktemp --suffix=-tmp1 2> /dev/null`
+tempfile2=`mktemp --suffix=-tmp2 2> /dev/null`
+tempfile3=`mktemp --suffix=-tmp3 2> /dev/null`
+trap "rm -f $tempfile1 $tempfile2 $tempfile3" 0 1 2 5 15
+
+#deal with tempfiles
+if [ $REMOVE_FROM_ROOT = 0 ]; then
+    tar tzf "$1" | tee $tempfile1 | grep "/$" > $tempfile2
+else
+    if [ "$ROOT" = "/" ]; then
+	tar tzf "$1" | sed "s%.*%/&%" | tee $tempfile1 | grep "/$" > $tempfile2
+    else
+	tar tzf "$1" | sed "s%.*%$ROOT/&%" | tee $tempfile1 | grep "/$" > $tempfile2
+    fi
+fi
+
+grep -v "/$" $tempfile1 > $tempfile3
+cat $tempfile3 | tr '\n' '\0' | xargs -0 -r rm 2> /dev/null
+tac $tempfile2 | tr '\n' '\0' | xargs -0 -r rmdir 2> /dev/null

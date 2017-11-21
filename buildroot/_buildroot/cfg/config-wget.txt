@@ -1,0 +1,1 @@
+BR2_WGET="wget --passive-ftp -nd -t 1 --timeout=5"

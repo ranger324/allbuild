@@ -1,0 +1,770 @@
+diff -Naurp buildroot-2017.05-rc2/package/alsa-utils/alsa-utils.mk buildroot-2017.05-rc2-patch/package/alsa-utils/alsa-utils.mk
+--- buildroot-2017.05-rc2/package/alsa-utils/alsa-utils.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/alsa-utils/alsa-utils.mk	2017-09-16 18:33:58.659967309 +0200
+@@ -68,20 +68,20 @@ ALSA_UTILS_TARGETS_$(BR2_PACKAGE_ALSA_UT
+ 
+ define ALSA_UTILS_INSTALL_TARGET_CMDS
+ 	mkdir -p $(TARGET_DIR)/var/lib/alsa
+-	for i in $(ALSA_UTILS_TARGETS_y); do \
+-		$(INSTALL) -D -m 755 $(STAGING_DIR)/$$i $(TARGET_DIR)/$$i || exit 1; \
+-	done
+-	if [ -x "$(TARGET_DIR)/usr/bin/speaker-test" ]; then \
+-		mkdir -p $(TARGET_DIR)/usr/share/alsa/speaker-test; \
+-		mkdir -p $(TARGET_DIR)/usr/share/sounds/alsa; \
+-		cp -rdpf $(STAGING_DIR)/usr/share/alsa/speaker-test/* $(TARGET_DIR)/usr/share/alsa/speaker-test/; \
+-		cp -rdpf $(STAGING_DIR)/usr/share/sounds/alsa/* $(TARGET_DIR)/usr/share/sounds/alsa/; \
+-	fi
+-	if [ -x "$(TARGET_DIR)/usr/sbin/alsactl" ]; then \
+-		mkdir -p $(TARGET_DIR)/usr/share/; \
+-		rm -rf $(TARGET_DIR)/usr/share/alsa/; \
+-		cp -rdpf $(STAGING_DIR)/usr/share/alsa/ $(TARGET_DIR)/usr/share/alsa/; \
+-	fi
++#	for i in $(ALSA_UTILS_TARGETS_y); do \
++#		$(INSTALL) -D -m 755 $(STAGING_DIR)/$$i $(TARGET_DIR)/$$i || exit 1; \
++#	done
++#	if [ -x "$(TARGET_DIR)/usr/bin/speaker-test" ]; then \
++#		mkdir -p $(TARGET_DIR)/usr/share/alsa/speaker-test; \
++#		mkdir -p $(TARGET_DIR)/usr/share/sounds/alsa; \
++#		cp -rdpf $(STAGING_DIR)/usr/share/alsa/speaker-test/* $(TARGET_DIR)/usr/share/alsa/speaker-test/; \
++#		cp -rdpf $(STAGING_DIR)/usr/share/sounds/alsa/* $(TARGET_DIR)/usr/share/sounds/alsa/; \
++#	fi
++#	if [ -x "$(TARGET_DIR)/usr/sbin/alsactl" ]; then \
++#		mkdir -p $(TARGET_DIR)/usr/share/; \
++#		rm -rf $(TARGET_DIR)/usr/share/alsa/; \
++#		cp -rdpf $(STAGING_DIR)/usr/share/alsa/ $(TARGET_DIR)/usr/share/alsa/; \
++#	fi
+ endef
+ 
+ $(eval $(autotools-package))
+diff -Naurp buildroot-2017.05-rc2/package/dmalloc/dmalloc.mk buildroot-2017.05-rc2-patch/package/dmalloc/dmalloc.mk
+--- buildroot-2017.05-rc2/package/dmalloc/dmalloc.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/dmalloc/dmalloc.mk	2017-09-16 18:34:00.823967287 +0200
+@@ -58,13 +58,13 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define DMALLOC_INSTALL_SHARED_LIB
+-	cp -dpf $(STAGING_DIR)/usr/lib/libdmalloc*.so $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libdmalloc*.so $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+ define DMALLOC_INSTALL_TARGET_CMDS
+ 	$(DMALLOC_INSTALL_SHARED_LIB)
+-	cp -dpf $(STAGING_DIR)/usr/bin/dmalloc $(TARGET_DIR)/usr/bin/dmalloc
++#	cp -dpf $(STAGING_DIR)/usr/bin/dmalloc $(TARGET_DIR)/usr/bin/dmalloc
+ endef
+ 
+ $(eval $(autotools-package))
+diff -Naurp buildroot-2017.05-rc2/package/google-breakpad/google-breakpad.mk buildroot-2017.05-rc2-patch/package/google-breakpad/google-breakpad.mk
+--- buildroot-2017.05-rc2/package/google-breakpad/google-breakpad.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/google-breakpad/google-breakpad.mk	2017-09-16 18:33:57.539967320 +0200
+@@ -33,8 +33,8 @@ endef
+ GOOGLE_BREAKPAD_POST_EXTRACT_HOOKS += GOOGLE_BREAKPAD_LSS
+ 
+ define GOOGLE_BREAKPAD_EXTRACT_SYMBOLS
+-	$(EXTRA_ENV) package/google-breakpad/gen-syms.sh $(STAGING_DIR) \
+-		$(TARGET_DIR) $(call qstrip,$(BR2_GOOGLE_BREAKPAD_INCLUDE_FILES))
++#	$(EXTRA_ENV) package/google-breakpad/gen-syms.sh $(STAGING_DIR) \
++#		$(TARGET_DIR) $(call qstrip,$(BR2_GOOGLE_BREAKPAD_INCLUDE_FILES))
+ endef
+ GOOGLE_BREAKPAD_TARGET_FINALIZE_HOOKS += GOOGLE_BREAKPAD_EXTRACT_SYMBOLS
+ 
+diff -Naurp buildroot-2017.05-rc2/package/gvfs/gvfs.mk buildroot-2017.05-rc2-patch/package/gvfs/gvfs.mk
+--- buildroot-2017.05-rc2/package/gvfs/gvfs.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gvfs/gvfs.mk	2017-09-16 18:33:59.839967297 +0200
+@@ -128,7 +128,7 @@ define GVFS_REMOVE_TARGET_SCHEMAS
+ endef
+ 
+ define GVFS_COMPILE_SCHEMAS
+-	$(HOST_DIR)/usr/bin/glib-compile-schemas --targetdir=$(TARGET_DIR)/usr/share/glib-2.0/schemas $(STAGING_DIR)/usr/share/glib-2.0/schemas
++#	$(HOST_DIR)/usr/bin/glib-compile-schemas --targetdir=$(TARGET_DIR)/usr/share/glib-2.0/schemas $(STAGING_DIR)/usr/share/glib-2.0/schemas
+ endef
+ 
+ GVFS_POST_INSTALL_TARGET_HOOKS += \
+diff -Naurp buildroot-2017.05-rc2/package/libfuse/libfuse.mk buildroot-2017.05-rc2-patch/package/libfuse/libfuse.mk
+--- buildroot-2017.05-rc2/package/libfuse/libfuse.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libfuse/libfuse.mk	2017-09-16 18:34:00.015967295 +0200
+@@ -17,8 +17,8 @@ LIBFUSE_CONF_OPTS = \
+ 	--enable-util
+ 
+ define LIBFUSE_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/bin/fusermount $(TARGET_DIR)/usr/bin/
+-	cp -dpf $(STAGING_DIR)/usr/lib/libfuse.so* $(TARGET_DIR)/usr/lib/
++#	cp -dpf $(STAGING_DIR)/usr/bin/fusermount $(TARGET_DIR)/usr/bin/
++#	cp -dpf $(STAGING_DIR)/usr/lib/libfuse.so* $(TARGET_DIR)/usr/lib/
+ endef
+ 
+ $(eval $(autotools-package))
+diff -Naurp buildroot-2017.05-rc2/package/libglib2/libglib2.mk buildroot-2017.05-rc2-patch/package/libglib2/libglib2.mk
+--- buildroot-2017.05-rc2/package/libglib2/libglib2.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libglib2/libglib2.mk	2017-09-16 18:33:57.407967322 +0200
+@@ -160,9 +160,9 @@ endef
+ # them as well, and better do it in a central place.
+ # It's used at run time so it doesn't matter defering it.
+ define LIBGLIB2_COMPILE_SCHEMAS
+-	$(HOST_DIR)/usr/bin/glib-compile-schemas \
+-		$(STAGING_DIR)/usr/share/glib-2.0/schemas \
+-		--targetdir=$(TARGET_DIR)/usr/share/glib-2.0/schemas
++#	$(HOST_DIR)/usr/bin/glib-compile-schemas \
++#		$(STAGING_DIR)/usr/share/glib-2.0/schemas \
++#		--targetdir=$(TARGET_DIR)/usr/share/glib-2.0/schemas
+ endef
+ 
+ LIBGLIB2_TARGET_FINALIZE_HOOKS += LIBGLIB2_REMOVE_TARGET_SCHEMAS
+diff -Naurp buildroot-2017.05-rc2/package/liblockfile/liblockfile.mk buildroot-2017.05-rc2-patch/package/liblockfile/liblockfile.mk
+--- buildroot-2017.05-rc2/package/liblockfile/liblockfile.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/liblockfile/liblockfile.mk	2017-09-16 18:33:55.159967345 +0200
+@@ -23,7 +23,7 @@ define LIBLOCKFILE_INSTALL_STAGING_CMDS
+ endef
+ 
+ define LIBLOCKFILE_INSTALL_TARGET_CMDS
+-	cp -a $(STAGING_DIR)/usr/lib/liblockfile.so* $(TARGET_DIR)/usr/lib
++#	cp -a $(STAGING_DIR)/usr/lib/liblockfile.so* $(TARGET_DIR)/usr/lib
+ endef
+ 
+ $(eval $(autotools-package))
+diff -Naurp buildroot-2017.05-rc2/package/ncurses/ncurses.mk buildroot-2017.05-rc2-patch/package/ncurses/ncurses.mk
+--- buildroot-2017.05-rc2/package/ncurses/ncurses.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/ncurses/ncurses.mk	2017-09-16 18:33:55.443967342 +0200
+@@ -126,10 +126,10 @@ endif
+ 
+ define NCURSES_TARGET_CLEANUP_TERMINFO
+ 	$(RM) -rf $(TARGET_DIR)/usr/share/terminfo $(TARGET_DIR)/usr/share/tabset
+-	$(foreach t,$(NCURSES_TERMINFO_FILES), \
+-		$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/share/terminfo/$(t) \
+-			$(TARGET_DIR)/usr/share/terminfo/$(t)
+-	)
++#	$(foreach t,$(NCURSES_TERMINFO_FILES), \
++#		$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/share/terminfo/$(t) \
++#			$(TARGET_DIR)/usr/share/terminfo/$(t)
++#	)
+ endef
+ NCURSES_POST_INSTALL_TARGET_HOOKS += NCURSES_TARGET_CLEANUP_TERMINFO
+ 
+diff -Naurp buildroot-2017.05-rc2/package/php/php.mk buildroot-2017.05-rc2-patch/package/php/php.mk
+--- buildroot-2017.05-rc2/package/php/php.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/php/php.mk	2017-09-16 18:33:57.703967319 +0200
+@@ -323,8 +323,8 @@ endif
+ define PHP_EXTENSIONS_FIXUP
+ 	$(SED) "/prefix/ s:/usr:$(STAGING_DIR)/usr:" \
+ 		$(STAGING_DIR)/usr/bin/phpize
+-	$(SED) "/extension_dir/ s:/usr:$(TARGET_DIR)/usr:" \
+-		$(STAGING_DIR)/usr/bin/php-config
++#	$(SED) "/extension_dir/ s:/usr:$(TARGET_DIR)/usr:" \
++#		$(STAGING_DIR)/usr/bin/php-config
+ endef
+ 
+ PHP_POST_INSTALL_TARGET_HOOKS += PHP_EXTENSIONS_FIXUP
+diff -Naurp buildroot-2017.05-rc2/package/qt/qt.mk buildroot-2017.05-rc2-patch/package/qt/qt.mk
+--- buildroot-2017.05-rc2/package/qt/qt.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt/qt.mk	2017-09-16 18:33:57.119967325 +0200
+@@ -632,26 +632,26 @@ endef
+ ifeq ($(BR2_PACKAGE_QT_SHARED),y)
+ define QT_INSTALL_TARGET_LIBS
+ 	mkdir -p $(TARGET_DIR)/usr/lib
+-	for lib in $(QT_INSTALL_LIBS); do \
+-		cp -dpf $(STAGING_DIR)/usr/lib/lib$${lib}.so.* $(TARGET_DIR)/usr/lib ; \
+-	done
++#	for lib in $(QT_INSTALL_LIBS); do \
++#		cp -dpf $(STAGING_DIR)/usr/lib/lib$${lib}.so.* $(TARGET_DIR)/usr/lib ; \
++#	done
+ endef
+ endif
+ 
+ # Plugin installation
+ define QT_INSTALL_TARGET_PLUGINS
+-	if [ -d $(STAGING_DIR)/usr/lib/qt/plugins/ ] ; then \
+-		mkdir -p $(TARGET_DIR)/usr/lib/qt/plugins ; \
+-		cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/* $(TARGET_DIR)/usr/lib/qt/plugins ; \
+-	fi
++#	if [ -d $(STAGING_DIR)/usr/lib/qt/plugins/ ] ; then \
++#		mkdir -p $(TARGET_DIR)/usr/lib/qt/plugins ; \
++#		cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/* $(TARGET_DIR)/usr/lib/qt/plugins ; \
++#	fi
+ endef
+ 
+ # Import installation
+ define QT_INSTALL_TARGET_IMPORTS
+-	if [ -d $(STAGING_DIR)/usr/lib/qt/imports/ ] ; then \
+-		mkdir -p $(TARGET_DIR)/usr/lib/qt/imports ; \
+-		cp -dpfr $(STAGING_DIR)/usr/lib/qt/imports/* $(TARGET_DIR)/usr/lib/qt/imports ; \
+-	fi
++#	if [ -d $(STAGING_DIR)/usr/lib/qt/imports/ ] ; then \
++#		mkdir -p $(TARGET_DIR)/usr/lib/qt/imports ; \
++#		cp -dpfr $(STAGING_DIR)/usr/lib/qt/imports/* $(TARGET_DIR)/usr/lib/qt/imports ; \
++#	fi
+ endef
+ 
+ # Fonts installation
+@@ -679,7 +679,7 @@ endif # QT_FONTS
+ ifeq ($(BR2_PACKAGE_QT_FONT_TRUETYPE),y)
+ define QT_INSTALL_TARGET_FONTS_TTF
+ 	mkdir -p $(TARGET_DIR)/usr/lib/fonts
+-	cp -dpf $(STAGING_DIR)/usr/lib/fonts/*.ttf $(TARGET_DIR)/usr/lib/fonts
++#	cp -dpf $(STAGING_DIR)/usr/lib/fonts/*.ttf $(TARGET_DIR)/usr/lib/fonts
+ endef
+ QT_LICENSE := $(QT_LICENSE), Bitstream license (DejaVu/Vera TrueType fonts)
+ QT_LICENSE_FILES += src/3rdparty/fonts/COPYRIGHT.DejaVu \
+@@ -699,10 +699,10 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT_TRANSLATION_FILES),y)
+ define QT_INSTALL_TARGET_TRANSLATIONS
+-	if [ -d $(STAGING_DIR)/usr/share/qt/translations/ ] ; then \
+-		mkdir -p $(TARGET_DIR)/usr/share/qt/translations ; \
+-		cp -dpfr $(STAGING_DIR)/usr/share/qt/translations/* $(TARGET_DIR)/usr/share/qt/translations ; \
+-	fi
++#	if [ -d $(STAGING_DIR)/usr/share/qt/translations/ ] ; then \
++#		mkdir -p $(TARGET_DIR)/usr/share/qt/translations ; \
++#		cp -dpfr $(STAGING_DIR)/usr/share/qt/translations/* $(TARGET_DIR)/usr/share/qt/translations ; \
++#	fi
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt53d/qt53d.mk buildroot-2017.05-rc2-patch/package/qt5/qt53d/qt53d.mk
+--- buildroot-2017.05-rc2/package/qt5/qt53d/qt53d.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt53d/qt53d.mk	2017-09-16 18:34:03.599967259 +0200
+@@ -32,9 +32,9 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT53D_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt53D*.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/sceneparsers $(TARGET_DIR)/usr/lib/qt/plugins
+-	cp -dpfr $(STAGING_DIR)/usr/qml/Qt3D $(TARGET_DIR)/usr/qml
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt53D*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/sceneparsers $(TARGET_DIR)/usr/lib/qt/plugins
++#	cp -dpfr $(STAGING_DIR)/usr/qml/Qt3D $(TARGET_DIR)/usr/qml
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5base/qt5base.mk buildroot-2017.05-rc2-patch/package/qt5/qt5base/qt5base.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5base/qt5base.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5base/qt5base.mk	2017-09-16 18:34:07.819967216 +0200
+@@ -254,32 +254,32 @@ define QT5BASE_INSTALL_STAGING_CMDS
+ endef
+ 
+ define QT5BASE_INSTALL_TARGET_LIBS
+-	for lib in $(QT5BASE_INSTALL_LIBS_y); do \
+-		cp -dpf $(STAGING_DIR)/usr/lib/lib$${lib}.so.* $(TARGET_DIR)/usr/lib || exit 1 ; \
+-	done
++#	for lib in $(QT5BASE_INSTALL_LIBS_y); do \
++#		cp -dpf $(STAGING_DIR)/usr/lib/lib$${lib}.so.* $(TARGET_DIR)/usr/lib || exit 1 ; \
++#	done
+ endef
+ 
+ define QT5BASE_INSTALL_TARGET_PLUGINS
+-	if [ -d $(STAGING_DIR)/usr/lib/qt/plugins/ ] ; then \
+-		mkdir -p $(TARGET_DIR)/usr/lib/qt/plugins ; \
+-		cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/* $(TARGET_DIR)/usr/lib/qt/plugins ; \
+-	fi
++#	if [ -d $(STAGING_DIR)/usr/lib/qt/plugins/ ] ; then \
++#		mkdir -p $(TARGET_DIR)/usr/lib/qt/plugins ; \
++#		cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/* $(TARGET_DIR)/usr/lib/qt/plugins ; \
++#	fi
+ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5_VERSION_5_6),y)
+ define QT5BASE_INSTALL_TARGET_FONTS
+-	if [ -d $(STAGING_DIR)/usr/lib/fonts/ ] ; then \
+-		mkdir -p $(TARGET_DIR)/usr/lib/fonts ; \
+-		cp -dpfr $(STAGING_DIR)/usr/lib/fonts/* $(TARGET_DIR)/usr/lib/fonts ; \
+-	fi
++#	if [ -d $(STAGING_DIR)/usr/lib/fonts/ ] ; then \
++#		mkdir -p $(TARGET_DIR)/usr/lib/fonts ; \
++#		cp -dpfr $(STAGING_DIR)/usr/lib/fonts/* $(TARGET_DIR)/usr/lib/fonts ; \
++#	fi
+ endef
+ endif
+ 
+ define QT5BASE_INSTALL_TARGET_EXAMPLES
+-	if [ -d $(STAGING_DIR)/usr/lib/qt/examples/ ] ; then \
+-		mkdir -p $(TARGET_DIR)/usr/lib/qt/examples ; \
+-		cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/* $(TARGET_DIR)/usr/lib/qt/examples ; \
+-	fi
++#	if [ -d $(STAGING_DIR)/usr/lib/qt/examples/ ] ; then \
++#		mkdir -p $(TARGET_DIR)/usr/lib/qt/examples ; \
++#		cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/* $(TARGET_DIR)/usr/lib/qt/examples ; \
++#	fi
+ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),y)
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5canvas3d/qt5canvas3d.mk buildroot-2017.05-rc2-patch/package/qt5/qt5canvas3d/qt5canvas3d.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5canvas3d/qt5canvas3d.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5canvas3d/qt5canvas3d.mk	2017-09-16 18:34:04.259967252 +0200
+@@ -27,7 +27,7 @@ define QT5CANVAS3D_INSTALL_STAGING_CMDS
+ endef
+ 
+ define QT5CANVAS3D_INSTALL_TARGET_CMDS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtCanvas3D $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtCanvas3D $(TARGET_DIR)/usr/qml/
+ endef
+ 
+ $(eval $(generic-package))
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5connectivity/qt5connectivity.mk buildroot-2017.05-rc2-patch/package/qt5/qt5connectivity/qt5connectivity.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5connectivity/qt5connectivity.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5connectivity/qt5connectivity.mk	2017-09-16 18:34:02.327967272 +0200
+@@ -42,35 +42,35 @@ endef
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ ifneq ($(BR2_PACKAGE_BLUEZ_UTILS)$(BR2_PACKAGE_BLUEZ5_UTILS),)
+ define QT5CONNECTIVITY_INSTALL_TARGET_BLUETOOTH_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtBluetooth $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtBluetooth $(TARGET_DIR)/usr/qml/
+ endef
+ endif
+ ifeq ($(BR2_PACKAGE_NEARD),y)
+ define QT5CONNECTIVITY_INSTALL_TARGET_NFC_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtNfc $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtNfc $(TARGET_DIR)/usr/qml/
+ endef
+ endif
+ endif
+ 
+ ifneq ($(BR2_PACKAGE_BLUEZ_UTILS)$(BR2_PACKAGE_BLUEZ5_UTILS),)
+ define QT5CONNECTIVITY_INSTALL_TARGET_BLUETOOTH
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Bluetooth.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpf $(STAGING_DIR)/usr/bin/sdpscanner $(TARGET_DIR)/usr/bin
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Bluetooth.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/bin/sdpscanner $(TARGET_DIR)/usr/bin
+ endef
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5CONNECTIVITY_INSTALL_TARGET_BLUETOOTH_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/bluetooth $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/bluetooth $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_NEARD),y)
+ define QT5CONNECTIVITY_INSTALL_TARGET_NFC
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Nfc.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Nfc.so.* $(TARGET_DIR)/usr/lib
+ endef
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5CONNECTIVITY_INSTALL_TARGET_NFC_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/nfc $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/nfc $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5declarative/qt5declarative.mk buildroot-2017.05-rc2-patch/package/qt5/qt5declarative/qt5declarative.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5declarative/qt5declarative.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5declarative/qt5declarative.mk	2017-09-16 18:34:09.131967202 +0200
+@@ -35,16 +35,16 @@ ifeq ($(BR2_STATIC_LIBS),)
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ define QT5DECLARATIVE_INSTALL_TARGET_QUICK_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Quick*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Quick*.so.* $(TARGET_DIR)/usr/lib
+ endef
+ define QT5DECLARATIVE_INSTALL_TARGET_QUICK_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/quick/ $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/quick/ $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ 
+ define QT5DECLARATIVE_INSTALL_TARGET_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Qml*.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/qml* $(TARGET_DIR)/usr/lib/qt/plugins
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Qml*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/qml* $(TARGET_DIR)/usr/lib/qt/plugins
+ 	$(QT5DECLARATIVE_INSTALL_TARGET_QUICK_LIBS)
+ endef
+ 
+@@ -52,14 +52,14 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5DECLARATIVE_INSTALL_TARGET_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/qml* $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/qml* $(TARGET_DIR)/usr/lib/qt/examples/
+ 	$(QT5DECLARATIVE_INSTALL_TARGET_QUICK_EXAMPLES)
+ endef
+ endif
+ 
+ define QT5DECLARATIVE_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/bin/qml* $(TARGET_DIR)/usr/bin
+-	cp -dpfr $(STAGING_DIR)/usr/qml $(TARGET_DIR)/usr
++#	cp -dpf $(STAGING_DIR)/usr/bin/qml* $(TARGET_DIR)/usr/bin
++#	cp -dpfr $(STAGING_DIR)/usr/qml $(TARGET_DIR)/usr
+ 	$(QT5DECLARATIVE_INSTALL_TARGET_EXAMPLES)
+ 	$(QT5DECLARATIVE_INSTALL_TARGET_LIBS)
+ endef
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5enginio/qt5enginio.mk buildroot-2017.05-rc2-patch/package/qt5/qt5enginio/qt5enginio.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5enginio/qt5enginio.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5enginio/qt5enginio.mk	2017-09-16 18:34:05.267967242 +0200
+@@ -37,19 +37,19 @@ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ define QT5ENGINIO_INSTALL_TARGET_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/Enginio $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/Enginio $(TARGET_DIR)/usr/qml/
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5ENGINIO_INSTALL_TARGET_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/enginio $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/enginio $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ 
+ ifneq ($(BR2_STATIC_LIBS),y)
+ define QT5ENGINIO_INSTALL_TARGET_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libEnginio.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libEnginio.so.* $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5graphicaleffects/qt5graphicaleffects.mk buildroot-2017.05-rc2-patch/package/qt5/qt5graphicaleffects/qt5graphicaleffects.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5graphicaleffects/qt5graphicaleffects.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5graphicaleffects/qt5graphicaleffects.mk	2017-09-16 18:34:02.423967271 +0200
+@@ -31,7 +31,7 @@ define QT5GRAPHICALEFFECTS_INSTALL_STAGI
+ endef
+ 
+ define QT5GRAPHICALEFFECTS_INSTALL_TARGET_CMDS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtGraphicalEffects $(TARGET_DIR)/usr/qml
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtGraphicalEffects $(TARGET_DIR)/usr/qml
+ endef
+ 
+ $(eval $(generic-package))
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5imageformats/qt5imageformats.mk buildroot-2017.05-rc2-patch/package/qt5/qt5imageformats/qt5imageformats.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5imageformats/qt5imageformats.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5imageformats/qt5imageformats.mk	2017-09-16 18:34:01.511967280 +0200
+@@ -32,7 +32,7 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT5IMAGEFORMATS_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/qt/plugins/imageformats/*.so $(TARGET_DIR)/usr/lib/qt/plugins/imageformats/
++#	cp -dpf $(STAGING_DIR)/usr/lib/qt/plugins/imageformats/*.so $(TARGET_DIR)/usr/lib/qt/plugins/imageformats/
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5location/qt5location.mk buildroot-2017.05-rc2-patch/package/qt5/qt5location/qt5location.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5location/qt5location.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5location/qt5location.mk	2017-09-16 18:34:02.983967265 +0200
+@@ -37,18 +37,18 @@ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ define QT5LOCATION_INSTALL_TARGET_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtPositioning $(TARGET_DIR)/usr/qml/
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtLocation $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtPositioning $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtLocation $(TARGET_DIR)/usr/qml/
+ endef
+ define QT5LOCATION_INSTALL_TARGET_LOCATION
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Location.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/geoservices $(TARGET_DIR)/usr/lib/qt/plugins/
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Location.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/geoservices $(TARGET_DIR)/usr/lib/qt/plugins/
+ endef
+ endif
+ 
+ define QT5LOCATION_INSTALL_TARGET_POSITION
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Positioning.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/position $(TARGET_DIR)/usr/lib/qt/plugins/
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Positioning.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/position $(TARGET_DIR)/usr/lib/qt/plugins/
+ endef
+ 
+ define QT5LOCATION_INSTALL_TARGET_CMDS
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5multimedia/qt5multimedia.mk buildroot-2017.05-rc2-patch/package/qt5/qt5multimedia/qt5multimedia.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5multimedia/qt5multimedia.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5multimedia/qt5multimedia.mk	2017-09-16 18:34:06.743967226 +0200
+@@ -42,26 +42,26 @@ endef
+ ifeq ($(BR2_STATIC_LIBS),)
+ ifeq ($(BR2_PACKAGE_GST1_PLUGINS_BASE),y)
+ define QT5MULTIMEDIA_INSTALL_TARGET_QGSTTOOLS_LIB
+-	cp -dpf $(STAGING_DIR)/usr/lib/libqgsttools*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libqgsttools*.so.* $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+ define QT5MULTIMEDIA_INSTALL_TARGET_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Multimedia*.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/* $(TARGET_DIR)/usr/lib/qt/plugins
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Multimedia*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/* $(TARGET_DIR)/usr/lib/qt/plugins
+ 	$(QT5MULTIMEDIA_INSTALL_TARGET_QGSTTOOLS_LIB)
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ define QT5MULTIMEDIA_INSTALL_TARGET_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtMultimedia $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtMultimedia $(TARGET_DIR)/usr/qml/
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5MULTIMEDIA_INSTALL_TARGET_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/multimedia* $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/multimedia* $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5quickcontrols/qt5quickcontrols.mk buildroot-2017.05-rc2-patch/package/qt5/qt5quickcontrols/qt5quickcontrols.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5quickcontrols/qt5quickcontrols.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5quickcontrols/qt5quickcontrols.mk	2017-09-16 18:34:04.715967247 +0200
+@@ -27,20 +27,20 @@ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK)$(BR2_PACKAGE_QT5BASE_WIDGETS),yy)
+ define QT5QUICKCONTROLS_INSTALL_TARGET_PRIVATEWIDGETS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/PrivateWidgets $(TARGET_DIR)/usr/qml/QtQuick
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/PrivateWidgets $(TARGET_DIR)/usr/qml/QtQuick
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5_VERSION_5_6),y)
+ define QT5QUICKCONTROLS_INSTALL_TARGET_LAYOUTS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Layouts $(TARGET_DIR)/usr/qml/QtQuick
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Layouts $(TARGET_DIR)/usr/qml/QtQuick
+ endef
+ endif
+ 
+ define QT5QUICKCONTROLS_INSTALL_TARGET_CMDS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Controls $(TARGET_DIR)/usr/qml/QtQuick
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Dialogs $(TARGET_DIR)/usr/qml/QtQuick
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Extras $(TARGET_DIR)/usr/qml/QtQuick
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Controls $(TARGET_DIR)/usr/qml/QtQuick
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Dialogs $(TARGET_DIR)/usr/qml/QtQuick
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Extras $(TARGET_DIR)/usr/qml/QtQuick
+ 	$(QT5QUICKCONTROLS_INSTALL_TARGET_PRIVATEWIDGETS)
+ 	$(QT5QUICKCONTROLS_INSTALL_TARGET_LAYOUTS)
+ endef
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5quickcontrols2/qt5quickcontrols2.mk buildroot-2017.05-rc2-patch/package/qt5/qt5quickcontrols2/qt5quickcontrols2.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5quickcontrols2/qt5quickcontrols2.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5quickcontrols2/qt5quickcontrols2.mk	2017-09-16 18:34:06.291967231 +0200
+@@ -27,26 +27,26 @@ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5QUICKCONTROLS2_INSTALL_TARGET_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/quickcontrols2 $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/quickcontrols2 $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5_VERSION_LATEST),y)
+ define QT5QUICKCONTROLS2_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5QuickTemplates2.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5QuickControls2.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/calendar $(TARGET_DIR)/usr/qml/Qt/labs
+-	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/platform $(TARGET_DIR)/usr/qml/Qt/labs
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Controls.2 $(TARGET_DIR)/usr/qml/QtQuick
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Templates.2 $(TARGET_DIR)/usr/qml/QtQuick
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5QuickTemplates2.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5QuickControls2.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/calendar $(TARGET_DIR)/usr/qml/Qt/labs
++#	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/platform $(TARGET_DIR)/usr/qml/Qt/labs
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Controls.2 $(TARGET_DIR)/usr/qml/QtQuick
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtQuick/Templates.2 $(TARGET_DIR)/usr/qml/QtQuick
+ 	$(QT5QUICKCONTROLS2_INSTALL_TARGET_EXAMPLES)
+ endef
+ else
+ define QT5QUICKCONTROLS2_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5LabsTemplates.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/controls $(TARGET_DIR)/usr/qml/Qt/labs
+-	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/calendar $(TARGET_DIR)/usr/qml/Qt/labs
+-	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/templates $(TARGET_DIR)/usr/qml/Qt/labs
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5LabsTemplates.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/controls $(TARGET_DIR)/usr/qml/Qt/labs
++#	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/calendar $(TARGET_DIR)/usr/qml/Qt/labs
++#	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/labs/templates $(TARGET_DIR)/usr/qml/Qt/labs
+ 	$(QT5QUICKCONTROLS2_INSTALL_TARGET_EXAMPLES)
+ endef
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5script/qt5script.mk buildroot-2017.05-rc2-patch/package/qt5/qt5script/qt5script.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5script/qt5script.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5script/qt5script.mk	2017-09-16 18:34:03.331967261 +0200
+@@ -28,7 +28,7 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT5SCRIPT_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Script*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Script*.so.* $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5sensors/qt5sensors.mk buildroot-2017.05-rc2-patch/package/qt5/qt5sensors/qt5sensors.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5sensors/qt5sensors.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5sensors/qt5sensors.mk	2017-09-16 18:34:04.991967244 +0200
+@@ -37,14 +37,14 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT5SENSORS_INSTALL_TARGET_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Sensors.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/sensor* $(TARGET_DIR)/usr/lib/qt/plugins
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Sensors.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/sensor* $(TARGET_DIR)/usr/lib/qt/plugins
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ define QT5SENSORS_INSTALL_TARGET_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtSensors $(TARGET_DIR)/usr/qml
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtSensors $(TARGET_DIR)/usr/qml
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5serialbus/qt5serialbus.mk buildroot-2017.05-rc2-patch/package/qt5/qt5serialbus/qt5serialbus.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5serialbus/qt5serialbus.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5serialbus/qt5serialbus.mk	2017-09-16 18:34:03.879967256 +0200
+@@ -28,11 +28,11 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT5SERIALBUS_INSTALL_TARGET_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5SerialBus.so.* \
+-		$(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5SerialBus.so.* \
++#		$(TARGET_DIR)/usr/lib
+ 	mkdir -p $(TARGET_DIR)/usr/lib/qt/plugins/canbus
+-	cp -dpf $(STAGING_DIR)/usr/lib/qt/plugins/canbus/*.so \
+-		$(TARGET_DIR)/usr/lib/qt/plugins/canbus
++#	cp -dpf $(STAGING_DIR)/usr/lib/qt/plugins/canbus/*.so \
++#		$(TARGET_DIR)/usr/lib/qt/plugins/canbus
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5serialport/qt5serialport.mk buildroot-2017.05-rc2-patch/package/qt5/qt5serialport/qt5serialport.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5serialport/qt5serialport.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5serialport/qt5serialport.mk	2017-09-16 18:34:07.911967215 +0200
+@@ -33,7 +33,7 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT5SERIALPORT_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5SerialPort.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5SerialPort.so.* $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5svg/qt5svg.mk buildroot-2017.05-rc2-patch/package/qt5/qt5svg/qt5svg.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5svg/qt5svg.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5svg/qt5svg.mk	2017-09-16 18:34:08.483967209 +0200
+@@ -33,14 +33,14 @@ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5BASE_WIDGETS),y)
+ define QT5SVG_INSTALL_ICONENGINES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/iconengines $(TARGET_DIR)/usr/lib/qt/plugins
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/plugins/iconengines $(TARGET_DIR)/usr/lib/qt/plugins
+ endef
+ endif
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT5SVG_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Svg*.so.* $(TARGET_DIR)/usr/lib
+-	cp -dpf $(STAGING_DIR)/usr/lib/qt/plugins/imageformats/libqsvg.so $(TARGET_DIR)/usr/lib/qt/plugins/imageformats/
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5Svg*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/qt/plugins/imageformats/libqsvg.so $(TARGET_DIR)/usr/lib/qt/plugins/imageformats/
+ 	$(QT5SVG_INSTALL_ICONENGINES)
+ endef
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5webchannel/qt5webchannel.mk buildroot-2017.05-rc2-patch/package/qt5/qt5webchannel/qt5webchannel.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5webchannel/qt5webchannel.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5webchannel/qt5webchannel.mk	2017-09-16 18:34:08.191967212 +0200
+@@ -45,19 +45,19 @@ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ define QT5WEBCHANNEL_INSTALL_TARGET_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtWebChannel $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtWebChannel $(TARGET_DIR)/usr/qml/
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5WEBCHANNEL_INSTALL_TARGET_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/webchannel $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/webchannel $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ 
+ ifneq ($(BR2_STATIC_LIBS),y)
+ define QT5WEBCHANNEL_INSTALL_TARGET_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5WebChannel.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5WebChannel.so.* $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5webkit/qt5webkit.mk buildroot-2017.05-rc2-patch/package/qt5/qt5webkit/qt5webkit.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5webkit/qt5webkit.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5webkit/qt5webkit.mk	2017-09-16 18:34:01.687967278 +0200
+@@ -52,12 +52,12 @@ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ define QT5WEBKIT_INSTALL_TARGET_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/QtWebKit $(TARGET_DIR)/usr/qml/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/QtWebKit $(TARGET_DIR)/usr/qml/
+ endef
+ endif
+ 
+ define QT5WEBKIT_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5WebKit*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5WebKit*.so.* $(TARGET_DIR)/usr/lib
+ 	cp -dpf $(@D)/bin/* $(TARGET_DIR)/usr/bin/
+ 	$(QT5WEBKIT_INSTALL_TARGET_QMLS)
+ endef
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5websockets/qt5websockets.mk buildroot-2017.05-rc2-patch/package/qt5/qt5websockets/qt5websockets.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5websockets/qt5websockets.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5websockets/qt5websockets.mk	2017-09-16 18:34:04.163967253 +0200
+@@ -40,19 +40,19 @@ endef
+ 
+ ifeq ($(BR2_PACKAGE_QT5DECLARATIVE_QUICK),y)
+ define QT5WEBSOCKETS_INSTALL_TARGET_QMLS
+-	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/WebSockets $(TARGET_DIR)/usr/qml/Qt/
++#	cp -dpfr $(STAGING_DIR)/usr/qml/Qt/WebSockets $(TARGET_DIR)/usr/qml/Qt/
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5WEBSOCKETS_INSTALL_TARGET_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/websockets $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/websockets $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ 
+ ifneq ($(BR2_STATIC_LIBS),y)
+ define QT5WEBSOCKETS_INSTALL_TARGET_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5WebSockets.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5WebSockets.so.* $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5x11extras/qt5x11extras.mk buildroot-2017.05-rc2-patch/package/qt5/qt5x11extras/qt5x11extras.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5x11extras/qt5x11extras.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5x11extras/qt5x11extras.mk	2017-09-16 18:34:03.067967264 +0200
+@@ -33,7 +33,7 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT5X11EXTRAS_INSTALL_TARGET_CMDS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5X11Extras.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5X11Extras.so.* $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/qt5/qt5xmlpatterns/qt5xmlpatterns.mk buildroot-2017.05-rc2-patch/package/qt5/qt5xmlpatterns/qt5xmlpatterns.mk
+--- buildroot-2017.05-rc2/package/qt5/qt5xmlpatterns/qt5xmlpatterns.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qt5/qt5xmlpatterns/qt5xmlpatterns.mk	2017-09-16 18:34:03.243967262 +0200
+@@ -36,13 +36,13 @@ endef
+ 
+ ifeq ($(BR2_STATIC_LIBS),)
+ define QT5XMLPATTERNS_INSTALL_TARGET_LIBS
+-	cp -dpf $(STAGING_DIR)/usr/lib/libQt5XmlPatterns*.so.* $(TARGET_DIR)/usr/lib
++#	cp -dpf $(STAGING_DIR)/usr/lib/libQt5XmlPatterns*.so.* $(TARGET_DIR)/usr/lib
+ endef
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_QT5BASE_EXAMPLES),y)
+ define QT5XMLPATTERNS_INSTALL_TARGET_EXAMPLES
+-	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/xmlpatterns $(TARGET_DIR)/usr/lib/qt/examples/
++#	cp -dpfr $(STAGING_DIR)/usr/lib/qt/examples/xmlpatterns $(TARGET_DIR)/usr/lib/qt/examples/
+ endef
+ endif
+ 
+diff -Naurp buildroot-2017.05-rc2/package/shared-mime-info/shared-mime-info.mk buildroot-2017.05-rc2-patch/package/shared-mime-info/shared-mime-info.mk
+--- buildroot-2017.05-rc2/package/shared-mime-info/shared-mime-info.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/shared-mime-info/shared-mime-info.mk	2017-09-16 18:33:57.211967324 +0200
+@@ -24,7 +24,7 @@ HOST_SHARED_MIME_INFO_DEPENDENCIES = \
+ 
+ define SHARED_MIME_INFO_INSTALL_TARGET_CMDS
+ 	$(HOST_MAKE_ENV) $(SHARED_MIME_INFO_HOST_BINARY) $(STAGING_DIR)/usr/share/mime
+-	$(INSTALL) -D $(STAGING_DIR)/usr/share/mime/mime.cache $(TARGET_DIR)/usr/share/mime/mime.cache
++#	$(INSTALL) -D $(STAGING_DIR)/usr/share/mime/mime.cache $(TARGET_DIR)/usr/share/mime/mime.cache
+ endef
+ 
+ $(eval $(autotools-package))

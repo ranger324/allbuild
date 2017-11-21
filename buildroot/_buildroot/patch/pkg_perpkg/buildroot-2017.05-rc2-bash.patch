@@ -1,0 +1,12 @@
+diff -Naurp buildroot-2017.05-rc2/package/bash/bash.mk buildroot-2017.05-rc2-patch/package/bash/bash.mk
+--- buildroot-2017.05-rc2/package/bash/bash.mk	2017-05-17 08:27:16.000000000 +0000
++++ buildroot-2017.05-rc2-patch/package/bash/bash.mk	2017-05-22 08:48:21.638079283 +0000
+@@ -22,6 +22,8 @@ BASH_CONF_ENV += \
+ 	bash_cv_func_sigsetjmp=present \
+ 	bash_cv_printf_a_format=yes
+ 
++BASH_CONF_OPTS += --without-bash-malloc
++
+ # The static build needs some trickery
+ ifeq ($(BR2_STATIC_LIBS),y)
+ BASH_CONF_OPTS += --enable-static-link --without-bash-malloc

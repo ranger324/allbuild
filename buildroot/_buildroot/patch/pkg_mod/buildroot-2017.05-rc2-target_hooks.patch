@@ -1,0 +1,1936 @@
+diff -Naurp buildroot-2017.05-rc2/package/apache/apache.mk buildroot-2017.05-rc2-patch/package/apache/apache.mk
+--- buildroot-2017.05-rc2/package/apache/apache.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/apache/apache.mk	2017-09-17 23:01:16.655915681 +0200
+@@ -82,7 +82,7 @@ endef
+ APACHE_POST_INSTALL_STAGING_HOOKS += APACHE_FIX_STAGING_APACHE_CONFIG
+ 
+ define APACHE_CLEANUP_TARGET
+-	$(RM) -rf $(TARGET_DIR)/usr/manual $(TARGET_DIR)/usr/build
++#	$(RM) -rf $(TARGET_DIR)/usr/manual $(TARGET_DIR)/usr/build
+ endef
+ APACHE_POST_INSTALL_TARGET_HOOKS += APACHE_CLEANUP_TARGET
+ 
+diff -Naurp buildroot-2017.05-rc2/package/apr/apr.mk buildroot-2017.05-rc2-patch/package/apr/apr.mk
+--- buildroot-2017.05-rc2/package/apr/apr.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/apr/apr.mk	2017-09-17 23:00:56.863915883 +0200
+@@ -56,7 +56,7 @@ APR_DEPENDENCIES += util-linux
+ endif
+ 
+ define APR_CLEANUP_UNNEEDED_FILES
+-	$(RM) -rf $(TARGET_DIR)/usr/build-1/
++#	$(RM) -rf $(TARGET_DIR)/usr/build-1/
+ endef
+ 
+ APR_POST_INSTALL_TARGET_HOOKS += APR_CLEANUP_UNNEEDED_FILES
+diff -Naurp buildroot-2017.05-rc2/package/augeas/augeas.mk buildroot-2017.05-rc2-patch/package/augeas/augeas.mk
+--- buildroot-2017.05-rc2/package/augeas/augeas.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/augeas/augeas.mk	2017-09-17 23:01:08.863915760 +0200
+@@ -18,7 +18,7 @@ AUGEAS_CONF_OPTS = --disable-gnulib-test
+ 
+ # Remove the test lenses which occupy about 1.4 MB on the target
+ define AUGEAS_REMOVE_TEST_LENSES
+-	rm -rf $(TARGET_DIR)/usr/share/augeas/lenses/dist/tests
++#	rm -rf $(TARGET_DIR)/usr/share/augeas/lenses/dist/tests
+ endef
+ AUGEAS_POST_INSTALL_TARGET_HOOKS += AUGEAS_REMOVE_TEST_LENSES
+ 
+diff -Naurp buildroot-2017.05-rc2/package/avahi/avahi.mk buildroot-2017.05-rc2-patch/package/avahi/avahi.mk
+--- buildroot-2017.05-rc2/package/avahi/avahi.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/avahi/avahi.mk	2017-09-17 23:00:57.063915881 +0200
+@@ -175,14 +175,14 @@ define AVAHI_USERS
+ endef
+ 
+ define AVAHI_REMOVE_INITSCRIPT
+-	rm -rf $(TARGET_DIR)/etc/init.d/avahi-*
++#	rm -rf $(TARGET_DIR)/etc/init.d/avahi-*
+ endef
+ 
+ AVAHI_POST_INSTALL_TARGET_HOOKS += AVAHI_REMOVE_INITSCRIPT
+ 
+ ifeq ($(BR2_PACKAGE_AVAHI_AUTOIPD),y)
+ define AVAHI_INSTALL_AUTOIPD
+-	rm -f $(TARGET_DIR)/var/lib/avahi-autoipd
++#	rm -f $(TARGET_DIR)/var/lib/avahi-autoipd
+ 	$(INSTALL) -d -m 0755 $(TARGET_DIR)/var/lib
+ 	ln -sf /tmp/avahi-autoipd $(TARGET_DIR)/var/lib/avahi-autoipd
+ endef
+diff -Naurp buildroot-2017.05-rc2/package/avrdude/avrdude.mk buildroot-2017.05-rc2-patch/package/avrdude/avrdude.mk
+--- buildroot-2017.05-rc2/package/avrdude/avrdude.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/avrdude/avrdude.mk	2017-09-17 23:00:55.863915893 +0200
+@@ -26,7 +26,7 @@ endif
+ # if /etc/avrdude.conf exists, the installation process creates a
+ # backup file, which we do not want in the context of Buildroot.
+ define AVRDUDE_REMOVE_BACKUP_FILE
+-	$(RM) -f $(TARGET_DIR)/etc/avrdude.conf.bak
++#	$(RM) -f $(TARGET_DIR)/etc/avrdude.conf.bak
+ endef
+ 
+ AVRDUDE_POST_INSTALL_TARGET_HOOKS += AVRDUDE_REMOVE_BACKUP_FILE
+diff -Naurp buildroot-2017.05-rc2/package/bcusdk/bcusdk.mk buildroot-2017.05-rc2-patch/package/bcusdk/bcusdk.mk
+--- buildroot-2017.05-rc2/package/bcusdk/bcusdk.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/bcusdk/bcusdk.mk	2017-09-17 23:01:09.783915751 +0200
+@@ -25,7 +25,7 @@ BCUSDK_DEPENDENCIES = \
+ 	$(if $(BR2_PACKAGE_ARGP_STANDALONE),argp-standalone)
+ 
+ define BCUSDK_REMOVE_EXAMPLES
+-	$(RM) -rf $(TARGET_DIR)/usr/share/bcusdk
++#	$(RM) -rf $(TARGET_DIR)/usr/share/bcusdk
+ endef
+ 
+ BCUSDK_POST_INSTALL_TARGET_HOOKS += BCUSDK_REMOVE_EXAMPLES
+diff -Naurp buildroot-2017.05-rc2/package/berkeleydb/berkeleydb.mk buildroot-2017.05-rc2-patch/package/berkeleydb/berkeleydb.mk
+--- buildroot-2017.05-rc2/package/berkeleydb/berkeleydb.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/berkeleydb/berkeleydb.mk	2017-09-17 23:01:13.351915714 +0200
+@@ -54,7 +54,7 @@ endef
+ ifneq ($(BR2_PACKAGE_BERKELEYDB_TOOLS),y)
+ 
+ define BERKELEYDB_REMOVE_TOOLS
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/, $(BERKELEYDB_BINARIES))
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/, $(BERKELEYDB_BINARIES))
+ endef
+ 
+ BERKELEYDB_POST_INSTALL_TARGET_HOOKS += BERKELEYDB_REMOVE_TOOLS
+@@ -62,7 +62,7 @@ BERKELEYDB_POST_INSTALL_TARGET_HOOKS +=
+ endif
+ 
+ define BERKELEYDB_REMOVE_DOCS
+-	rm -rf $(TARGET_DIR)/usr/docs
++#	rm -rf $(TARGET_DIR)/usr/docs
+ endef
+ 
+ BERKELEYDB_POST_INSTALL_TARGET_HOOKS += BERKELEYDB_REMOVE_DOCS
+diff -Naurp buildroot-2017.05-rc2/package/bind/bind.mk buildroot-2017.05-rc2-patch/package/bind/bind.mk
+--- buildroot-2017.05-rc2/package/bind/bind.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/bind/bind.mk	2017-09-17 23:00:58.235915869 +0200
+@@ -83,11 +83,11 @@ BIND_CONF_OPTS += --with-readline=no
+ endif
+ 
+ define BIND_TARGET_REMOVE_SERVER
+-	rm -rf $(addprefix $(TARGET_DIR)/usr/sbin/, $(BIND_TARGET_SERVER_SBIN))
++#	rm -rf $(addprefix $(TARGET_DIR)/usr/sbin/, $(BIND_TARGET_SERVER_SBIN))
+ endef
+ 
+ define BIND_TARGET_REMOVE_TOOLS
+-	rm -rf $(addprefix $(TARGET_DIR)/usr/bin/, $(BIND_TARGET_TOOLS_BIN))
++#	rm -rf $(addprefix $(TARGET_DIR)/usr/bin/, $(BIND_TARGET_TOOLS_BIN))
+ endef
+ 
+ ifeq ($(BR2_PACKAGE_BIND_SERVER),y)
+diff -Naurp buildroot-2017.05-rc2/package/check/check.mk buildroot-2017.05-rc2-patch/package/check/check.mk
+--- buildroot-2017.05-rc2/package/check/check.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/check/check.mk	2017-09-17 23:01:16.747915680 +0200
+@@ -13,7 +13,7 @@ CHECK_LICENSE_FILES = COPYING.LESSER
+ 
+ # Having checkmk in the target makes no sense
+ define CHECK_REMOVE_CHECKMK
+-	rm -f $(TARGET_DIR)/usr/bin/checkmk
++#	rm -f $(TARGET_DIR)/usr/bin/checkmk
+ endef
+ CHECK_POST_INSTALL_TARGET_HOOKS += CHECK_REMOVE_CHECKMK
+ 
+diff -Naurp buildroot-2017.05-rc2/package/c-icap/c-icap.mk buildroot-2017.05-rc2-patch/package/c-icap/c-icap.mk
+--- buildroot-2017.05-rc2/package/c-icap/c-icap.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/c-icap/c-icap.mk	2017-09-17 23:01:16.839915679 +0200
+@@ -60,7 +60,7 @@ endef
+ #  - Tweak the -config scripts, because the generic
+ #    <pkg>_CONFIG_SCRIPTS logic doesn't tweak them enough
+ define C_ICAP_TUNE_INSTALLATION
+-	$(RM) -f $(TARGET_DIR)/etc/c-icap.*.default
++#	$(RM) -f $(TARGET_DIR)/etc/c-icap.*.default
+ 	$(SED) 's%/usr/etc/%/etc/%' $(TARGET_DIR)/etc/c-icap.conf
+ 	$(SED) 's%/usr/var/%/var/%' $(TARGET_DIR)/etc/c-icap.conf
+ 	$(SED) 's%INCDIR=.*%INCDIR=$(STAGING_DIR)/usr/include%' \
+diff -Naurp buildroot-2017.05-rc2/package/cmake/cmake.mk buildroot-2017.05-rc2-patch/package/cmake/cmake.mk
+--- buildroot-2017.05-rc2/package/cmake/cmake.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/cmake/cmake.mk	2017-09-17 23:00:59.719915853 +0200
+@@ -59,9 +59,9 @@ define HOST_CMAKE_INSTALL_CMDS
+ endef
+ 
+ define CMAKE_REMOVE_EXTRA_DATA
+-	rm $(TARGET_DIR)/usr/bin/{cmake,cpack}
+-	rm -fr $(TARGET_DIR)/usr/share/cmake-$(CMAKE_VERSION_MAJOR)/{completions,editors}
+-	rm -fr $(TARGET_DIR)/usr/share/cmake-$(CMAKE_VERSION_MAJOR)/{Help,include}
++#	rm $(TARGET_DIR)/usr/bin/{cmake,cpack}
++#	rm -fr $(TARGET_DIR)/usr/share/cmake-$(CMAKE_VERSION_MAJOR)/{completions,editors}
++#	rm -fr $(TARGET_DIR)/usr/share/cmake-$(CMAKE_VERSION_MAJOR)/{Help,include}
+ endef
+ 
+ define CMAKE_INSTALL_CTEST_CFG_FILE
+diff -Naurp buildroot-2017.05-rc2/package/dbus/dbus.mk buildroot-2017.05-rc2-patch/package/dbus/dbus.mk
+--- buildroot-2017.05-rc2/package/dbus/dbus.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/dbus/dbus.mk	2017-09-17 23:01:00.695915843 +0200
+@@ -79,13 +79,13 @@ endif
+ 
+ # fix rebuild (dbus makefile errors out if /var/lib/dbus is a symlink)
+ define DBUS_REMOVE_VAR_LIB_DBUS
+-	rm -rf $(TARGET_DIR)/var/lib/dbus
++#	rm -rf $(TARGET_DIR)/var/lib/dbus
+ endef
+ 
+ DBUS_PRE_INSTALL_TARGET_HOOKS += DBUS_REMOVE_VAR_LIB_DBUS
+ 
+ define DBUS_REMOVE_DEVFILES
+-	rm -rf $(TARGET_DIR)/usr/lib/dbus-1.0
++#	rm -rf $(TARGET_DIR)/usr/lib/dbus-1.0
+ endef
+ 
+ DBUS_POST_INSTALL_TARGET_HOOKS += DBUS_REMOVE_DEVFILES
+diff -Naurp buildroot-2017.05-rc2/package/domoticz/domoticz.mk buildroot-2017.05-rc2-patch/package/domoticz/domoticz.mk
+--- buildroot-2017.05-rc2/package/domoticz/domoticz.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/domoticz/domoticz.mk	2017-09-17 23:01:15.703915690 +0200
+@@ -69,8 +69,8 @@ DOMOTICZ_CONF_OPTS += -DCMAKE_INSTALL_PR
+ # directory
+ # Do not delete History.txt as it is used in source code
+ define DOMOTICZ_REMOVE_UNNEEDED_FILES
+-	$(RM) $(TARGET_DIR)/$(DOMOTICZ_TARGET_DIR)/License.txt
+-	$(RM) $(TARGET_DIR)/$(DOMOTICZ_TARGET_DIR)/updatedomo
++#	$(RM) $(TARGET_DIR)/$(DOMOTICZ_TARGET_DIR)/License.txt
++#	$(RM) $(TARGET_DIR)/$(DOMOTICZ_TARGET_DIR)/updatedomo
+ endef
+ 
+ DOMOTICZ_POST_INSTALL_TARGET_HOOKS += DOMOTICZ_REMOVE_UNNEEDED_FILES
+diff -Naurp buildroot-2017.05-rc2/package/dosfstools/dosfstools.mk buildroot-2017.05-rc2-patch/package/dosfstools/dosfstools.mk
+--- buildroot-2017.05-rc2/package/dosfstools/dosfstools.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/dosfstools/dosfstools.mk	2017-09-17 23:01:03.115915819 +0200
+@@ -26,21 +26,21 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_DOSFSTOOLS_FATLABEL),)
+ define DOSFSTOOLS_REMOVE_FATLABEL
+-	rm -f $(addprefix $(TARGET_DIR)/sbin/,dosfslabel fatlabel)
++#	rm -f $(addprefix $(TARGET_DIR)/sbin/,dosfslabel fatlabel)
+ endef
+ DOSFSTOOLS_POST_INSTALL_TARGET_HOOKS += DOSFSTOOLS_REMOVE_FATLABEL
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_DOSFSTOOLS_FSCK_FAT),)
+ define DOSFSTOOLS_REMOVE_FSCK_FAT
+-	rm -f $(addprefix $(TARGET_DIR)/sbin/,fsck.fat dosfsck fsck.msdos fsck.vfat)
++#	rm -f $(addprefix $(TARGET_DIR)/sbin/,fsck.fat dosfsck fsck.msdos fsck.vfat)
+ endef
+ DOSFSTOOLS_POST_INSTALL_TARGET_HOOKS += DOSFSTOOLS_REMOVE_FSCK_FAT
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_DOSFSTOOLS_MKFS_FAT),)
+ define DOSFSTOOLS_REMOVE_MKFS_FAT
+-	rm -f $(addprefix $(TARGET_DIR)/sbin/,mkfs.fat mkdosfs mkfs.msdos mkfs.vfat)
++#	rm -f $(addprefix $(TARGET_DIR)/sbin/,mkfs.fat mkdosfs mkfs.msdos mkfs.vfat)
+ endef
+ DOSFSTOOLS_POST_INSTALL_TARGET_HOOKS += DOSFSTOOLS_REMOVE_MKFS_FAT
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/dtc/dtc.mk buildroot-2017.05-rc2-patch/package/dtc/dtc.mk
+--- buildroot-2017.05-rc2/package/dtc/dtc.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/dtc/dtc.mk	2017-09-17 23:01:03.763915812 +0200
+@@ -14,7 +14,7 @@ DTC_DEPENDENCIES = host-bison host-flex
+ HOST_DTC_DEPENDENCIES = host-bison host-flex
+ 
+ define DTC_POST_INSTALL_TARGET_RM_DTDIFF
+-	rm -f $(TARGET_DIR)/usr/bin/dtdiff
++#	rm -f $(TARGET_DIR)/usr/bin/dtdiff
+ endef
+ 
+ ifeq ($(BR2_PACKAGE_DTC_PROGRAMS),y)
+diff -Naurp buildroot-2017.05-rc2/package/efl/efl.mk buildroot-2017.05-rc2-patch/package/efl/efl.mk
+--- buildroot-2017.05-rc2/package/efl/efl.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/efl/efl.mk	2017-09-17 23:00:59.919915851 +0200
+@@ -288,7 +288,7 @@ ifeq ($(BR2_PACKAGE_UPOWER),)
+ # of power state, such as low battery or AC power, so
+ # they can adapt their power consumption.
+ define EFL_HOOK_REMOVE_UPOWER
+-	rm -fr $(TARGET_DIR)/usr/lib/ecore/system/upower
++#	rm -fr $(TARGET_DIR)/usr/lib/ecore/system/upower
+ endef
+ EFL_POST_INSTALL_TARGET_HOOKS = EFL_HOOK_REMOVE_UPOWER
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/enlightenment/enlightenment.mk buildroot-2017.05-rc2-patch/package/enlightenment/enlightenment.mk
+--- buildroot-2017.05-rc2/package/enlightenment/enlightenment.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/enlightenment/enlightenment.mk	2017-09-17 23:01:08.107915768 +0200
+@@ -38,9 +38,9 @@ ENLIGHTENMENT_CONF_ENV += enable_alsa=no
+ endif
+ 
+ define ENLIGHTENMENT_REMOVE_DOCUMENTATION
+-	rm -rf $(TARGET_DIR)/usr/share/enlightenment/doc/
+-	rm -f $(TARGET_DIR)/usr/share/enlightenment/COPYING
+-	rm -f $(TARGET_DIR)/usr/share/enlightenment/AUTHORS
++#	rm -rf $(TARGET_DIR)/usr/share/enlightenment/doc/
++#	rm -f $(TARGET_DIR)/usr/share/enlightenment/COPYING
++#	rm -f $(TARGET_DIR)/usr/share/enlightenment/AUTHORS
+ endef
+ ENLIGHTENMENT_POST_INSTALL_TARGET_HOOKS += ENLIGHTENMENT_REMOVE_DOCUMENTATION
+ 
+diff -Naurp buildroot-2017.05-rc2/package/erlang/erlang.mk buildroot-2017.05-rc2-patch/package/erlang/erlang.mk
+--- buildroot-2017.05-rc2/package/erlang/erlang.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/erlang/erlang.mk	2017-09-17 23:01:12.251915725 +0200
+@@ -92,11 +92,11 @@ define ERLANG_REMOVE_STAGING_UNUSED
+ endef
+ 
+ define ERLANG_REMOVE_TARGET_UNUSED
+-	find $(TARGET_DIR)/usr/lib/erlang -type d -name src -prune -exec rm -rf {} \;
+-	find $(TARGET_DIR)/usr/lib/erlang -type d -name examples -prune -exec rm -rf {} \;
+-	for package in $(ERLANG_REMOVE_PACKAGES); do \
+-		rm -rf $(TARGET_DIR)/usr/lib/erlang/lib/$${package}-*; \
+-	done
++#	find $(TARGET_DIR)/usr/lib/erlang -type d -name src -prune -exec rm -rf {} \;
++#	find $(TARGET_DIR)/usr/lib/erlang -type d -name examples -prune -exec rm -rf {} \;
++#	for package in $(ERLANG_REMOVE_PACKAGES); do \
++#		rm -rf $(TARGET_DIR)/usr/lib/erlang/lib/$${package}-*; \
++#	done
+ endef
+ 
+ ERLANG_POST_INSTALL_STAGING_HOOKS += ERLANG_REMOVE_STAGING_UNUSED
+diff -Naurp buildroot-2017.05-rc2/package/execline/execline.mk buildroot-2017.05-rc2-patch/package/execline/execline.mk
+--- buildroot-2017.05-rc2/package/execline/execline.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/execline/execline.mk	2017-09-17 23:01:13.167915716 +0200
+@@ -29,7 +29,7 @@ define EXECLINE_BUILD_CMDS
+ endef
+ 
+ define EXECLINE_REMOVE_STATIC_LIB_DIR
+-	rm -rf $(TARGET_DIR)/usr/lib/execline
++#	rm -rf $(TARGET_DIR)/usr/lib/execline
+ endef
+ 
+ EXECLINE_POST_INSTALL_TARGET_HOOKS += EXECLINE_REMOVE_STATIC_LIB_DIR
+diff -Naurp buildroot-2017.05-rc2/package/fetchmail/fetchmail.mk buildroot-2017.05-rc2-patch/package/fetchmail/fetchmail.mk
+--- buildroot-2017.05-rc2/package/fetchmail/fetchmail.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/fetchmail/fetchmail.mk	2017-09-17 23:01:01.519915835 +0200
+@@ -28,7 +28,7 @@ FETCHMAIL_DEPENDENCIES = \
+ # non-critical script.
+ ifeq ($(BR2_PACKAGE_PYTHON3),y)
+ define FETCHMAIL_REMOVE_FETCHMAILCONF_PY
+-	$(RM) -f $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/site-packages/fetchmailconf.py
++#	$(RM) -f $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/site-packages/fetchmailconf.py
+ endef
+ FETCHMAIL_POST_INSTALL_TARGET_HOOKS += FETCHMAIL_REMOVE_FETCHMAILCONF_PY
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/ffmpeg/ffmpeg.mk buildroot-2017.05-rc2-patch/package/ffmpeg/ffmpeg.mk
+--- buildroot-2017.05-rc2/package/ffmpeg/ffmpeg.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/ffmpeg/ffmpeg.mk	2017-09-17 23:01:17.019915677 +0200
+@@ -496,7 +496,7 @@ define FFMPEG_CONFIGURE_CMDS
+ endef
+ 
+ define FFMPEG_REMOVE_EXAMPLE_SRC_FILES
+-	rm -rf $(TARGET_DIR)/usr/share/ffmpeg/examples
++#	rm -rf $(TARGET_DIR)/usr/share/ffmpeg/examples
+ endef
+ FFMPEG_POST_INSTALL_TARGET_HOOKS += FFMPEG_REMOVE_EXAMPLE_SRC_FILES
+ 
+diff -Naurp buildroot-2017.05-rc2/package/flex/flex.mk buildroot-2017.05-rc2-patch/package/flex/flex.mk
+--- buildroot-2017.05-rc2/package/flex/flex.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/flex/flex.mk	2017-09-17 23:00:59.435915856 +0200
+@@ -22,7 +22,7 @@ FLEX_POST_PATCH_HOOKS += FLEX_DISABLE_PR
+ 
+ # flex++ symlink is broken when flex binary is not installed
+ define FLEX_REMOVE_BROKEN_SYMLINK
+-	rm -f $(TARGET_DIR)/usr/bin/flex++
++#	rm -f $(TARGET_DIR)/usr/bin/flex++
+ endef
+ FLEX_POST_INSTALL_TARGET_HOOKS += FLEX_REMOVE_BROKEN_SYMLINK
+ 
+diff -Naurp buildroot-2017.05-rc2/package/flickcurl/flickcurl.mk buildroot-2017.05-rc2-patch/package/flickcurl/flickcurl.mk
+--- buildroot-2017.05-rc2/package/flickcurl/flickcurl.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/flickcurl/flickcurl.mk	2017-09-17 23:00:56.531915886 +0200
+@@ -15,7 +15,7 @@ FLICKCURL_DEPENDENCIES = libcurl libxml2
+ 
+ ifeq ($(BR2_PACKAGE_FLICKCURL_UTILS),)
+ define FLICKCURL_REMOVE_UTILS
+-	rm -f $(TARGET_DIR)/usr/bin/flickcurl $(TARGET_DIR)/usr/bin/flickrdf
++#	rm -f $(TARGET_DIR)/usr/bin/flickcurl $(TARGET_DIR)/usr/bin/flickrdf
+ endef
+ FLICKCURL_POST_INSTALL_TARGET_HOOKS += FLICKCURL_REMOVE_UTILS
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/freerdp/freerdp.mk buildroot-2017.05-rc2-patch/package/freerdp/freerdp.mk
+--- buildroot-2017.05-rc2/package/freerdp/freerdp.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/freerdp/freerdp.mk	2017-09-17 23:01:08.767915761 +0200
+@@ -205,7 +205,7 @@ endif
+ # remove it if the user does not want the server.
+ ifeq ($(BR2_PACKAGE_FREERDP_SERVER),)
+ define FREERDP_RM_SHADOW_SERVER
+-	rm -f $(TARGET_DIR)/usr/bin/freerdp-shadow
++#	rm -f $(TARGET_DIR)/usr/bin/freerdp-shadow
+ endef
+ FREERDP_POST_INSTALL_TARGET_HOOKS += FREERDP_RM_SHADOW_SERVER
+ endif # ! server
+@@ -215,12 +215,12 @@ endif # ! server
+ # remove it if the user does not want it.
+ ifeq ($(BR2_PACKAGE_FREERDP_CLIENT_X11),)
+ define FREERDP_RM_CLIENT_X11
+-	rm -f $(TARGET_DIR)/usr/bin/xfreerdp
+-	rm -f $(TARGET_DIR)/usr/lib/libxfreerdp-client*
++#	rm -f $(TARGET_DIR)/usr/bin/xfreerdp
++#	rm -f $(TARGET_DIR)/usr/lib/libxfreerdp-client*
+ endef
+ FREERDP_POST_INSTALL_TARGET_HOOKS += FREERDP_RM_CLIENT_X11
+ define FREERDP_RM_CLIENT_X11_LIB
+-	rm -f $(STAGING_DIR)/usr/lib/libxfreerdp-client*
++#	rm -f $(STAGING_DIR)/usr/lib/libxfreerdp-client*
+ endef
+ FREERDP_POST_INSTALL_STAGING_HOOKS += FREERDP_RM_CLIENT_X11_LIB
+ endif # ! X client
+@@ -229,14 +229,14 @@ endif # ! X client
+ # manually remove it if the user does not want it.
+ ifeq ($(BR2_PACKAGE_FREERDP_CLIENT_WL),)
+ define FREERDP_RM_CLIENT_WL
+-	rm -f $(TARGET_DIR)/usr/bin/wlfreerdp
++#	rm -f $(TARGET_DIR)/usr/bin/wlfreerdp
+ endef
+ FREERDP_POST_INSTALL_TARGET_HOOKS += FREERDP_RM_CLIENT_WL
+ endif
+ 
+ # Remove static libraries in unusual dir
+ define FREERDP_CLEANUP
+-	rm -rf $(TARGET_DIR)/usr/lib/freerdp
++#	rm -rf $(TARGET_DIR)/usr/lib/freerdp
+ endef
+ FREERDP_POST_INSTALL_TARGET_HOOKS += FREERDP_CLEANUP
+ 
+diff -Naurp buildroot-2017.05-rc2/package/freescale-imx/imx-codec/imx-codec.mk buildroot-2017.05-rc2-patch/package/freescale-imx/imx-codec/imx-codec.mk
+--- buildroot-2017.05-rc2/package/freescale-imx/imx-codec/imx-codec.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/freescale-imx/imx-codec/imx-codec.mk	2017-09-17 23:00:55.679915895 +0200
+@@ -33,7 +33,7 @@ endef
+ define IMX_CODEC_FIXUP_TARGET_PATH
+ 	find $(TARGET_DIR)/usr/lib/imx-mm -not -type d \
+ 		-exec mv {} $(TARGET_DIR)/usr/lib \;
+-	rm -rf $(TARGET_DIR)/usr/lib/imx-mm
++#	rm -rf $(TARGET_DIR)/usr/lib/imx-mm
+ endef
+ IMX_CODEC_POST_INSTALL_TARGET_HOOKS += IMX_CODEC_FIXUP_TARGET_PATH
+ 
+diff -Naurp buildroot-2017.05-rc2/package/freescale-imx/imx-parser/imx-parser.mk buildroot-2017.05-rc2-patch/package/freescale-imx/imx-parser/imx-parser.mk
+--- buildroot-2017.05-rc2/package/freescale-imx/imx-parser/imx-parser.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/freescale-imx/imx-parser/imx-parser.mk	2017-09-17 23:00:55.583915896 +0200
+@@ -31,7 +31,7 @@ endef
+ define IMX_PARSER_FIXUP_TARGET_PATH
+ 	find $(TARGET_DIR)/usr/lib/imx-mm -not -type d \
+ 		-exec mv {} $(TARGET_DIR)/usr/lib \;
+-	rm -rf $(TARGET_DIR)/usr/lib/imx-mm
++#	rm -rf $(TARGET_DIR)/usr/lib/imx-mm
+ endef
+ IMX_PARSER_POST_INSTALL_TARGET_HOOKS += IMX_PARSER_FIXUP_TARGET_PATH
+ 
+diff -Naurp buildroot-2017.05-rc2/package/gd/gd.mk buildroot-2017.05-rc2-patch/package/gd/gd.mk
+--- buildroot-2017.05-rc2/package/gd/gd.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gd/gd.mk	2017-09-17 23:01:00.963915841 +0200
+@@ -88,7 +88,7 @@ GD_TOOLS_$(BR2_PACKAGE_GD_PNGTOGD2)	+= p
+ GD_TOOLS_$(BR2_PACKAGE_GD_WEBPNG)	+= webpng
+ 
+ define GD_REMOVE_TOOLS
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,$(GD_TOOLS_))
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,$(GD_TOOLS_))
+ endef
+ 
+ GD_POST_INSTALL_TARGET_HOOKS += GD_REMOVE_TOOLS
+diff -Naurp buildroot-2017.05-rc2/package/gdb/gdb.mk buildroot-2017.05-rc2-patch/package/gdb/gdb.mk
+--- buildroot-2017.05-rc2/package/gdb/gdb.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gdb/gdb.mk	2017-09-17 23:01:01.995915830 +0200
+@@ -169,7 +169,7 @@ endif
+ # This removes some unneeded Python scripts and XML target description
+ # files that are not useful for a normal usage of the debugger.
+ define GDB_REMOVE_UNNEEDED_FILES
+-	$(RM) -rf $(TARGET_DIR)/usr/share/gdb
++#	$(RM) -rf $(TARGET_DIR)/usr/share/gdb
+ endef
+ 
+ GDB_POST_INSTALL_TARGET_HOOKS += GDB_REMOVE_UNNEEDED_FILES
+diff -Naurp buildroot-2017.05-rc2/package/gettext/gettext.mk buildroot-2017.05-rc2-patch/package/gettext/gettext.mk
+--- buildroot-2017.05-rc2/package/gettext/gettext.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gettext/gettext.mk	2017-09-17 23:01:01.435915836 +0200
+@@ -54,7 +54,7 @@ GETTEXT_POST_PATCH_HOOKS += HOST_GETTEXT
+ HOST_GETTEXT_POST_PATCH_HOOKS += HOST_GETTEXT_DISABLE_UNNEEDED
+ 
+ define GETTEXT_REMOVE_UNNEEDED
+-	$(RM) -rf $(TARGET_DIR)/usr/share/gettext/ABOUT-NLS
++#	$(RM) -rf $(TARGET_DIR)/usr/share/gettext/ABOUT-NLS
+ 	rmdir --ignore-fail-on-non-empty $(TARGET_DIR)/usr/share/gettext
+ endef
+ 
+diff -Naurp buildroot-2017.05-rc2/package/giflib/giflib.mk buildroot-2017.05-rc2-patch/package/giflib/giflib.mk
+--- buildroot-2017.05-rc2/package/giflib/giflib.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/giflib/giflib.mk	2017-09-17 23:00:58.047915870 +0200
+@@ -19,7 +19,7 @@ GIFLIB_BINS = \
+ 	text2gif
+ 
+ define GIFLIB_BINS_CLEANUP
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,$(GIFLIB_BINS))
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,$(GIFLIB_BINS))
+ endef
+ 
+ GIFLIB_POST_INSTALL_TARGET_HOOKS += GIFLIB_BINS_CLEANUP
+diff -Naurp buildroot-2017.05-rc2/package/gnupg/gnupg.mk buildroot-2017.05-rc2-patch/package/gnupg/gnupg.mk
+--- buildroot-2017.05-rc2/package/gnupg/gnupg.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gnupg/gnupg.mk	2017-09-17 23:00:56.127915890 +0200
+@@ -55,14 +55,14 @@ endif
+ 
+ ifneq ($(BR2_PACKAGE_GNUPG_GPGV),y)
+ define GNUPG_REMOVE_GPGV
+-	rm -f $(TARGET_DIR)/usr/bin/gpgv
++#	rm -f $(TARGET_DIR)/usr/bin/gpgv
+ endef
+ GNUPG_POST_INSTALL_TARGET_HOOKS += GNUPG_REMOVE_GPGV
+ endif
+ 
+ ifneq ($(BR2_PACKAGE_GNUPG_GPGSPLIT),y)
+ define GNUPG_REMOVE_GPGSPLIT
+-	rm -f $(TARGET_DIR)/usr/bin/gpgsplit
++#	rm -f $(TARGET_DIR)/usr/bin/gpgsplit
+ endef
+ GNUPG_POST_INSTALL_TARGET_HOOKS += GNUPG_REMOVE_GPGSPLIT
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/gnupg2/gnupg2.mk buildroot-2017.05-rc2-patch/package/gnupg2/gnupg2.mk
+--- buildroot-2017.05-rc2/package/gnupg2/gnupg2.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gnupg2/gnupg2.mk	2017-09-17 23:01:16.923915678 +0200
+@@ -23,7 +23,7 @@ GNUPG2_CONF_ENV = gl_cv_header_working_s
+ 
+ ifneq ($(BR2_PACKAGE_GNUPG2_GPGV2),y)
+ define GNUPG2_REMOVE_GPGV2
+-	rm -f $(TARGET_DIR)/usr/bin/gpgv2
++#	rm -f $(TARGET_DIR)/usr/bin/gpgv2
+ endef
+ GNUPG2_POST_INSTALL_TARGET_HOOKS += GNUPG2_REMOVE_GPGV2
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/gnuplot/gnuplot.mk buildroot-2017.05-rc2-patch/package/gnuplot/gnuplot.mk
+--- buildroot-2017.05-rc2/package/gnuplot/gnuplot.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gnuplot/gnuplot.mk	2017-09-17 23:01:17.491915672 +0200
+@@ -47,7 +47,7 @@ endif
+ 
+ # Remove Javascript scripts, lua scripts, PostScript files
+ define GNUPLOT_REMOVE_UNNEEDED_FILES
+-	$(RM) -rf $(TARGET_DIR)/usr/share/gnuplot
++#	$(RM) -rf $(TARGET_DIR)/usr/share/gnuplot
+ endef
+ 
+ GNUPLOT_POST_INSTALL_TARGET_HOOKS += GNUPLOT_REMOVE_UNNEEDED_FILES
+diff -Naurp buildroot-2017.05-rc2/package/gpm/gpm.mk buildroot-2017.05-rc2-patch/package/gpm/gpm.mk
+--- buildroot-2017.05-rc2/package/gpm/gpm.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gpm/gpm.mk	2017-09-17 23:01:09.235915756 +0200
+@@ -54,10 +54,10 @@ GPM_POST_PATCH_HOOKS += GPM_DISABLE_DOC_
+ 
+ ifeq ($(BR2_PACKAGE_GPM_INSTALL_TEST_TOOLS),)
+ define GPM_REMOVE_TEST_TOOLS_FROM_TARGET
+-	for tools in mev hltest mouse-test display-buttons \
+-		get-versions display-coords; do \
+-			rm -f $(TARGET_DIR)/usr/bin/$$tools ; \
+-	done
++#	for tools in mev hltest mouse-test display-buttons \
++#		get-versions display-coords; do \
++#			rm -f $(TARGET_DIR)/usr/bin/$$tools ; \
++#	done
+ endef
+ GPM_POST_INSTALL_TARGET_HOOKS += GPM_REMOVE_TEST_TOOLS_FROM_TARGET
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/gvfs/gvfs.mk buildroot-2017.05-rc2-patch/package/gvfs/gvfs.mk
+--- buildroot-2017.05-rc2/package/gvfs/gvfs.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/gvfs/gvfs.mk	2017-09-17 23:01:11.671915731 +0200
+@@ -120,11 +120,11 @@ GVFS_CONF_OPTS += --disable-libsystemd-l
+ endif
+ 
+ define GVFS_REMOVE_USELESS_BINARY
+-	rm $(TARGET_DIR)/usr/bin/gvfs-less
++#	rm $(TARGET_DIR)/usr/bin/gvfs-less
+ endef
+ 
+ define GVFS_REMOVE_TARGET_SCHEMAS
+-	rm $(TARGET_DIR)/usr/share/glib-2.0/schemas/*.xml
++#	rm $(TARGET_DIR)/usr/share/glib-2.0/schemas/*.xml
+ endef
+ 
+ define GVFS_COMPILE_SCHEMAS
+diff -Naurp buildroot-2017.05-rc2/package/haserl/haserl.mk buildroot-2017.05-rc2-patch/package/haserl/haserl.mk
+--- buildroot-2017.05-rc2/package/haserl/haserl.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/haserl/haserl.mk	2017-09-17 23:00:55.771915894 +0200
+@@ -24,7 +24,7 @@ HASERL_CONF_OPTS += --without-lua
+ endif
+ 
+ define HASERL_REMOVE_EXAMPLES
+-	rm -rf $(TARGET_DIR)/usr/share/haserl
++#	rm -rf $(TARGET_DIR)/usr/share/haserl
+ endef
+ 
+ HASERL_POST_INSTALL_TARGET_HOOKS += HASERL_REMOVE_EXAMPLES
+diff -Naurp buildroot-2017.05-rc2/package/icu/icu.mk buildroot-2017.05-rc2-patch/package/icu/icu.mk
+--- buildroot-2017.05-rc2/package/icu/icu.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/icu/icu.mk	2017-09-17 23:01:16.271915684 +0200
+@@ -50,9 +50,9 @@ ICU_POST_PATCH_HOOKS += ICU_COPY_CUSTOM_
+ endif
+ 
+ define ICU_REMOVE_DEV_FILES
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,derb genbrk gencfu gencnval gendict genrb icuinfo makeconv uconv)
+-	rm -f $(addprefix $(TARGET_DIR)/usr/sbin/,genccode gencmn gennorm2 gensprep icupkg)
+-	rm -rf $(TARGET_DIR)/usr/share/icu
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,derb genbrk gencfu gencnval gendict genrb icuinfo makeconv uconv)
++#	rm -f $(addprefix $(TARGET_DIR)/usr/sbin/,genccode gencmn gennorm2 gensprep icupkg)
++#	rm -rf $(TARGET_DIR)/usr/share/icu
+ endef
+ ICU_POST_INSTALL_TARGET_HOOKS += ICU_REMOVE_DEV_FILES
+ 
+diff -Naurp buildroot-2017.05-rc2/package/ipmitool/ipmitool.mk buildroot-2017.05-rc2-patch/package/ipmitool/ipmitool.mk
+--- buildroot-2017.05-rc2/package/ipmitool/ipmitool.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/ipmitool/ipmitool.mk	2017-09-17 23:01:12.979915718 +0200
+@@ -26,7 +26,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_IPMITOOL_IPMIEVD),)
+ define IPMITOOL_REMOVE_IPMIEVD
+-	$(RM) -f $(TARGET_DIR)/usr/sbin/ipmievd
++#	$(RM) -f $(TARGET_DIR)/usr/sbin/ipmievd
+ endef
+ IPMITOOL_POST_INSTALL_TARGET_HOOKS += IPMITOOL_REMOVE_IPMIEVD
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/irssi/irssi.mk buildroot-2017.05-rc2-patch/package/irssi/irssi.mk
+--- buildroot-2017.05-rc2/package/irssi/irssi.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/irssi/irssi.mk	2017-09-17 23:01:19.555915651 +0200
+@@ -41,7 +41,7 @@ endif
+ # Cross-compiling irssi with the perl interpreter enabled doesn't work
+ # yet. So, remove scripts as they are useless in that case.
+ define IRSSI_REMOVE_SCRIPTS
+-	rm -rf $(TARGET_DIR)/usr/share/irssi/scripts/
++#	rm -rf $(TARGET_DIR)/usr/share/irssi/scripts/
+ endef
+ 
+ IRSSI_POST_INSTALL_TARGET_HOOKS += IRSSI_REMOVE_SCRIPTS
+diff -Naurp buildroot-2017.05-rc2/package/jack2/jack2.mk buildroot-2017.05-rc2-patch/package/jack2/jack2.mk
+--- buildroot-2017.05-rc2/package/jack2/jack2.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/jack2/jack2.mk	2017-09-17 23:01:08.951915759 +0200
+@@ -25,7 +25,7 @@ ifeq ($(BR2_PACKAGE_JACK2_LEGACY),y)
+ JACK2_CONF_OPTS += --classic
+ else
+ define JACK2_REMOVE_JACK_CONTROL
+-	$(RM) -f $(TARGET_DIR)/usr/bin/jack_control
++#	$(RM) -f $(TARGET_DIR)/usr/bin/jack_control
+ endef
+ JACK2_POST_INSTALL_TARGET_HOOKS += JACK2_REMOVE_JACK_CONTROL
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/jpeg-turbo/jpeg-turbo.mk buildroot-2017.05-rc2-patch/package/jpeg-turbo/jpeg-turbo.mk
+--- buildroot-2017.05-rc2/package/jpeg-turbo/jpeg-turbo.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/jpeg-turbo/jpeg-turbo.mk	2017-09-17 23:01:15.411915693 +0200
+@@ -24,7 +24,7 @@ JPEG_TURBO_CONF_OPTS += --without-simd
+ endif
+ 
+ define JPEG_TURBO_REMOVE_USELESS_TOOLS
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,cjpeg djpeg jpegtran rdjpgcom tjbench wrjpgcom)
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,cjpeg djpeg jpegtran rdjpgcom tjbench wrjpgcom)
+ endef
+ 
+ JPEG_TURBO_POST_INSTALL_TARGET_HOOKS += JPEG_TURBO_REMOVE_USELESS_TOOLS
+diff -Naurp buildroot-2017.05-rc2/package/kexec/kexec.mk buildroot-2017.05-rc2-patch/package/kexec/kexec.mk
+--- buildroot-2017.05-rc2/package/kexec/kexec.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/kexec/kexec.mk	2017-09-17 23:01:09.943915749 +0200
+@@ -28,7 +28,7 @@ KEXEC_CONF_OPTS += --without-lzma
+ endif
+ 
+ define KEXEC_REMOVE_LIB_TOOLS
+-	rm -rf $(TARGET_DIR)/usr/lib/kexec-tools
++#	rm -rf $(TARGET_DIR)/usr/lib/kexec-tools
+ endef
+ 
+ KEXEC_POST_INSTALL_TARGET_HOOKS += KEXEC_REMOVE_LIB_TOOLS
+diff -Naurp buildroot-2017.05-rc2/package/kodi/kodi.mk buildroot-2017.05-rc2-patch/package/kodi/kodi.mk
+--- buildroot-2017.05-rc2/package/kodi/kodi.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/kodi/kodi.mk	2017-09-17 23:01:07.843915770 +0200
+@@ -348,7 +348,7 @@ endif
+ # buildroot image.
+ KODI_ADDON_MANIFEST = $(TARGET_DIR)/usr/share/kodi/system/addon-manifest.xml
+ define KODI_CLEAN_UNUSED_ADDONS
+-	rm -Rf $(TARGET_DIR)/usr/share/kodi/addons/service.xbmc.versioncheck
++#	rm -Rf $(TARGET_DIR)/usr/share/kodi/addons/service.xbmc.versioncheck
+ 	$(HOST_DIR)/usr/bin/xml ed -L \
+ 		-d "/addons/addon[text()='service.xbmc.versioncheck']" \
+ 		$(KODI_ADDON_MANIFEST)
+diff -Naurp buildroot-2017.05-rc2/package/lftp/lftp.mk buildroot-2017.05-rc2-patch/package/lftp/lftp.mk
+--- buildroot-2017.05-rc2/package/lftp/lftp.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/lftp/lftp.mk	2017-09-17 23:01:14.039915707 +0200
+@@ -43,7 +43,7 @@ endif
+ 
+ # Remove /usr/share/lftp
+ define LFTP_REMOVE_DATA
+-	$(RM) -fr $(TARGET_DIR)/usr/share/lftp
++#	$(RM) -fr $(TARGET_DIR)/usr/share/lftp
+ endef
+ 
+ LFTP_POST_INSTALL_TARGET_HOOKS += LFTP_REMOVE_DATA
+@@ -58,9 +58,9 @@ LFTP_MODULES_TO_REMOVE-$(BR2_PACKAGE_LFT
+ LFTP_MODULES_TO_REMOVE-$(BR2_PACKAGE_LFTP_PROTO_SFTP) += proto-sftp.so
+ 
+ define LFTP_REMOVE_MODULES
+-	for f in $(LFTP_MODULES_TO_REMOVE-) ; do \
+-		$(RM) -f $(TARGET_DIR)/usr/lib/lftp/$(LFTP_VERSION)/$$f ; \
+-	done
++#	for f in $(LFTP_MODULES_TO_REMOVE-) ; do \
++#		$(RM) -f $(TARGET_DIR)/usr/lib/lftp/$(LFTP_VERSION)/$$f ; \
++#	done
+ endef
+ 
+ LFTP_POST_INSTALL_TARGET_HOOKS += LFTP_REMOVE_MODULES
+diff -Naurp buildroot-2017.05-rc2/package/libao/libao.mk buildroot-2017.05-rc2-patch/package/libao/libao.mk
+--- buildroot-2017.05-rc2/package/libao/libao.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libao/libao.mk	2017-09-17 23:01:00.187915849 +0200
+@@ -24,7 +24,7 @@ LIBAO_CONF_OPTS += --enable-alsa --enabl
+ 
+ # Remove the OSS plugin if ALSA is enabled, as libao will prefer ALSA anyway
+ define LIBAO_REMOVE_OSS_PLUGIN
+-	rm -f $(TARGET_DIR)/usr/lib/ao/plugins-4/liboss.so
++#	rm -f $(TARGET_DIR)/usr/lib/ao/plugins-4/liboss.so
+ endef
+ LIBAO_POST_INSTALL_TARGET_HOOKS += LIBAO_REMOVE_OSS_PLUGIN
+ else
+diff -Naurp buildroot-2017.05-rc2/package/libcddb/libcddb.mk buildroot-2017.05-rc2-patch/package/libcddb/libcddb.mk
+--- buildroot-2017.05-rc2/package/libcddb/libcddb.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libcddb/libcddb.mk	2017-09-17 23:01:06.799915781 +0200
+@@ -16,7 +16,7 @@ LIBCDDB_DEPENDENCIES += libiconv
+ endif
+ 
+ define LIBCDDB_REMOVE_CDDB_QUERY
+-	rm -f $(TARGET_DIR)/usr/bin/cddb_query
++#	rm -f $(TARGET_DIR)/usr/bin/cddb_query
+ endef
+ 
+ ifeq ($(BR2_PACKAGE_LIBCDDB_INSTALL_CDDB_QUERY),)
+diff -Naurp buildroot-2017.05-rc2/package/libcurl/libcurl.mk buildroot-2017.05-rc2-patch/package/libcurl/libcurl.mk
+--- buildroot-2017.05-rc2/package/libcurl/libcurl.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libcurl/libcurl.mk	2017-09-17 23:01:03.675915813 +0200
+@@ -77,7 +77,7 @@ LIBCURL_POST_PATCH_HOOKS += $(if $(BR2_P
+ 
+ ifeq ($(BR2_PACKAGE_CURL),)
+ define LIBCURL_TARGET_CLEANUP
+-	rm -rf $(TARGET_DIR)/usr/bin/curl
++#	rm -rf $(TARGET_DIR)/usr/bin/curl
+ endef
+ LIBCURL_POST_INSTALL_TARGET_HOOKS += LIBCURL_TARGET_CLEANUP
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/libdnet/libdnet.mk buildroot-2017.05-rc2-patch/package/libdnet/libdnet.mk
+--- buildroot-2017.05-rc2/package/libdnet/libdnet.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libdnet/libdnet.mk	2017-09-17 23:01:12.799915720 +0200
+@@ -30,7 +30,7 @@ endef
+ LIBDNET_POST_EXTRACT_HOOKS += LIBDNET_FIXUP_ACINCLUDE_M4
+ 
+ define LIBDNET_REMOVE_CONFIG_SCRIPT
+-	$(RM) -f $(TARGET_DIR)/usr/bin/dnet-config
++#	$(RM) -f $(TARGET_DIR)/usr/bin/dnet-config
+ endef
+ 
+ LIBDNET_POST_INSTALL_TARGET_HOOKS += LIBDNET_REMOVE_CONFIG_SCRIPT
+diff -Naurp buildroot-2017.05-rc2/package/libevent/libevent.mk buildroot-2017.05-rc2-patch/package/libevent/libevent.mk
+--- buildroot-2017.05-rc2/package/libevent/libevent.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libevent/libevent.mk	2017-09-17 23:01:09.331915755 +0200
+@@ -14,7 +14,7 @@ LIBEVENT_AUTORECONF = YES
+ LIBEVENT_CONF_OPTS = --disable-samples
+ 
+ define LIBEVENT_REMOVE_PYSCRIPT
+-	rm $(TARGET_DIR)/usr/bin/event_rpcgen.py
++#	rm $(TARGET_DIR)/usr/bin/event_rpcgen.py
+ endef
+ 
+ # libevent installs a python script to target - get rid of it if we
+diff -Naurp buildroot-2017.05-rc2/package/libffi/libffi.mk buildroot-2017.05-rc2-patch/package/libffi/libffi.mk
+--- buildroot-2017.05-rc2/package/libffi/libffi.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libffi/libffi.mk	2017-09-17 23:00:59.823915852 +0200
+@@ -28,7 +28,7 @@ HOST_LIBFFI_POST_INSTALL_HOOKS += HOST_L
+ 
+ # Remove headers that are not at the usual location from the target
+ define LIBFFI_REMOVE_TARGET_HEADERS
+-	$(RM) -rf $(TARGET_DIR)/usr/lib/libffi-$(LIBFFI_VERSION)
++#	$(RM) -rf $(TARGET_DIR)/usr/lib/libffi-$(LIBFFI_VERSION)
+ endef
+ 
+ LIBFFI_POST_INSTALL_TARGET_HOOKS += LIBFFI_REMOVE_TARGET_HEADERS
+diff -Naurp buildroot-2017.05-rc2/package/libglade/libglade.mk buildroot-2017.05-rc2-patch/package/libglade/libglade.mk
+--- buildroot-2017.05-rc2/package/libglade/libglade.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libglade/libglade.mk	2017-09-17 23:00:57.951915871 +0200
+@@ -14,8 +14,8 @@ LIBGLADE_LICENSE = LGPL-2.0+
+ LIBGLADE_LICENSE_FILES = COPYING
+ 
+ define LIBGLADE_INSTALL_FIX
+-	rm -rf $(TARGET_DIR)/usr/share/xml/libglade \
+-		$(TARGET_DIR)/usr/bin/libglade-convert
++#	rm -rf $(TARGET_DIR)/usr/share/xml/libglade \
++#		$(TARGET_DIR)/usr/bin/libglade-convert
+ endef
+ 
+ LIBGLADE_POST_INSTALL_TARGET_HOOKS += LIBGLADE_INSTALL_FIX
+diff -Naurp buildroot-2017.05-rc2/package/libglib2/libglib2.mk buildroot-2017.05-rc2-patch/package/libglib2/libglib2.mk
+--- buildroot-2017.05-rc2/package/libglib2/libglib2.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libglib2/libglib2.mk	2017-09-17 23:01:03.579915814 +0200
+@@ -140,9 +140,9 @@ endif
+ 
+ # Purge useless binaries from target
+ define LIBGLIB2_REMOVE_DEV_FILES
+-	rm -rf $(TARGET_DIR)/usr/lib/glib-2.0
+-	rm -rf $(addprefix $(TARGET_DIR)/usr/share/glib-2.0/,codegen gettext)
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,gdbus-codegen glib-compile-schemas glib-compile-resources glib-genmarshal glib-gettextize glib-mkenums gobject-query gtester gtester-report)
++#	rm -rf $(TARGET_DIR)/usr/lib/glib-2.0
++#	rm -rf $(addprefix $(TARGET_DIR)/usr/share/glib-2.0/,codegen gettext)
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,gdbus-codegen glib-compile-schemas glib-compile-resources glib-genmarshal glib-gettextize glib-mkenums gobject-query gtester gtester-report)
+ 	$(LIBGLIB2_REMOVE_GDB_FILES)
+ endef
+ 
+diff -Naurp buildroot-2017.05-rc2/package/libgtk2/libgtk2.mk buildroot-2017.05-rc2-patch/package/libgtk2/libgtk2.mk
+--- buildroot-2017.05-rc2/package/libgtk2/libgtk2.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libgtk2/libgtk2.mk	2017-09-17 23:00:57.155915880 +0200
+@@ -93,7 +93,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_LIBGTK2_DEMO),)
+ define LIBGTK2_POST_INSTALL_TWEAKS
+-	rm -rf $(TARGET_DIR)/usr/share/gtk-2.0/demo $(TARGET_DIR)/usr/bin/gtk-demo
++#	rm -rf $(TARGET_DIR)/usr/share/gtk-2.0/demo $(TARGET_DIR)/usr/bin/gtk-demo
+ endef
+ 
+ LIBGTK2_POST_INSTALL_TARGET_HOOKS += LIBGTK2_POST_INSTALL_TWEAKS
+diff -Naurp buildroot-2017.05-rc2/package/libgtk3/libgtk3.mk buildroot-2017.05-rc2-patch/package/libgtk3/libgtk3.mk
+--- buildroot-2017.05-rc2/package/libgtk3/libgtk3.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libgtk3/libgtk3.mk	2017-09-17 23:00:56.659915885 +0200
+@@ -110,8 +110,8 @@ ifeq ($(BR2_PACKAGE_LIBGTK3_DEMO),y)
+ LIBGTK3_DEPENDENCIES += hicolor-icon-theme shared-mime-info
+ else
+ define LIBGTK3_REMOVE_DEMOS
+-	$(RM) $(TARGET_DIR)/usr/bin/gtk3-demo \
+-		$(TARGET_DIR)/usr/bin/gtk3-demo-application
++#	$(RM) $(TARGET_DIR)/usr/bin/gtk3-demo \
++#		$(TARGET_DIR)/usr/bin/gtk3-demo-application
+ endef
+ LIBGTK3_POST_INSTALL_TARGET_HOOKS += LIBGTK3_REMOVE_DEMOS
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/libidn/libidn.mk buildroot-2017.05-rc2-patch/package/libidn/libidn.mk
+--- buildroot-2017.05-rc2/package/libidn/libidn.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libidn/libidn.mk	2017-09-17 23:01:00.099915850 +0200
+@@ -14,7 +14,7 @@ LIBIDN_LICENSE = GPL-2.0+, GPL-3.0+, LGP
+ LIBIDN_LICENSE_FILES = COPYINGv2 COPYINGv3 COPYING.LESSERv3
+ 
+ define LIBIDN_REMOVE_BINARY
+-	rm -f $(TARGET_DIR)/usr/bin/idn
++#	rm -f $(TARGET_DIR)/usr/bin/idn
+ endef
+ 
+ ifneq ($(BR2_PACKAGE_LIBIDN_BINARY),y)
+@@ -22,7 +22,7 @@ LIBIDN_POST_INSTALL_TARGET_HOOKS += LIBI
+ endif
+ 
+ define LIBIDN_REMOVE_EMACS_STUFF
+-	rm -rf $(TARGET_DIR)/usr/share/emacs
++#	rm -rf $(TARGET_DIR)/usr/share/emacs
+ endef
+ 
+ LIBIDN_POST_INSTALL_TARGET_HOOKS += LIBIDN_REMOVE_EMACS_STUFF
+diff -Naurp buildroot-2017.05-rc2/package/libiio/libiio.mk buildroot-2017.05-rc2-patch/package/libiio/libiio.mk
+--- buildroot-2017.05-rc2/package/libiio/libiio.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libiio/libiio.mk	2017-09-17 23:01:19.459915652 +0200
+@@ -68,7 +68,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_LIBIIO_BINDINGS_CSHARP),y)
+ define LIBIIO_INSTALL_CSHARP_BINDINGS_TO_TARGET
+-	rm $(TARGET_DIR)/usr/lib/cli/libiio-sharp-$(LIBIIO_VERSION)/libiio-sharp.dll.mdb
++#	rm $(TARGET_DIR)/usr/lib/cli/libiio-sharp-$(LIBIIO_VERSION)/libiio-sharp.dll.mdb
+ 	$(HOST_DIR)/usr/bin/gacutil -root $(TARGET_DIR)/usr/lib -i \
+ 		$(TARGET_DIR)/usr/lib/cli/libiio-sharp-$(LIBIIO_VERSION)/libiio-sharp.dll
+ endef
+diff -Naurp buildroot-2017.05-rc2/package/libjpeg/libjpeg.mk buildroot-2017.05-rc2-patch/package/libjpeg/libjpeg.mk
+--- buildroot-2017.05-rc2/package/libjpeg/libjpeg.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libjpeg/libjpeg.mk	2017-09-17 23:01:17.099915676 +0200
+@@ -13,7 +13,7 @@ LIBJPEG_INSTALL_STAGING = YES
+ LIBJPEG_PROVIDES = jpeg
+ 
+ define LIBJPEG_REMOVE_USELESS_TOOLS
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,cjpeg djpeg jpegtran rdjpgcom wrjpgcom)
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,cjpeg djpeg jpegtran rdjpgcom wrjpgcom)
+ endef
+ 
+ LIBJPEG_POST_INSTALL_TARGET_HOOKS += LIBJPEG_REMOVE_USELESS_TOOLS
+diff -Naurp buildroot-2017.05-rc2/package/libmpeg2/libmpeg2.mk buildroot-2017.05-rc2-patch/package/libmpeg2/libmpeg2.mk
+--- buildroot-2017.05-rc2/package/libmpeg2/libmpeg2.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libmpeg2/libmpeg2.mk	2017-09-17 23:01:15.223915695 +0200
+@@ -22,8 +22,8 @@ endif
+ 
+ ifneq ($(BR2_PACKAGE_LIBMPEG2_BINS),y)
+ define LIBMPEG2_REMOVE_BINS
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,\
+-		mpeg2dec corrupt_mpeg2 extract_mpeg2)
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/,\
++#		mpeg2dec corrupt_mpeg2 extract_mpeg2)
+ endef
+ 
+ LIBMPEG2_POST_INSTALL_TARGET_HOOKS += LIBMPEG2_REMOVE_BINS
+diff -Naurp buildroot-2017.05-rc2/package/libsigc/libsigc.mk buildroot-2017.05-rc2-patch/package/libsigc/libsigc.mk
+--- buildroot-2017.05-rc2/package/libsigc/libsigc.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/libsigc/libsigc.mk	2017-09-17 23:01:17.587915671 +0200
+@@ -14,7 +14,7 @@ LIBSIGC_LICENSE = LGPL-2.1+
+ LIBSIGC_LICENSE_FILES = COPYING
+ 
+ define LIBSIGC_INSTALL_TARGET_FIXUP
+-	rm -rf $(TARGET_DIR)/usr/share/devhelp/books/libsigc++*
++#	rm -rf $(TARGET_DIR)/usr/share/devhelp/books/libsigc++*
+ endef
+ 
+ LIBSIGC_POST_INSTALL_TARGET_HOOKS += LIBSIGC_INSTALL_TARGET_FIXUP
+diff -Naurp buildroot-2017.05-rc2/package/lksctp-tools/lksctp-tools.mk buildroot-2017.05-rc2-patch/package/lksctp-tools/lksctp-tools.mk
+--- buildroot-2017.05-rc2/package/lksctp-tools/lksctp-tools.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/lksctp-tools/lksctp-tools.mk	2017-09-17 23:01:08.195915767 +0200
+@@ -15,7 +15,7 @@ LKSCTP_TOOLS_CONF_OPTS = --disable-tests
+ 
+ # Cleanup installed target source code
+ define LKSCTP_TOOLS_CLEANUP_TARGET
+-	rm -rf $(TARGET_DIR)/usr/share/lksctp-tools
++#	rm -rf $(TARGET_DIR)/usr/share/lksctp-tools
+ endef
+ LKSCTP_TOOLS_POST_INSTALL_TARGET_HOOKS += LKSCTP_TOOLS_CLEANUP_TARGET
+ 
+diff -Naurp buildroot-2017.05-rc2/package/log4cpp/log4cpp.mk buildroot-2017.05-rc2-patch/package/log4cpp/log4cpp.mk
+--- buildroot-2017.05-rc2/package/log4cpp/log4cpp.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/log4cpp/log4cpp.mk	2017-09-17 23:01:19.367915653 +0200
+@@ -24,7 +24,7 @@ endef
+ LOG4CPP_POST_INSTALL_STAGING_HOOKS += LOG4CPP_STAGING_CONFIG_SCRIPT_FIXUP
+ 
+ define LOG4CPP_TARGET_CONFIG_SCRIPT_REMOVE
+-	$(RM) $(TARGET_DIR)/usr/bin/log4cpp-config
++#	$(RM) $(TARGET_DIR)/usr/bin/log4cpp-config
+ endef
+ 
+ LOG4CPP_POST_INSTALL_TARGET_HOOKS += LOG4CPP_TARGET_CONFIG_SCRIPT_REMOVE
+diff -Naurp buildroot-2017.05-rc2/package/mariadb/mariadb.mk buildroot-2017.05-rc2-patch/package/mariadb/mariadb.mk
+--- buildroot-2017.05-rc2/package/mariadb/mariadb.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/mariadb/mariadb.mk	2017-09-17 23:01:02.187915828 +0200
+@@ -105,9 +105,9 @@ define MARIADB_POST_INSTALL
+ 	$(INSTALL) -D -m 644 $(TARGET_DIR)/usr/share/mysql/my-small.cnf \
+ 		$(TARGET_DIR)/etc/mysql/my.cnf
+ 	# We don't need this on the target as it's only useful in staging
+-	$(RM) $(TARGET_DIR)/usr/bin/mysql_config
++#	$(RM) $(TARGET_DIR)/usr/bin/mysql_config
+ 	# Remove test suite
+-	$(RM) -r $(TARGET_DIR)/usr/share/mysql/test
++#	$(RM) -r $(TARGET_DIR)/usr/share/mysql/test
+ endef
+ 
+ MARIADB_POST_INSTALL_TARGET_HOOKS += MARIADB_POST_INSTALL
+diff -Naurp buildroot-2017.05-rc2/package/monkey/monkey.mk buildroot-2017.05-rc2-patch/package/monkey/monkey.mk
+--- buildroot-2017.05-rc2/package/monkey/monkey.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/monkey/monkey.mk	2017-09-17 23:00:56.219915889 +0200
+@@ -40,7 +40,7 @@ else
+ # Even without --enable-shared, the monkey build system leaves a
+ # broken libmonkey.so symbolic link.
+ define MONKEY_REMOVE_DANGLING_SYMLINK
+-	$(RM) -f $(TARGET_DIR)/usr/lib/libmonkey.so
++#	$(RM) -f $(TARGET_DIR)/usr/lib/libmonkey.so
+ endef
+ MONKEY_POST_INSTALL_TARGET_HOOKS += MONKEY_REMOVE_DANGLING_SYMLINK
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/nbd/nbd.mk buildroot-2017.05-rc2-patch/package/nbd/nbd.mk
+--- buildroot-2017.05-rc2/package/nbd/nbd.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/nbd/nbd.mk	2017-09-17 23:01:14.419915703 +0200
+@@ -29,7 +29,7 @@ NBD_TOREMOVE += /usr/bin/nbd-trdump
+ endif
+ 
+ define NBD_CLEANUP_AFTER_INSTALL
+-	rm -f $(addprefix $(TARGET_DIR), $(NBD_TOREMOVE))
++#	rm -f $(addprefix $(TARGET_DIR), $(NBD_TOREMOVE))
+ endef
+ 
+ NBD_POST_INSTALL_TARGET_HOOKS += NBD_CLEANUP_AFTER_INSTALL
+diff -Naurp buildroot-2017.05-rc2/package/ncurses/ncurses.mk buildroot-2017.05-rc2-patch/package/ncurses/ncurses.mk
+--- buildroot-2017.05-rc2/package/ncurses/ncurses.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/ncurses/ncurses.mk	2017-09-17 23:00:57.819915873 +0200
+@@ -125,7 +125,7 @@ NCURSES_POST_INSTALL_TARGET_HOOKS += NCU
+ endif
+ 
+ define NCURSES_TARGET_CLEANUP_TERMINFO
+-	$(RM) -rf $(TARGET_DIR)/usr/share/terminfo $(TARGET_DIR)/usr/share/tabset
++#	$(RM) -rf $(TARGET_DIR)/usr/share/terminfo $(TARGET_DIR)/usr/share/tabset
+ 	$(foreach t,$(NCURSES_TERMINFO_FILES), \
+ 		$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/share/terminfo/$(t) \
+ 			$(TARGET_DIR)/usr/share/terminfo/$(t)
+diff -Naurp buildroot-2017.05-rc2/package/ndisc6/ndisc6.mk buildroot-2017.05-rc2-patch/package/ndisc6/ndisc6.mk
+--- buildroot-2017.05-rc2/package/ndisc6/ndisc6.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/ndisc6/ndisc6.mk	2017-09-17 23:01:01.895915831 +0200
+@@ -28,10 +28,10 @@ NDISC6_SBIN_$(BR2_PACKAGE_NDISC6_RLTRACE
+ NDISC6_SBIN_$(BR2_PACKAGE_NDISC6_TCPTRACEROUTE6) += tcptraceroute6
+ 
+ define NDISC6_REMOVE_UNNEEDED
+-	rm -rf $(addprefix $(TARGET_DIR)/usr/bin/,$(NDISC6_BIN_)) \
+-		$(addprefix $(TARGET_DIR)/usr/sbin/,$(NDISC6_SBIN_))
+-	$(if $(BR2_PACKAGE_NDISC6_RDNSSD),,\
+-		rm -rf $(TARGET_DIR)/etc/rdnssd $(TARGET_DIR)/var/run/rdnssd)
++#	rm -rf $(addprefix $(TARGET_DIR)/usr/bin/,$(NDISC6_BIN_)) \
++#		$(addprefix $(TARGET_DIR)/usr/sbin/,$(NDISC6_SBIN_))
++#	$(if $(BR2_PACKAGE_NDISC6_RDNSSD),,\
++#		rm -rf $(TARGET_DIR)/etc/rdnssd $(TARGET_DIR)/var/run/rdnssd)
+ endef
+ 
+ NDISC6_POST_INSTALL_TARGET_HOOKS += NDISC6_REMOVE_UNNEEDED
+diff -Naurp buildroot-2017.05-rc2/package/netsnmp/netsnmp.mk buildroot-2017.05-rc2-patch/package/netsnmp/netsnmp.mk
+--- buildroot-2017.05-rc2/package/netsnmp/netsnmp.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/netsnmp/netsnmp.mk	2017-09-17 23:01:11.871915729 +0200
+@@ -102,9 +102,9 @@ NETSNMP_CONF_OPTS += --disable-applicati
+ endif
+ 
+ define NETSNMP_REMOVE_BLOAT_MIBS
+-	for mib in $(NETSNMP_BLOAT_MIBS); do \
+-		rm -f $(TARGET_DIR)/usr/share/snmp/mibs/$$mib-MIB.txt; \
+-	done
++#	for mib in $(NETSNMP_BLOAT_MIBS); do \
++#		rm -f $(TARGET_DIR)/usr/share/snmp/mibs/$$mib-MIB.txt; \
++#	done
+ endef
+ 
+ NETSNMP_POST_INSTALL_TARGET_HOOKS += NETSNMP_REMOVE_BLOAT_MIBS
+diff -Naurp buildroot-2017.05-rc2/package/nfs-utils/nfs-utils.mk buildroot-2017.05-rc2-patch/package/nfs-utils/nfs-utils.mk
+--- buildroot-2017.05-rc2/package/nfs-utils/nfs-utils.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/nfs-utils/nfs-utils.mk	2017-09-17 23:01:15.899915688 +0200
+@@ -43,7 +43,7 @@ NFS_UTILS_CONF_OPTS += --disable-tirpc
+ endif
+ 
+ define NFS_UTILS_INSTALL_FIXUP
+-	rm -f $(NFS_UTILS_TARGETS_)
++#	rm -f $(NFS_UTILS_TARGETS_)
+ 	touch $(TARGET_DIR)/etc/exports
+ 	$(INSTALL) -D -m 644 \
+ 		$(@D)/utils/mount/nfsmount.conf $(TARGET_DIR)/etc/nfsmount.conf
+@@ -83,7 +83,7 @@ define NFS_UTILS_INSTALL_INIT_SYSTEMD
+ endef
+ 
+ define NFS_UTILS_REMOVE_NFSIOSTAT
+-	rm -f $(TARGET_DIR)/usr/sbin/nfsiostat
++#	rm -f $(TARGET_DIR)/usr/sbin/nfsiostat
+ endef
+ 
+ # nfsiostat is interpreted python, so remove it unless it's in the target
+diff -Naurp buildroot-2017.05-rc2/package/opencv/opencv.mk buildroot-2017.05-rc2-patch/package/opencv/opencv.mk
+--- buildroot-2017.05-rc2/package/opencv/opencv.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/opencv/opencv.mk	2017-09-17 23:01:07.419915775 +0200
+@@ -237,19 +237,19 @@ endif
+ 
+ # Installation hooks:
+ define OPENCV_CLEAN_INSTALL_DOC
+-	$(RM) -fr $(TARGET_DIR)/usr/share/OpenCV/doc
++#	$(RM) -fr $(TARGET_DIR)/usr/share/OpenCV/doc
+ endef
+ OPENCV_POST_INSTALL_TARGET_HOOKS += OPENCV_CLEAN_INSTALL_DOC
+ 
+ define OPENCV_CLEAN_INSTALL_CMAKE
+-	$(RM) -f $(TARGET_DIR)/usr/share/OpenCV/OpenCVConfig*.cmake
++#	$(RM) -f $(TARGET_DIR)/usr/share/OpenCV/OpenCVConfig*.cmake
+ endef
+ OPENCV_POST_INSTALL_TARGET_HOOKS += OPENCV_CLEAN_INSTALL_CMAKE
+ 
+ ifneq ($(BR2_PACKAGE_OPENCV_INSTALL_DATA),y)
+ define OPENCV_CLEAN_INSTALL_DATA
+-	$(RM) -fr $(TARGET_DIR)/usr/share/OpenCV/haarcascades \
+-		$(TARGET_DIR)/usr/share/OpenCV/lbpcascades
++#	$(RM) -fr $(TARGET_DIR)/usr/share/OpenCV/haarcascades \
++#		$(TARGET_DIR)/usr/share/OpenCV/lbpcascades
+ endef
+ OPENCV_POST_INSTALL_TARGET_HOOKS += OPENCV_CLEAN_INSTALL_DATA
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/opencv3/opencv3.mk buildroot-2017.05-rc2-patch/package/opencv3/opencv3.mk
+--- buildroot-2017.05-rc2/package/opencv3/opencv3.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/opencv3/opencv3.mk	2017-09-17 23:01:07.743915772 +0200
+@@ -336,19 +336,19 @@ endif
+ 
+ # Installation hooks:
+ define OPENCV3_CLEAN_INSTALL_DOC
+-	$(RM) -fr $(TARGET_DIR)/usr/share/OpenCV/doc
++#	$(RM) -fr $(TARGET_DIR)/usr/share/OpenCV/doc
+ endef
+ OPENCV3_POST_INSTALL_TARGET_HOOKS += OPENCV3_CLEAN_INSTALL_DOC
+ 
+ define OPENCV3_CLEAN_INSTALL_CMAKE
+-	$(RM) -f $(TARGET_DIR)/usr/share/OpenCV/OpenCVConfig*.cmake
++#	$(RM) -f $(TARGET_DIR)/usr/share/OpenCV/OpenCVConfig*.cmake
+ endef
+ OPENCV3_POST_INSTALL_TARGET_HOOKS += OPENCV3_CLEAN_INSTALL_CMAKE
+ 
+ ifneq ($(BR2_PACKAGE_OPENCV3_INSTALL_DATA),y)
+ define OPENCV3_CLEAN_INSTALL_DATA
+-	$(RM) -fr $(TARGET_DIR)/usr/share/OpenCV/haarcascades \
+-		$(TARGET_DIR)/usr/share/OpenCV/lbpcascades
++#	$(RM) -fr $(TARGET_DIR)/usr/share/OpenCV/haarcascades \
++#		$(TARGET_DIR)/usr/share/OpenCV/lbpcascades
+ endef
+ OPENCV3_POST_INSTALL_TARGET_HOOKS += OPENCV3_CLEAN_INSTALL_DATA
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/openldap/openldap.mk buildroot-2017.05-rc2-patch/package/openldap/openldap.mk
+--- buildroot-2017.05-rc2/package/openldap/openldap.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/openldap/openldap.mk	2017-09-17 23:01:07.095915778 +0200
+@@ -63,8 +63,8 @@ OPENLDAP_CLIENTS = \
+ 	ldappasswd ldapmodrdn ldapdelete ldapmodify \
+ 	ldapsearch
+ define OPENLDAP_REMOVE_CLIENTS
+-	$(RM) -f $(foreach p,$(OPENLDAP_CLIENTS),$(TARGET_DIR)/usr/bin/$(p))
+-	$(RM) -rf $(TARGET_DIR)/etc/openldap
++#	$(RM) -f $(foreach p,$(OPENLDAP_CLIENTS),$(TARGET_DIR)/usr/bin/$(p))
++#	$(RM) -rf $(TARGET_DIR)/etc/openldap
+ endef
+ OPENLDAP_POST_INSTALL_TARGET_HOOKS += OPENLDAP_REMOVE_CLIENTS
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/openssl/openssl.mk buildroot-2017.05-rc2-patch/package/openssl/openssl.mk
+--- buildroot-2017.05-rc2/package/openssl/openssl.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/openssl/openssl.mk	2017-09-17 23:01:01.343915837 +0200
+@@ -145,22 +145,22 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_PERL),)
+ define OPENSSL_REMOVE_PERL_SCRIPTS
+-	$(RM) -f $(TARGET_DIR)/etc/ssl/misc/{CA.pl,tsget}
++#	$(RM) -f $(TARGET_DIR)/etc/ssl/misc/{CA.pl,tsget}
+ endef
+ OPENSSL_POST_INSTALL_TARGET_HOOKS += OPENSSL_REMOVE_PERL_SCRIPTS
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_OPENSSL_BIN),)
+ define OPENSSL_REMOVE_BIN
+-	$(RM) -f $(TARGET_DIR)/usr/bin/openssl
+-	$(RM) -f $(TARGET_DIR)/etc/ssl/misc/{CA.*,c_*}
++#	$(RM) -f $(TARGET_DIR)/usr/bin/openssl
++#	$(RM) -f $(TARGET_DIR)/etc/ssl/misc/{CA.*,c_*}
+ endef
+ OPENSSL_POST_INSTALL_TARGET_HOOKS += OPENSSL_REMOVE_BIN
+ endif
+ 
+ ifneq ($(BR2_PACKAGE_OPENSSL_ENGINES),y)
+ define OPENSSL_REMOVE_OPENSSL_ENGINES
+-	rm -rf $(TARGET_DIR)/usr/lib/engines
++#	rm -rf $(TARGET_DIR)/usr/lib/engines
+ endef
+ OPENSSL_POST_INSTALL_TARGET_HOOKS += OPENSSL_REMOVE_OPENSSL_ENGINES
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/oracle-mysql/oracle-mysql.mk buildroot-2017.05-rc2-patch/package/oracle-mysql/oracle-mysql.mk
+--- buildroot-2017.05-rc2/package/oracle-mysql/oracle-mysql.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/oracle-mysql/oracle-mysql.mk	2017-09-17 23:01:00.871915842 +0200
+@@ -126,7 +126,7 @@ ORACLE_MYSQL_CONF_OPTS += \
+ endif
+ 
+ define ORACLE_MYSQL_REMOVE_TEST_PROGS
+-	rm -rf $(TARGET_DIR)/usr/mysql-test $(TARGET_DIR)/usr/sql-bench
++#	rm -rf $(TARGET_DIR)/usr/mysql-test $(TARGET_DIR)/usr/sql-bench
+ endef
+ 
+ ORACLE_MYSQL_POST_INSTALL_TARGET_HOOKS += ORACLE_MYSQL_REMOVE_TEST_PROGS
+diff -Naurp buildroot-2017.05-rc2/package/orc/orc.mk buildroot-2017.05-rc2-patch/package/orc/orc.mk
+--- buildroot-2017.05-rc2/package/orc/orc.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/orc/orc.mk	2017-09-17 23:00:57.719915874 +0200
+@@ -13,11 +13,11 @@ ORC_INSTALL_STAGING = YES
+ ORC_DEPENDENCIES = host-orc
+ 
+ define ORC_REMOVE_BUGREPORT
+-	rm -f $(TARGET_DIR)/usr/bin/orc-bugreport
++#	rm -f $(TARGET_DIR)/usr/bin/orc-bugreport
+ endef
+ 
+ define ORC_REMOVE_DEVFILES
+-	rm -f $(TARGET_DIR)/usr/bin/orcc
++#	rm -f $(TARGET_DIR)/usr/bin/orcc
+ endef
+ 
+ ORC_POST_INSTALL_TARGET_HOOKS += ORC_REMOVE_BUGREPORT
+diff -Naurp buildroot-2017.05-rc2/package/pax-utils/pax-utils.mk buildroot-2017.05-rc2-patch/package/pax-utils/pax-utils.mk
+--- buildroot-2017.05-rc2/package/pax-utils/pax-utils.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/pax-utils/pax-utils.mk	2017-09-17 23:01:01.599915834 +0200
+@@ -30,7 +30,7 @@ endif
+ # lddtree and symtree need bash
+ ifeq ($(BR2_PACKAGE_BASH),)
+ define PAX_UTILS_REMOVE_BASH_TOOLS
+-	rm -f $(TARGET_DIR)/usr/bin/{lddtree,symtree}
++#	rm -f $(TARGET_DIR)/usr/bin/{lddtree,symtree}
+ endef
+ endif
+ PAX_UTILS_POST_INSTALL_TARGET_HOOKS += PAX_UTILS_REMOVE_BASH_TOOLS
+diff -Naurp buildroot-2017.05-rc2/package/php/php.mk buildroot-2017.05-rc2-patch/package/php/php.mk
+--- buildroot-2017.05-rc2/package/php/php.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/php/php.mk	2017-09-17 23:01:06.535915784 +0200
+@@ -312,9 +312,9 @@ endef
+ define PHP_INSTALL_FPM_CONF
+ 	$(INSTALL) -D -m 0644 package/php/php-fpm.conf \
+ 		$(TARGET_DIR)/etc/php-fpm.conf
+-	rm -f $(TARGET_DIR)/etc/php-fpm.conf.default
++#	rm -f $(TARGET_DIR)/etc/php-fpm.conf.default
+ 	# remove unused sample status page /usr/php/php/fpm/status.html
+-	rm -rf $(TARGET_DIR)/usr/php
++#	rm -rf $(TARGET_DIR)/usr/php
+ endef
+ 
+ PHP_POST_INSTALL_TARGET_HOOKS += PHP_INSTALL_FPM_CONF
+@@ -330,8 +330,8 @@ endef
+ PHP_POST_INSTALL_TARGET_HOOKS += PHP_EXTENSIONS_FIXUP
+ 
+ define PHP_INSTALL_FIXUP
+-	rm -rf $(TARGET_DIR)/usr/lib/php/build
+-	rm -f $(TARGET_DIR)/usr/bin/phpize
++#	rm -rf $(TARGET_DIR)/usr/lib/php/build
++#	rm -f $(TARGET_DIR)/usr/bin/phpize
+ 	$(INSTALL) -D -m 0755 $(PHP_DIR)/php.ini-production \
+ 		$(TARGET_DIR)/etc/php.ini
+ 	$(SED) 's%;date.timezone =.*%date.timezone = $(PHP_LOCALTIME)%' \
+diff -Naurp buildroot-2017.05-rc2/package/postgresql/postgresql.mk buildroot-2017.05-rc2-patch/package/postgresql/postgresql.mk
+--- buildroot-2017.05-rc2/package/postgresql/postgresql.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/postgresql/postgresql.mk	2017-09-17 23:01:16.363915684 +0200
+@@ -71,7 +71,7 @@ endef
+ 
+ define POSTGRESQL_INSTALL_TARGET_FIXUP
+ 	$(INSTALL) -dm 0700 $(TARGET_DIR)/var/lib/pgsql
+-	$(RM) -rf $(TARGET_DIR)/usr/lib/postgresql/pgxs
++#	$(RM) -rf $(TARGET_DIR)/usr/lib/postgresql/pgxs
+ endef
+ 
+ POSTGRESQL_POST_INSTALL_TARGET_HOOKS += POSTGRESQL_INSTALL_TARGET_FIXUP
+diff -Naurp buildroot-2017.05-rc2/package/pulseaudio/pulseaudio.mk buildroot-2017.05-rc2-patch/package/pulseaudio/pulseaudio.mk
+--- buildroot-2017.05-rc2/package/pulseaudio/pulseaudio.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/pulseaudio/pulseaudio.mk	2017-09-17 23:01:06.903915780 +0200
+@@ -132,7 +132,7 @@ PULSEAUDIO_CONF_OPTS += --disable-x11
+ endif
+ 
+ define PULSEAUDIO_REMOVE_VALA
+-	rm -rf $(TARGET_DIR)/usr/share/vala
++#	rm -rf $(TARGET_DIR)/usr/share/vala
+ endef
+ 
+ PULSEAUDIO_POST_INSTALL_TARGET_HOOKS += PULSEAUDIO_REMOVE_VALA
+diff -Naurp buildroot-2017.05-rc2/package/python/python.mk buildroot-2017.05-rc2-patch/package/python/python.mk
+--- buildroot-2017.05-rc2/package/python/python.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/python/python.mk	2017-09-17 23:01:15.075915697 +0200
+@@ -189,14 +189,14 @@ PYTHON_POST_PATCH_HOOKS += PYTHON_TOUCH_
+ # idle & smtpd.py have bad shebangs and are mostly samples
+ #
+ define PYTHON_REMOVE_USELESS_FILES
+-	rm -f $(TARGET_DIR)/usr/bin/python$(PYTHON_VERSION_MAJOR)-config
+-	rm -f $(TARGET_DIR)/usr/bin/python2-config
+-	rm -f $(TARGET_DIR)/usr/bin/python-config
+-	rm -f $(TARGET_DIR)/usr/bin/smtpd.py
+-	for i in `find $(TARGET_DIR)/usr/lib/python$(PYTHON_VERSION_MAJOR)/config/ \
+-		-type f -not -name pyconfig.h -a -not -name Makefile` ; do \
+-		rm -f $$i ; \
+-	done
++#	rm -f $(TARGET_DIR)/usr/bin/python$(PYTHON_VERSION_MAJOR)-config
++#	rm -f $(TARGET_DIR)/usr/bin/python2-config
++#	rm -f $(TARGET_DIR)/usr/bin/python-config
++#	rm -f $(TARGET_DIR)/usr/bin/smtpd.py
++#	for i in `find $(TARGET_DIR)/usr/lib/python$(PYTHON_VERSION_MAJOR)/config/ \
++#		-type f -not -name pyconfig.h -a -not -name Makefile` ; do \
++#		rm -f $$i ; \
++#	done
+ endef
+ 
+ PYTHON_POST_INSTALL_TARGET_HOOKS += PYTHON_REMOVE_USELESS_FILES
+diff -Naurp buildroot-2017.05-rc2/package/python3/python3.mk buildroot-2017.05-rc2-patch/package/python3/python3.mk
+--- buildroot-2017.05-rc2/package/python3/python3.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/python3/python3.mk	2017-09-17 23:00:59.247915858 +0200
+@@ -183,18 +183,18 @@ PYTHON3_CONF_ENV += \
+ # and the pyconfig.h files are needed at runtime.
+ #
+ define PYTHON3_REMOVE_USELESS_FILES
+-	rm -f $(TARGET_DIR)/usr/bin/python$(PYTHON3_VERSION_MAJOR)-config
+-	rm -f $(TARGET_DIR)/usr/bin/python$(PYTHON3_VERSION_MAJOR)m-config
+-	rm -f $(TARGET_DIR)/usr/bin/python3-config
+-	rm -f $(TARGET_DIR)/usr/bin/smtpd.py.3
+-	for i in `find $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/config-$(PYTHON3_VERSION_MAJOR)m/ \
+-		-type f -not -name pyconfig.h -a -not -name Makefile` ; do \
+-		rm -f $$i ; \
+-	done
+-	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/__pycache__/
+-	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/lib-dynload/sysconfigdata/__pycache__
+-	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/collections/__pycache__
+-	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/importlib/__pycache__
++#	rm -f $(TARGET_DIR)/usr/bin/python$(PYTHON3_VERSION_MAJOR)-config
++#	rm -f $(TARGET_DIR)/usr/bin/python$(PYTHON3_VERSION_MAJOR)m-config
++#	rm -f $(TARGET_DIR)/usr/bin/python3-config
++#	rm -f $(TARGET_DIR)/usr/bin/smtpd.py.3
++#	for i in `find $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/config-$(PYTHON3_VERSION_MAJOR)m/ \
++#		-type f -not -name pyconfig.h -a -not -name Makefile` ; do \
++#		rm -f $$i ; \
++#	done
++#	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/__pycache__/
++#	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/lib-dynload/sysconfigdata/__pycache__
++#	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/collections/__pycache__
++#	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON3_VERSION_MAJOR)/importlib/__pycache__
+ endef
+ 
+ PYTHON3_POST_INSTALL_TARGET_HOOKS += PYTHON3_REMOVE_USELESS_FILES
+diff -Naurp buildroot-2017.05-rc2/package/python-gunicorn/python-gunicorn.mk buildroot-2017.05-rc2-patch/package/python-gunicorn/python-gunicorn.mk
+--- buildroot-2017.05-rc2/package/python-gunicorn/python-gunicorn.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/python-gunicorn/python-gunicorn.mk	2017-09-17 23:01:12.519915723 +0200
+@@ -17,8 +17,8 @@ PYTHON_GUNICORN_LICENSE_FILES = LICENSE
+ # to compile it with python 2.x
+ ifeq ($(BR2_PACKAGE_PYTHON),y)
+ define PYTHON_GUNICORN_REMOVE_GAIO_WORKER
+-	find $(TARGET_DIR)/usr/lib/python$(PYTHON_VERSION_MAJOR)/site-packages/ \
+-		-name "_gaiohttp.py" -exec rm -f {} \;
++#	find $(TARGET_DIR)/usr/lib/python$(PYTHON_VERSION_MAJOR)/site-packages/ \
++#		-name "_gaiohttp.py" -exec rm -f {} \;
+ endef
+ PYTHON_GUNICORN_POST_INSTALL_TARGET_HOOKS += PYTHON_GUNICORN_REMOVE_GAIO_WORKER
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/python-pygame/python-pygame.mk buildroot-2017.05-rc2-patch/package/python-pygame/python-pygame.mk
+--- buildroot-2017.05-rc2/package/python-pygame/python-pygame.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/python-pygame/python-pygame.mk	2017-09-17 23:01:00.483915846 +0200
+@@ -90,20 +90,20 @@ define PYTHON_PYGAME_CONFIGURE_CMDS
+ endef
+ 
+ define PYTHON_PYGAME_REMOVE_DOC
+-	rm -rf $(TARGET_DIR)/usr/lib/python*/site-packages/pygame/docs
++#	rm -rf $(TARGET_DIR)/usr/lib/python*/site-packages/pygame/docs
+ endef
+ 
+ PYTHON_PYGAME_POST_INSTALL_TARGET_HOOKS += PYTHON_PYGAME_REMOVE_DOC
+ 
+ define PYTHON_PYGAME_REMOVE_TESTS
+-	rm -rf $(TARGET_DIR)/usr/lib/python*/site-packages/pygame/tests
++#	rm -rf $(TARGET_DIR)/usr/lib/python*/site-packages/pygame/tests
+ endef
+ 
+ PYTHON_PYGAME_POST_INSTALL_TARGET_HOOKS += PYTHON_PYGAME_REMOVE_TESTS
+ 
+ ifneq ($(BR2_PACKAGE_PYTHON_PYGAME_EXAMPLES),y)
+ define PYTHON_PYGAME_REMOVE_EXAMPLES
+-	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON_VERSION_MAJOR)/site-packages/pygame/examples
++#	rm -rf $(TARGET_DIR)/usr/lib/python$(PYTHON_VERSION_MAJOR)/site-packages/pygame/examples
+ endef
+ PYTHON_PYGAME_POST_INSTALL_TARGET_HOOKS += PYTHON_PYGAME_REMOVE_EXAMPLES
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/qpid-proton/qpid-proton.mk buildroot-2017.05-rc2-patch/package/qpid-proton/qpid-proton.mk
+--- buildroot-2017.05-rc2/package/qpid-proton/qpid-proton.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/qpid-proton/qpid-proton.mk	2017-09-17 23:00:56.407915887 +0200
+@@ -29,7 +29,7 @@ QPID_PROTON_CONF_OPTS = \
+ 	-DPYTHON_EXECUTABLE=$(HOST_DIR)/usr/bin/python2
+ 
+ define QPID_PROTON_REMOVE_USELESS_FILES
+-	rm -fr $(TARGET_DIR)/usr/share/proton-*/
++#	rm -fr $(TARGET_DIR)/usr/share/proton-*/
+ endef
+ 
+ QPID_PROTON_POST_INSTALL_TARGET_HOOKS += QPID_PROTON_REMOVE_USELESS_FILES
+diff -Naurp buildroot-2017.05-rc2/package/readline/readline.mk buildroot-2017.05-rc2-patch/package/readline/readline.mk
+--- buildroot-2017.05-rc2/package/readline/readline.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/readline/readline.mk	2017-09-17 23:00:59.347915857 +0200
+@@ -15,7 +15,7 @@ READLINE_LICENSE = GPL-3.0+
+ READLINE_LICENSE_FILES = COPYING
+ 
+ define READLINE_PURGE_EXAMPLES
+-	rm -rf $(TARGET_DIR)/usr/share/readline
++#	rm -rf $(TARGET_DIR)/usr/share/readline
+ endef
+ READLINE_POST_INSTALL_TARGET_HOOKS += READLINE_PURGE_EXAMPLES
+ 
+diff -Naurp buildroot-2017.05-rc2/package/rpi-userland/rpi-userland.mk buildroot-2017.05-rc2-patch/package/rpi-userland/rpi-userland.mk
+--- buildroot-2017.05-rc2/package/rpi-userland/rpi-userland.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/rpi-userland/rpi-userland.mk	2017-09-17 23:00:57.435915877 +0200
+@@ -54,10 +54,10 @@ RPI_USERLAND_CONF_OPTS += -DALL_APPS=OFF
+ endif # BR2_PACKAGE_RPI_USERLAND_HELLO
+ 
+ define RPI_USERLAND_POST_TARGET_CLEANUP
+-	rm -f $(TARGET_DIR)/etc/init.d/vcfiled
+-	rm -f $(TARGET_DIR)/usr/share/install/vcfiled
++#	rm -f $(TARGET_DIR)/etc/init.d/vcfiled
++#	rm -f $(TARGET_DIR)/usr/share/install/vcfiled
+ 	rmdir --ignore-fail-on-non-empty $(TARGET_DIR)/usr/share/install
+-	rm -Rf $(TARGET_DIR)/usr/src
++#	rm -Rf $(TARGET_DIR)/usr/src
+ endef
+ RPI_USERLAND_POST_INSTALL_TARGET_HOOKS += RPI_USERLAND_POST_TARGET_CLEANUP
+ 
+diff -Naurp buildroot-2017.05-rc2/package/ruby/ruby.mk buildroot-2017.05-rc2-patch/package/ruby/ruby.mk
+--- buildroot-2017.05-rc2/package/ruby/ruby.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/ruby/ruby.mk	2017-09-17 23:01:17.407915673 +0200
+@@ -91,10 +91,10 @@ RUBY_POST_CONFIGURE_HOOKS += RUBY_REMOVE
+ # built and a target compiler.
+ RUBY_EXTENSIONS_REMOVE = rake* rdoc* rubygems*
+ define RUBY_REMOVE_RUBYGEMS
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/, gem rdoc ri rake)
+-	rm -rf $(TARGET_DIR)/usr/lib/ruby/gems
+-	rm -rf $(addprefix $(TARGET_DIR)/usr/lib/ruby/$(RUBY_VERSION_EXT)/, \
+-		$(RUBY_EXTENSIONS_REMOVE))
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/, gem rdoc ri rake)
++#	rm -rf $(TARGET_DIR)/usr/lib/ruby/gems
++#	rm -rf $(addprefix $(TARGET_DIR)/usr/lib/ruby/$(RUBY_VERSION_EXT)/, \
++#		$(RUBY_EXTENSIONS_REMOVE))
+ endef
+ RUBY_POST_INSTALL_TARGET_HOOKS += RUBY_REMOVE_RUBYGEMS
+ 
+diff -Naurp buildroot-2017.05-rc2/package/s6/s6.mk buildroot-2017.05-rc2-patch/package/s6/s6.mk
+--- buildroot-2017.05-rc2/package/s6/s6.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/s6/s6.mk	2017-09-17 23:00:57.531915876 +0200
+@@ -34,7 +34,7 @@ define S6_INSTALL_TARGET_CMDS
+ endef
+ 
+ define S6_REMOVE_STATIC_LIB_DIR
+-	rm -rf $(TARGET_DIR)/usr/lib/s6
++#	rm -rf $(TARGET_DIR)/usr/lib/s6
+ endef
+ 
+ S6_POST_INSTALL_TARGET_HOOKS += S6_REMOVE_STATIC_LIB_DIR
+diff -Naurp buildroot-2017.05-rc2/package/s6-dns/s6-dns.mk buildroot-2017.05-rc2-patch/package/s6-dns/s6-dns.mk
+--- buildroot-2017.05-rc2/package/s6-dns/s6-dns.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/s6-dns/s6-dns.mk	2017-09-17 23:01:15.511915692 +0200
+@@ -29,7 +29,7 @@ define S6_DNS_BUILD_CMDS
+ endef
+ 
+ define S6_DNS_REMOVE_STATIC_LIB_DIR
+-	rm -rf $(TARGET_DIR)/usr/lib/s6-dns
++#	rm -rf $(TARGET_DIR)/usr/lib/s6-dns
+ endef
+ 
+ S6_DNS_POST_INSTALL_TARGET_HOOKS += S6_DNS_REMOVE_STATIC_LIB_DIR
+diff -Naurp buildroot-2017.05-rc2/package/s6-networking/s6-networking.mk buildroot-2017.05-rc2-patch/package/s6-networking/s6-networking.mk
+--- buildroot-2017.05-rc2/package/s6-networking/s6-networking.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/s6-networking/s6-networking.mk	2017-09-17 23:01:09.863915750 +0200
+@@ -32,7 +32,7 @@ define S6_NETWORKING_BUILD_CMDS
+ endef
+ 
+ define S6_NETWORKING_REMOVE_STATIC_LIB_DIR
+-	rm -rf $(TARGET_DIR)/usr/lib/s6-networking
++#	rm -rf $(TARGET_DIR)/usr/lib/s6-networking
+ endef
+ 
+ S6_NETWORKING_POST_INSTALL_TARGET_HOOKS += S6_NETWORKING_REMOVE_STATIC_LIB_DIR
+diff -Naurp buildroot-2017.05-rc2/package/s6-rc/s6-rc.mk buildroot-2017.05-rc2-patch/package/s6-rc/s6-rc.mk
+--- buildroot-2017.05-rc2/package/s6-rc/s6-rc.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/s6-rc/s6-rc.mk	2017-09-17 23:01:00.791915842 +0200
+@@ -31,7 +31,7 @@ define S6_RC_BUILD_CMDS
+ endef
+ 
+ define S6_RC_REMOVE_STATIC_LIB_DIR
+-	rm -rf $(TARGET_DIR)/usr/lib/s6-rc
++#	rm -rf $(TARGET_DIR)/usr/lib/s6-rc
+ endef
+ 
+ S6_RC_POST_INSTALL_TARGET_HOOKS += S6_RC_REMOVE_STATIC_LIB_DIR
+diff -Naurp buildroot-2017.05-rc2/package/samba4/samba4.mk buildroot-2017.05-rc2-patch/package/samba4/samba4.mk
+--- buildroot-2017.05-rc2/package/samba4/samba4.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/samba4/samba4.mk	2017-09-17 23:01:09.687915752 +0200
+@@ -69,9 +69,9 @@ endif
+ # The ctdb tests (cluster) need bash and take up some space
+ # They're normally intended for debugging so remove them
+ define SAMBA4_REMOVE_CTDB_TESTS
+-	rm -rf $(TARGET_DIR)/usr/lib/ctdb-tests
+-	rm -rf $(TARGET_DIR)/usr/share/ctdb-tests
+-	rm -f $(TARGET_DIR)/usr/bin/ctdb_run_*tests
++#	rm -rf $(TARGET_DIR)/usr/lib/ctdb-tests
++#	rm -rf $(TARGET_DIR)/usr/share/ctdb-tests
++#	rm -f $(TARGET_DIR)/usr/bin/ctdb_run_*tests
+ endef
+ SAMBA4_POST_INSTALL_TARGET_HOOKS += SAMBA4_REMOVE_CTDB_TESTS
+ 
+@@ -130,7 +130,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_SAMBA4_SMBTORTURE),)
+ define SAMBA4_REMOVE_SMBTORTURE
+-	rm -f $(TARGET_DIR)/usr/bin/smbtorture
++#	rm -f $(TARGET_DIR)/usr/bin/smbtorture
+ endef
+ SAMBA4_POST_INSTALL_TARGET_HOOKS += SAMBA4_REMOVE_SMBTORTURE
+ endif
+diff -Naurp buildroot-2017.05-rc2/package/sdl_sound/sdl_sound.mk buildroot-2017.05-rc2-patch/package/sdl_sound/sdl_sound.mk
+--- buildroot-2017.05-rc2/package/sdl_sound/sdl_sound.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/sdl_sound/sdl_sound.mk	2017-09-17 23:01:19.279915654 +0200
+@@ -65,7 +65,7 @@ SDL_SOUND_CONF_OPTS += --disable-mmx
+ endif
+ 
+ define SDL_SOUND_REMOVE_PLAYSOUND
+-	rm $(addprefix $(TARGET_DIR)/usr/bin/,playsound playsound_simple)
++#	rm $(addprefix $(TARGET_DIR)/usr/bin/,playsound playsound_simple)
+ endef
+ 
+ ifneq ($(BR2_PACKAGE_SDL_SOUND_PLAYSOUND),y)
+diff -Naurp buildroot-2017.05-rc2/package/sg3_utils/sg3_utils.mk buildroot-2017.05-rc2-patch/package/sg3_utils/sg3_utils.mk
+--- buildroot-2017.05-rc2/package/sg3_utils/sg3_utils.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/sg3_utils/sg3_utils.mk	2017-09-17 23:01:19.187915655 +0200
+@@ -22,29 +22,29 @@ SG3_UTILS_INSTALL_STAGING = YES
+ 
+ ifeq ($(BR2_PACKAGE_SG3_UTILS_PROGS),)
+ define SG3_UTILS_REMOVE_PROGS
+-	for prog in \
+-		compare_and_write copy_results dd decode_sense \
+-		emc_trespass format get_config \
+-		get_lba_status ident inq logs luns map26 \
+-		map sgm_dd modes opcodes sgp_dd persist prevent \
+-		raw rbuf rdac read readcap read_block_limits \
+-		read_attr read_buffer read_long reassign referrals \
+-		rep_zones requests reset reset_wp rmsn rtpg safte sanitize \
+-		sat_identify sat_phy_event sat_read_gplog sat_set_features \
+-		scan senddiag ses ses_microcode start stpg sync test_rwbuf \
+-		timestamp turs unmap verify vpd write_buffer write_long \
+-		write_same write_verify wr_mode xcopy zone; do \
+-		$(RM) $(TARGET_DIR)/usr/bin/sg_$${prog} ; \
+-	done
+-	for prog in \
+-		logging_level mandat readcap ready satl start stop \
+-		temperature; do \
+-		$(RM) $(TARGET_DIR)/usr/bin/scsi_$${prog} ; \
+-	done
+-	for prog in \
+-		sginfo sgm_dd sgp_dd; do \
+-		$(RM) $(TARGET_DIR)/usr/bin/$${prog}; \
+-	done
++#	for prog in \
++#		compare_and_write copy_results dd decode_sense \
++#		emc_trespass format get_config \
++#		get_lba_status ident inq logs luns map26 \
++#		map sgm_dd modes opcodes sgp_dd persist prevent \
++#		raw rbuf rdac read readcap read_block_limits \
++#		read_attr read_buffer read_long reassign referrals \
++#		rep_zones requests reset reset_wp rmsn rtpg safte sanitize \
++#		sat_identify sat_phy_event sat_read_gplog sat_set_features \
++#		scan senddiag ses ses_microcode start stpg sync test_rwbuf \
++#		timestamp turs unmap verify vpd write_buffer write_long \
++#		write_same write_verify wr_mode xcopy zone; do \
++#		$(RM) $(TARGET_DIR)/usr/bin/sg_$${prog} ; \
++#	done
++#	for prog in \
++#		logging_level mandat readcap ready satl start stop \
++#		temperature; do \
++#		$(RM) $(TARGET_DIR)/usr/bin/scsi_$${prog} ; \
++#	done
++#	for prog in \
++#		sginfo sgm_dd sgp_dd; do \
++#		$(RM) $(TARGET_DIR)/usr/bin/$${prog}; \
++#	done
+ endef
+ 
+ SG3_UTILS_POST_INSTALL_TARGET_HOOKS += SG3_UTILS_REMOVE_PROGS
+diff -Naurp buildroot-2017.05-rc2/package/squid/squid.mk buildroot-2017.05-rc2-patch/package/squid/squid.mk
+--- buildroot-2017.05-rc2/package/squid/squid.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/squid/squid.mk	2017-09-17 23:01:14.323915704 +0200
+@@ -70,10 +70,10 @@ SQUID_CONF_OPTS += --without-gnutls
+ endif
+ 
+ define SQUID_CLEANUP_TARGET
+-	rm -f $(addprefix $(TARGET_DIR)/usr/bin/, \
+-		RunCache RunAccel)
+-	rm -f $(addprefix $(TARGET_DIR)/etc/, \
+-		cachemgr.conf mime.conf.default squid.conf.default)
++#	rm -f $(addprefix $(TARGET_DIR)/usr/bin/, \
++#		RunCache RunAccel)
++#	rm -f $(addprefix $(TARGET_DIR)/etc/, \
++#		cachemgr.conf mime.conf.default squid.conf.default)
+ endef
+ 
+ SQUID_POST_INSTALL_TARGET_HOOKS += SQUID_CLEANUP_TARGET
+diff -Naurp buildroot-2017.05-rc2/package/strace/strace.mk buildroot-2017.05-rc2-patch/package/strace/strace.mk
+--- buildroot-2017.05-rc2/package/strace/strace.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/strace/strace.mk	2017-09-17 23:01:12.347915725 +0200
+@@ -19,7 +19,7 @@ STRACE_CONF_OPTS += st_cv_m32_mpers=no \
+ endif
+ 
+ define STRACE_REMOVE_STRACE_GRAPH
+-	rm -f $(TARGET_DIR)/usr/bin/strace-graph
++#	rm -f $(TARGET_DIR)/usr/bin/strace-graph
+ endef
+ 
+ STRACE_POST_INSTALL_TARGET_HOOKS += STRACE_REMOVE_STRACE_GRAPH
+diff -Naurp buildroot-2017.05-rc2/package/stunnel/stunnel.mk buildroot-2017.05-rc2-patch/package/stunnel/stunnel.mk
+--- buildroot-2017.05-rc2/package/stunnel/stunnel.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/stunnel/stunnel.mk	2017-09-17 23:01:13.071915717 +0200
+@@ -25,7 +25,7 @@ endif
+ define STUNNEL_INSTALL_CONF
+ 	$(INSTALL) -m 0644 -D $(@D)/tools/stunnel.conf \
+ 		$(TARGET_DIR)/etc/stunnel/stunnel.conf
+-	rm -f $(TARGET_DIR)/etc/stunnel/stunnel.conf-sample
++#	rm -f $(TARGET_DIR)/etc/stunnel/stunnel.conf-sample
+ endef
+ 
+ STUNNEL_POST_INSTALL_TARGET_HOOKS += STUNNEL_INSTALL_CONF
+diff -Naurp buildroot-2017.05-rc2/package/taglib/taglib.mk buildroot-2017.05-rc2-patch/package/taglib/taglib.mk
+--- buildroot-2017.05-rc2/package/taglib/taglib.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/taglib/taglib.mk	2017-09-17 23:01:12.887915719 +0200
+@@ -23,7 +23,7 @@ TAGLIB_CONF_OPTS += -DWITH_MP4=ON
+ endif
+ 
+ define TAGLIB_REMOVE_DEVFILE
+-	rm -f $(TARGET_DIR)/usr/bin/taglib-config
++#	rm -f $(TARGET_DIR)/usr/bin/taglib-config
+ endef
+ 
+ TAGLIB_POST_INSTALL_TARGET_HOOKS += TAGLIB_REMOVE_DEVFILE
+diff -Naurp buildroot-2017.05-rc2/package/tcl/tcl.mk buildroot-2017.05-rc2-patch/package/tcl/tcl.mk
+--- buildroot-2017.05-rc2/package/tcl/tcl.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/tcl/tcl.mk	2017-09-17 23:01:13.751915710 +0200
+@@ -43,14 +43,14 @@ TCL_PRE_CONFIGURE_HOOKS += TCL_REMOVE_PA
+ 
+ ifeq ($(BR2_PACKAGE_TCL_DEL_ENCODINGS),y)
+ define TCL_REMOVE_ENCODINGS
+-	rm -rf $(TARGET_DIR)/usr/lib/tcl$(TCL_VERSION_MAJOR)/encoding/*
++#	rm -rf $(TARGET_DIR)/usr/lib/tcl$(TCL_VERSION_MAJOR)/encoding/*
+ endef
+ TCL_POST_INSTALL_TARGET_HOOKS += TCL_REMOVE_ENCODINGS
+ endif
+ 
+ ifeq ($(BR2_PACKAGE_TCL_SHLIB_ONLY),y)
+ define TCL_REMOVE_TCLSH
+-	rm -f $(TARGET_DIR)/usr/bin/tclsh$(TCL_VERSION_MAJOR)
++#	rm -f $(TARGET_DIR)/usr/bin/tclsh$(TCL_VERSION_MAJOR)
+ endef
+ TCL_POST_INSTALL_TARGET_HOOKS += TCL_REMOVE_TCLSH
+ else
+@@ -65,10 +65,10 @@ endif
+ # .msg name which makes it difficult to save the correct locales per the
+ # configured whitelist.
+ define TCL_REMOVE_EXTRA
+-	rm -fr $(TARGET_DIR)/usr/lib/tclConfig.sh \
+-		$(TARGET_DIR)/usr/lib/tclooConfig.sh \
+-		$(TARGET_DIR)/usr/lib/tcl$(TCL_VERSION_MAJOR)/tclAppInit.c \
+-		$(TARGET_DIR)/usr/lib/tcl$(TCL_VERSION_MAJOR)/msgs
++#	rm -fr $(TARGET_DIR)/usr/lib/tclConfig.sh \
++#		$(TARGET_DIR)/usr/lib/tclooConfig.sh \
++#		$(TARGET_DIR)/usr/lib/tcl$(TCL_VERSION_MAJOR)/tclAppInit.c \
++#		$(TARGET_DIR)/usr/lib/tcl$(TCL_VERSION_MAJOR)/msgs
+ endef
+ TCL_POST_INSTALL_TARGET_HOOKS += TCL_REMOVE_EXTRA
+ 
+diff -Naurp buildroot-2017.05-rc2/package/tcpdump/tcpdump.mk buildroot-2017.05-rc2-patch/package/tcpdump/tcpdump.mk
+--- buildroot-2017.05-rc2/package/tcpdump/tcpdump.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/tcpdump/tcpdump.mk	2017-09-17 23:00:56.311915888 +0200
+@@ -24,7 +24,7 @@ endif
+ 
+ # make install installs an unneeded extra copy of the tcpdump binary
+ define TCPDUMP_REMOVE_DUPLICATED_BINARY
+-	rm -f $(TARGET_DIR)/usr/sbin/tcpdump.$(TCPDUMP_VERSION)
++#	rm -f $(TARGET_DIR)/usr/sbin/tcpdump.$(TCPDUMP_VERSION)
+ endef
+ 
+ TCPDUMP_POST_INSTALL_TARGET_HOOKS += TCPDUMP_REMOVE_DUPLICATED_BINARY
+diff -Naurp buildroot-2017.05-rc2/package/tn5250/tn5250.mk buildroot-2017.05-rc2-patch/package/tn5250/tn5250.mk
+--- buildroot-2017.05-rc2/package/tn5250/tn5250.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/tn5250/tn5250.mk	2017-09-17 23:01:12.703915721 +0200
+@@ -20,8 +20,8 @@ TN5250_CONF_OPTS += --without-ssl
+ endif
+ 
+ define TN5250_INSTALL_FIXES
+-	rm -f $(TARGET_DIR)/usr/bin/5250keys
+-	rm -f $(TARGET_DIR)/usr/bin/xt5250
++#	rm -f $(TARGET_DIR)/usr/bin/5250keys
++#	rm -f $(TARGET_DIR)/usr/bin/xt5250
+ endef
+ 
+ TN5250_POST_INSTALL_TARGET_HOOKS += TN5250_INSTALL_FIXES
+diff -Naurp buildroot-2017.05-rc2/package/tvheadend/tvheadend.mk buildroot-2017.05-rc2-patch/package/tvheadend/tvheadend.mk
+--- buildroot-2017.05-rc2/package/tvheadend/tvheadend.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/tvheadend/tvheadend.mk	2017-09-17 23:01:02.367915826 +0200
+@@ -106,8 +106,8 @@ endef
+ # Remove documentation and source files that are not needed because we
+ # use the bundled web interface version.
+ define TVHEADEND_CLEAN_SHARE
+-	rm -rf $(TARGET_DIR)/usr/share/tvheadend/docs
+-	rm -rf $(TARGET_DIR)/usr/share/tvheadend/src
++#	rm -rf $(TARGET_DIR)/usr/share/tvheadend/docs
++#	rm -rf $(TARGET_DIR)/usr/share/tvheadend/src
+ endef
+ 
+ TVHEADEND_POST_INSTALL_TARGET_HOOKS += TVHEADEND_CLEAN_SHARE
+diff -Naurp buildroot-2017.05-rc2/package/udpcast/udpcast.mk buildroot-2017.05-rc2-patch/package/udpcast/udpcast.mk
+--- buildroot-2017.05-rc2/package/udpcast/udpcast.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/udpcast/udpcast.mk	2017-09-17 23:01:02.739915823 +0200
+@@ -11,8 +11,8 @@ UDPCAST_LICENSE = BSD-2-Clause, GPL-2.0+
+ UDPCAST_LICENSE_FILES = COPYING
+ 
+ define UDPCAST_REMOVE_UDP_SENDER
+-	rm -f $(TARGET_DIR)/usr/sbin/udp-sender
+-	rm -f $(TARGET_DIR)/usr/sbin/udp-sender.1
++#	rm -f $(TARGET_DIR)/usr/sbin/udp-sender
++#	rm -f $(TARGET_DIR)/usr/sbin/udp-sender.1
+ endef
+ 
+ ifneq ($(BR2_PACKAGE_UDPCAST_SENDER),y)
+@@ -20,8 +20,8 @@ UDPCAST_POST_INSTALL_TARGET_HOOKS += UDP
+ endif
+ 
+ define UDPCAST_REMOVE_UDP_RECEIVER
+-	rm -f $(TARGET_DIR)/usr/sbin/udp-receiver
+-	rm -f $(TARGET_DIR)/usr/sbin/udp-receiver.1
++#	rm -f $(TARGET_DIR)/usr/sbin/udp-receiver
++#	rm -f $(TARGET_DIR)/usr/sbin/udp-receiver.1
+ endef
+ 
+ ifneq ($(BR2_PACKAGE_UDPCAST_RECEIVER),y)
+diff -Naurp buildroot-2017.05-rc2/package/usbredir/usbredir.mk buildroot-2017.05-rc2-patch/package/usbredir/usbredir.mk
+--- buildroot-2017.05-rc2/package/usbredir/usbredir.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/usbredir/usbredir.mk	2017-09-17 23:00:56.743915884 +0200
+@@ -20,7 +20,7 @@ USBREDIR_LICENSE_FILES += COPYING
+ else # BR2_PACKAGE_USBREDIR_SERVER != y
+ 
+ define USBREDIR_POST_INSTALL_TARGET_RM_SERVER
+-	rm -f $(TARGET_DIR)/usr/sbin/usbredirserver
++#	rm -f $(TARGET_DIR)/usr/sbin/usbredirserver
+ endef
+ USBREDIR_POST_INSTALL_TARGET_HOOKS += USBREDIR_POST_INSTALL_TARGET_RM_SERVER
+ 
+diff -Naurp buildroot-2017.05-rc2/package/usbutils/usbutils.mk buildroot-2017.05-rc2-patch/package/usbutils/usbutils.mk
+--- buildroot-2017.05-rc2/package/usbutils/usbutils.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/usbutils/usbutils.mk	2017-09-17 23:01:16.551915682 +0200
+@@ -19,14 +19,14 @@ endif
+ # Nice lsusb.py script only if there's python
+ ifeq ($(BR2_PACKAGE_PYTHON),)
+ define USBUTILS_REMOVE_PYTHON
+-	rm -f $(TARGET_DIR)/usr/bin/lsusb.py
++#	rm -f $(TARGET_DIR)/usr/bin/lsusb.py
+ endef
+ 
+ USBUTILS_POST_INSTALL_TARGET_HOOKS += USBUTILS_REMOVE_PYTHON
+ endif
+ 
+ define USBUTILS_TARGET_CLEANUP
+-	rm -f $(TARGET_DIR)/usr/bin/usb-devices
++#	rm -f $(TARGET_DIR)/usr/bin/usb-devices
+ endef
+ 
+ USBUTILS_POST_INSTALL_TARGET_HOOKS += USBUTILS_TARGET_CLEANUP
+diff -Naurp buildroot-2017.05-rc2/package/valgrind/valgrind.mk buildroot-2017.05-rc2-patch/package/valgrind/valgrind.mk
+--- buildroot-2017.05-rc2/package/valgrind/valgrind.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/valgrind/valgrind.mk	2017-09-17 23:01:11.491915733 +0200
+@@ -57,7 +57,7 @@ VALGRIND_POST_INSTALL_TARGET_HOOKS += VA
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_MEMCHECK),)
+ define VALGRIND_REMOVE_MEMCHECK
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*memcheck*
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*memcheck*
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_MEMCHECK
+@@ -65,10 +65,10 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_CACHEGRIND),)
+ define VALGRIND_REMOVE_CACHEGRIND
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*cachegrind*
+-	for i in cg_annotate cg_diff cg_merge; do \
+-		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
+-	done
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*cachegrind*
++#	for i in cg_annotate cg_diff cg_merge; do \
++#		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
++#	done
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_CACHEGRIND
+@@ -76,10 +76,10 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_CALLGRIND),)
+ define VALGRIND_REMOVE_CALLGRIND
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*callgrind*
+-	for i in callgrind_annotate callgrind_control ; do \
+-		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
+-	done
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*callgrind*
++#	for i in callgrind_annotate callgrind_control ; do \
++#		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
++#	done
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_CALLGRIND
+@@ -87,7 +87,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_HELGRIND),)
+ define VALGRIND_REMOVE_HELGRIND
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*helgrind*
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*helgrind*
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_HELGRIND
+@@ -95,7 +95,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_DRD),)
+ define VALGRIND_REMOVE_DRD
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*drd*
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*drd*
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_DRD
+@@ -103,8 +103,8 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_MASSIF),)
+ define VALGRIND_REMOVE_MASSIF
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*massif*
+-	rm -f $(TARGET_DIR)/usr/bin/ms_script
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*massif*
++#	rm -f $(TARGET_DIR)/usr/bin/ms_script
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_MASSIF
+@@ -112,7 +112,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_DHAT),)
+ define VALGRIND_REMOVE_DHAT
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*dhat*
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*dhat*
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_DHAT
+@@ -120,7 +120,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_SGCHECK),)
+ define VALGRIND_REMOVE_SGCHECK
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*sgcheck*
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*sgcheck*
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_SGCHECK
+@@ -128,7 +128,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_BBV),)
+ define VALGRIND_REMOVE_BBV
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*bbv*
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*bbv*
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_BBV
+@@ -136,7 +136,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_LACKEY),)
+ define VALGRIND_REMOVE_LACKEY
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*lackey*
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*lackey*
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_LACKEY
+@@ -144,7 +144,7 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_VALGRIND_NULGRIND),)
+ define VALGRIND_REMOVE_NULGRIND
+-	rm -f $(TARGET_DIR)/usr/lib/valgrind/*none*
++#	rm -f $(TARGET_DIR)/usr/lib/valgrind/*none*
+ endef
+ 
+ VALGRIND_POST_INSTALL_TARGET_HOOKS += VALGRIND_REMOVE_NULGRIND
+diff -Naurp buildroot-2017.05-rc2/package/vim/vim.mk buildroot-2017.05-rc2-patch/package/vim/vim.mk
+--- buildroot-2017.05-rc2/package/vim/vim.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/vim/vim.mk	2017-09-17 23:01:15.315915694 +0200
+@@ -61,7 +61,7 @@ define VIM_INSTALL_RUNTIME_CMDS
+ endef
+ 
+ define VIM_REMOVE_DOCS
+-	$(RM) -rf $(TARGET_DIR)/usr/share/vim/vim*/doc/
++#	$(RM) -rf $(TARGET_DIR)/usr/share/vim/vim*/doc/
+ endef
+ 
+ # Avoid oopses with vipw/vigr, lack of $EDITOR and 'vi' command expectation
+diff -Naurp buildroot-2017.05-rc2/package/wayland/wayland.mk buildroot-2017.05-rc2-patch/package/wayland/wayland.mk
+--- buildroot-2017.05-rc2/package/wayland/wayland.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/wayland/wayland.mk	2017-09-17 23:01:15.987915687 +0200
+@@ -22,7 +22,7 @@ HOST_WAYLAND_CONF_OPTS = --disable-tests
+ 
+ # Remove the DTD from the target, it's not needed at runtime
+ define WAYLAND_TARGET_CLEANUP
+-	rm -rf $(TARGET_DIR)/usr/share/wayland
++#	rm -rf $(TARGET_DIR)/usr/share/wayland
+ endef
+ WAYLAND_POST_INSTALL_TARGET_HOOKS += WAYLAND_TARGET_CLEANUP
+ 
+diff -Naurp buildroot-2017.05-rc2/package/wireshark/wireshark.mk buildroot-2017.05-rc2-patch/package/wireshark/wireshark.mk
+--- buildroot-2017.05-rc2/package/wireshark/wireshark.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/wireshark/wireshark.mk	2017-09-17 23:01:06.695915782 +0200
+@@ -100,8 +100,8 @@ WIRESHARK_CONF_OPTS += --with-sbc=no
+ endif
+ 
+ define WIRESHARK_REMOVE_DOCS
+-	find $(TARGET_DIR)/usr/share/wireshark -name '*.txt' -print0 \
+-		-o -name '*.html' -print0 | xargs -0 rm -f
++#	find $(TARGET_DIR)/usr/share/wireshark -name '*.txt' -print0 \
++#		-o -name '*.html' -print0 | xargs -0 rm -f
+ endef
+ 
+ WIRESHARK_POST_INSTALL_TARGET_HOOKS += WIRESHARK_REMOVE_DOCS
+diff -Naurp buildroot-2017.05-rc2/package/xenomai/xenomai.mk buildroot-2017.05-rc2-patch/package/xenomai/xenomai.mk
+--- buildroot-2017.05-rc2/package/xenomai/xenomai.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/xenomai/xenomai.mk	2017-09-17 23:01:06.171915788 +0200
+@@ -62,25 +62,25 @@ XENOMAI_CONF_OPTS += $(call qstrip,$(BR2
+ # Some of these files may be desired by some users -- at that point specific
+ # config options need to be added to keep a particular set.
+ define XENOMAI_REMOVE_UNNEEDED_FILES
+-	for i in xeno xeno-config xeno-info wrap-link.sh ; do \
+-		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
+-	done
+-	for i in autotune corectl hdb rtnet nomaccfg rtcfg rtifconfig \
+-		rtiwconfig rtping rtroute tdmacfg rtps slackspot version; do \
+-		rm -f $(TARGET_DIR)/usr/sbin/$$i ; \
+-	done
++#	for i in xeno xeno-config xeno-info wrap-link.sh ; do \
++#		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
++#	done
++#	for i in autotune corectl hdb rtnet nomaccfg rtcfg rtifconfig \
++#		rtiwconfig rtping rtroute tdmacfg rtps slackspot version; do \
++#		rm -f $(TARGET_DIR)/usr/sbin/$$i ; \
++#	done
+ endef
+ 
+ XENOMAI_POST_INSTALL_TARGET_HOOKS += XENOMAI_REMOVE_UNNEEDED_FILES
+ 
+ ifeq ($(BR2_PACKAGE_XENOMAI_TESTSUITE),)
+ define XENOMAI_REMOVE_TESTSUITE
+-	rm -rf $(TARGET_DIR)/usr/share/xenomai/
+-	for i in clocktest gpiotest latency spitest switchtest \
+-		xeno-test-run-wrapper dohell xeno-test-run xeno-test ; do \
+-		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
+-	done
+-	rm -rf $(TARGET_DIR)/usr/demo/
++#	rm -rf $(TARGET_DIR)/usr/share/xenomai/
++#	for i in clocktest gpiotest latency spitest switchtest \
++#		xeno-test-run-wrapper dohell xeno-test-run xeno-test ; do \
++#		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
++#	done
++#	rm -rf $(TARGET_DIR)/usr/demo/
+ endef
+ 
+ XENOMAI_POST_INSTALL_TARGET_HOOKS += XENOMAI_REMOVE_TESTSUITE
+@@ -88,10 +88,10 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_XENOMAI_RTCAN),)
+ define XENOMAI_REMOVE_RTCAN_PROGS
+-	for i in rtcanrecv rtcansend ; do \
+-		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
+-	done
+-	rm -f $(TARGET_DIR)/usr/sbin/rtcanconfig
++#	for i in rtcanrecv rtcansend ; do \
++#		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
++#	done
++#	rm -f $(TARGET_DIR)/usr/sbin/rtcanconfig
+ endef
+ 
+ XENOMAI_POST_INSTALL_TARGET_HOOKS += XENOMAI_REMOVE_RTCAN_PROGS
+@@ -99,14 +99,14 @@ endif
+ 
+ ifeq ($(BR2_PACKAGE_XENOMAI_ANALOGY),)
+ define XENOMAI_REMOVE_ANALOGY
+-	for i in cmd_read cmd_write cmd_bits insn_read insn_write insn_bits \
+-			wf_generate ; do \
+-		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
+-	done
+-	for i in analogy_config analogy_calibrate ; do \
+-		rm -f $(TARGET_DIR)/usr/sbin/$$i ; \
+-	done
+-	rm -f $(TARGET_DIR)/usr/lib/libanalogy.*
++#	for i in cmd_read cmd_write cmd_bits insn_read insn_write insn_bits \
++#			wf_generate ; do \
++#		rm -f $(TARGET_DIR)/usr/bin/$$i ; \
++#	done
++#	for i in analogy_config analogy_calibrate ; do \
++#		rm -f $(TARGET_DIR)/usr/sbin/$$i ; \
++#	done
++#	rm -f $(TARGET_DIR)/usr/lib/libanalogy.*
+ endef
+ 
+ XENOMAI_POST_INSTALL_TARGET_HOOKS += XENOMAI_REMOVE_ANALOGY
+@@ -122,15 +122,15 @@ XENOMAI_REMOVE_SKIN_LIST += $(if $(BR2_P
+ XENOMAI_REMOVE_SKIN_LIST += $(if $(BR2_PACKAGE_XENOMAI_VRTX_SKIN),,vrtx)
+ 
+ define XENOMAI_REMOVE_SKINS
+-	for i in $(XENOMAI_REMOVE_SKIN_LIST) ; do \
+-		rm -f $(TARGET_DIR)/usr/lib/lib$$i.* ; \
+-		if [ $$i == "posix" ] ; then \
+-			rm -f $(TARGET_DIR)/usr/lib/posix.wrappers ; \
+-		fi ; \
+-		if [ $$i == "smokey" ] ; then \
+-			rm -f $(TARGET_DIR)/usr/bin/smokey* ; \
+-		fi ; \
+-	done
++#	for i in $(XENOMAI_REMOVE_SKIN_LIST) ; do \
++#		rm -f $(TARGET_DIR)/usr/lib/lib$$i.* ; \
++#		if [ $$i == "posix" ] ; then \
++#			rm -f $(TARGET_DIR)/usr/lib/posix.wrappers ; \
++#		fi ; \
++#		if [ $$i == "smokey" ] ; then \
++#			rm -f $(TARGET_DIR)/usr/bin/smokey* ; \
++#		fi ; \
++#	done
+ endef
+ 
+ XENOMAI_POST_INSTALL_TARGET_HOOKS += XENOMAI_REMOVE_SKINS
+diff -Naurp buildroot-2017.05-rc2/package/zsh/zsh.mk buildroot-2017.05-rc2-patch/package/zsh/zsh.mk
+--- buildroot-2017.05-rc2/package/zsh/zsh.mk	2017-05-17 10:27:16.027844496 +0200
++++ buildroot-2017.05-rc2-patch/package/zsh/zsh.mk	2017-09-17 23:01:02.835915822 +0200
+@@ -36,7 +36,7 @@ endif
+ 
+ # Remove versioned zsh-x.y.z binary taking up space
+ define ZSH_TARGET_INSTALL_FIXUPS
+-	rm -f $(TARGET_DIR)/bin/zsh-$(ZSH_VERSION)
++#	rm -f $(TARGET_DIR)/bin/zsh-$(ZSH_VERSION)
+ endef
+ ZSH_POST_INSTALL_TARGET_HOOKS += ZSH_TARGET_INSTALL_FIXUPS
+ 

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+main() {
+    local pkgname="${1}"
+    [ ! -d _scripts ] && mkdir _scripts
+    if [ -e _scripts/"${pkgname}.rev" ]; then
+	REV=`cat _scripts/"${pkgname}.rev"`
+	echo "$(expr $REV + 1)" > _scripts/"${pkgname}.rev"
+    else
+	echo 1 > _scripts/"${pkgname}.rev"
+    fi
+}
+
+main "${@}"

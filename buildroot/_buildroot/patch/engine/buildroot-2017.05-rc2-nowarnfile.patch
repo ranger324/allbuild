@@ -1,0 +1,31 @@
+diff -Naurp buildroot-2017.05-rc2/fs/common.mk buildroot-2017.05-rc2-p/fs/common.mk
+--- buildroot-2017.05-rc2/fs/common.mk	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-p/fs/common.mk	2017-05-25 19:29:17.607810020 +0200
+@@ -74,7 +74,6 @@ $$(BINARIES_DIR)/rootfs.$(1): target-fin
+ 	@$$(call MESSAGE,"Generating root filesystem image rootfs.$(1)")
+ 	$$(foreach hook,$$(ROOTFS_$(2)_PRE_GEN_HOOKS),$$(call $$(hook))$$(sep))
+ 	rm -f $$(FAKEROOT_SCRIPT)
+-	rm -f $$(TARGET_DIR_WARNING_FILE)
+ 	rm -f $$(USERS_TABLE)
+ 	echo '#!/bin/sh' > $$(FAKEROOT_SCRIPT)
+ 	echo "set -e" >> $$(FAKEROOT_SCRIPT)
+@@ -101,7 +100,6 @@ endif
+ 	$$(call PRINTF,$$(ROOTFS_$(2)_CMD)) >> $$(FAKEROOT_SCRIPT)
+ 	chmod a+x $$(FAKEROOT_SCRIPT)
+ 	PATH=$$(BR_PATH) $$(HOST_DIR)/usr/bin/fakeroot -- $$(FAKEROOT_SCRIPT)
+-	$$(INSTALL) -m 0644 support/misc/target-dir-warning.txt $$(TARGET_DIR_WARNING_FILE)
+ 	-@rm -f $$(FAKEROOT_SCRIPT) $$(FULL_DEVICE_TABLE)
+ ifneq ($$(ROOTFS_$(2)_COMPRESS_CMD),)
+ 	PATH=$$(BR_PATH) $$(ROOTFS_$(2)_COMPRESS_CMD) $$@ > $$@$$(ROOTFS_$(2)_COMPRESS_EXT)
+diff -Naurp buildroot-2017.05-rc2/package/skeleton/skeleton.mk buildroot-2017.05-rc2-p/package/skeleton/skeleton.mk
+--- buildroot-2017.05-rc2/package/skeleton/skeleton.mk	2017-05-17 10:27:16.000000000 +0200
++++ buildroot-2017.05-rc2-p/package/skeleton/skeleton.mk	2017-05-25 19:29:27.528032300 +0200
+@@ -94,8 +94,6 @@ define SKELETON_INSTALL_TARGET_CMDS
+ 	$(call SKELETON_USR_SYMLINKS_OR_DIRS,$(TARGET_DIR))
+ 	ln -snf lib $(TARGET_DIR)/$(SKELETON_LIB_SYMLINK)
+ 	ln -snf lib $(TARGET_DIR)/usr/$(SKELETON_LIB_SYMLINK)
+-	$(INSTALL) -m 0644 support/misc/target-dir-warning.txt \
+-		$(TARGET_DIR_WARNING_FILE)
+ endef
+ 
+ # For the staging dir, we don't really care about /bin and /sbin.

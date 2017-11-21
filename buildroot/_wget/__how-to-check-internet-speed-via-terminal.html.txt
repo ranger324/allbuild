@@ -1,0 +1,705 @@
+   Link: canonical
+     * Ubuntu
+     * Community
+     * Ask!
+     * Developer
+     * Design
+     * Hardware
+     * Insights
+     * Juju
+     * Shop
+     * More â*º
+          * Apps
+          * Help
+          * Forum
+          * Launchpad
+          * MAAS
+          * Canonical
+
+  current community
+
+     * chat
+       Ask Ubuntu
+     * Ask Ubuntu Meta
+
+  your communities
+
+   Sign up or log in to customize your list.
+
+  more stack exchange communities
+
+   company blog
+   Stack Exchange Inbox  Reputation and Badges
+   sign up log in tour help 
+     * Tour Start here for a quick overview of the site
+     * Help Center Detailed answers to any questions you might have
+     * Meta Discuss the workings and policies of this site
+     * About Us Learn more about Stack Overflow the company
+     * Business Learn more about hiring developers or posting ads with us
+   _____________________
+   Ask Ubuntu
+     * Questions
+     * Tags
+     * Users
+     * Badges
+     * Unanswered
+     * Ask Question
+   Link:
+   https://cdn.sstatic.net/Sites/askubuntu/img/apple-touch-icon.png?v=e16e1315edd6
+   _
+   Ask Ubuntu is a question and answer site for Ubuntu users and developers.
+   Join them; it only takes a minute:
+
+   Sign up
+   Here's how it works:
+    1. Anybody can ask a question
+    2. Anybody can answer
+    3. The best answers are voted up and rise to the top
+
+                   How to check Internet Speed via Terminal?
+
+               Instead of going to sites like speedtest.net, or others, I     
+               want to check my current Internet speed from the terminal on   
+               Ubuntu. How can I do it?                                       
+   up vote 238                                                                
+   down vote   command-line internet download-speed                           
+   favorite                                                                   
+   97                                 edited Feb 3 '15 at asked Feb 16 '12 at 
+               share|improve this                   12:50 14:24               
+               question                             [IMG] [IMG]               
+                                               blade19899 kernel_panic        
+                                             15.1k1693149 3,204133576         
+                    The results I'm getting with speedtest-cli are vastly     
+                    under what I get from speedtest.net speedtest-cli         
+               4    Download 18.27 Mbits/s Upload 3.43 Mbits/s speedtest.net  
+                    Download 59.38 Mbits/s Upload 12.14 Mbits/s I can't       
+                    consider speedtest-cli to be in any way a valid test of   
+                    network speed. – user375058 Feb 3 '15 at 12:46            
+                    @user375058: The speedtest-cli uses the same servers      
+                    (etc.) as SpeedTest.net. You should consider the          
+                    speedtest-cli and www.speedtest.net to be equivalent,     
+                    just with a different front-end. I would be surprised if  
+                    you get significantly different results consistently if   
+               1    they both use the same server. If they aren't using the   
+                    same server, then you have no basis for comparison.       
+                    Lastly, my results for both utilities vary by a factor of 
+                    2-4 from run to run. I suggest you test 2-4 servers, and  
+                    perform 3â**4 runs for each server and compare tools.     
+                    – jvriesem Oct 26 '15 at 22:33                            
+                    @user375058: I actually just did what I suggested. See    
+                    the link in my comment below for my results. – jvriesem   
+                    Oct 27 '15 at 0:06                                        
+               1    sudo apt install speedtest-cli – ColdCold Sep 30 '16 at   
+                    2:13                                                      
+                                                                              
+               add a comment |  expand to show all comments on this post      
+
+11 Answers
+
+   active oldest votes
+
+         I recommend the speedtest-cli tool for this. I created a blog post (Measure Internet         
+         Connection Speed from the Linux Command Line) that goes into detail of downloading,          
+         installing and usage of it.                                                                  
+                                                                                                      
+         The short version is this: (no root required)                                                
+                                                                                                      
+         curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python - 
+                                                                                                      
+         Output:                                                                                      
+                                                                                                      
+         Retrieving speedtest.net configuration...                                                    
+         Retrieving speedtest.net server list...                                                      
+         Testing from Comcast Cable (x.x.x.x)...                                                      
+up vote  Selecting best server based on ping...                                                       
+362 down Hosted by FiberCloud, Inc (Seattle, WA) [12.03 km]: 44.028 ms                                
+vote     Testing download speed........................................                               
+accepted Download: 32.29 Mbit/s                                                                       
+         Testing upload speed..................................................                       
+         Upload: 5.18 Mbit/s                                                                          
+                                                                                                      
+         Update in 2016:                                                                              
+                                                                                                      
+         speedtest-cli is in Ubuntu repositories now. For Ubuntu 16.04 (Xenial) and later use:        
+                                                                                                      
+         sudo apt install speedtest-cli                                                               
+         speedtest-cli                                                                                
+                                                                                                      
+                                   edited Aug 9 at 12:06 answered Mar 19 '13 at 8:11                  
+         share|improve this answer                 [IMG]                       [IMG]                  
+                                                   Zanna                     mweisel                  
+                                            34.2k1278159                    3,752284                  
+              This doesnt seem to work properly. I have BT infinity 50bBit down and 20Mbit up. But    
+         1    the results show up as 0.53Mbit down and 0.2Mbit up. Huh? Incorrect decimal placing?    
+              using wget I get 4.27M/s (34Mbit) (some other server though)? – ppumkin Sep 2 '13 at    
+              21:53                                                                                   
+              As it has already been stated here: Since speedtest-cli is a python application, it is  
+         19   much easier to install by doing: pip install speedtest-cli or: easy_install             
+              speedtest-cli Depending on how Python is installed on your system, you may need to be   
+              root to do the above. – CrandellWS Feb 9 '14 at 4:18                                    
+         1    Confirming that speedtest-cli is broken. Doesn't show speeds above 1Mbps. Doesn't       
+              transfer any info when claiming to do so. – int_ua Sep 10 '14 at 0:32                   
+              This should really be the accepted answer...speedtest-cli is working fine for me; think 
+         4    @int_ua was either having compatibility problems or internet problems. – peelman Oct 30 
+              '14 at 12:22                                                                            
+              This should be the right answer. Speed test means download AND upload. First answer     
+         1    ONLY measures the download speed, which is NOT a full picture of your internet          
+              connection speed. Especially if you are hosting something on that machine! – Emil       
+              Borconi Jan 20 '15 at 14:14                                                             
+                                                                                                      
+          |  show 17 more comments                                                                    
+
+     try this on command line                                                                    
+                                                                                                 
+     wget --output-document=/dev/null http://speedtest.wdc01.softlayer.com/downloads/test500.zip 
+                                                                                                 
+up   try this too                                                                                
+vote                                                                                             
+63   sourceforge.net/projects/tespeed/                                                           
+down                                                                                             
+vote got it from above link                                                                      
+                                                                                                 
+                               edited Aug 16 '12 at 0:07 answered Feb 16 '12 at 14:57            
+     share|improve this answer                     [IMG]                        [IMG]            
+                                                henrique                     Tachyons            
+                                                  314314                   12k1258108            
+     1   Could you plz explain what /dev/null stands for? – nutty about natty Apr 4 '13 at 11:14 
+     8   It is speacial file which simply the delete data written to it, – Tachyons Apr 4 '13 at 
+         12:24                                                                                   
+         For me on Ubuntu 14.10 with python 2.7.8 the command wget --output-document=/dev/null   
+         http://speedtest.wdc01.softlayer.com/downloads/test500.zip works much better than using 
+     2   speedtset-cli the later seems to freeze and ^C fails to interrupte the command. With    
+         wget I have no problems cutting the download shrot with ^C – Willoczy Nov 27 '14 at     
+         20:50                                                                                   
+     1   @mlissner, looks like first speed in megabits, second in megabytes.. – vp_arth Aug 14   
+         '15 at 11:19                                                                            
+         Note that the test file is a 500 MB file. You can change the test500.zip to test10.zip  
+     1   (for example) to try a 10 MB file. I hear this also works with 100 MB. – jvriesem Oct   
+         26 '15 at 22:26                                                                         
+                                                                                                 
+      |  show 5 more comments                                                                    
+
+        If you can't be bothered to install iperf , you could precede any        
+        command that shifts a known amount of data with the time command and do  
+        a sum.                                                                   
+                                                                                 
+        iperf is simple and easy to use.                                         
+                                                                                 
+        It requires a client and server.                                         
+                                                                                 
+        (on the server)                                                          
+                                                                                 
+         user@server$ iperf -s                                                   
+                                                                                 
+   up   (on the client)                                                          
+   vote                                                                          
+   34    user@client$ iperf -c server.domain                                     
+   down  ------------------------------------------------------------            
+   vote  Client connecting to 192.168.1.1, TCP port 5001                         
+         TCP window size: 16.0 KByte (default)                                   
+         ------------------------------------------------------------            
+         [  3] local 192.168.1.3 port 52143 connected with 192.168.1.1 port 5001 
+         [ ID] Interval       Transfer     Bandwidth                             
+         [  3]  0.0-10.0 sec    113 MBytes  94.7 Mbits/sec                       
+                                                                                 
+        More Details                                                             
+                                                                                 
+                                      edited Mar 20 at    answered Feb 16 '12 at 
+                                                 10:18                     15:21 
+        share|improve this answer                [IMG]                     [IMG] 
+                                            Community♦                  One Zero 
+                                                     1              14.3k2163102 
+        4   +1 iperf is fantastic for validating ethernet and WIFI speeds        
+            – kfmfe04 May 22 '13 at 10:19                                        
+                                                                                 
+        add a comment |  expand to show all comments on this post                
+
+              Well I use wget for it. That little tool tells me nicely what   
+              speed I have.                                                   
+                                                                              
+              To use it just point to a file in internet that is relatively   
+              bigger so that you can get a better estimate of it.             
+                                                                              
+              For example                                                     
+                                                                              
+              typing: wget http://hostve.com/neobuntu/pics/Ubu1.avi would     
+              start to download the Ubu1.avi file and show at what speed it   
+              is downloading.                                                 
+                                                                              
+              enter image description here                                    
+                                                                              
+              Of course there are several recommendations:                    
+                                                                              
+               1. Speed test yourself with good servers. In the case of my    
+                  link the speed is less than 200KB so if you have a higher   
+                  speed, the server will be the bottleneck for you, not your  
+                  actual speed.                                               
+                                                                              
+               2. The highest speed you will see is the maximum speed that    
+                  your connection and the server's connection can offer. If   
+                  your connection is 512KB and the place where you are        
+                  downloading is 400KB, your max connection will be 400KB     
+                  because it is the max for the server you are downloading    
+                  from.                                                       
+                                                                              
+               3. You need to do the test at least 5 times to have a reliable 
+                  speed check or at least do it for a minute or two. This     
+                  will help you have a more accurate check.                   
+                                                                              
+               4. You need to have at least 4 or 5 different testing sources  
+   up vote 29     to have a more accurate speed. Never test only from the     
+   down vote      same site as this can be affected by your distance to it,   
+                  any problem in the server and the connections to it, etc.   
+                  Always test from different servers.                         
+                                                                              
+              ARIA2                                                           
+                                                                              
+              This is an alternative to wget. The downside of wget is the     
+              lack of parallel connections. To use aria2 we fist need to      
+              download it:                                                    
+                                                                              
+                 sudo apt-get install aria2                                   
+                                                                              
+              To use it is simple:                                            
+                                                                              
+              enter image description here                                    
+                                                                              
+              In the image, the -x 4 is how many parallel connections we wish 
+              to use. The CN parameter in the next line shows how many active 
+              parallel connections were permitted to download from that site. 
+              In this case CN is 4. But if we tried to have more connections  
+              we would get something like this:                               
+                                                                              
+              enter image description here                                    
+                                                                              
+              We set 8 parallel connections but the site only allowed a       
+              maximum of 5 as shown by CN:5. This could be solved by the -j   
+              option which tells aria2c the maximum concurrent connections we 
+              want (Which by default is 5) but if the server has limited      
+              this, -j will not work.                                         
+                                                                              
+                                                       answered Feb 16 '12 at 
+              share|improve this         edited Aug 7                   15:12 
+              answer                     '13 at 10:17                   [IMG] 
+                                                               Luis Alvarado♦ 
+                                                                124k121444621 
+                   wget is not (yet) able to do a segmented download, that is 
+                   to download a single file using multiple (parallel)        
+                   connections, so if your ISP is limiting the speed per 1    
+              1    connection, you won't get accurate results... it would be  
+                   a more precise test to use some other tool, that can at    
+                   least use segmented download (like aria2) – Mladen B. Aug  
+                   7 '13 at 9:21                                              
+                   @MladenB. Thanks. Added Aria2 to it. – Luis Alvarado♦ Aug  
+                   7 '13 at 10:10                                             
+                   This is NOT a speedtest, this is a DOWNLOAD speed test     
+              2    only! Internet speed test means down&up load! Second       
+                   answer, and all others mentioning speedtest-cli have the   
+                   correct approach. – Emil Borconi Jan 20 '15 at 14:16       
+                   @EmilBorconi You are correct but in real life, we are not  
+                   doing benchmarking Internet speeds here, this are just     
+                   your average current speed tests of any home user without  
+                   the need for sites like speedtest. A download speed (Which 
+                   is enough for anyone trying to see if they are having a    
+                   bottleneck) is a good enough test. A full down/up speed    
+                   test would check what the full scope of your speed is      
+                   based on your ISP. So yeah that would be the best          
+                   solution, but for any fast test scenario, even a simple    
+                   wget would do the trick since normally people worry more   
+                   about download speed than upload. – Luis Alvarado♦ Jan 20  
+                   '15 at 16:32                                               
+                   @LuisAlvarado sorry if I sounded rude, just I think people 
+                   should be able to fully understand what they are asking /  
+                   and what is the accepted answer. Lot's of newbies will     
+                   look at forums and they will assume / pick / stop at the   
+                   accepted answer, and they form a false image in their had. 
+              1    And yes download is more important then upload unless you  
+                   are a facebook maniac who post selfies each 5 minutes,     
+                   then start a fight with you ISP just because you tested    
+                   the download which is good, but you have a crappy          
+                   upload... Once again sorry if my tone was rude, did not    
+                   want to insult... – Emil Borconi Jan 21 '15 at 9:52        
+                                                                              
+               |  show 2 more comments                                        
+
+                   Since speedtest-cli is a python application, it is much    
+                   easier to install by doing:                                
+                                                                              
+                   pip install speedtest-cli                                  
+                                                                              
+                   or:                                                        
+                                                                              
+   up vote 13 down easy_install speedtest-cli                                 
+   vote                                                                       
+                   Depending on how Python is installed on your system, you   
+                   may need to be root to do the above.                       
+                                                                              
+                                             answered Dec 2 '13 at 15:06      
+                   share|improve this answer                       [IMG]      
+                                                                    BobC      
+                                                                   23923      
+                                                                              
+                   add a comment |  expand to show all comments on this post  
+
+             you can use tespeed . it is a Terminal network speed test that   
+             uses servers from Speedtest.net. It uses nearest test server but 
+             can also use one manually specified by the user.                 
+                                                                              
+              git clone git://github.com/Janhouse/tespeed.git                 
+              cd tespeed                                                      
+              git submodule init                                              
+              git submodule update                                            
+              ./tespeed.py                                                    
+                                                                              
+   up vote 3 enter image description here                                     
+   down vote                                                                  
+             for more info use :                                              
+                                                                              
+              ./tespeed.py  -h                                                
+                                                                              
+             it will provide more option for speed test.                      
+                                                                              
+                                                  answered Sep 12 '15 at 6:08 
+             share|improve this edited Sep 12 '15                       [IMG] 
+             answer                       at 9:11                     pl_rock 
+                                                                   5,40942331 
+                                                                              
+             add a comment |  expand to show all comments on this post        
+
+             Run several instances of wget with timeout command on large      
+             files:                                                           
+                                                                              
+             #!/bin/bash                                                      
+                                                                              
+             timeout 5 wget -q url_1/100MB.zip &                              
+             timeout 5 wget -q url_2/file.zip &                               
+             timeout 5 wget -q url_3/sample.mov &                             
+             timeout 5 wget -q url_4/speech.mp4 &                             
+                                                                              
+             And then write a script to calculate the total bytes downloaded  
+   up vote 2 and divide 5 seconds you will get a bytes/sec figure. Should be  
+   down vote quite accurate and you can add more instances to max your        
+             bandwidth.                                                       
+                                                                              
+             I have yet to test the full script but the single line command   
+             "timeout 5 wget url" works, and you get a partially downloaded   
+             file as a result (if 5 secs is not enough to complete the        
+             download).                                                       
+                                                                              
+                                edited Sep 20 '13 at   answered Sep 20 '13 at 
+             share|improve this                 3:06                     2:29 
+             answer                            [IMG]                    [IMG] 
+                                              Braiam                    rexis 
+                                       44.4k17111177                      213 
+                  This would require of some server set up... – Braiam Sep 20 
+                  '13 at 3:06                                                 
+                  url_1,2,3,4 can be anything, such as public servers.        
+                  – rexis Sep 20 '13 at 3:27                                  
+                  for example timeout 5 wget                                  
+                  http://speedtest.netcologne.de/test_100mb.bin -O            
+                  /tmp/temp5sec then analyze the filesize and devide by 5:    
+                  expr $(stat --printf="%s" /tmp/temp5sec) / 5 / 1024 in      
+                  kbit/s – rubo77 Aug 29 '15 at 11:49                         
+                                                                              
+             add a comment |  expand to show all comments on this post        
+
+     Simple bash script based on @rexis answer. You can put your own links for testing in links array or read them from file                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     #!/bin/bash                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     export LC_ALL=C  #make output in English eg for later use with "du | grep"                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     TMP_PATH=/tmp/speedtest_data/                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+     TEST_TIME=5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     rm -rf $TMP_PATH && mkdir $TMP_PATH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     links=("http://client.cdn.gamigo.com/bp/eu/com/110a/BPClientSetup-2b.bin" "http://client.cdn.gamigo.com/bp/eu/com/110a/BPClientSetup-1b.bin" "http://client.cdn.gamigo.com/bp/eu/com/110a/BPClientSetup-1c.bin" "http://ftp.ntua.gr/pub/linux/ubuntu-releases-dvd/quantal/release/ubuntu-12.10-server-armhf+omap.img" "http://ftp.funet.fi/pub/Linux/INSTALL/Ubuntu/dvd-releases/releases/12.10/release/ubuntu-12.10-server-armhf+omap.img" "http://ftp.icm.edu.pl/pub/Linux/opensuse/distribution/13.2/iso/openSUSE-13.2-DVD-x86_64.iso") 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     echo "Testing download"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     for link in ${links[*]}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+up   do                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+vote     timeout $TEST_TIME wget -q -P $TMP_PATH $link &                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+2    done                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+down                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+vote wait                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     total_bytes=$(du -c $TMP_PATH | grep total | awk '{print $1}')                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     echo "Cleaning up"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+     rm -rf $TMP_PATH                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     speed=$(expr $total_bytes / $TEST_TIME)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     echo "Speed is $speed Kb/s"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     exit 0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                               edited Mar 14 '16 at 19:55 answered Mar 24 '15 at 12:28                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+     share|improve this answer                      [IMG]                        [IMG]                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                  ceph3us                     Darkside                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                     1036                         1313                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+          one minus - what about when i use other language as English ? see: grep :) part – ceph3us Mar 14 '16 at 16:53                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+     add a comment |  expand to show all comments on this post                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+
+                  I happen to like the speedometer Ubuntu cli.                
+                                                                              
+                  speedometer -r eth0                                         
+                                                                              
+   up vote 2 down To watch a live graph of incoming data speeds.              
+   vote                                                                       
+                                            answered Sep 2 '16 at 21:22       
+                  share|improve this answer                       [IMG]       
+                                                                6ft Dan       
+                                                                   1637       
+                       thats actually what I was looking for for a while!     
+                       thanks! but I dont like that it shows speeds in Kib    
+                       and not Kb or KB – redbeam_ Sep 24 '16 at 19:06        
+                                                                              
+                  add a comment |  expand to show all comments on this post   
+
+        You can also try http://dl.getipaddr.net                              
+                                                                              
+        They use curl (which is a well known command line utility) to run a   
+        speed test.                                                           
+                                                                              
+   up   In short                                                              
+   vote                                                                       
+   0    wget                                                                  
+   down https://raw.github.com/blackdotsh/curl-speedtest/master/speedtest.sh  
+   vote && chmod u+x speedtest.sh && bash speedtest.sh                        
+                                                                              
+                                  answered Mar 7 '15 at 18:17                 
+        share|improve this answer                       [IMG]                 
+                                                   user385795                 
+                                                            1                 
+                                                                              
+        add a comment |  expand to show all comments on this post             
+
+     a simple one-liner that tests how long it takes to download 100MB (works on /bin/sh also):                                                     
+                                                                                                                                                    
+     t=$(date +"%s"); wget http://speedtest.netcologne.de/test_100mb.bin -O ->/dev/null ; echo -n "MBit/s: "; expr 8 \* 100 / $(($(date +"%s")-$t)) 
+                                                                                                                                                    
+     explanation:                                                                                                                                   
+                                                                                                                                                    
+      1. store the timestamp in $t                                                                                                                  
+      2. download 100mb but don't store anything                                                                                                    
+      3. calculate 8 * 100mb / $t                                                                                                                   
+                                                                                                                                                    
+up     ------------------------------------------------------------------------------------------------------------------------------------------   
+vote                                                                                                                                                
+0    Note:                                                                                                                                          
+down http://speedtest.tweak.nl/100mb.bin gives a faster download, so it seems like http://speedtest.netcologne.de does only offer 30 MBit/s max.    
+vote                                                                                                                                                
+     The problem in my OpenWRT console is that I cannot access speedtest.tweak.nl which is strange                                                  
+                                                                                                                                                    
+       ------------------------------------------------------------------------------------------------------------------------------------------   
+                                                                                                                                                    
+     To check an ipv6 connection use http://ipv6.download.thinkbroadband.com/100MB.zip                                                              
+                                                                                                                                                    
+                                                         answered Aug 29 '15 at 7:29                                                                
+     share|improve this answer edited Sep 13 '15 at 0:24                       [IMG]                                                                
+                                                                              rubo77                                                                
+                                                                        10.4k2278151                                                                
+                                                                                                                                                    
+     add a comment |  expand to show all comments on this post                                                                                      
+
+protected by Community♦ Sep 14 '16 at 18:26
+
+   Thank you for your interest in this question. Because it has attracted
+   low-quality or spam answers that had to be removed, posting an answer now
+   requires 10 reputation on this site (the association bonus does not
+   count).
+
+   Would you like to answer one of these unanswered questions instead?
+
+Not the answer you're looking for? Browse other questions tagged command-line
+internet download-speed or ask your own question.
+
+   asked  5 years, 5 months ago 
+   viewed 494,861 times         
+   active 3 days ago            
+
+    Linked
+
+   -1
+   Linux commands for internet speed tests
+   10
+   Why does my internet speed roughly *double* when switching from Ubuntu to
+   Win XP?
+   7
+   Download/upload speed indicator applet for 14.04
+   0
+   Is it possible to check internet speed using the ping command?
+
+    Related
+
+   2
+   How can I increase internet speed
+   0
+   how do i install Internet Download Manager on ubuntu 12.04
+   2
+   How to distribute internet speed equally
+   2
+   How to distribute internet speed in hotspot?
+   6
+   How do I check the internet speed inside Ubuntu 14.04
+   1
+   Why has my internet speed dropped down?
+   1
+   Slow (wired) internet in terminal and software center Ubuntu 14.04
+   0
+   Slow Internet speed while downloading any type of package using terminal
+   (Ubuntu16.04)
+   0
+   internet very slow speedtest fails with socket errors
+
+    Hot Network Questions
+
+     * Sulphuric Acid in Esterification Reaction
+     * Why doesn't PRC help install a new leadership or stage a coup to
+       preserve DPRK -- or even take it over altogether before the US does?
+     * How should the session chair introduce presentation titles which are
+       ungrammatical?
+     * Sort a difference list
+     * Maximum sub-array
+     * Were there ever any libraries in medieval villages?
+     * Batteries. Why use 9V?
+     * My husband is a beginner in cycling and needs some motivation
+     * Creating instance of nested class
+     * Classical indeterminacy and measurement uncertainty
+     * Why do all the C files written by my lecturer start with a #
+     * How to resolve an endless loop of attacks of opportunity?
+     * iTunes iCloud status: Uploaded
+     * How common is it for airport officers to steal valuables from luggage?
+     * Are there uncountably infinite complete extensions of finite theories
+       of the natural numbers?
+     * Jobs for Giants in modern society
+     * Is there no real current in AC?
+     * A puzzle in 140 characters
+     * How to create an RTS gameplay experience where all phases of a match
+       are equally engaging without spikes in required concentration?
+     * Do people tend to spend less when using cash than credit cards?
+     * Can I write (200 MB - 150 min) music to a (700 MB - 80 min) CD?
+     * Does pure yellow exist in variations we can't discern?
+     * Why not just dump the neural networks and deep learning?
+     * Why is the Roman acronym SPQR and not SPR?
+   more hot questions
+   question feed
+
+      Ask Ubuntu
+
+     * Tour
+     * Help
+     * Chat
+     * Contact
+     * Feedback
+     * Mobile
+
+      Company
+
+     * Stack Overflow
+     * Stack Overflow Business
+     * Developer Jobs
+     * About
+     * Press
+     * Legal
+     * Privacy Policy
+
+      Stack Exchange
+      Network
+
+     * Technology
+     * Life / Arts
+     * Culture / Recreation
+     * Science
+     * Other
+     * Stack Overflow
+     * Server Fault
+     * Super User
+     * Web Applications
+     * Ask Ubuntu
+     * Webmasters
+     * Game Development
+     * TeX - LaTeX
+     * Software Engineering
+     * Unix & Linux
+     * Ask Different (Apple)
+     * WordPress Development
+     * Geographic Information Systems
+     * Electrical Engineering
+     * Android Enthusiasts
+     * Information Security
+     * Database Administrators
+     * Drupal Answers
+     * SharePoint
+     * User Experience
+     * Mathematica
+     * Salesforce
+     * ExpressionEngine® Answers
+     * Blender
+     * Network Engineering
+     * Cryptography
+     * Code Review
+     * Magento
+     * Software Recommendations
+     * Signal Processing
+     * Emacs
+     * Raspberry Pi
+     * Programming Puzzles & Code Golf
+     * Ethereum
+     * Data Science
+     * Arduino
+     * more (26)
+     * Photography
+     * Science Fiction & Fantasy
+     * Graphic Design
+     * Movies & TV
+     * Music: Practice & Theory
+     * Worldbuilding
+     * Seasoned Advice (cooking)
+     * Home Improvement
+     * Personal Finance & Money
+     * Academia
+     * Law
+     * more (17)
+     * English Language & Usage
+     * Skeptics
+     * Mi Yodeya (Judaism)
+     * Travel
+     * Christianity
+     * English Language Learners
+     * Japanese Language
+     * Arqade (gaming)
+     * Bicycles
+     * Role-playing Games
+     * Anime & Manga
+     * Puzzling
+     * Motor Vehicle Maintenance & Repair
+     * more (32)
+     * MathOverflow
+     * Mathematics
+     * Cross Validated (stats)
+     * Theoretical Computer Science
+     * Physics
+     * Chemistry
+     * Biology
+     * Computer Science
+     * Philosophy
+     * more (10)
+     * Meta Stack Exchange
+     * Stack Apps
+     * API
+     * Data
+     * Area 51
+     * Blog
+     * Facebook
+     * Twitter
+     * LinkedIn
+
+   site design / logo © 2017 Stack Exchange Inc; user contributions licensed
+   under cc by-sa 3.0 with attribution required. rev 2017.8.11.26777
+
+   Ubuntu and Canonical are registered trademarks of Canonical Ltd.
+   Ask Ubuntu works best with JavaScript enabled

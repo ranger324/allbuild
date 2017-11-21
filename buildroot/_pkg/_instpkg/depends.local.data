@@ -1,0 +1,299 @@
+acl #DEPENDS# glibc attr 
+acpid #DEPENDS# glibc syslog-ng 
+alsa-lib #DEPENDS# glibc Python 
+alsa-utils #DEPENDS# glibc alsa-lib ncurses 
+apmd #DEPENDS# glibc 
+apr #DEPENDS# glibc util-linux 
+apr-util #DEPENDS# glibc apr gdbm 
+atk #DEPENDS# glibc glib 
+atkmm #DEPENDS# glibc 
+attr #DEPENDS# glibc 
+autoconf #DEPENDS# glibc 
+automake #DEPENDS# glibc 
+avahi #DEPENDS# glibc libdaemon dbus glib expat gdbm gcc 
+bash #DEPENDS# glibc ncurses readline util-linux sed grep findutils coreutils which 
+bc #DEPENDS# glibc readline 
+bind #DEPENDS# glibc ncurses readline openssl 
+binutils #DEPENDS# glibc 
+bison #DEPENDS# glibc 
+bluez #DEPENDS# glibc dbus glib alsa-lib libusb-compat udev readline libical 
+btrfs-progs #DEPENDS# glibc lzo e2fsprogs util-linux zlib 
+busybox-utils #DEPENDS# glibc 
+bzip2 #DEPENDS# glibc 
+ca-certificate #DEPENDS# glibc 
+cairo #DEPENDS# glibc libpng zlib pixman fontconfig libXrender mesa libXxf86vm 
+cairomm #DEPENDS# glibc cairo libsigc++ 
+cdparanoia-III #DEPENDS# glibc 
+cdrkit #DEPENDS# glibc attr file libcap 
+cdrtools #DEPENDS# glibc attr acl 
+cifs-utils #DEPENDS# glibc keyutils samba 
+colord #DEPENDS# glibc libgusb libgudev lcms2 sqlite dbus 
+coreutils #DEPENDS# glibc attr acl 
+cpio #DEPENDS# glibc 
+cpupower #DEPENDS# glibc 
+cryptsetup #DEPENDS# glibc LVM2 util-linux libgcrypt popt 
+cups #DEPENDS# glibc avahi dbus zlib gcc acl libusb gnutls colord 
+curl #DEPENDS# glibc openssl zlib libidn 
+cyrus-sasl #DEPENDS# glibc gss openssl db 
+db #DEPENDS# glibc gcc 
+dbus #DEPENDS# glibc expat 
+dbus-glib #DEPENDS# glibc dbus glib 
+dejavu-fonts-ttf #DEPENDS# glibc fontconfig xorg-fontutil 
+dhcp #DEPENDS# glibc inetutils net-tools iproute2 
+dhcpcd #DEPENDS# glibc 
+dialog #DEPENDS# glibc ncurses 
+diffutils #DEPENDS# glibc 
+dnsmasq #DEPENDS# glibc 
+dosfstools #DEPENDS# glibc 
+e2fsprogs #DEPENDS# glibc util-linux 
+ed #DEPENDS# glibc 
+elfutils #DEPENDS# glibc 
+ethtool #DEPENDS# glibc 
+eventlog #DEPENDS# glibc 
+exfat-utils #DEPENDS# glibc fuse 
+expat #DEPENDS# glibc 
+ext4fuse #DEPENDS# glibc fuse 
+fatattr #DEPENDS# glibc 
+fatresize #DEPENDS# glibc parted 
+fbset #DEPENDS# glibc 
+fbterm #DEPENDS# glibc gcc libx86 freetype fontconfig fbv 
+fbv #DEPENDS# glibc libpng jpeg 
+fbvd #DEPENDS# glibc libpng jpeg 
+fcron #DEPENDS# glibc Linux-PAM 
+file #DEPENDS# glibc zlib 
+findutils #DEPENDS# glibc 
+flex #DEPENDS# glibc 
+fontconfig #DEPENDS# glibc freetype expat zlib bzip2 
+font-util #DEPENDS# glibc 
+freefont-ttf #DEPENDS# glibc fontconfig xorg-fontutil 
+freetype #DEPENDS# glibc zlib bzip2 libpng harfbuzz 
+fuse #DEPENDS# glibc 
+fuse-exfat #DEPENDS# glibc fuse 
+fuseiso #DEPENDS# glibc fuse zlib glib 
+gawk #DEPENDS# glibc bash 
+gcc #DEPENDS# glibc linux-header gmp mpfr mpc 
+gdbm #DEPENDS# glibc 
+gdk-pixbuf #DEPENDS# glibc glib tiff jpeg libpng libX11 
+gettext #DEPENDS# glibc ncurses glib gcc acl libunistring 
+git #DEPENDS# glibc expat zlib openssl curl perl Python 
+glib #DEPENDS# glibc zlib libffi 
+glibc #DEPENDS# linux-header 
+glibmm #DEPENDS# glibc glib libsigc++ 
+gmp #DEPENDS# glibc 
+gnutls #DEPENDS# glibc nettle libtasn1 p11-kit 
+gperf #DEPENDS# glibc 
+gpm #DEPENDS# glibc bash 
+gptfdisk #DEPENDS# glibc util-linux popt gcc ncurses 
+grep #DEPENDS# glibc pcre 
+groff #DEPENDS# glibc gcc 
+grub #DEPENDS# glibc bash 
+gss #DEPENDS# glibc 
+gtk+ #DEPENDS# glibc pango atk glib cups tiff jpeg libpng gdk-pixbuf libX11 libXext libXdamage libXinerama libXcursor libXxf86vm libXrandr mesa gcc 
+gtkmm #DEPENDS# glibc gtk+ glibmm pangomm atkmm 
+gtkmm3 #DEPENDS# glibc gtk+ glibmm pangomm atkmm 
+gzip #DEPENDS# glibc 
+harfbuzz #DEPENDS# glibc icu4c glib 
+hdparm #DEPENDS# glibc 
+hfsplus #DEPENDS# glibc 
+hfsprogs #DEPENDS# glibc libbsd openssl 
+hfsutils #DEPENDS# glibc 
+hplip #DEPENDS# glibc libusb dbus net-snmp sane-backends cups Python jpeg 
+htop #DEPENDS# glibc ncurses 
+iana-etc #DEPENDS# glibc 
+icu4c #DEPENDS# glibc 
+inetutils #DEPENDS# glibc tcp_wrappers readline ncurses 
+intltool #DEPENDS# glibc XML-Parser 
+iproute2 #DEPENDS# glibc 
+iptables #DEPENDS# glibc 
+iw #DEPENDS# glibc libnl 
+jfsutils #DEPENDS# glibc util-linux 
+joe #DEPENDS# glibc ncurses 
+jpeg #DEPENDS# glibc 
+kbd #DEPENDS# glibc 
+kernel-tools #DEPENDS# glibc cpio bash kmod grub 
+keyutils #DEPENDS# glibc 
+kmod #DEPENDS# glibc 
+laptop-mode-tools #DEPENDS# glibc bash acpid 
+lcms2 #DEPENDS# glibc jpeg tiff zlib xz 
+less #DEPENDS# glibc ncurses 
+lftp #DEPENDS# glibc gnutls expat zlib ncurses libidn gcc 
+libarchive2 #DEPENDS# glibc e2fsprogs acl zlib bzip2 openssl xz expat 
+libarchive #DEPENDS# glibc e2fsprogs acl zlib bzip2 openssl xz expat 
+libatasmart #DEPENDS# glibc udev 
+libbsd #DEPENDS# glibc 
+libcap #DEPENDS# glibc attr 
+libdaemon #DEPENDS# glibc 
+libdrm #DEPENDS# glibc udev libpciaccess 
+liberation-fonts #DEPENDS# glibc fontconfig xorg-fontutil 
+libevent #DEPENDS# glibc zlib openssl 
+libexif #DEPENDS# glibc 
+libfetch #DEPENDS# glibc openssl 
+libffi #DEPENDS# glibc 
+libfontenc #DEPENDS# glibc xorg-proto zlib 
+libgcrypt #DEPENDS# glibc libgpg-error 
+libgd #DEPENDS# glibc zlib libpng jpeg tiff fontconfig freetype libXpm 
+libgpg-error #DEPENDS# glibc 
+libgphoto2 #DEPENDS# glibc libusb libexif jpeg libgd libxml2 
+libgudev #DEPENDS# glibc udev glib 
+libgusb #DEPENDS# glibc glib libusb 
+libical #DEPENDS# glibc 
+libICE #DEPENDS# glibc xtrans 
+libidn #DEPENDS# glibc 
+libieee1284 #DEPENDS# glibc Python 
+libnih #DEPENDS# glibc dbus expat 
+libnl #DEPENDS# glibc 
+libnscd #DEPENDS# glibc 
+libpciaccess #DEPENDS# glibc util-macros 
+libpipeline #DEPENDS# glibc 
+libpng #DEPENDS# glibc zlib 
+libsigc++ #DEPENDS# glibc gcc 
+libSM #DEPENDS# glibc xtrans libICE xorg-proto util-linux 
+libtasn1 #DEPENDS# glibc 
+libtirpc #DEPENDS# glibc 
+libtool #DEPENDS# glibc autoconf automake 
+libunistring #DEPENDS# glibc 
+libusb #DEPENDS# glibc udev 
+libusb-compat #DEPENDS# glibc libusb 
+libva #DEPENDS# glibc libX11 libXext libXfixes libdrm 
+libvdpau #DEPENDS# glibc libX11 xorg-proto-extra libXext 
+libX11 #DEPENDS# glibc util-macros xtrans xorg-proto libxcb 
+libx86 #DEPENDS# glibc 
+libXau #DEPENDS# glibc xorg-proto 
+libxcb #DEPENDS# glibc xcb-proto libxslt libXau libXdmcp Python 
+libXcursor #DEPENDS# glibc libX11 libXfixes libXrender 
+libXdamage #DEPENDS# glibc libX11 libXfixes 
+libXdmcp #DEPENDS# glibc 
+libXext #DEPENDS# glibc xorg-proto libX11 
+libXfixes #DEPENDS# glibc xorg-proto xorg-proto-extra libX11 
+libXfont #DEPENDS# glibc zlib freetype libfontenc 
+libXft #DEPENDS# glibc xorg-proto freetype fontconfig libXrender 
+libXinerama #DEPENDS# glibc libX11 libXext 
+libxml2 #DEPENDS# glibc zlib xz Python 
+libXpm #DEPENDS# glibc libX11 libXt 
+libXrandr #DEPENDS# glibc util-macros libX11 xorg-proto-extra libXext libXrender 
+libXrender #DEPENDS# glibc xorg-proto libX11 
+libxshmfence #DEPENDS# glibc xorg-proto 
+libxslt #DEPENDS# glibc libxml2 zlib Python libgcrypt 
+libXt #DEPENDS# glibc glib libSM libX11 xorg-proto 
+libXxf86vm #DEPENDS# glibc libXext 
+linux-bsrc-R4.4 #DEPENDS# linux-R4.4 
+linux-firmware #DEPENDS# glibc 
+linux-header #DEPENDS# linux-firmware 
+Linux-PAM #DEPENDS# glibc libtirpc 
+linux-R4.1 #DEPENDS# linux-firmware kmod kernel-tools 
+linux-R4.4 #DEPENDS# linux-firmware kmod kernel-tools 
+linux-R4.5 #DEPENDS# linux-firmware kmod kernel-tools 
+linux-R4.6 #DEPENDS# linux-firmware kmod kernel-tools 
+llvm #DEPENDS# glibc gcc 
+logrotate #DEPENDS# glibc popt 
+lua #DEPENDS# glibc readline ncurses 
+LVM2 #DEPENDS# glibc ncurses readline udev 
+lzo #DEPENDS# glibc 
+m4 #DEPENDS# glibc 
+make #DEPENDS# glibc 
+makebootfat #DEPENDS# glibc 
+man-db #DEPENDS# glibc gdbm zlib gzip bzip2 xz groff man-pages libpipeline 
+man-pages #DEPENDS# glibc 
+mc #DEPENDS# glibc glib slang gpm 
+mdadm #DEPENDS# glibc 
+mdev #DEPENDS# glibc openrc 
+mesa #DEPENDS# glibc udev llvm libX11 libdrm xorg-proto-xextra xorg-proto-extra libvdpau libva libXext libXdamage libXfixes expat libXxf86vm libxshmfence elfutils 
+mingetty #DEPENDS# glibc 
+mkfontscale #DEPENDS# glibc zlib libX11 
+mpc #DEPENDS# glibc gmp mpfr 
+mpfr #DEPENDS# glibc gmp 
+mtools #DEPENDS# glibc 
+nano #DEPENDS# glibc ncurses 
+ncftp #DEPENDS# glibc ncurses 
+ncurses #DEPENDS# glibc 
+neon #DEPENDS# glibc openssl zlib expat 
+net-snmp #DEPENDS# glibc perl udev zlib libnl openssl pciutils 
+nettle #DEPENDS# glibc openssl gmp 
+net-tools #DEPENDS# glibc 
+nilfs-utils #DEPENDS# glibc util-linux 
+ntfs-3g #DEPENDS# glibc fuse util-linux 
+ntp #DEPENDS# glibc openssl attr libevent 
+openrc #DEPENDS# glibc bash 
+openssh #DEPENDS# glibc openssl zlib 
+openssl #DEPENDS# glibc 
+os-prober #DEPENDS# glibc bash 
+p11-kit #DEPENDS# glibc libffi libtasn1 
+p7zip #DEPENDS# glibc gcc 
+pacman #DEPENDS# glibc openssl libarchive2 libarchive wget libfetch busybox-utils 
+pango #DEPENDS# glibc xorg-proto libX11 fontconfig freetype cairo libXft glib libICE gcc 
+pangomm #DEPENDS# glibc cairomm 
+parted #DEPENDS# glibc readline util-linux LVM2 
+patch #DEPENDS# glibc ed attr 
+pciutils #DEPENDS# glibc zlib udev 
+pcmciautils #DEPENDS# glibc sysfsutils 
+pcre #DEPENDS# glibc zlib bzip2 readline 
+perl #DEPENDS# glibc 
+pixman #DEPENDS# glibc 
+pkg-config #DEPENDS# glibc glib 
+pmount #DEPENDS# glibc util-linux 
+popt #DEPENDS# glibc 
+portmap #DEPENDS# glibc tcp_wrappers libtirpc 
+posixovl #DEPENDS# glibc fuse 
+procps #DEPENDS# glibc ncurses 
+psmisc #DEPENDS# glibc 
+pwdutils #DEPENDS# glibc Linux-PAM libnscd libtirpc 
+Python #DEPENDS# glibc readline ncurses expat gdbm sqlite zlib bzip2 
+Python3 #DEPENDS# glibc readline ncurses expat gdbm zlib bzip2 sqlite 
+quota #DEPENDS# glibc e2fsprogs tcp_wrappers libtirpc 
+quotatool #DEPENDS# glibc 
+read-edid #DEPENDS# glibc libx86 
+readline #DEPENDS# glibc ncurses 
+reiserfsprogs #DEPENDS# glibc util-linux 
+rpcbind #DEPENDS# glibc libtirpc 
+rsync #DEPENDS# glibc popt zlib acl 
+samba #DEPENDS# glibc 
+sane-backends #DEPENDS# glibc libusb-compat libieee1284 v4l-utils tiff jpeg zlib libgphoto2 libtool libexif 
+sed #DEPENDS# glibc 
+slang #DEPENDS# glibc 
+smartmontools #DEPENDS# glibc 
+sqlite #DEPENDS# glibc 
+squashfs #DEPENDS# glibc zlib xz 
+subversion #DEPENDS# glibc zlib dbus sqlite apr apr-util cyrus-sasl file expat util-linux neon 
+sudo #DEPENDS# glibc Linux-PAM zlib nano 
+sysfsutils #DEPENDS# glibc 
+syslog-ng #DEPENDS# glibc eventlog tcp_wrappers openssl glib zlib logrotate 
+tar #DEPENDS# glibc 
+tcl #DEPENDS# glibc zlib 
+tcp_wrappers #DEPENDS# glibc 
+tcsh #DEPENDS# glibc ncurses 
+texinfo #DEPENDS# glibc ncurses 
+tiff #DEPENDS# glibc jpeg zlib xz 
+udev #DEPENDS# glibc glib util-linux acl kmod 
+UDFclient #DEPENDS# glibc 
+unifont #DEPENDS# glibc fontconfig xorg-fontutil 
+unionfs-fuse #DEPENDS# glibc fuse 
+unrar #DEPENDS# glibc gcc 
+unzip #DEPENDS# glibc zlib bzip2 
+upstart #DEPENDS# glibc dbus libnih bash mingetty e2fsprogs unionfs-fuse 
+upx #DEPENDS# glibc zlib gcc 
+urwfonts #DEPENDS# glibc fontconfig xorg-fontutil 
+usb-modeswitch #DEPENDS# glibc udev libusb tcl 
+usbutils #DEPENDS# glibc libusb udev 
+util-linux #DEPENDS# glibc ncurses zlib Linux-PAM 
+util-macros #DEPENDS# glibc 
+v4l-utils #DEPENDS# glibc gcc jpeg udev 
+v86d #DEPENDS# glibc 
+vbetool #DEPENDS# glibc 
+vsftpd #DEPENDS# glibc 
+wcalc #DEPENDS# glibc ncurses readline gmp mpfr 
+wget #DEPENDS# glibc openssl libidn pcre 
+which #DEPENDS# glibc 
+wireless_tools #DEPENDS# glibc 
+wpa_supplicant #DEPENDS# glibc openssl 
+xcb-proto #DEPENDS# glibc Python 
+xfsprogs #DEPENDS# glibc bash util-linux 
+XML-Parser #DEPENDS# glibc perl expat 
+xorg-font #DEPENDS# glibc xorg-fontutil 
+xorg-fontutil #DEPENDS# glibc zlib libX11 libXfont libfontenc freetype font-util mkfontscale 
+xorg-proto #DEPENDS# glibc 
+xorg-proto-extra #DEPENDS# glibc 
+xorg-proto-xextra #DEPENDS# glibc 
+xtrans #DEPENDS# glibc util-macros 
+xz #DEPENDS# glibc 
+zip #DEPENDS# glibc bzip2 
+zlib #DEPENDS# glibc 

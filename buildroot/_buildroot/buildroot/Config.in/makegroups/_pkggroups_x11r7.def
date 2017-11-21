@@ -1,0 +1,8 @@
+"X11R7 Applications"#base xapp
+"X11R7 Drivers"#base xdriver
+"X11R7 Fonts"#base xfont
+"X11R7 Libraries"#base xlib
+"X11R7 Other data"#base xdata
+"X11R7 Servers"#base xserver
+"X11R7 Utilities"#base xutil
+"X11R7 X protocols"#base xproto

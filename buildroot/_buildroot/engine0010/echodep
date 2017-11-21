@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+
+main() {
+    local pkgname="${1}"
+    local pkgdep="${2}"
+    [ ! -d _scripts ] && mkdir _scripts
+    case "${pkgdep}" in
+	busybox|skeleton|toolchain)
+	;;
+	host-automake|host-autoconf|host-libtool|host-tzdata)
+	;;
+	automake|autoconf|libtool)
+	;;
+	udev)
+	    echo "eudev" >> _scripts/"${pkgname}.deps"
+	;;
+	jpeg)
+	    echo "jpeg-turbo" >> _scripts/"${pkgname}.deps"
+	;;
+	python)
+	    case "${pkgname}" in
+		libxml2|libxslt)
+		;;
+		*)
+		    echo "${pkgdep}" >> _scripts/"${pkgname}.deps"
+		;;
+	    esac
+	;;
+	python-setuptools)
+	    case "${pkgname}" in
+		python-setuptools)
+		;;
+		*)
+		    echo "${pkgdep}" >> _scripts/"${pkgname}.deps"
+		;;
+	    esac
+	;;
+	*)
+	    echo "${pkgdep}" >> _scripts/"${pkgname}.deps"
+	;;
+    esac
+}
+
+main "${@}"

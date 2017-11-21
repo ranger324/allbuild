@@ -1,0 +1,17 @@
+#	-command
+#	$(foreach e,$($(PKG)_USERS), \
+#		$(Q)set -f; echo "$(e)" >> _scripts/$($(PKG)_NAME).users; set +f$(sep))
+#	$(Q)set -f; OIFS=$$IFS; IFS="\n"; for p in $($(PKG)_USERS); do \
+#		echo "$$p" >> _scripts/$($(PKG)_NAME).users; \
+#	done; set +f; IFS=$$OIFS
+#	$(Q)echo -n > _scripts/$($(PKG)_NAME).users
+#	$(if $($(PKG)_USERS),$(call PRINTF,$($(PKG)_USERS)) > _scripts/$($(PKG)_NAME).users)
+#	@$(call PRINTF,$($(PKG)_USERS)) >> _scripts/$($(PKG)_NAME).users
+#	$(Q)if [ -e _scripts/$($(PKG)_NAME).users ]; then set -f; echo $$(cat _scripts/$($(PKG)_NAME).users) > _scripts/$($(PKG)_NAME).users2; set +f; fi
+	$(Q)if [ -e _scripts/$($(PKG)_NAME).users ]; then \
+		set -f; echo $$(cat _scripts/$($(PKG)_NAME).users) > _scripts/$($(PKG)_NAME).users2; \
+		set +f; mv _scripts/$($(PKG)_NAME).users2 _scripts/$($(PKG)_NAME).users; fi
+
+#?	$(Q)(test -e _scripts/$($(PKG)_NAME).users && \
+#?		sed -i -e 's/^[[:space:]]\+//' -e 's/[[:space:]]\+/ /g' _scripts/$($(PKG)_NAME).users; \
+#?	)

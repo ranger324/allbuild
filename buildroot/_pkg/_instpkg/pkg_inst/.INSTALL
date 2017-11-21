@@ -1,0 +1,21 @@
+filelist=('etc/conf.d/consolefont' 'etc/conf.d/keymaps' 'etc/conf.d/modules' 'etc/conf.d/hwclock' 'etc/conf.d/hostname')
+
+post_upgrade() {
+    for file in ${filelist[@]}; do
+	[ -e /$file.pacsave ] && mv /$file.pacsave /$file
+    done
+
+    return 0
+}
+
+post_install() {
+    for file in ${filelist[@]}; do
+	[ -e /$file.pacsave ] && mv /$file.pacsave /$file
+    done
+
+    return 0
+}
+
+op=$1
+shift
+$op $*
