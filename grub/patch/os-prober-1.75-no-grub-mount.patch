@@ -1,0 +1,118 @@
+diff -Naurp os-prober-1.75/common.sh os-prober-1.75-no-grub-mount/common.sh
+--- os-prober-1.75/common.sh	2017-11-25 17:35:18.088833024 +0100
++++ os-prober-1.75-no-grub-mount/common.sh	2017-05-24 12:54:43.821259961 +0200
+@@ -279,8 +279,7 @@ linux_mount_boot () {
+ 					debug "found boot partition $1 for linux system on $partition, but cannot map to existing device"
+ 				else
+ 					debug "found boot partition $bootpart for linux system on $partition"
+-					if type grub-mount >/dev/null 2>&1 && \
+-					   grub-mount "$boottomnt" "$tmpmnt/boot" 2>/dev/null; then
++					if mount -o ro "$boottomnt" "$tmpmnt/boot" 2>/dev/null; then
+ 						mounted=1
+ 					fi
+ 				fi
+diff -Naurp os-prober-1.75/linux-boot-probes/common/50mounted-tests os-prober-1.75-no-grub-mount/linux-boot-probes/common/50mounted-tests
+--- os-prober-1.75/linux-boot-probes/common/50mounted-tests	2017-11-25 17:35:18.096833024 +0100
++++ os-prober-1.75-no-grub-mount/linux-boot-probes/common/50mounted-tests	2017-05-24 10:33:22.727882561 +0200
+@@ -3,6 +3,14 @@
+ . /usr/share/os-prober/common.sh
+ set -e
+ 
++mounted_part() {
++    grep -q "^$1 " /proc/mounts && return 0 || return 1
++}
++
++getmountpoint() {
++    mount | grep "^$1 " | head -n 1 | cut -d ' ' -f 3- | rev | cut -d ' ' -f 4- | rev
++}
++
+ do_unmount() {
+ 	if [ "$mounted" ]; then
+ 		umount "$tmpmnt/boot" 2>/dev/null || true
+@@ -48,12 +56,22 @@ if [ ! -d "$tmpmnt" ]; then
+ fi
+ 
+ mounted=
+-if type grub-mount >/dev/null 2>&1 && \
+-   type grub-probe >/dev/null 2>&1 && \
+-   grub-mount "$partition" "$tmpmnt" 2>/dev/null; then
+-	mounted=1
+-	type="$(grub-probe -d "$partition" -t fs)"
+-	[ "$type" ] || type=fuseblk
++if type mount >/dev/null 2>&1 && \
++   type grub-probe >/dev/null 2>&1; then
++   if mounted_part "$partition"; then
++	MNTP=`getmountpoint "$partition"`
++	if mount --bind "$MNTP" "$tmpmnt" 2>/dev/null; then
++	    mounted=1
++	    type="$(grub-probe -d "$partition" -t fs)"
++	    [ "$type" ] || type=fuseblk
++	fi
++   else
++	if mount -o ro "$partition" "$tmpmnt" 2>/dev/null; then
++	    mounted=1
++	    type="$(grub-probe -d "$partition" -t fs)"
++	    [ "$type" ] || type=fuseblk
++	fi
++   fi
+ fi
+ 
+ if [ "$mounted" ]; then
+diff -Naurp os-prober-1.75/os-probes/common/50mounted-tests os-prober-1.75-no-grub-mount/os-probes/common/50mounted-tests
+--- os-prober-1.75/os-probes/common/50mounted-tests	2017-11-25 17:35:18.103833024 +0100
++++ os-prober-1.75-no-grub-mount/os-probes/common/50mounted-tests	2017-05-24 10:32:35.844551740 +0200
+@@ -5,6 +5,14 @@ partition="$1"
+ 
+ . /usr/share/os-prober/common.sh
+ 
++mounted_part() {
++    grep -q "^$1 " /proc/mounts && return 0 || return 1
++}
++
++getmountpoint() {
++    mount | grep "^$1 " | head -n 1 | cut -d ' ' -f 3- | rev | cut -d ' ' -f 4- | rev
++}
++
+ do_unmount() {
+ 	if [ "$mounted" ]; then
+ 		if ! umount "$tmpmnt"; then
+@@ -58,17 +66,32 @@ if [ ! -d "$tmpmnt" ]; then
+ fi
+ 
+ mounted=
+-if type grub-mount >/dev/null 2>&1 && \
+-   type grub-probe >/dev/null 2>&1 && \
+-   grub-mount "$partition" "$tmpmnt" 2>/dev/null; then
+-	mounted=1
+-	type="$(grub-probe -d "$partition" -t fs)" || true
+-	if [ "$type" ]; then
++if type mount >/dev/null 2>&1 && \
++   type grub-probe >/dev/null 2>&1; then
++   if mounted_part "$partition"; then
++	MNTP=`getmountpoint "$partition"`
++	if mount --bind "$MNTP" "$tmpmnt" 2>/dev/null; then
++	    mounted=1
++	    type="$(grub-probe -d "$partition" -t fs)" || true
++	    if [ "$type" ]; then
++		debug "mounted using GRUB $type filesystem driver"
++	    else
++		debug "mounted using GRUB, but unknown filesystem?"
++		type=fuseblk
++	    fi
++	fi
++   else
++	if mount -o ro "$partition" "$tmpmnt" 2>/dev/null; then
++	    mounted=1
++	    type="$(grub-probe -d "$partition" -t fs)" || true
++	    if [ "$type" ]; then
+ 		debug "mounted using GRUB $type filesystem driver"
+-	else
++	    else
+ 		debug "mounted using GRUB, but unknown filesystem?"
+ 		type=fuseblk
++	    fi
+ 	fi
++   fi
+ fi
+ 
+ if [ "$mounted" ]; then

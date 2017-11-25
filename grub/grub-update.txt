@@ -1,0 +1,12 @@
+modify grub2 and os-prober (create backup; copy files by overwriting original)
+to make it "distribution friendly"
+(eg.: some linux disrto loads microcode by initrd line "separately")
+(grub-mount replaced with mount)
+(you may set up grub to find other os-es on other partitions
+	execute permission on file: /etc/grub.d/30_os-prober
+	#turn on
+	chmod 755 /etc/grub.d/30_os-prober
+	#turn off
+	chmod 644 /etc/grub.d/30_os-prober)
+(grub 2.02)
+(os-prober 1.75)

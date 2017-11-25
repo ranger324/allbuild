@@ -1,0 +1,3 @@
+initrd patches - to handle (configuration generation) multiple files in initrd lines
+no grub-mount
+ucode - look for microcode images

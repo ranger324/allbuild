@@ -1,0 +1,88 @@
+diff -Naurp grub-2.02/util/grub.d/10_linux.in grub-2.02-ucode/util/grub.d/10_linux.in
+--- grub-2.02/util/grub.d/10_linux.in	2017-11-25 16:49:08.035861299 +0100
++++ grub-2.02-ucode/util/grub.d/10_linux.in	2017-11-25 16:57:41.000856063 +0100
+@@ -95,7 +95,7 @@ linux_entry ()
+       echo "menuentry '$(echo "$title" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-$version-$type-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
+   else
+       echo "menuentry '$(echo "$os" | grub_quote)' ${CLASS} \$menuentry_id_option 'gnulinux-simple-$boot_device_id' {" | sed "s/^/$submenu_indentation/"
+-  fi      
++  fi
+   if [ x$type != xrecovery ] ; then
+       save_default_entry | grub_add_tab
+   fi
+@@ -133,13 +133,25 @@ linux_entry ()
+ 	echo	'$(echo "$message" | grub_quote)'
+ 	linux	${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro ${args}
+ EOF
+-  if test -n "${initrd}" ; then
+-    # TRANSLATORS: ramdisk isn't identifier. Should be translated.
+-    message="$(gettext_printf "Loading initial ramdisk ...")"
+-    sed "s/^/$submenu_indentation/" << EOF
++  if test -n "${ucode}" ; then
++    if test -n "${initrd}" ; then
++      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
++      message="$(gettext_printf "Loading initial ramdisk ...")"
++      sed "s/^/$submenu_indentation/" << EOF
++	echo	'$(echo "$message" | grub_quote)'
++	initrd	${rel_dirname}/${ucode}
++	initrd	${rel_dirname}/${initrd}
++EOF
++    fi
++  else
++    if test -n "${initrd}" ; then
++      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
++      message="$(gettext_printf "Loading initial ramdisk ...")"
++      sed "s/^/$submenu_indentation/" << EOF
+ 	echo	'$(echo "$message" | grub_quote)'
+ 	initrd	${rel_dirname}/${initrd}
+ EOF
++    fi
+   fi
+   sed "s/^/$submenu_indentation/" << EOF
+ }
+@@ -153,7 +165,7 @@ case "x$machine" in
+ 	for i in /boot/vmlinuz-* /vmlinuz-* /boot/kernel-* ; do
+ 	    if grub_file_is_not_garbage "$i" ; then list="$list $i" ; fi
+ 	done ;;
+-    *) 
++    *)
+ 	list=
+ 	for i in /boot/vmlinuz-* /boot/vmlinux-* /vmlinuz-* /vmlinux-* /boot/kernel-* ; do
+                   if grub_file_is_not_garbage "$i" ; then list="$list $i" ; fi
+@@ -203,6 +215,16 @@ while [ "x$list" != "x" ] ; do
+     fi
+   done
+ 
++  ucode=
++  for i in "ucode.img-${version}" "ucode-${version}.img" "ucode-${version}.gz" \
++	   "ucode-${version}" "ucode.img-${alt_version}" "ucode-${alt_version}.img" \
++	   "ucode-${alt_version}" "ucode.img"; do
++    if test -e "${dirname}/${i}" ; then
++      ucode="$i"
++      break
++    fi
++  done
++
+   config=
+   for i in "${dirname}/config-${version}" "${dirname}/config-${alt_version}" "/etc/kernels/kernel-config-${version}" ; do
+     if test -e "${i}" ; then
+@@ -216,6 +238,10 @@ while [ "x$list" != "x" ] ; do
+       initramfs=`grep CONFIG_INITRAMFS_SOURCE= "${config}" | cut -f2 -d= | tr -d \"`
+   fi
+ 
++  if test -n "${ucode}" ; then
++    gettext_printf "Found ucode image: %s\n" "${dirname}/${ucode}" >&2
++  fi
++
+   if test -n "${initrd}" ; then
+     gettext_printf "Found initrd image: %s\n" "${dirname}/${initrd}" >&2
+   elif test -z "${initramfs}" ; then
+@@ -229,7 +255,7 @@ while [ "x$list" != "x" ] ; do
+     "${GRUB_CMDLINE_LINUX} ${GRUB_CMDLINE_LINUX_DEFAULT}"
+ 
+     submenu_indentation="$grub_tab"
+-    
++
+     if [ -z "$boot_device_id" ]; then
+ 	boot_device_id="$(grub_get_device_id "${GRUB_DEVICE}")"
+     fi

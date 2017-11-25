@@ -1,0 +1,12 @@
+diff -Naurp grub-2.02/util/grub.d/30_os-prober.in grub-2.02-initrd/util/grub.d/30_os-prober.in
+--- grub-2.02/util/grub.d/30_os-prober.in	2017-11-25 16:49:08.033861299 +0100
++++ grub-2.02-initrd/util/grub.d/30_os-prober.in	2017-11-25 16:46:01.631863201 +0100
+@@ -207,7 +207,7 @@ EOF
+         LBOOT="`echo ${LINUX} | cut -d ':' -f 2`"
+         LLABEL="`echo ${LINUX} | cut -d ':' -f 3 | tr '^' ' '`"
+         LKERNEL="`echo ${LINUX} | cut -d ':' -f 4`"
+-        LINITRD="`echo ${LINUX} | cut -d ':' -f 5`"
++        LINITRD="`echo ${LINUX} | cut -d ':' -f 5 | tr '^' ' '`"
+         LPARAMS="`echo ${LINUX} | cut -d ':' -f 6- | tr '^' ' '`"
+ 
+         if [ -z "${LLABEL}" ] ; then

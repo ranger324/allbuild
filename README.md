@@ -9,3 +9,4 @@ http://mycont.weebly.com/raminos-news
 - "kernel/config_helper" kernel configuration may take a lot of time - make it less
 - other things
 - "buildroot" work in progress devel
+- "grub" update grub and os-prober to make it work better with different distributions
