@@ -1,5 +1,5 @@
 # scripts
-general scripts and examples
+general scripts n examples (pls help)
 
 http://mycont.weebly.com/raminos-news
 
