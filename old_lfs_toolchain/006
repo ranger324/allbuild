@@ -1,0 +1,13 @@
+#! /bin/sh
+
+mkdir -v ../gcc-build
+cd ../gcc-build
+
+#-B binutils dir
+#CC="gcc -B/usr/bin/" ../gcc-4.4.3/configure --prefix=/tools \
+../gcc-4.8.3/configure --prefix=/tools \
+    --with-local-prefix=/tools --disable-nls --enable-shared \
+    --enable-languages=c --disable-bootstrap
+#make bootstrap
+make
+make install

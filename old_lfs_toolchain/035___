@@ -1,0 +1,12 @@
+#! /bin/bash
+#perl
+echo -ne "#! /bin/bash\nuname -m\n" > /tools/bin/arch
+chmod 755 /tools/bin/arch
+source ../035__
+export LC_ALL=C
+export LANG=C
+#-Dsysroot=
+./configure.gnu --prefix=/tools -Dlocincpth='/tools/include' -Dloclibpth='/tools/lib' -Dcc='/tools/bin/gcc' -Dlibswanted='-lnsl -lgdbm -ldl -lm -lcrypt -lutil -lc -lgdbm_compat'
+sed -i 's|/tools/lib/libcrypt.a|& /tools/lib/libm.a|' Makefile
+make
+make install

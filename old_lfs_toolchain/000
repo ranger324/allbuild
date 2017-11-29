@@ -1,0 +1,13 @@
+#! /bin/bash
+#1binutils
+
+mkdir ../binutils-build
+cd ../binutils-build
+
+CC="gcc -B/usr/bin/" ../binutils-2.24/configure \
+    --prefix=/tools --disable-nls --disable-werror
+make
+make install
+#../binutils-2.20.1/configure \
+#    --target=i686-lfs-linux-gnu --prefix=/tools \
+#    --disable-nls --disable-werror

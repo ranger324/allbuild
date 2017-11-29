@@ -1,0 +1,21 @@
+pkgname=kernel-tools
+pkgver=1.00
+pkgrel=16
+pkgdesc="installkernel and initrd tools"
+url=
+arch=('i686')
+license=('custom')
+backup=
+groups=('base' 'kernel')
+depends=('glibc' 'cpio' 'bash' 'kmod' 'grub')
+#install=$pkgname.install
+
+build(){
+#$pkgdir
+#$srcdir
+#$startdir
+install -vd $pkgdir/var/lib
+install -vd $pkgdir/sbin
+tar xzf $startdir/initramfs.tar.gz -C $pkgdir/var/lib
+cp $startdir/gengfxoverride $startdir/installkernel $startdir/lsfirmware $startdir/mkinitramfs $pkgdir/sbin
+}

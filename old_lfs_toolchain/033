@@ -1,0 +1,6 @@
+#! /bin/bash
+#gdbm
+source ../009_
+./configure --prefix=/tools --enable-libgdbm-compat
+make
+make install

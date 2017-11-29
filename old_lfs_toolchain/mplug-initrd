@@ -1,0 +1,13 @@
+#! /bin/sh
+
+##[ ! -z "$MODALIAS" ] && modprobe -qi $MODALIAS
+
+if [ ! -z "$FIRMWARE" ]; then
+    if [ -e /lib/firmware/$FIRMWARE ]; then
+	echo 1 > /sys/$DEVPATH/loading
+	cat /lib/firmware/$FIRMWARE > /sys/$DEVPATH/data
+	echo 0 > /sys/$DEVPATH/loading
+    fi
+fi
+
+exec /sbin/mdev "$@"

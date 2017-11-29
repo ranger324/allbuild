@@ -1,0 +1,48 @@
+#this PKGBUILD supports:
+#patches in pkgsource dir (where PKGBUILD file is and source targz is)
+#"patch/patch.sh" patches dir + script (patches in order in bash script) in pkgsource dir
+#"etc" dir which is copied into package
+pkgname=tcsh
+pkgver=6.19.00
+pkgrel=1
+pkgdesc="tcsh is a version of the Berkeley C-Shell, with the addition of: a command line editor, command and file name completion, listing, etc. and a bunch of small additions to the shell itself"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=
+arch=('i686')
+license=('custom')
+backup=
+groups=('base' 'shell')
+makedepends=
+depends=('glibc' 'ncurses')
+#install=$pkgname.install
+
+build(){
+cd $srcdir/$pkgname-$pkgver
+for i in $(find $startdir -maxdepth 1 -type f -name "*.patch" | sort); do
+    echo "Applying patch: $i"
+    patch -p1 < $i
+done
+[ -f $startdir/patch/patch.sh ] && . $startdir/patch/patch.sh
+
+
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --bindir=/bin
+make || return 1
+mkdir -p $pkgdir/{bin,usr/share/man}
+make DESTDIR=$pkgdir install
+make DESTDIR=$pkgdir install.man
+
+
+if [ -d $pkgdir/usr/man ]; then
+    echo "==============Moving man dir=============="
+    mkdir -p $pkgdir/usr/share
+    mv $pkgdir/usr/man $pkgdir/usr/share
+fi
+if [ -d $pkgdir/usr/info ]; then
+    echo "==============Moving info dir=============="
+    mkdir -p $pkgdir/usr/share
+    mv $pkgdir/usr/info $pkgdir/usr/share
+fi
+rm -f $pkgdir/usr/share/info/dir
+[ -d $startdir/etc ] && cp -RP $startdir/etc $pkgdir
+return 0
+}

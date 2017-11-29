@@ -1,0 +1,6 @@
+#!/bin/sh
+#libarchive
+source ../035__
+./configure --prefix=/tools --without-lzma --disable-acl --disable-xattr --without-xml2 --without-expat
+make
+make install

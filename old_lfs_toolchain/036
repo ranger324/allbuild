@@ -1,0 +1,12 @@
+#!/bin/sh
+#openssl
+source ../035__
+sed -i 's%^LDFLAGS=$%&-specs=/root/specs%' Makefile.shared
+sed -i 's%^SHARED_LDFLAGS=$%&-specs=/root/specs%' Makefile.shared
+#sse2 detected runtime -> compile in
+#no-sse2 ./config option
+./config --openssldir=/tools/etc/ssl --prefix=/tools shared
+sed -i 's%^CFLAG=[[:space:]].*%& -specs=/root/specs%' Makefile
+make
+make install
+cp -r certs /tools/etc/ssl

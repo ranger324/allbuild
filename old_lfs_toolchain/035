@@ -1,0 +1,12 @@
+#!/bin/sh
+#gcc
+source ../009_
+######!! with no specs patch
+mkdir -v ../gcc-build
+cd ../gcc-build
+../gcc-4.8.3/configure --prefix=/tools \
+    --with-local-prefix=/tools --disable-nls --enable-shared \
+    --enable-languages=c,c++ --disable-libstdcxx-pch --disable-bootstrap \
+    --with-gmp=/tools --with-mpfr=/tools --with-mpc=/tools
+make
+make install

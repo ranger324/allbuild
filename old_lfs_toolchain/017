@@ -1,0 +1,8 @@
+#! /bin/bash
+#bzip2
+source ../009_
+#edit Makefile CFLAGS specs
+sed -i 's%CFLAGS=-Wall%CFLAGS=-specs=/root/specs -Wall%g' Makefile
+#bzip2
+make
+make PREFIX=/tools install

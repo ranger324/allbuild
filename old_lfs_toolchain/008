@@ -1,0 +1,10 @@
+#! /bin/bash
+
+export PATH=/tools/bin:$PATH
+mkdir ../glibc-build
+cd ../glibc-build
+
+echo "CFLAGS += -march=i686 -mtune=native" > configparms
+../glibc-2.19/configure --prefix=/tools --disable-profile --enable-add-ons --enable-kernel=3.2 --with-headers=/tools/include
+make
+make install

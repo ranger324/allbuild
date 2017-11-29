@@ -1,0 +1,11 @@
+#commands
+#build
+makepkg
+#install/upgrade/remove
+pacman -Sy
+pacman -Su
+pacman -S pkg
+pacman -R pkg
+pacman -U pkg
+pacman -Sl
+pacman -Ql

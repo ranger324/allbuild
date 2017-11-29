@@ -1,0 +1,11 @@
+#! /bin/bash
+#binutils
+source ../009_
+mkdir ../binutils-build
+cd ../binutils-build
+
+../binutils-2.24/configure --prefix=/tools --disable-nls --disable-werror \
+    --enable-shared --with-lib-path=/tools/lib
+make
+make install
+#--with-lib-path=/usr/lib:/lib

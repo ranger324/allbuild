@@ -1,0 +1,60 @@
+diff -Naurp pacman-3.5.4/lib/libalpm/add.c pacman-3.5.4-run-pacman.d/lib/libalpm/add.c
+--- pacman-3.5.4/lib/libalpm/add.c	2011-06-29 00:37:46.000000000 +0200
++++ pacman-3.5.4-run-pacman.d/lib/libalpm/add.c	2014-08-07 12:30:13.852075618 +0200
+@@ -750,6 +750,8 @@ int _alpm_upgrade_packages(pmtrans_t *tr
+ 		_alpm_ldconfig(handle->root);
+ 	}
+ 
++	_alpm_run_pacman_d(handle->root);
++
+ 	return(ret);
+ }
+ 
+diff -Naurp pacman-3.5.4/lib/libalpm/remove.c pacman-3.5.4-run-pacman.d/lib/libalpm/remove.c
+--- pacman-3.5.4/lib/libalpm/remove.c	2011-05-16 18:43:31.000000000 +0200
++++ pacman-3.5.4-run-pacman.d/lib/libalpm/remove.c	2014-08-07 12:30:27.435076005 +0200
+@@ -465,6 +465,8 @@ int _alpm_remove_packages(pmtrans_t *tra
+ 	/* run ldconfig if it exists */
+ 	_alpm_ldconfig(handle->root);
+ 
++	_alpm_run_pacman_d(handle->root);
++
+ 	return(0);
+ }
+ 
+diff -Naurp pacman-3.5.4/lib/libalpm/util.c pacman-3.5.4-run-pacman.d/lib/libalpm/util.c
+--- pacman-3.5.4/lib/libalpm/util.c	2011-07-06 05:13:03.000000000 +0200
++++ pacman-3.5.4-run-pacman.d/lib/libalpm/util.c	2014-08-07 12:33:19.861080930 +0200
+@@ -553,6 +553,21 @@ int _alpm_ldconfig(const char *root)
+ 	return(0);
+ }
+ 
++int _alpm_run_pacman_d(const char *root)
++{
++	char line[PATH_MAX];
++
++	_alpm_log(PM_LOG_DEBUG, "running run-parts pacman.d\n");
++
++	snprintf(line, PATH_MAX, "%sbin/run-parts", root);
++	if(access(line, X_OK) == 0) {
++		char *argv[] = { "run-parts", "/etc/pacman.d", NULL };
++		_alpm_run_chroot(root, "/bin/run-parts", argv);
++	}
++
++	return(0);
++}
++
+ /* Helper function for comparing strings using the
+  * alpm "compare func" signature */
+ int _alpm_str_cmp(const void *s1, const void *s2)
+diff -Naurp pacman-3.5.4/lib/libalpm/util.h pacman-3.5.4-run-pacman.d/lib/libalpm/util.h
+--- pacman-3.5.4/lib/libalpm/util.h	2011-07-06 05:13:03.000000000 +0200
++++ pacman-3.5.4-run-pacman.d/lib/libalpm/util.h	2014-08-07 12:33:48.720081754 +0200
+@@ -91,6 +91,7 @@ int _alpm_rmrf(const char *path);
+ int _alpm_logaction(int usesyslog, FILE *f, const char *fmt, va_list args);
+ int _alpm_run_chroot(const char *root, const char *path, char *const argv[]);
+ int _alpm_ldconfig(const char *root);
++int _alpm_run_pacman_d(const char *root);
+ int _alpm_str_cmp(const void *s1, const void *s2);
+ char *_alpm_filecache_find(const char *filename);
+ const char *_alpm_filecache_setup(void);

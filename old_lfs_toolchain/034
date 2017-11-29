@@ -1,0 +1,6 @@
+#! /bin/bash
+#util-linux
+source ../009_
+./configure --prefix=/tools --disable-nls --without-python
+make
+make install

@@ -1,0 +1,6 @@
+#! /bin/bash
+#file
+source ../009_
+./configure --prefix=/tools
+make
+make install

@@ -1,0 +1,8 @@
+#!/bin/sh
+# source this (. file)
+#export PATH=/tools/bin:$PATH
+export PATH=/tools/bin
+export CFLAGS=" -specs=/root/specs"
+export CPPFLAGS=" -specs=/root/specs"
+export CXXFLAGS=" -specs=/root/specs"
+export LDFLAGS=" -specs=/root/specs"

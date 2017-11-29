@@ -1,0 +1,46 @@
+#this PKGBUILD supports:
+#patches in pkgsource dir (where PKGBUILD file is and source targz is)
+#"patch/patch.sh" patches dir + script (patches in order in bash script) in pkgsource dir
+#"etc" dir which is copied into package
+pkgname=dash
+pkgver=0.5.5.1
+pkgrel=1
+pkgdesc="command interpreter (shell) - shell is a command that reads lines from either a file or the terminal, interprets them, and generally executes other commands"
+source=($pkgname-$pkgver.tar.gz)
+md5sums=
+arch=('i686')
+license=('custom')
+backup=
+groups=('base' 'shell')
+makedepends=
+depends=('glibc')
+#install=$pkgname.install
+
+build(){
+cd $srcdir/$pkgname-$pkgver
+for i in $(find $startdir -maxdepth 1 -type f -name "*.patch" | sort); do
+    echo "Applying patch: $i"
+    patch -p1 < $i
+done
+[ -f $startdir/patch/patch.sh ] && . $startdir/patch/patch.sh
+
+
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+make || return 1
+make DESTDIR=$pkgdir install
+
+
+if [ -d $pkgdir/usr/man ]; then
+    echo "==============Moving man dir=============="
+    mkdir -p $pkgdir/usr/share
+    mv $pkgdir/usr/man $pkgdir/usr/share
+fi
+if [ -d $pkgdir/usr/info ]; then
+    echo "==============Moving info dir=============="
+    mkdir -p $pkgdir/usr/share
+    mv $pkgdir/usr/info $pkgdir/usr/share
+fi
+rm -f $pkgdir/usr/share/info/dir
+[ -d $startdir/etc ] && cp -RP $startdir/etc $pkgdir
+return 0
+}

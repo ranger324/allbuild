@@ -1,0 +1,24 @@
+
+post_install() {
+    [ -e /etc/runlevels/`rc-status -r`/cupsd ] && rc-service cupsd start > /dev/null 2>&1
+    return 0
+}
+
+pre_remove() {
+    rc-service cupsd stop > /dev/null 2>&1
+    return 0
+}
+
+pre_upgrade() {
+    rc-service cupsd stop > /dev/null 2>&1
+    return 0
+}
+
+post_upgrade() {
+    [ -e /etc/runlevels/`rc-status -r`/cupsd ] && rc-service cupsd start > /dev/null 2>&1
+    return 0
+}
+
+op=$1
+shift
+$op $*

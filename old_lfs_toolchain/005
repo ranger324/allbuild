@@ -1,0 +1,10 @@
+#! /bin/bash
+#zlib
+./configure --prefix=/tools --shared
+make
+make install
+
+make clean
+./configure --prefix=/tools
+make
+make install
