@@ -1,0 +1,40 @@
+#configure the kernel using menu system
+make menuconfig
+###
+#you may turn off some features and options
+###
+#turn off "General setup" - "Embedded system" - no embedded
+#turn off "General setup" - "Configure standard kernel features (expert users)" - no expert user setting
+#turn off "Kernel hacking"/* - (turn off "Kernel hacking"/* ... "Memory Debugging"/KASan)
+#turn off "Security options"/* -
+
+#On x86_64 the following modifications should be done
+#(serial driver - don't compile)
+#set "Device Drivers" / "Character devices" / "Serial drivers" /
+#	/ "8250/16550 and compatible serial support" - to "*" (compile into kernel image)
+#	CONFIG_SERIAL_8250=y
+#	((CONFIG_SERIAL_8250_CONSOLE=y | # CONFIG_SERIAL_8250_FSL is not set | CONFIG_SERIAL_CORE=y))
+
+#(not proper platform or architecture - will not run)
+#set "Processor type and features" / "Enable 5-levels page tables support" - to "off"
+#set "Processor type and features" / "Support for extended (non-PC) x86 platforms" - to "off"
+#	((# CONFIG_X86_EXTENDED_PLATFORM is not set))
+#	turn some platform off
+#	"ScaleMP vSMP" ((# CONFIG_X86_VSMP is not set))
+#	"Goldfish (Virtual Platform)" ((# CONFIG_X86_GOLDFISH is not set))
+#	"Intel MID platform support" ((# CONFIG_X86_INTEL_MID is not set))
+
+#may set "Processor type and features" / there are many settings
+
+#(ugly test case files missing messages - unit tests)
+#set "Device Drivers" / "Device Tree and Open Firmware support" / "Device Tree runtime unit tests" - to "off"
+#	((CONFIG_OF=y | # CONFIG_OF_UNITTEST is not set))
+
+#(for "desktop os" optimization)
+#set "Processor type and features" / "Preemption model" - to "Low Latency Desktop"
+
+#(config of number of cpus (max))
+#CONFIG_NR_CPUS=64
+
+#(gcc can compile code with stack protection)
+#may set "General setup" - "Stack protector ..." eg.: Strong

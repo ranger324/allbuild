@@ -26,3 +26,5 @@ sh kernel_config_helper.sh
 
 #clear drivers
 sh kconfig_clear_drivers.sh
+
+#see config_tuning.txt for further settings (can compile a working kernel (x86_64))
