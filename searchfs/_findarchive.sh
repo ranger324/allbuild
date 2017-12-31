@@ -24,25 +24,25 @@ else
     DIR=
 fi
 
-[ $ARCHIVE != ${ARCHIVE/%.tar.gz/} ] && EXT=".tar.gz"
-[ $ARCHIVE != ${ARCHIVE/%.tar.bz2/} ] && EXT=".tar.bz2"
-[ $ARCHIVE != ${ARCHIVE/%.tar.xz/} ] && EXT=".tar.xz"
-[ $ARCHIVE != ${ARCHIVE/%.tar.lz/} ] && EXT=".tar.lz"
-[ $ARCHIVE != ${ARCHIVE/%.tgz/} ] && EXT=".tgz"
-[ $ARCHIVE != ${ARCHIVE/%.zip/} ] && EXT=".zip"
-WO_EXT=${ARCHIVE/%$EXT/}
+[ $ARCHIVE != ${ARCHIVE%.tar.gz} ] && EXT=".tar.gz"
+[ $ARCHIVE != ${ARCHIVE%.tar.bz2} ] && EXT=".tar.bz2"
+[ $ARCHIVE != ${ARCHIVE%.tar.xz} ] && EXT=".tar.xz"
+[ $ARCHIVE != ${ARCHIVE%.tar.lz} ] && EXT=".tar.lz"
+[ $ARCHIVE != ${ARCHIVE%.tgz} ] && EXT=".tgz"
+[ $ARCHIVE != ${ARCHIVE%.zip} ] && EXT=".zip"
+WO_EXT=${ARCHIVE%$EXT}
 
 
 if echo $WO_EXT | grep -q "-"; then
 
 if [ "${WO_EXT}" != "${WO_EXT%-rc*}" ]; then
     WO_RC=${WO_EXT%-rc*}
-    RC=${WO_EXT/#$WO_RC/}
+    RC=${WO_EXT#$WO_RC}
     NAME=${WO_RC%-*}
-    VER=${WO_RC/#$NAME-/}
+    VER=${WO_RC#${NAME}-}
 else
     NAME=${WO_EXT%-*}
-    VER=${WO_EXT/#$NAME-/}
+    VER=${WO_EXT#${NAME}-}
     [ "$VER" = "master" ] && VER=0
 fi
 
