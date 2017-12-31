@@ -1,0 +1,136 @@
+##cfg#configs
+#acpid
+D etc/acpi/actions
+D etc/acpi/events
+
+#openrc
+D etc/conf.d
+D etc/sysctl.d
+f etc/rc.conf
+
+#cups
+D etc/cups
+f etc/dbus-1/system.d/cups.conf
+
+#dbus
+D etc/dbus-1
+
+#busybox-init
+D etc/default
+
+#fontconfig
+D etc/fonts
+
+#joe
+D etc/joe
+
+#glibc
+D etc/ld.so.conf.d
+
+#libnl
+D etc/libnl
+
+#lirc-tools
+D etc/lirc
+
+#lvm2
+D etc/lvm
+
+#mc
+D etc/mc
+
+#kmod
+D etc/modprobe.d
+D etc/modprobe.d*
+
+#pppd
+D etc/ppp
+
+#linux-pam
+D etc/pam.d
+D etc/security
+
+#polkit
+D etc/polkit-1
+f etc/dbus-1/system.d/org.freedesktop.PolicyKit1.conf
+
+#bash
+D etc/profile.d
+f etc/profile
+f etc/bashrc
+
+#pulseaudio
+D etc/pulse
+f etc/dbus-1/system.d/pulseaudio-system.conf
+
+#samba4
+D etc/samba
+
+#openssh
+D etc/ssh
+
+#eudev
+f etc/udev/udev.conf
+
+#wpa_supplicant
+D etc/wpa_supplicant
+f etc/wpa_supplicant.conf
+f etc/dbus-1/system.d/wpa_supplicant.conf
+
+#dhcpcd
+f etc/dhcpcd.conf
+
+#dnsmasq
+f etc/dnsmasq.conf
+f etc/dbus-1/system.d/dnsmasq.conf
+
+#glibc
+f etc/ld.so.conf
+
+#lftp
+f etc/lftp.conf
+
+#logrotate
+f etc/logrotate.conf
+
+#man-db
+f etc/man_db.conf
+
+#e2fsprogs
+f etc/mke2fs.conf
+
+#ntp
+f etc/ntp.conf
+
+#quota
+f etc/quotagrpadmins
+f etc/quotatab
+f etc/warnquota.conf
+
+#keyutils
+f etc/request-key.conf
+
+#screen
+f etc/screenrc
+
+#smartmontools
+f etc/smartd.conf
+
+#sudo
+f etc/sudoers
+
+#procps-ng
+f etc/sysctl.conf
+
+#syslog-ng
+f etc/syslog-ng.conf
+
+#wget
+f etc/wgetrc
+
+#upower
+f etc/UPower/UPower.conf
+f etc/dbus-1/system.d/org.freedesktop.UPower.conf
+
+#udisks
+f etc/dbus-1/system.d/org.freedesktop.UDisks.conf

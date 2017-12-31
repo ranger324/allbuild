@@ -15,16 +15,15 @@ trap "rm -f $tempfile1 $tempfile2 $tempfile3" 0 1 2 5 15
 
 #deal with tempfiles
 if [ $REMOVE_FROM_ROOT = 0 ]; then
-    tar tzf "$1" | rev | sort -V | rev | tee $tempfile1 | grep "/$" > $tempfile2
+    tar tzf "$1" | tee $tempfile1 | grep "/$" > $tempfile2
 else
     if [ "$ROOT" = "/" ]; then
-	tar tzf "$1" | sed "s%.*%/&%" | rev | sort -V | rev | tee $tempfile1 | grep "/$" > $tempfile2
+	tar tzf "$1" | sed "s%.*%/&%" | tee $tempfile1 | grep "/$" > $tempfile2
     else
-	tar tzf "$1" | sed "s%.*%$ROOT/&%" | rev | sort -V | rev | tee $tempfile1 | grep "/$" > $tempfile2
+	tar tzf "$1" | sed "s%.*%$ROOT/&%" | tee $tempfile1 | grep "/$" > $tempfile2
     fi
 fi
 
 grep -v "/$" $tempfile1 > $tempfile3
 cat $tempfile3 | tr '\n' '\0' | xargs -0 -r rm 2> /dev/null
-sort -t / $tempfile2 | tac > $tempfile1
-cat $tempfile1 | tr '\n' '\0' | xargs -0 -r rmdir 2> /dev/null
+tac $tempfile2 | tr '\n' '\0' | xargs -0 -r rmdir 2> /dev/null

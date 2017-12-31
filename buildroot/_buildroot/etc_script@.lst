@@ -1,0 +1,13 @@
+##scr#scripts
+#grub-dist
+D etc/grub.d
+
+#busybox-utils
+D etc/crond
+
+#openrc
+D etc/init.d
+D etc/local.d
+
+#busybox-init
+D etc/sysvinit.d

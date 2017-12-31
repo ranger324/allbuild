@@ -1,9 +1,13 @@
 #! /bin/sh
 
 #/bin/_add_linefeed.sh
+#/bin/_lsexecs.sh
 #_mkcpio
+#_strip
 #/run/... may be needed to add (pkg@run.cpio)
 #_scripts/pkg.ver may be needed to add
+#package/_pkgs.group@@@@
+#---- -review "----" reamarked code "lines" 
 
 CREATEDIRS="\
 etc/pam.d \
@@ -24,7 +28,6 @@ usr/include \
 usr \
 var/cache \
 var/lib \
-var/lock \
 var/log \
 var/spool \
 var \
@@ -38,8 +41,9 @@ PKG=$3
 ###overwrite
 
 DONTINSTALL=" skeleton toolchain toolchain-external toolchain-external-custom initscripts jpeg busybox coreutils "
-DONTINSTALL2=" getent jpeg toolchain-external toolchain-external-custom "
+DONTINSTALL2=" getent jpeg toolchain-external toolchain-external-custom libgl libegl busybox mcookie libfm-extra "
 SKIPGROUP=" input "
+BUSYBOX_CHK=" acpid inetutils net-tools util-linux grep sed gawk findutils gzip bzip2 coreutils cpio tar psmisc procps-ng dos2unix eject fbset e2fsprogs hdparm kmod kbd cups pciutils usbutils xz man-db dosfstools reiserfsprogs ntp patch diffutils debianutils sendmail bash ash zip unzip vim wget which "
 
 echo "$DONTINSTALL2" | grep -q " $PKG " && exit 0
 
@@ -90,8 +94,29 @@ if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
     [ ! -e _scripts/$PKG.rev ] && echo 1 > _scripts/$PKG.rev
     ###overwrite
 
+    #update revision
     REV=`cat _scripts/$PKG.rev`
     [ -e _scripts/$PKG.ver ] && VERSION=`cat _scripts/$PKG.ver`
+
+
+    #rearrange some dirs
+    if [ -e $DESTROOT/var/lock ]; then
+	mkdir -p $DESTROOT/run/lock
+	LSFILE=`find $DESTROOT/var/lock -mindepth 1 -maxdepth 1 -print -quit 2> /dev/null`
+	#mv doesn't move hidden files (.*|the dot char started filenames)
+	[ ! -z "$LSFILE" ] && mv $DESTROOT/var/lock/* $DESTROOT/run/lock
+	rmdir $DESTROOT/var/lock
+    fi
+    LSFILE=
+
+    if [ -e $DESTROOT/run ]; then
+	mkdir -p $DESTROOT/var/run
+	LSFILE=`find $DESTROOT/run -mindepth 1 -maxdepth 1 -print -quit 2> /dev/null`
+	#mv doesn't move hidden files (.*|the dot char started filenames)
+	[ ! -z "$LSFILE" ] && mv $DESTROOT/run/* $DESTROOT/var/run
+	rmdir $DESTROOT/run
+    fi
+    LSFILE=
 
     if [ -e $DESTROOT/var/run ]; then
 	echo "###### PKG_SCRIPT $PKG /var/run"
@@ -109,6 +134,25 @@ if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
     fi
 
 
+    #remove created links (symbolic links to put some files into other directory)
+    rm -f $DESTROOT/usr/share/info/dir
+    rm -f $DESTROOT/tools/share/info/dir
+
+    rm $DESTROOT/usr/doc
+    rm $DESTROOT/usr/man
+    rm $DESTROOT/usr/info
+    rm $DESTROOT/usr/lib64
+    rm $DESTROOT/lib64
+    for i in $CREATEDIRS; do
+	rmdir $DESTROOT/$i 2> /dev/null
+    done
+
+
+    #call package update script
+    [ -e _scripts/$PKG.inst_end.sh ] && source _scripts/$PKG.inst_end.sh
+
+
+    #update some special packages
     if [ -e $DESTROOT/usr/lib/perl5 ]; then
 	if [ -e _scripts/perl.ver ]; then
 	    PERL=`cat _scripts/perl.ver`
@@ -117,8 +161,37 @@ if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
 		xargs sed -i -n '/^\/usr\//p'
 	fi
     fi
+    #...
+    #...
 
-    TEXINFO=`find $DESTROOT/usr/share/info -name "*.info*" -print -quit`
+
+    [ -e _scripts/$PKG.inc ] && cp _scripts/$PKG.inc _scripts/$PKG.scr
+
+
+    #create update scripts for packages which may be replaced with busybox
+    if echo "$BUSYBOX_CHK" | grep -q " $PKG "; then
+	#----run _lsexecs.sh earlyer
+	EXEC_FILES=`sh /bin/_lsexecs.sh -l $DESTROOT | sort`
+	OIFS=$IFS
+	IFS=$'\n'
+	for i in $EXEC_FILES; do
+	    i=`basename "$i"`
+	    [ -z "$EXEC_VAR" ] && EXEC_VAR="'$i'" || EXEC_VAR="$EXEC_VAR '$i'"
+	done
+	IFS=$OIFS
+	echo "#INC#busybox-update" >> _scripts/$PKG.scr
+	echo "#VAR#cmdlist=($EXEC_VAR)" >> _scripts/$PKG.scr
+    fi
+
+
+    #create mime-info's (raw) script
+    if [ -e "$DESTROOT/usr/share/mime" ]; then
+	echo "#INC#shared-mime-info" >> _scripts/$PKG.scr
+    fi
+
+
+    #create texinfo's (raw) script
+    TEXINFO=`find $DESTROOT/usr/share/info -name "*.info*" -print -quit 2> /dev/null`
     if [ -n "$TEXINFO" ]; then
 	OPWD=`pwd`
 	cd $DESTROOT/usr/share/info
@@ -135,47 +208,7 @@ if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
     fi
 
 
-    rm -f $DESTROOT/usr/share/info/dir
-    rm -f $DESTROOT/tools/share/info/dir
-
-    rm $DESTROOT/usr/doc
-    rm $DESTROOT/usr/man
-    rm $DESTROOT/usr/info
-    rm $DESTROOT/usr/lib64
-    rm $DESTROOT/lib64
-    for i in $CREATEDIRS; do
-	rmdir $DESTROOT/$i 2> /dev/null
-    done
-
-    [ -e _scripts/$PKG.inst_end.sh ] && source _scripts/$PKG.inst_end.sh
-
-
-    mkdir -p $DESTROOT/var/lib/instpkg/local
-    mkdir -p $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV
-    mkdir -p $DESTROOT/var/lib/instpkg/local/.local
-    ln -sf ../$PKG-$VERSION-$REV $DESTROOT/var/lib/instpkg/local/.local/$PKG
-    SIZE=`du -sk $DESTROOT | grep -o "^[0-9]\+"`
-    echo -ne "NAME=$NAME\nVERSION=$VERSION\nREV=$REV\nDESC=\"\"\nSIZE=$SIZE\n" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/info
-
-    ###overwrite
-    [ ! -e _scripts/$PKG.deps ] && touch _scripts/$PKG.deps
-    ###overwrite
-
-    sort -u _scripts/$PKG.deps > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends
-    cat $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends | tr '\n' ' ' | \
-	sed 's% $%%' > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depend@
-    GRP=`grep "package.*/$PKG/Config.in" package/_pkgs.group@@@@ | cut -d " " -f 1-2`
-
-    ###overwrite
-    [ "$PKG" = "busybox" ] && GRP="base system"
-    [ "$PKG" = "glibc" ] && GRP="base development"
-    [ "$PKG" = "gcc" ] && GRP="base development"
-    ###overwrite
-    [ -z "$GRP" ] && GRP="unknown other"
-
-    echo "$GRP" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/groups
-
-
+    #create package user related files
     F_PASSWD="$BUILDROOT/tmp_passwd"
     F_GROUP="$BUILDROOT/tmp_group"
 
@@ -243,6 +276,8 @@ if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
 	done
     fi
 
+
+    #create install files
     if [ -e _scripts/$PKG.scr ]; then
 	echo -n > _scripts/$PKG.install
 	if INC=$(grep "^#INC#" _scripts/$PKG.scr); then
@@ -261,6 +296,10 @@ if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
 	    done
 
 	    grep "^#VAR#" _scripts/$PKG.scr | sed 's/^#VAR#//' >> _scripts/$PKG.install
+
+	    for i in $INCSCR; do
+		grep "^#PCD#" _scripts/scripts/$i.scr | sed 's/^#PCD#//' >> _scripts/$PKG.install
+	    done
 
 	    echo "post_install() {" >> _scripts/$PKG.install
 	    for i in $INCSCR; do
@@ -341,16 +380,95 @@ if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
 	done
     fi
 
+
+    #copy in (auto)generated cpio
     if [ -e _scripts/${PKG}@run.cpio ]; then
 	mkdir -p $DESTROOT/etc/rundir
 	cp -Rdp _scripts/${PKG}@run.cpio $DESTROOT/etc/rundir
     fi
-    [ -d _scripts/files/$PKG/etc ] && cp -Rdp _scripts/files/$PKG/etc $DESTROOT
+    #buildroot's sysvinit scripts()()
+    if [ -e $DESTROOT/etc/init.d ]; then
+	[ "$PKG" != "openrc" ] && mv $DESTROOT/etc/init.d $DESTROOT/etc/sysvinit.d
+	####rm sysvinit runscript if there is
+	[ -e $DESTROOT/etc/sysvinit.d/rcS ] && rm $DESTROOT/etc/sysvinit.d/rcS
+	[ -e $DESTROOT/etc/sysvinit.d/rcK ] && rm $DESTROOT/etc/sysvinit.d/rcK
+    fi
+    #execute permissions in /etc/profile.d
+    if [ -e $DESTROOT/etc/profile.d ]; then
+	LSFILE=`find $DESTROOT/etc/profile.d -mindepth 1 -maxdepth 1 -print -quit 2> /dev/null`
+	[ ! -z "$LSFILE" ] && chmod 755 $DESTROOT/etc/profile.d/*
+    fi
 
+
+    #copy raw package files
+    #cp ... -p -> cp ... --preserve=mode,ownership (new timestamp)
+    [ -d _scripts/files/$PKG/etc ] && cp -Rdp _scripts/files/$PKG/etc $DESTROOT
+    [ -d _scripts/files/$PKG/@file ] && cp -Rdp _scripts/files/$PKG/@file/* $DESTROOT
+
+
+    #strip
+    _strip $DESTROOT
+
+
+    #make package info files
+    mkdir -p $DESTROOT/var/lib/instpkg/local
+    mkdir -p $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV
+    mkdir -p $DESTROOT/var/lib/instpkg/local/.local
+    ln -sf ../$PKG-$VERSION-$REV $DESTROOT/var/lib/instpkg/local/.local/$PKG
+    #----move diskusage to the end of the script
+    SIZE=`du -sk $DESTROOT | grep -o "^[0-9]\+"`
+    #short descriptions
+    if [ -e _scripts/$PKG.desc ]; then
+	SHORT_DESC=`cat _scripts/$PKG.desc`
+    fi
+    #write pkginfo
+    echo -ne "NAME=$NAME\nVERSION=$VERSION\nREV=$REV\nDESC=\"$SHORT_DESC\"\nSIZE=$SIZE\n" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/info
+    #buildroot descriptions
+    tar xzf _scripts/files/desc.tar.gz -C $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV desc/$PKG.desc@ 2> /dev/null
+    [ -e $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc/$PKG.desc@ ] && \
+	mv $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc/$PKG.desc@ $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc@
+    rm -rf $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc
+
+    ###overwrite
+    [ ! -e _scripts/$PKG.deps ] && touch _scripts/$PKG.deps
+    ###overwrite
+
+    sort -u _scripts/$PKG.deps > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends
+    cat $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends | tr '\n' ' ' | \
+	sed 's% $%%' > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depend@
+    GRP=`grep "package.*/$PKG/Config.in" package/_pkgs.group@@@@ | cut -d " " -f 1-2`
+
+    ###overwrite
+    [ "$PKG" = "busybox" ] && GRP="base system"
+    [ "$PKG" = "glibc" ] && GRP="base development"
+    [ "$PKG" = "gcc" ] && GRP="base development"
+    [ "$PKG" = "grub-dist" ] && GRP="base system"
+    [ "$PKG" = "busybox-init" ] && GRP="base system"
+    [ "$PKG" = "busybox-pwdutils" ] && GRP="base system"
+    [ "$PKG" = "busybox-utils" ] && GRP="base system"
+    [ "$PKG" = "busybox-dist" ] && GRP="base system"
+    ###overwrite
+    [ -z "$GRP" ] && GRP="unknown other"
+
+    #write groups entry
+    echo "$GRP" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/groups
+    #copy install file
+    [ -e _scripts/$PKG.install ] && cp -dp _scripts/$PKG.install $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/install
+    #copy keepdirs file
+    [ -e _scripts/$PKG.keepdirs ] && cp -dp _scripts/$PKG.keepdirs $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/keepdirs
+    #find execs
+    LS_EXECS=`sh /bin/_lsexecs.sh $DESTROOT | sort`
+    [ ! -z "$LS_EXECS" ] && echo "$LS_EXECS" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/execs
+    #find dirlinks
+    LS_DIRLINKS=`sh /bin/_find_dirlinks.sh $DESTROOT | sort`
+    [ ! -z "$LS_DIRLINKS" ] && echo "$LS_DIRLINKS" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/dirlinks
+
+
+    #targz
     (cd $DESTROOT; tar czf $PKGDEST/$PKG-$VERSION-$REV.tar.gz *)
     retval=$?
 #
-#    echo "$DONTINSTALL" | grep -q " $PKG " || tar xzf $PKGDEST/$PKG-$VERSION-$REV.tar.gz -C /
+    echo "$DONTINSTALL" | grep -q " $PKG " || tar xzf $PKGDEST/$PKG-$VERSION-$REV.tar.gz -C /
 #
     rm -rf $DESTROOT/*
 

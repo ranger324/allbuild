@@ -5,6 +5,16 @@ set -e
 main() {
     local pkgname="${1}"
     [ ! -d _scripts ] && mkdir _scripts
+
+    case "${pkgname}" in
+	glibc-tgt)
+	    pkgname="glibc"
+	;;
+	gcc-tgt)
+	    pkgname="gcc"
+	;;
+    esac
+
     if [ -e _scripts/"${pkgname}.rev" ]; then
 	REV=`cat _scripts/"${pkgname}.rev"`
 	echo "$(expr $REV + 1)" > _scripts/"${pkgname}.rev"

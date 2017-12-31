@@ -1,0 +1,2456 @@
+diff -Naurp package/alsa-lib/alsa-lib.hash package-new/alsa-lib/alsa-lib.hash
+--- package/alsa-lib/alsa-lib.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/alsa-lib/alsa-lib.hash	2017-12-07 14:12:08.299933915 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256 71282502184c592c1a008e256c22ed0ba5728ca65e05273ceb480c70f515969c  alsa-lib-1.1.3.tar.bz2
++sha256 91bb870c14d1c7c269213285eeed874fa3d28112077db061a3af8010d0885b76  alsa-lib-1.1.4.1.tar.bz2
+diff -Naurp package/alsa-lib/alsa-lib.mk package-new/alsa-lib/alsa-lib.mk
+--- package/alsa-lib/alsa-lib.mk	2017-09-12 21:38:25.127675631 +0200
++++ package-new/alsa-lib/alsa-lib.mk	2017-12-07 14:12:08.295933915 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-ALSA_LIB_VERSION = 1.1.3
++ALSA_LIB_VERSION = 1.1.4.1
+ ALSA_LIB_SOURCE = alsa-lib-$(ALSA_LIB_VERSION).tar.bz2
+ ALSA_LIB_SITE = ftp://ftp.alsa-project.org/pub/lib
+ ALSA_LIB_LICENSE = LGPL-2.1+ (library), GPL-2.0+ (aserver)
+diff -Naurp package/alsa-utils/alsa-utils.hash package-new/alsa-utils/alsa-utils.hash
+--- package/alsa-utils/alsa-utils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/alsa-utils/alsa-utils.hash	2017-12-07 14:12:08.359933913 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256 127217a54eea0f9a49700a2f239a2d4f5384aa094d68df04a8eb80132eb6167c  alsa-utils-1.1.3.tar.bz2
++sha256 a7831044de92c5bf33bf3365a3f36e49397f4191e934df460ae1ca15138c9d9d  alsa-utils-1.1.4.tar.bz2
+diff -Naurp package/alsa-utils/alsa-utils.mk package-new/alsa-utils/alsa-utils.mk
+--- package/alsa-utils/alsa-utils.mk	2017-09-12 21:38:24.027675642 +0200
++++ package-new/alsa-utils/alsa-utils.mk	2017-12-07 14:12:08.355933913 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-ALSA_UTILS_VERSION = 1.1.3
++ALSA_UTILS_VERSION = 1.1.4
+ ALSA_UTILS_SOURCE = alsa-utils-$(ALSA_UTILS_VERSION).tar.bz2
+ ALSA_UTILS_SITE = ftp://ftp.alsa-project.org/pub/utils
+ ALSA_UTILS_LICENSE = GPL-2.0
+diff -Naurp package/audit/audit.hash package-new/audit/audit.hash
+--- package/audit/audit.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/audit/audit.hash	2017-12-07 14:12:08.423933911 +0100
+@@ -1,2 +1,2 @@
+ #Locally computed
+-sha256 0441790794fd9375dbca598fa0ffb46c57ff37b3a24b94ffec0bbee3215cca09 audit-2.7.1.tar.gz
++sha256 98e22549444c313187dc98c2e137f36a9882efa0874b559b0457e5f87ae178ef audit-2.7.7.tar.gz
+diff -Naurp package/audit/audit.mk package-new/audit/audit.mk
+--- package/audit/audit.mk	2017-09-12 21:38:23.627675646 +0200
++++ package-new/audit/audit.mk	2017-12-07 14:12:08.423933911 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-AUDIT_VERSION = 2.7.1
++AUDIT_VERSION = 2.7.7
+ AUDIT_SITE = http://people.redhat.com/sgrubb/audit
+ AUDIT_LICENSE = GPL-2.0+ (programs), unclear (libraries)
+ AUDIT_LICENSE_FILES = COPYING
+diff -Naurp package/botan/botan.hash package-new/botan/botan.hash
+--- package/botan/botan.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/botan/botan.hash	2017-12-07 14:12:08.483933909 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	23ec973d4b4a4fe04f490d409e08ac5638afe3aa09acd7f520daaff38ba19b90  Botan-1.10.13.tgz
++sha256 6c5472401d06527e87adcb53dd270f3c9b1fb688703b04dd7a7cfb86289efe52  Botan-1.10.16.tgz
+diff -Naurp package/botan/botan.mk package-new/botan/botan.mk
+--- package/botan/botan.mk	2017-09-12 21:38:27.463675607 +0200
++++ package-new/botan/botan.mk	2017-12-07 14:12:08.483933909 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-BOTAN_VERSION = 1.10.13
++BOTAN_VERSION = 1.10.16
+ BOTAN_SOURCE = Botan-$(BOTAN_VERSION).tgz
+ BOTAN_SITE = http://botan.randombit.net/releases
+ BOTAN_LICENSE = BSD-2-Clause
+diff -Naurp package/btrfs-progs/btrfs-progs.hash package-new/btrfs-progs/btrfs-progs.hash
+--- package/btrfs-progs/btrfs-progs.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/btrfs-progs/btrfs-progs.hash	2017-12-07 14:12:08.539933907 +0100
+@@ -1,2 +1,2 @@
+ # From https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/sha256sums.asc
+-sha256 ed09df670338562a52d9e7d76a362cc932737e2a67adca4c09395374be1de60a  btrfs-progs-v4.10.2.tar.xz
++sha256 e17a68cc52a27d905b715445e91ddbaa4d42de4847d54836d6ed21e012dabf0e  btrfs-progs-v4.11.tar.xz
+diff -Naurp package/btrfs-progs/btrfs-progs.mk package-new/btrfs-progs/btrfs-progs.mk
+--- package/btrfs-progs/btrfs-progs.mk	2017-09-12 21:38:15.495675729 +0200
++++ package-new/btrfs-progs/btrfs-progs.mk	2017-12-07 14:12:08.539933907 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-BTRFS_PROGS_VERSION = 4.10.2
++BTRFS_PROGS_VERSION = 4.11
+ BTRFS_PROGS_SITE = $(BR2_KERNEL_MIRROR)/linux/kernel/people/kdave/btrfs-progs
+ BTRFS_PROGS_SOURCE = btrfs-progs-v$(BTRFS_PROGS_VERSION).tar.xz
+ BTRFS_PROGS_DEPENDENCIES = pkgconf e2fsprogs lzo util-linux zlib
+diff -Naurp package/busybox/busybox.hash package-new/busybox/busybox.hash
+--- package/busybox/busybox.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/busybox/busybox.hash	2017-12-07 14:12:08.595933905 +0100
+@@ -1,3 +1,3 @@
+-# From https://busybox.net/downloads/busybox-1.26.2.tar.bz2.sign
+-md5	bb59d25ee2643db20f212eec539429f1	busybox-1.26.2.tar.bz2
+-sha1	0b3e3cd49d6d9e30f66e364bf842663348b23dc9	busybox-1.26.2.tar.bz2
++# From https://busybox.net/downloads/busybox-1.27.2.tar.bz2.sign
++md5	476186f4bab81781dab2369bfd42734e	busybox-1.27.2.tar.bz2
++sha1	11669e223cc38de646ce26080e91ca29b8d42ad9	busybox-1.27.2.tar.bz2
+diff -Naurp package/busybox/busybox.mk package-new/busybox/busybox.mk
+--- package/busybox/busybox.mk	2017-09-12 21:38:25.167675630 +0200
++++ package-new/busybox/busybox.mk	2017-12-07 14:12:08.595933905 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-BUSYBOX_VERSION = 1.26.2
++BUSYBOX_VERSION = 1.27.2
+ BUSYBOX_SITE = http://www.busybox.net/downloads
+ BUSYBOX_SOURCE = busybox-$(BUSYBOX_VERSION).tar.bz2
+ BUSYBOX_LICENSE = GPL-2.0
+diff -Naurp package/cifs-utils/cifs-utils.hash package-new/cifs-utils/cifs-utils.hash
+--- package/cifs-utils/cifs-utils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/cifs-utils/cifs-utils.hash	2017-12-07 14:12:08.651933903 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	d07152a807de6840566bbcc69a97ff6fa17fca4e09ceb4641d74882a83e67125	cifs-utils-6.6.tar.bz2
++sha256	b2f21612474ab012e75accd167aab607a0614ff67efb56ea0f36789fa785cfab	cifs-utils-6.7.tar.bz2
+diff -Naurp package/cifs-utils/cifs-utils.mk package-new/cifs-utils/cifs-utils.mk
+--- package/cifs-utils/cifs-utils.mk	2017-09-12 21:38:22.079675662 +0200
++++ package-new/cifs-utils/cifs-utils.mk	2017-12-07 14:12:08.651933903 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-CIFS_UTILS_VERSION = 6.6
++CIFS_UTILS_VERSION = 6.7
+ CIFS_UTILS_SOURCE = cifs-utils-$(CIFS_UTILS_VERSION).tar.bz2
+ CIFS_UTILS_SITE = http://ftp.samba.org/pub/linux-cifs/cifs-utils
+ CIFS_UTILS_LICENSE = GPL-3.0+
+diff -Naurp package/cmake/cmake.hash package-new/cmake/cmake.hash
+--- package/cmake/cmake.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/cmake/cmake.hash	2017-12-07 14:12:08.719933901 +0100
+@@ -1,2 +1,2 @@
+-# From http://www.cmake.org/files/v3.7/cmake-3.7.2-SHA-256.txt
+-sha256 dc1246c4e6d168ea4d6e042cfba577c1acd65feea27e56f5ff37df920c30cae0  cmake-3.7.2.tar.gz
++# From http://www.cmake.org/files/v3.8/cmake-3.8.2-SHA-256.txt
++sha256 da3072794eb4c09f2d782fcee043847b99bb4cf8d4573978d9b2024214d6e92d  cmake-3.8.2.tar.gz
+diff -Naurp package/cmake/cmake.mk package-new/cmake/cmake.mk
+--- package/cmake/cmake.mk	2017-09-12 21:38:18.875675695 +0200
++++ package-new/cmake/cmake.mk	2017-12-07 14:12:08.715933901 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-CMAKE_VERSION_MAJOR = 3.7
++CMAKE_VERSION_MAJOR = 3.8
+ CMAKE_VERSION = $(CMAKE_VERSION_MAJOR).2
+ CMAKE_SITE = https://cmake.org/files/v$(CMAKE_VERSION_MAJOR)
+ CMAKE_LICENSE = BSD-3-Clause
+diff -Naurp package/coreutils/coreutils.hash package-new/coreutils/coreutils.hash
+--- package/coreutils/coreutils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/coreutils/coreutils.hash	2017-12-07 14:12:08.783933899 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	155e94d748f8e2bc327c66e0cbebdb8d6ab265d2f37c3c928f7bf6c3beba9a8e	coreutils-8.26.tar.xz
++sha256 8891d349ee87b9ff7870f52b6d9312a9db672d2439d289bc57084771ca21656b  coreutils-8.27.tar.xz
+diff -Naurp package/coreutils/coreutils.mk package-new/coreutils/coreutils.mk
+--- package/coreutils/coreutils.mk	2017-09-12 21:38:24.875675633 +0200
++++ package-new/coreutils/coreutils.mk	2017-12-07 14:12:08.783933899 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-COREUTILS_VERSION = 8.26
++COREUTILS_VERSION = 8.27
+ COREUTILS_SITE = $(BR2_GNU_MIRROR)/coreutils
+ COREUTILS_SOURCE = coreutils-$(COREUTILS_VERSION).tar.xz
+ COREUTILS_LICENSE = GPL-3.0+
+diff -Naurp package/cryptsetup/cryptsetup.hash package-new/cryptsetup/cryptsetup.hash
+--- package/cryptsetup/cryptsetup.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/cryptsetup/cryptsetup.hash	2017-12-07 14:12:08.855933897 +0100
+@@ -1,2 +1,2 @@
+ # From https://www.kernel.org/pub/linux/utils/cryptsetup/v1.7/sha256sums.asc
+-sha256 7ccf893ef79a38fb92d61f03c17b964982119f5319cdaa85a1335b8558cca016  cryptsetup-1.7.4.tar.xz
++sha256 2b30cd1d0dd606a53ac77b406e1d37798d4b0762fa89de6ea546201906a251bd  cryptsetup-1.7.5.tar.xz
+diff -Naurp package/cryptsetup/cryptsetup.mk package-new/cryptsetup/cryptsetup.mk
+--- package/cryptsetup/cryptsetup.mk	2017-09-12 21:38:16.087675723 +0200
++++ package-new/cryptsetup/cryptsetup.mk	2017-12-07 14:12:08.855933897 +0100
+@@ -5,7 +5,7 @@
+ ################################################################################
+ 
+ CRYPTSETUP_VERSION_MAJOR = 1.7
+-CRYPTSETUP_VERSION = $(CRYPTSETUP_VERSION_MAJOR).4
++CRYPTSETUP_VERSION = $(CRYPTSETUP_VERSION_MAJOR).5
+ CRYPTSETUP_SOURCE = cryptsetup-$(CRYPTSETUP_VERSION).tar.xz
+ CRYPTSETUP_SITE = $(BR2_KERNEL_MIRROR)/linux/utils/cryptsetup/v$(CRYPTSETUP_VERSION_MAJOR)
+ CRYPTSETUP_DEPENDENCIES = lvm2 popt util-linux pkgconf \
+diff -Naurp package/dbus/dbus.hash package-new/dbus/dbus.hash
+--- package/dbus/dbus.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/dbus/dbus.hash	2017-12-07 14:12:08.923933895 +0100
+@@ -1,2 +1,3 @@
+ # Locally calculated after checking pgp signature
+-sha256	6049ddd5f3f3e2618f615f1faeda0a115104423a7996b7aa73e2f36e38cc514a  dbus-1.10.18.tar.gz
++# http://dbus.freedesktop.org/releases/dbus/dbus-1.10.22.tar.gz.asc
++sha256	e2b1401e3eedc7b5c9a2034d31254c886e1fcbc7858006e0a1c59158fe4b7b97  dbus-1.10.22.tar.gz
+diff -Naurp package/dbus/dbus.mk package-new/dbus/dbus.mk
+--- package/dbus/dbus.mk	2017-09-12 21:38:20.031675683 +0200
++++ package-new/dbus/dbus.mk	2017-12-07 14:12:08.923933895 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-DBUS_VERSION = 1.10.18
++DBUS_VERSION = 1.10.22
+ DBUS_SITE = http://dbus.freedesktop.org/releases/dbus
+ DBUS_LICENSE = AFL-2.1 or GPL-2.0+ (library, tools), GPL-2.0+ (tools)
+ DBUS_LICENSE_FILES = COPYING
+diff -Naurp package/dejavu/dejavu.hash package-new/dejavu/dejavu.hash
+--- package/dejavu/dejavu.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/dejavu/dejavu.hash	2017-12-07 14:12:08.987933893 +0100
+@@ -1,2 +1,2 @@
+-# From http://dejavu-fonts.org/wiki/Download
+-sha256	f6d7965586101ff3a8a5c3ec503e082bb6a9604ff53413e10702e5917c194d88	dejavu-fonts-ttf-2.35.tar.bz2
++# From https://dejavu-fonts.github.io/Download.html
++sha256 fa9ca4d13871dd122f61258a80d01751d603b4d3ee14095d65453b4e846e17d7  dejavu-fonts-ttf-2.37.tar.bz2
+diff -Naurp package/dejavu/dejavu.mk package-new/dejavu/dejavu.mk
+--- package/dejavu/dejavu.mk	2017-09-12 21:38:26.119675621 +0200
++++ package-new/dejavu/dejavu.mk	2017-12-07 14:12:08.987933893 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-DEJAVU_VERSION = 2.35
++DEJAVU_VERSION = 2.37
+ DEJAVU_SITE = http://sourceforge.net/projects/dejavu/files/dejavu/$(DEJAVU_VERSION)
+ DEJAVU_SOURCE = dejavu-fonts-ttf-$(DEJAVU_VERSION).tar.bz2
+ DEJAVU_LICENSE_FILES = LICENSE
+diff -Naurp package/dialog/dialog.hash package-new/dialog/dialog.hash
+--- package/dialog/dialog.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/dialog/dialog.hash	2017-12-07 14:12:09.051933891 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	1d98ec7cc81f11f9019fa0b90f1afdaa86579cae1ce8869a6fd61deb9d4b887a	dialog-1.2-20150125.tgz
++sha256 2ff1ba74c632b9d13a0d0d2c942295dd4e8909694eeeded7908a467d0bcd4756  dialog-1.3-20170509.tgz
+diff -Naurp package/dialog/dialog.mk package-new/dialog/dialog.mk
+--- package/dialog/dialog.mk	2017-09-12 21:38:17.975675704 +0200
++++ package-new/dialog/dialog.mk	2017-12-07 14:12:09.047933891 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-DIALOG_VERSION = 1.2-20150125
++DIALOG_VERSION = 1.3-20170509
+ DIALOG_SOURCE = dialog-$(DIALOG_VERSION).tgz
+ DIALOG_SITE = ftp://invisible-island.net/dialog
+ DIALOG_CONF_OPTS = --with-ncurses --with-curses-dir=$(STAGING_DIR)/usr \
+diff -Naurp package/diffutils/diffutils.hash package-new/diffutils/diffutils.hash
+--- package/diffutils/diffutils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/diffutils/diffutils.hash	2017-12-07 14:12:09.115933889 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	dad398ccd5b9faca6b0ab219a036453f62a602a56203ac659b43e889bec35533	diffutils-3.5.tar.xz
++sha256 d621e8bdd4b573918c8145f7ae61817d1be9deb4c8d2328a65cea8e11d783bd6  diffutils-3.6.tar.xz
+diff -Naurp package/diffutils/diffutils.mk package-new/diffutils/diffutils.mk
+--- package/diffutils/diffutils.mk	2017-09-12 21:38:16.043675723 +0200
++++ package-new/diffutils/diffutils.mk	2017-12-07 14:12:09.111933889 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-DIFFUTILS_VERSION = 3.5
++DIFFUTILS_VERSION = 3.6
+ DIFFUTILS_SOURCE = diffutils-$(DIFFUTILS_VERSION).tar.xz
+ DIFFUTILS_SITE = $(BR2_GNU_MIRROR)/diffutils
+ DIFFUTILS_DEPENDENCIES = $(if $(BR2_NEEDS_GETTEXT_IF_LOCALE),gettext)
+diff -Naurp package/dnsmasq/dnsmasq.hash package-new/dnsmasq/dnsmasq.hash
+--- package/dnsmasq/dnsmasq.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/dnsmasq/dnsmasq.hash	2017-12-07 14:12:09.179933887 +0100
+@@ -1,2 +1,6 @@
+ # Locally calculated after checking pgp signature
+-sha256	4b92698dee19ca0cb2a8f2e48f1d2dffd01a21eb15d1fbed4cf085630c8c9f96	dnsmasq-2.76.tar.xz
++# http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.78.tar.xz.asc
++sha256	89949f438c74b0c7543f06689c319484bd126cc4b1f8c745c742ab397681252b	dnsmasq-2.78.tar.xz
++# Locally calculated
++sha256	dcc100d4161cc0b7177545ab6e47216f84857cda3843847c792a25289852dcaa	COPYING
++sha256	8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903	COPYING-v3
+diff -Naurp package/dnsmasq/dnsmasq.mk package-new/dnsmasq/dnsmasq.mk
+--- package/dnsmasq/dnsmasq.mk	2017-09-12 21:38:28.915675592 +0200
++++ package-new/dnsmasq/dnsmasq.mk	2017-12-07 14:12:09.179933887 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-DNSMASQ_VERSION = 2.76
++DNSMASQ_VERSION = 2.78
+ DNSMASQ_SOURCE = dnsmasq-$(DNSMASQ_VERSION).tar.xz
+ DNSMASQ_SITE = http://thekelleys.org.uk/dnsmasq
+ DNSMASQ_MAKE_ENV = $(TARGET_MAKE_ENV) CC="$(TARGET_CC)"
+diff -Naurp package/dosfstools/dosfstools.hash package-new/dosfstools/dosfstools.hash
+--- package/dosfstools/dosfstools.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/dosfstools/dosfstools.hash	2017-12-07 14:12:09.243933884 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	9037738953559d1efe04fc5408b6846216cc0138f7f9d32de80b6ec3c35e7daf	dosfstools-4.0.tar.xz
++sha256 e6b2aca70ccc3fe3687365009dd94a2e18e82b688ed4e260e04b7412471cc173  dosfstools-4.1.tar.xz
+diff -Naurp package/dosfstools/dosfstools.mk package-new/dosfstools/dosfstools.mk
+--- package/dosfstools/dosfstools.mk	2017-09-12 21:38:23.595675646 +0200
++++ package-new/dosfstools/dosfstools.mk	2017-12-07 14:12:09.243933884 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-DOSFSTOOLS_VERSION = 4.0
++DOSFSTOOLS_VERSION = 4.1
+ DOSFSTOOLS_SOURCE = dosfstools-$(DOSFSTOOLS_VERSION).tar.xz
+ DOSFSTOOLS_SITE = https://github.com/dosfstools/dosfstools/releases/download/v$(DOSFSTOOLS_VERSION)
+ DOSFSTOOLS_LICENSE = GPL-3.0+
+diff -Naurp package/ecryptfs-utils/ecryptfs-utils.hash package-new/ecryptfs-utils/ecryptfs-utils.hash
+--- package/ecryptfs-utils/ecryptfs-utils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/ecryptfs-utils/ecryptfs-utils.hash	2017-12-07 14:12:09.315933882 +0100
+@@ -1,2 +1,4 @@
+-# From https://launchpad.net/ecryptfs/trunk/109/+download/ecryptfs-utils_109.orig.tar.gz/+md5
+-md5	8e33f096c8cb8288f9c29a9936cd0d28	ecryptfs-utils_109.orig.tar.gz
++# From https://launchpad.net/ecryptfs/trunk/111/+download/ecryptfs-utils_111.orig.tar.gz/+md5
++md5 83513228984f671930752c3518cac6fd  ecryptfs-utils_111.orig.tar.gz
++# Locally computed
++sha256 112cb3e37e81a1ecd8e39516725dec0ce55c5f3df6284e0f4cc0f118750a987f  ecryptfs-utils_111.orig.tar.gz
+diff -Naurp package/ecryptfs-utils/ecryptfs-utils.mk package-new/ecryptfs-utils/ecryptfs-utils.mk
+--- package/ecryptfs-utils/ecryptfs-utils.mk	2017-09-12 21:38:17.495675709 +0200
++++ package-new/ecryptfs-utils/ecryptfs-utils.mk	2017-12-07 14:12:09.303933883 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-ECRYPTFS_UTILS_VERSION = 109
++ECRYPTFS_UTILS_VERSION = 111
+ ECRYPTFS_UTILS_SOURCE = ecryptfs-utils_$(ECRYPTFS_UTILS_VERSION).orig.tar.gz
+ ECRYPTFS_UTILS_SITE = https://launchpad.net/ecryptfs/trunk/$(ECRYPTFS_UTILS_VERSION)/+download
+ ECRYPTFS_UTILS_LICENSE = GPL-2.0+
+diff -Naurp package/elfutils/elfutils.hash package-new/elfutils/elfutils.hash
+--- package/elfutils/elfutils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/elfutils/elfutils.hash	2017-12-07 14:12:09.395933880 +0100
+@@ -1,2 +1,2 @@
+-# Locally calculated
+-sha256 3c056914c8a438b210be0d790463b960fc79d234c3f05ce707cbff80e94cba30  elfutils-0.166.tar.bz2
++# From https://sourceware.org/elfutils/ftp/0.169/sha512.sum
++sha512 0a81a20bb2aff533d035d6b76f1403437b2e11bce390db57e34b8c26e4b9b3150346d83dddcbfbbdc58063f046ca3223508dba35c6ce88e375d201e7a777a8b9  elfutils-0.169.tar.bz2
+diff -Naurp package/elfutils/elfutils.mk package-new/elfutils/elfutils.mk
+--- package/elfutils/elfutils.mk	2017-09-12 21:38:18.711675696 +0200
++++ package-new/elfutils/elfutils.mk	2017-12-07 14:12:09.383933880 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-ELFUTILS_VERSION = 0.166
++ELFUTILS_VERSION = 0.169
+ ELFUTILS_SOURCE = elfutils-$(ELFUTILS_VERSION).tar.bz2
+ ELFUTILS_SITE = https://sourceware.org/elfutils/ftp/$(ELFUTILS_VERSION)
+ ELFUTILS_INSTALL_STAGING = YES
+diff -Naurp package/erlang/erlang.hash package-new/erlang/erlang.hash
+--- package/erlang/erlang.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/erlang/erlang.hash	2017-12-07 14:12:09.483933877 +0100
+@@ -1,3 +1,3 @@
+ # md5 from http://www.erlang.org/download/MD5, sha256 locally computed
+-md5	7e4ff32f97c36fb3dab736f8d481830b	otp_src_18.3.tar.gz
+-sha256	fdab8129a1cb935db09f1832e3a7d511a4aeb2b9bb3602ca6a7ccb9730d5c9c3	otp_src_18.3.tar.gz
++md5	a8c259ec47bf84e77510673e1b76b6db	otp_src_19.3.tar.gz
++sha256  fe4a00651db39b8542b04530a48d24b2f2e7e0b77cbe93d728c9f05325bdfe83	otp_src_19.3.tar.gz
+diff -Naurp package/erlang/erlang.mk package-new/erlang/erlang.mk
+--- package/erlang/erlang.mk	2017-09-12 21:38:25.771675624 +0200
++++ package-new/erlang/erlang.mk	2017-12-07 14:12:09.455933878 +0100
+@@ -5,7 +5,7 @@
+ ################################################################################
+ 
+ # See note below when updating Erlang
+-ERLANG_VERSION = 18.3
++ERLANG_VERSION = 19.3
+ ERLANG_SITE = http://www.erlang.org/download
+ ERLANG_SOURCE = otp_src_$(ERLANG_VERSION).tar.gz
+ ERLANG_DEPENDENCIES = erlang
+diff -Naurp package/exfat/exfat.hash package-new/exfat/exfat.hash
+--- package/exfat/exfat.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/exfat/exfat.hash	2017-12-07 14:12:09.619933872 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256	9312d23a5d82543ad2e9ab7f0a0b471aea53eeb8eae664451c881b46d849756e	fuse-exfat-1.2.4.tar.gz
++sha256 e1105256d75860c0678f98bbae0b8fe465d4c96ed187b7035556097f152478e7  fuse-exfat-1.2.6.tar.gz
+diff -Naurp package/exfat/exfat.mk package-new/exfat/exfat.mk
+--- package/exfat/exfat.mk	2017-09-12 21:38:28.879675592 +0200
++++ package-new/exfat/exfat.mk	2017-12-07 14:12:09.615933873 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-EXFAT_VERSION = 1.2.4
++EXFAT_VERSION = 1.2.6
+ EXFAT_SITE = https://github.com/relan/exfat/releases/download/v$(EXFAT_VERSION)
+ EXFAT_SOURCE = fuse-exfat-$(EXFAT_VERSION).tar.gz
+ EXFAT_DEPENDENCIES = libfuse pkgconf
+diff -Naurp package/exfat-utils/exfat-utils.hash package-new/exfat-utils/exfat-utils.hash
+--- package/exfat-utils/exfat-utils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/exfat-utils/exfat-utils.hash	2017-12-07 14:12:09.555933875 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256	6aa51926416b9d0977b456902f4c4cd10bcce4b2d160859a7a2fc9ca6bcbbb11	exfat-utils-1.2.4.tar.gz
++sha256 b96b6692cf92a629c9eca0fe8c782646e20479524c7d2a99b7e9b43c3cf8ac43  exfat-utils-1.2.6.tar.gz
+diff -Naurp package/exfat-utils/exfat-utils.mk package-new/exfat-utils/exfat-utils.mk
+--- package/exfat-utils/exfat-utils.mk	2017-09-12 21:38:15.519675729 +0200
++++ package-new/exfat-utils/exfat-utils.mk	2017-12-07 14:12:09.539933875 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-EXFAT_UTILS_VERSION = 1.2.4
++EXFAT_UTILS_VERSION = 1.2.6
+ EXFAT_UTILS_SITE = https://github.com/relan/exfat/releases/download/v$(EXFAT_UTILS_VERSION)
+ EXFAT_UTILS_LICENSE = GPL-3.0+
+ EXFAT_UTILS_LICENSE_FILES = COPYING
+diff -Naurp package/expat/expat.hash package-new/expat/expat.hash
+--- package/expat/expat.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/expat/expat.hash	2017-12-07 14:12:09.679933871 +0100
+@@ -1,5 +1,5 @@
+-# From https://sourceforge.net/projects/expat/files/expat/2.2.0/
+-md5	2f47841c829facb346eb6e3fab5212e2	expat-2.2.0.tar.bz2
+-sha1	8453bc52324be4c796fd38742ec48470eef358b3	expat-2.2.0.tar.bz2
++# From https://sourceforge.net/projects/expat/files/expat/2.2.2/
++md5	1ede9a41223c78528b8c5d23e69a2667	expat-2.2.2.tar.bz2
++sha1	891cee988b38d5d66953f62f94c3150b8810a70a	expat-2.2.2.tar.bz2
+ # Calculated based on the hashes above
+-sha256	d9e50ff2d19b3538bd2127902a89987474e1a4db8e43a66a4d1a712ab9a504ff	expat-2.2.0.tar.bz2
++sha256	4376911fcf81a23ebd821bbabc26fd933f3ac74833f74924342c29aad2c86046	expat-2.2.2.tar.bz2
+diff -Naurp package/expat/expat.mk package-new/expat/expat.mk
+--- package/expat/expat.mk	2017-09-12 21:38:27.483675607 +0200
++++ package-new/expat/expat.mk	2017-12-07 14:12:09.675933871 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-EXPAT_VERSION = 2.2.0
++EXPAT_VERSION = 2.2.2
+ EXPAT_SITE = http://downloads.sourceforge.net/project/expat/expat/$(EXPAT_VERSION)
+ EXPAT_SOURCE = expat-$(EXPAT_VERSION).tar.bz2
+ EXPAT_INSTALL_STAGING = YES
+diff -Naurp package/ffmpeg/ffmpeg.hash package-new/ffmpeg/ffmpeg.hash
+--- package/ffmpeg/ffmpeg.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/ffmpeg/ffmpeg.hash	2017-12-07 14:12:09.763933868 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256 b702a7fc656ac23e276b8c823a2f646e4e6f6309bb2788435a708e69bea98f2f  ffmpeg-3.3.1.tar.xz
++sha256 98b97e1b908dfeb6aeb6d407e5a5eacdfc253a40c2d195f5867ed2d1d46ea957  ffmpeg-3.3.4.tar.xz
+diff -Naurp package/ffmpeg/ffmpeg.mk package-new/ffmpeg/ffmpeg.mk
+--- package/ffmpeg/ffmpeg.mk	2017-09-12 21:38:29.171675589 +0200
++++ package-new/ffmpeg/ffmpeg.mk	2017-12-07 14:12:09.743933868 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-FFMPEG_VERSION = 3.3.1
++FFMPEG_VERSION = 3.3.4
+ FFMPEG_SOURCE = ffmpeg-$(FFMPEG_VERSION).tar.xz
+ FFMPEG_SITE = http://ffmpeg.org/releases
+ FFMPEG_INSTALL_STAGING = YES
+diff -Naurp package/fftw/fftw.hash package-new/fftw/fftw.hash
+--- package/fftw/fftw.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/fftw/fftw.hash	2017-12-07 14:12:09.827933866 +0100
+@@ -1,2 +1,4 @@
+-# From http://www.fftw.org/fftw-3.3.4.tar.gz.md5sum
+-md5	2edab8c06b24feeb3b82bbb3ebf3e7b3	fftw-3.3.4.tar.gz
++# From http://www.fftw.org/fftw-3.3.6-pl2.tar.gz.md5sum
++md5 927e481edbb32575397eb3d62535a856  fftw-3.3.6-pl2.tar.gz
++# Locally computed
++sha256 a5de35c5c824a78a058ca54278c706cdf3d4abba1c56b63531c2cb05f5d57da2  fftw-3.3.6-pl2.tar.gz
+diff -Naurp package/fftw/fftw.mk package-new/fftw/fftw.mk
+--- package/fftw/fftw.mk	2017-09-12 21:38:25.851675623 +0200
++++ package-new/fftw/fftw.mk	2017-12-07 14:12:09.827933866 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-FFTW_VERSION = 3.3.4
++FFTW_VERSION = 3.3.6-pl2
+ FFTW_SITE = http://www.fftw.org
+ FFTW_INSTALL_STAGING = YES
+ FFTW_LICENSE = GPL-2.0+
+diff -Naurp package/file/file.hash package-new/file/file.hash
+--- package/file/file.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/file/file.hash	2017-12-07 14:12:09.887933864 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256 694c2432e5240187524c9e7cf1ec6acc77b47a0e19554d34c14773e43dbbf214  file-5.30.tar.gz
++sha256 8639dc4d1b21e232285cd483604afc4a6ee810710e00e579dbe9591681722b50  file-5.32.tar.gz
+diff -Naurp package/file/file.mk package-new/file/file.mk
+--- package/file/file.mk	2017-09-12 21:38:16.319675721 +0200
++++ package-new/file/file.mk	2017-12-07 14:12:09.883933864 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-FILE_VERSION = 5.30
++FILE_VERSION = 5.32
+ FILE_SITE = ftp://ftp.astron.com/pub/file
+ FILE_DEPENDENCIES = zlib
+ HOST_FILE_DEPENDENCIES = host-zlib
+diff -Naurp package/filemq/filemq.hash package-new/filemq/filemq.hash
+--- package/filemq/filemq.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/filemq/filemq.hash	2017-12-07 14:12:09.943933862 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256 a9973117f8afea6d4cbde95e4d7f46ab90d67cb0d72e42165410d665bf1765c1  filemq-3dc89932903b0320853d87833aabc6f7e7781c49.tar.gz
++sha256 f3764e1adacfbf7fd09fb9c553e796a80d8159f1ace689fb68307afbc1746d4c  filemq-8940f34e0f1c8f25c1c693ed8db069f58fbc5ad0.tar.gz
+diff -Naurp package/filemq/filemq.mk package-new/filemq/filemq.mk
+--- package/filemq/filemq.mk	2017-09-12 21:38:20.015675683 +0200
++++ package-new/filemq/filemq.mk	2017-12-07 14:12:09.943933862 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-FILEMQ_VERSION = 3dc89932903b0320853d87833aabc6f7e7781c49
++FILEMQ_VERSION = 8940f34e0f1c8f25c1c693ed8db069f58fbc5ad0
+ FILEMQ_SITE = $(call github,zeromq,filemq,$(FILEMQ_VERSION))
+ 
+ FILEMQ_AUTORECONF = YES
+diff -Naurp package/flex/flex.hash package-new/flex/flex.hash
+--- package/flex/flex.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/flex/flex.hash	2017-12-07 14:12:09.999933860 +0100
+@@ -1,2 +1,2 @@
+ # Locally computed:
+-sha256  bf693433a3effe6b1f42e44abd787491e4e213984b1859545b92267a86088dd3  flex-2.5.37.tar.gz
++sha256 e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c45ee995  flex-2.6.4.tar.gz
+diff -Naurp package/flex/flex.mk package-new/flex/flex.mk
+--- package/flex/flex.mk	2017-09-12 21:38:18.823675695 +0200
++++ package-new/flex/flex.mk	2017-12-07 14:12:09.999933860 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-FLEX_VERSION = 2.5.37
++FLEX_VERSION = 2.6.4
+ FLEX_SITE = http://download.sourceforge.net/project/flex
+ FLEX_INSTALL_STAGING = YES
+ FLEX_LICENSE = FLEX
+diff -Naurp package/freetype/freetype.hash package-new/freetype/freetype.hash
+--- package/freetype/freetype.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/freetype/freetype.hash	2017-12-07 14:12:10.095933857 +0100
+@@ -1,2 +1,5 @@
++# From https://sourceforge.net/projects/freetype/files/freetype2/2.8/
++md5 2413ac3eaf508ada019c63959ea81a92  freetype-2.8.tar.bz2
++sha1 42c6b1f733fe13a3eba135f5025b22cb68450f91  freetype-2.8.tar.bz2
+ # Locally calculated after checking pgp signature
+-sha256	3a3bb2c4e15ffb433f2032f50a5b5a92558206822e22bfe8cbe339af4aa82f88	freetype-2.7.1.tar.bz2
++sha256 a3c603ed84c3c2495f9c9331fe6bba3bb0ee65e06ec331e0a0fb52158291b40b  freetype-2.8.tar.bz2
+diff -Naurp package/freetype/freetype.mk package-new/freetype/freetype.mk
+--- package/freetype/freetype.mk	2017-09-12 21:38:22.943675653 +0200
++++ package-new/freetype/freetype.mk	2017-12-07 14:12:10.063933858 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-FREETYPE_VERSION = 2.7.1
++FREETYPE_VERSION = 2.8
+ FREETYPE_SOURCE = freetype-$(FREETYPE_VERSION).tar.bz2
+ FREETYPE_SITE = http://download.savannah.gnu.org/releases/freetype
+ FREETYPE_INSTALL_STAGING = YES
+diff -Naurp package/gauche/gauche.hash package-new/gauche/gauche.hash
+--- package/gauche/gauche.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/gauche/gauche.hash	2017-12-07 14:12:10.163933855 +0100
+@@ -1,3 +1,5 @@
++# From https://sourceforge.net/projects/gauche/files/Gauche/
++sha1 c3e1ea21f3acc66fd26eced117caab3f86531db4  Gauche-0.9.5.tgz
++md5 8bac7cbd99a91f6f2c037ac6988db14d  Gauche-0.9.5.tgz
+ # Locally calculated
+-sha256 7b18bcd70beaced1e004594be46c8cff95795318f6f5830dd2a8a700410fc149  Gauche-0.9.4.tgz
+-sha256 0ff5986540d8ad89eee595de766810f09e489a6a3363b47a65ce7ad18701ee01  13a196557848f22a1607a300643131345e9f32b3.patch
++sha256 4c8a53213de112708bbda5fa9648c21497d43ebf809ed5b32b15f21266b4e73c  Gauche-0.9.5.tgz
+diff -Naurp package/gauche/gauche.mk package-new/gauche/gauche.mk
+--- package/gauche/gauche.mk	2017-09-12 21:38:29.007675591 +0200
++++ package-new/gauche/gauche.mk	2017-12-07 14:12:10.159933855 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-GAUCHE_VERSION = 0.9.4
++GAUCHE_VERSION = 0.9.5
+ GAUCHE_SOURCE = Gauche-$(GAUCHE_VERSION).tgz
+ GAUCHE_SITE = http://downloads.sourceforge.net/project/gauche/Gauche
+ GAUCHE_LICENSE = BSD-3-Clause, Boehm-gc, SRFI (srfi-11.scm), reload (reload.scm)
+diff -Naurp package/gdbm/gdbm.hash package-new/gdbm/gdbm.hash
+--- package/gdbm/gdbm.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/gdbm/gdbm.hash	2017-12-07 14:12:10.247933852 +0100
+@@ -1,3 +1,5 @@
+-# From http://lists.gnu.org/archive/html/info-gnu/2016-05/msg00009.html
+-md5	9ce96ff4c99e74295ea19040931c8fb9	gdbm-1.12.tar.gz
+-sha1	86513e8871bb376bc014e9e5a2d18a8e0a8ea2f5	gdbm-1.12.tar.gz
++# From http://www.gnu.org.ua/software/gdbm/download.html
++md5 8929dcda2a8de3fd2367bdbf66769376  gdbm-1.13.tar.gz
++sha1 7f2a8301497bbcac91808b011ca533380914fd21  gdbm-1.13.tar.gz
++# Locally computed
++sha256 9d252cbd7d793f7b12bcceaddda98d257c14f4d1890d851c386c37207000a253  gdbm-1.13.tar.gz
+diff -Naurp package/gdbm/gdbm.mk package-new/gdbm/gdbm.mk
+--- package/gdbm/gdbm.mk	2017-09-12 21:38:22.115675662 +0200
++++ package-new/gdbm/gdbm.mk	2017-12-07 14:12:10.227933853 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-GDBM_VERSION = 1.12
++GDBM_VERSION = 1.13
+ GDBM_SITE = $(BR2_GNU_MIRROR)/gdbm
+ GDBM_LICENSE = GPL-3.0+
+ GDBM_LICENSE_FILES = COPYING
+diff -Naurp package/gdk-pixbuf/gdk-pixbuf.hash package-new/gdk-pixbuf/gdk-pixbuf.hash
+--- package/gdk-pixbuf/gdk-pixbuf.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/gdk-pixbuf/gdk-pixbuf.hash	2017-12-07 14:12:10.327933850 +0100
+@@ -1,2 +1,4 @@
+-# From http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.6.sha256sum
+-sha256 455eb90c09ed1b71f95f3ebfe1c904c206727e0eeb34fc94e5aaf944663a820c  gdk-pixbuf-2.36.6.tar.xz
++# From http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/2.36/gdk-pixbuf-2.36.10.sha256sum
++sha256 f8f6fa896b89475c73b6e9e8d2a2b062fc359c4b4ccb8e96470d6ab5da949ace  gdk-pixbuf-2.36.10.tar.xz
++# Locally calculated
++sha256 d245807f90032872d1438d741ed21e2490e1175dc8aa3afa5ddb6c8e529b58e5  COPYING
+diff -Naurp package/gdk-pixbuf/gdk-pixbuf.mk package-new/gdk-pixbuf/gdk-pixbuf.mk
+--- package/gdk-pixbuf/gdk-pixbuf.mk	2017-09-12 21:38:27.607675605 +0200
++++ package-new/gdk-pixbuf/gdk-pixbuf.mk	2017-12-07 14:12:10.327933850 +0100
+@@ -5,7 +5,7 @@
+ ################################################################################
+ 
+ GDK_PIXBUF_VERSION_MAJOR = 2.36
+-GDK_PIXBUF_VERSION = $(GDK_PIXBUF_VERSION_MAJOR).6
++GDK_PIXBUF_VERSION = $(GDK_PIXBUF_VERSION_MAJOR).10
+ GDK_PIXBUF_SOURCE = gdk-pixbuf-$(GDK_PIXBUF_VERSION).tar.xz
+ GDK_PIXBUF_SITE = http://ftp.gnome.org/pub/gnome/sources/gdk-pixbuf/$(GDK_PIXBUF_VERSION_MAJOR)
+ GDK_PIXBUF_LICENSE = LGPL-2.0+
+diff -Naurp package/git/git.hash package-new/git/git.hash
+--- package/git/git.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/git/git.hash	2017-12-07 14:12:10.395933848 +0100
+@@ -1,2 +1,4 @@
+ # From: https://www.kernel.org/pub/software/scm/git/sha256sums.asc
+-sha256 016124c54ce2db7a4c2bd26b0de21fbf8f6bcaee04842aa221c7243141df4e42  git-2.12.3.tar.xz
++sha256 bce97e403bea34f50378e90ade10c12666b2382cc247551b63dc5604e03b2523  git-2.13.6.tar.xz
++sha256 5b2198d1645f767585e8a88ac0499b04472164c0d2da22e75ecf97ef443ab32e  COPYING
++sha256 1922f45d2c49e390032c9c0ba6d7cac904087f7cec51af30c2b2ad022ce0e76a  LGPL-2.1
+diff -Naurp package/git/git.mk package-new/git/git.mk
+--- package/git/git.mk	2017-09-12 21:38:19.335675690 +0200
++++ package-new/git/git.mk	2017-12-07 14:12:10.395933848 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-GIT_VERSION = 2.12.3
++GIT_VERSION = 2.13.6
+ GIT_SOURCE = git-$(GIT_VERSION).tar.xz
+ GIT_SITE = https://www.kernel.org/pub/software/scm/git
+ GIT_LICENSE = GPL-2.0, LGPL-2.1+
+diff -Naurp package/gnutls/gnutls.hash package-new/gnutls/gnutls.hash
+--- package/gnutls/gnutls.hash	2017-05-26 00:27:16.000000000 +0200
++++ package-new/gnutls/gnutls.hash	2017-12-07 14:12:10.471933845 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	63cb39a5eaa029381df2e49a74cfb7be89fc4a592445191818ffe1e66bde57cb	gnutls-3.5.12.tar.xz
++sha256	4aa12dec92f42a0434df794aca3d02f6f2a35b47b48c01252de65f355c051bda	gnutls-3.5.14.tar.xz
+diff -Naurp package/gnutls/gnutls.mk package-new/gnutls/gnutls.mk
+--- package/gnutls/gnutls.mk	2017-09-12 21:38:22.287675660 +0200
++++ package-new/gnutls/gnutls.mk	2017-12-07 14:12:10.467933845 +0100
+@@ -5,7 +5,7 @@
+ ################################################################################
+ 
+ GNUTLS_VERSION_MAJOR = 3.5
+-GNUTLS_VERSION = $(GNUTLS_VERSION_MAJOR).12
++GNUTLS_VERSION = $(GNUTLS_VERSION_MAJOR).14
+ GNUTLS_SOURCE = gnutls-$(GNUTLS_VERSION).tar.xz
+ GNUTLS_SITE = ftp://ftp.gnutls.org/gcrypt/gnutls/v$(GNUTLS_VERSION_MAJOR)
+ GNUTLS_LICENSE = LGPL-2.1+ (core library), GPL-3.0+ (gnutls-openssl library)
+diff -Naurp package/grep/grep.hash package-new/grep/grep.hash
+--- package/grep/grep.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/grep/grep.hash	2017-12-07 14:12:10.547933843 +0100
+@@ -1,2 +1,4 @@
+ # Locally calculated after checking signature
+-sha256 e2c81db5056e3e8c5995f0bb5d0d0e1cad1f6f45c3b2fc77b6e81435aed48ab5  grep-3.0.tar.xz
++# http://ftp.gnu.org/gnu/grep/grep-3.1.tar.xz.sig
++sha256 db625c7ab3bb3ee757b3926a5cfa8d9e1c3991ad24707a83dde8a5ef2bf7a07e  grep-3.1.tar.xz
++sha256 ca372a7d92560b1fa9f6d832b440e8bcd62d9adfa8870c98287deab66d98310e  COPYING
+diff -Naurp package/grep/grep.mk package-new/grep/grep.mk
+--- package/grep/grep.mk	2017-09-12 21:38:24.659675636 +0200
++++ package-new/grep/grep.mk	2017-12-07 14:12:10.527933843 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-GREP_VERSION = 3.0
++GREP_VERSION = 3.1
+ GREP_SITE = $(BR2_GNU_MIRROR)/grep
+ GREP_SOURCE = grep-$(GREP_VERSION).tar.xz
+ GREP_LICENSE = GPL-3.0+
+diff -Naurp package/hdparm/hdparm.hash package-new/hdparm/hdparm.hash
+--- package/hdparm/hdparm.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/hdparm/hdparm.hash	2017-12-07 14:12:10.663933839 +0100
+@@ -1,3 +1,5 @@
+ # From http://sourceforge.net/projects/hdparm/files/hdparm/
+-md5	8fe0a71db02f7ffc602d14a69f766cff	hdparm-9.51.tar.gz
+-sha1	cc9dc4cbaa00f7534988c37111be8e2c6e81cf73	hdparm-9.51.tar.gz
++md5 410539d0bf3cc247181594581edbfb53  hdparm-9.52.tar.gz
++sha1 c641429c5b5d0513acfc86dc31c6b3b35c070a70  hdparm-9.52.tar.gz
++# Locally computed
++sha256 c3429cd423e271fa565bf584598fd751dd2e773bb7199a592b06b5a61cec4fb6  hdparm-9.52.tar.gz
+diff -Naurp package/hdparm/hdparm.mk package-new/hdparm/hdparm.mk
+--- package/hdparm/hdparm.mk	2017-09-12 21:38:15.543675729 +0200
++++ package-new/hdparm/hdparm.mk	2017-12-07 14:12:10.611933841 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-HDPARM_VERSION = 9.51
++HDPARM_VERSION = 9.52
+ HDPARM_SITE = http://downloads.sourceforge.net/project/hdparm/hdparm
+ HDPARM_LICENSE = BSD-Style
+ HDPARM_LICENSE_FILES = LICENSE.TXT
+diff -Naurp package/heimdal/heimdal.hash package-new/heimdal/heimdal.hash
+--- package/heimdal/heimdal.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/heimdal/heimdal.hash	2017-12-07 14:12:10.755933836 +0100
+@@ -1,2 +1,2 @@
+-# Locally calculated after checking pgp signature
+-sha256	cee58ab3a4ce79f243a3e73f465dac19fe2b93ef1c5ff244d6f1d689fedbde2d	heimdal-7.1.0.tar.gz
++# Locally calculated
++sha256 3de14ecd36ad21c1694a13da347512b047f4010d176fe412820664cb5d1429ad  heimdal-7.4.0.tar.gz
+diff -Naurp package/heimdal/heimdal.mk package-new/heimdal/heimdal.mk
+--- package/heimdal/heimdal.mk	2017-09-12 21:38:22.175675661 +0200
++++ package-new/heimdal/heimdal.mk	2017-12-07 14:12:10.731933837 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-HEIMDAL_VERSION = 7.1.0
++HEIMDAL_VERSION = 7.4.0
+ HEIMDAL_SITE = http://www.h5l.org/dist/src
+ HOST_HEIMDAL_DEPENDENCIES = host-e2fsprogs host-ncurses pkgconf
+ HEIMDAL_DEPENDENCIES = e2fsprogs ncurses pkgconf
+diff -Naurp package/joe/joe.hash package-new/joe/joe.hash
+--- package/joe/joe.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/joe/joe.hash	2017-12-07 14:12:10.827933834 +0100
+@@ -1,2 +1,5 @@
++# From https://sourceforge.net/projects/joe-editor/files/JOE%20sources/joe-4.4/
++sha1 aedf1ac9e6b91053aa26c70e7bba5bbd8136f033  joe-4.4.tar.gz
++md5 59e63debe60b456a6ee5c0c27a756a47  joe-4.4.tar.gz
+ # Locally computed:
+-sha256  cae456e1ad5a8c1d3c94920a3416c2347277739b260e3494d3bc0f2b9b73106f  joe-3.7.tar.gz
++sha256 a5704828bbca29acb9e200414fef522c66cdf9ce28150f402d6767da43460979  joe-4.4.tar.gz
+diff -Naurp package/joe/joe.mk package-new/joe/joe.mk
+--- package/joe/joe.mk	2017-09-12 21:38:22.471675658 +0200
++++ package-new/joe/joe.mk	2017-12-07 14:12:10.807933834 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-JOE_VERSION = 3.7
++JOE_VERSION = 4.4
+ JOE_SITE = http://downloads.sourceforge.net/project/joe-editor/JOE%20sources/joe-$(JOE_VERSION)
+ JOE_LICENSE = GPL-1.0+
+ JOE_LICENSE_FILES = COPYING
+diff -Naurp package/jsoncpp/jsoncpp.hash package-new/jsoncpp/jsoncpp.hash
+--- package/jsoncpp/jsoncpp.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/jsoncpp/jsoncpp.hash	2017-12-07 14:12:10.915933831 +0100
+@@ -1,2 +1,2 @@
+ # Locally computed
+-sha256  087640ebcf7fbcfe8e2717a0b9528fff89c52fcf69fa2a18cc2b538008098f97  jsoncpp-1.7.7.tar.gz
++sha256 858db2faf348f89fdf1062bd3e79256772e897e7f17df73e0624edf004f2f9ac  jsoncpp-1.8.1.tar.gz
+diff -Naurp package/jsoncpp/jsoncpp.mk package-new/jsoncpp/jsoncpp.mk
+--- package/jsoncpp/jsoncpp.mk	2017-09-12 21:38:17.711675706 +0200
++++ package-new/jsoncpp/jsoncpp.mk	2017-12-07 14:12:10.895933832 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-JSONCPP_VERSION = 1.7.7
++JSONCPP_VERSION = 1.8.1
+ JSONCPP_SITE = $(call github,open-source-parsers,jsoncpp,$(JSONCPP_VERSION))
+ JSONCPP_LICENSE = Public Domain or MIT
+ JSONCPP_LICENSE_FILES = LICENSE
+diff -Naurp package/kbd/kbd.hash package-new/kbd/kbd.hash
+--- package/kbd/kbd.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/kbd/kbd.hash	2017-12-07 14:12:10.975933829 +0100
+@@ -1,2 +1,2 @@
+ # From https://www.kernel.org/pub/linux/utils/kbd/sha256sums.asc
+-sha256	7a899de1c0eb75f3aea737095a736f2375e1cbfbe693fc14a3fe0bfb4649fb5e	kbd-2.0.3.tar.xz
++sha256 5fd90af6beb225a9bb9b9fb414c090fba53c9a55793e172f508cd43652e59a88  kbd-2.0.4.tar.xz
+diff -Naurp package/kbd/kbd.mk package-new/kbd/kbd.mk
+--- package/kbd/kbd.mk	2017-09-12 21:38:17.463675709 +0200
++++ package-new/kbd/kbd.mk	2017-12-07 14:12:10.971933829 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-KBD_VERSION = 2.0.3
++KBD_VERSION = 2.0.4
+ KBD_SOURCE = kbd-$(KBD_VERSION).tar.xz
+ KBD_SITE = $(BR2_KERNEL_MIRROR)/linux/utils/kbd
+ KBD_CONF_OPTS = \
+diff -Naurp package/keyutils/keyutils.hash package-new/keyutils/keyutils.hash
+--- package/keyutils/keyutils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/keyutils/keyutils.hash	2017-12-07 14:12:11.031933827 +0100
+@@ -1,3 +1,2 @@
+-# From http://people.redhat.com/~dhowells/keyutils/
+-md5	7f8ac985c45086b5fbcd12cecd23cf07	keyutils-1.5.9.tar.bz2
+-sha1	cf040adebe25eb466760f34752f4100fd5acb5e7	keyutils-1.5.9.tar.bz2
++# Locally computed
++sha256 115c3deae7f181778fd0e0ffaa2dad1bf1fe2f5677cf2e0e348cdb7a1c93afb6  keyutils-1.5.10.tar.bz2
+diff -Naurp package/keyutils/keyutils.mk package-new/keyutils/keyutils.mk
+--- package/keyutils/keyutils.mk	2017-09-12 21:38:24.355675639 +0200
++++ package-new/keyutils/keyutils.mk	2017-12-07 14:12:11.031933827 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-KEYUTILS_VERSION = 1.5.9
++KEYUTILS_VERSION = 1.5.10
+ KEYUTILS_SOURCE = keyutils-$(KEYUTILS_VERSION).tar.bz2
+ KEYUTILS_SITE = http://people.redhat.com/~dhowells/keyutils
+ KEYUTILS_LICENSE = GPL-2.0+, LGPL-2.1+
+diff -Naurp package/lftp/lftp.hash package-new/lftp/lftp.hash
+--- package/lftp/lftp.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/lftp/lftp.hash	2017-12-07 14:12:11.115933825 +0100
+@@ -1,2 +1,4 @@
++# From http://lftp.yar.ru/ftp/lftp-4.8.0.md5sum
++md5 468558412ad3575ef8e98547c41339f4  lftp-4.8.0.tar.xz
+ # Locally calculated after checking gpg signature
+-sha256 bf67c4d128b6f769a4082947376a9679c5ee3463a24ab761a0757f75d70bd92c  lftp-4.7.4.tar.xz
++sha256 7a2880968088b4aeec43b6b6680fef0e065e1dddcce9b409390157e9766b690f  lftp-4.8.0.tar.xz
+diff -Naurp package/lftp/lftp.mk package-new/lftp/lftp.mk
+--- package/lftp/lftp.mk	2017-09-12 21:38:26.759675614 +0200
++++ package-new/lftp/lftp.mk	2017-12-07 14:12:11.095933825 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LFTP_VERSION = 4.7.4
++LFTP_VERSION = 4.8.0
+ LFTP_SOURCE = lftp-$(LFTP_VERSION).tar.xz
+ LFTP_SITE = http://lftp.yar.ru/ftp
+ LFTP_LICENSE = GPL-3.0+
+diff -Naurp package/libarchive/libarchive.hash package-new/libarchive/libarchive.hash
+--- package/libarchive/libarchive.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libarchive/libarchive.hash	2017-12-07 14:12:11.183933822 +0100
+@@ -1,2 +1,2 @@
+ # Locally computed:
+-sha256  72ee1a4e3fd534525f13a0ba1aa7b05b203d186e0c6072a8a4738649d0b3cfd2  libarchive-3.2.1.tar.gz
++sha256  ed2dbd6954792b2c054ccf8ec4b330a54b85904a80cef477a1c74643ddafa0ce  libarchive-3.3.2.tar.gz
+diff -Naurp package/libarchive/libarchive.mk package-new/libarchive/libarchive.mk
+--- package/libarchive/libarchive.mk	2017-09-12 21:38:16.223675722 +0200
++++ package-new/libarchive/libarchive.mk	2017-12-07 14:12:11.179933823 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBARCHIVE_VERSION = 3.2.1
++LIBARCHIVE_VERSION = 3.3.2
+ LIBARCHIVE_SITE = http://www.libarchive.org/downloads
+ LIBARCHIVE_INSTALL_STAGING = YES
+ LIBARCHIVE_LICENSE = BSD-2-Clause, BSD-3-Clause
+diff -Naurp package/libcurl/libcurl.hash package-new/libcurl/libcurl.hash
+--- package/libcurl/libcurl.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libcurl/libcurl.hash	2017-12-07 14:12:11.267933820 +0100
+@@ -1,2 +1,4 @@
+ # Locally calculated after checking pgp signature
+-sha256 f50ebaf43c507fa7cc32be4b8108fa8bbd0f5022e90794388f3c7694a302ff06  curl-7.54.0.tar.bz2
++# https://curl.haxx.se/download/curl-7.56.0.tar.xz.asc
++sha256 32437bcca0e9434384329fdc733547879d25ba70335b3cf9e3d9cbc3e71fd172  curl-7.56.0.tar.xz
++sha256 cbcf511f5702f7baf5424193a792bc9c18fab22bcbec2e6a587598389dc632c2  COPYING
+diff -Naurp package/libcurl/libcurl.mk package-new/libcurl/libcurl.mk
+--- package/libcurl/libcurl.mk	2017-09-12 21:38:23.735675645 +0200
++++ package-new/libcurl/libcurl.mk	2017-12-07 14:12:11.239933821 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBCURL_VERSION = 7.54.0
++LIBCURL_VERSION = 7.56.0
+ LIBCURL_SOURCE = curl-$(LIBCURL_VERSION).tar.bz2
+ LIBCURL_SITE = https://curl.haxx.se/download
+ LIBCURL_DEPENDENCIES = pkgconf \
+diff -Naurp package/libdrm/libdrm.hash package-new/libdrm/libdrm.hash
+--- package/libdrm/libdrm.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libdrm/libdrm.hash	2017-12-07 14:12:11.335933818 +0100
+@@ -1,5 +1,5 @@
+-# From https://lists.freedesktop.org/archives/dri-devel/2017-April/139263.html
+-md5 4867866477f228973a64e68051ca9c66  libdrm-2.4.80.tar.bz2
+-sha1 eabfc3e04d0737834ccb49fe34fc369f0e0588f9  libdrm-2.4.80.tar.bz2
+-sha256 a82a519601e9cdfad795e760807eb07ac8913b225e25fc8fe9bc03e3be6549f1 libdrm-2.4.80.tar.bz2
+-sha512 478f64bcc6f4815368ae86d023f11ba6b37595bb9d8baa588b466c6c0e2aae48a50a489137750ed21fbabef5afabf183c78c152eb770bfe316fa7401b191a30b libdrm-2.4.80.tar.bz2
++# From https://lists.freedesktop.org/archives/dri-devel/2017-July/147750.html
++md5 29867814123c3d23056b1d05aada1b9d  libdrm-2.4.82.tar.bz2
++sha1 c42ff308db6352eaf009a8209c7aaadbc951a89f  libdrm-2.4.82.tar.bz2
++sha256 43fa2dbd422d6d41ac141272cc9855360ce4d08c7cf7f2c7bb55dfe449c4ce1c  libdrm-2.4.82.tar.bz2
++sha512 e69fd8c2b392daabbb3a548179e3a21a555d5174c11d76a288eb2a08850849aa867c7777b67798ec00e026e998a3b128c22698f05a7b44eb24cddc5c8a3a02d0  libdrm-2.4.82.tar.bz2
+diff -Naurp package/libdrm/libdrm.mk package-new/libdrm/libdrm.mk
+--- package/libdrm/libdrm.mk	2017-09-12 21:38:22.375675659 +0200
++++ package-new/libdrm/libdrm.mk	2017-12-07 14:12:11.331933818 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBDRM_VERSION = 2.4.80
++LIBDRM_VERSION = 2.4.82
+ LIBDRM_SOURCE = libdrm-$(LIBDRM_VERSION).tar.bz2
+ LIBDRM_SITE = http://dri.freedesktop.org/libdrm
+ LIBDRM_LICENSE = MIT
+diff -Naurp package/libevdev/libevdev.hash package-new/libevdev/libevdev.hash
+--- package/libevdev/libevdev.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libevdev/libevdev.hash	2017-12-07 14:12:11.415933815 +0100
+@@ -1,2 +1,5 @@
+-# Hash from https://lists.freedesktop.org/archives/input-tools/2017-January/001380.html
+-sha256 ecec7e9d66b1d3692f10b3b20aa97fb25e874a784c5552a7b1698091fef5a688 libevdev-1.5.6.tar.xz
++# From https://lists.freedesktop.org/archives/input-tools/2017-May/001387.html
++md5 4f1cfaee8d75ea3fbbfeb99a98730952  libevdev-1.5.7.tar.xz
++sha1 ba1d8b66af9bd4e1d503ce6b2ed011e9e309048c  libevdev-1.5.7.tar.xz
++sha256 a1e59e37a2f0d397ffd7e83b73af0e638db83b8dd08902ef0f651a21cc1dd422  libevdev-1.5.7.tar.xz
++sha512 53adf6c92ec61f0635b643a88d8762a18f7cd3088d23ac95831be32cc7150ebd19f20265b90f6a1f9a63420c2f8968c2d17d8dc4892c0e90f9dfcce82c622df1  libevdev-1.5.7.tar.xz
+diff -Naurp package/libevdev/libevdev.mk package-new/libevdev/libevdev.mk
+--- package/libevdev/libevdev.mk	2017-09-12 21:38:15.823675726 +0200
++++ package-new/libevdev/libevdev.mk	2017-12-07 14:12:11.391933816 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBEVDEV_VERSION = 1.5.6
++LIBEVDEV_VERSION = 1.5.7
+ LIBEVDEV_SITE = http://www.freedesktop.org/software/libevdev
+ LIBEVDEV_SOURCE = libevdev-$(LIBEVDEV_VERSION).tar.xz
+ LIBEVDEV_LICENSE = X11
+diff -Naurp package/libgcrypt/libgcrypt.hash package-new/libgcrypt/libgcrypt.hash
+--- package/libgcrypt/libgcrypt.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libgcrypt/libgcrypt.hash	2017-12-07 14:12:11.475933813 +0100
+@@ -1,2 +1,3 @@
+-# Locally calculated
+-sha256  626aafee84af9d2ce253d2c143dc1c0902dda045780cc241f39970fc60be05bc  libgcrypt-1.7.6.tar.bz2
++# Locally calculated after checking signature
++# https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.7.9.tar.bz2.sig
++sha256  bfe9bb703c1126c3647da2810fd23039c2f09d46969f71612c2065dc3fa9373b  libgcrypt-1.7.9.tar.bz2
+diff -Naurp package/libgcrypt/libgcrypt.mk package-new/libgcrypt/libgcrypt.mk
+--- package/libgcrypt/libgcrypt.mk	2017-09-12 21:38:17.279675711 +0200
++++ package-new/libgcrypt/libgcrypt.mk	2017-12-07 14:12:11.475933813 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBGCRYPT_VERSION = 1.7.6
++LIBGCRYPT_VERSION = 1.7.9
+ LIBGCRYPT_SOURCE = libgcrypt-$(LIBGCRYPT_VERSION).tar.bz2
+ LIBGCRYPT_LICENSE = LGPL-2.1+
+ LIBGCRYPT_LICENSE_FILES = COPYING.LIB
+diff -Naurp package/libglib2/libglib2.hash package-new/libglib2/libglib2.hash
+--- package/libglib2/libglib2.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libglib2/libglib2.hash	2017-12-07 14:12:11.555933811 +0100
+@@ -1,2 +1,2 @@
+-# https://download.gnome.org/sources/glib/2.50/glib-2.50.3.sha256sum
+-sha256  82ee94bf4c01459b6b00cb9db0545c2237921e3060c0b74cff13fbc020cfd999  glib-2.50.3.tar.xz
++# https://download.gnome.org/sources/glib/2.50/glib-2.52.2.sha256sum
++sha256  f00e5d9e2a2948b1da25fcba734a6b7a40f556de8bc9f528a53f6569969ac5d0  glib-2.52.2.tar.xz
+diff -Naurp package/libglib2/libglib2.mk package-new/libglib2/libglib2.mk
+--- package/libglib2/libglib2.mk	2017-09-14 21:26:58.016127269 +0200
++++ package-new/libglib2/libglib2.mk	2017-12-07 14:12:11.543933811 +0100
+@@ -4,8 +4,8 @@
+ #
+ ################################################################################
+ 
+-LIBGLIB2_VERSION_MAJOR = 2.50
+-LIBGLIB2_VERSION = $(LIBGLIB2_VERSION_MAJOR).3
++LIBGLIB2_VERSION_MAJOR = 2.52
++LIBGLIB2_VERSION = $(LIBGLIB2_VERSION_MAJOR).2
+ LIBGLIB2_SOURCE = glib-$(LIBGLIB2_VERSION).tar.xz
+ LIBGLIB2_SITE = http://ftp.gnome.org/pub/gnome/sources/glib/$(LIBGLIB2_VERSION_MAJOR)
+ LIBGLIB2_LICENSE = LGPL-2.0+
+diff -Naurp package/libinput/libinput.hash package-new/libinput/libinput.hash
+--- package/libinput/libinput.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libinput/libinput.hash	2017-12-07 14:12:11.643933808 +0100
+@@ -1,2 +1,2 @@
+-# From https://lists.freedesktop.org/archives/wayland-devel/2017-March/033531.html
+-sha256 12a670f63d01e9e9c98ad0b31aef22160aac52187b4ee8f068a6902181c1a8a8  libinput-1.7.0.tar.xz
++# From https://lists.freedesktop.org/archives/wayland-devel/2017-May/034037.html
++sha256 0b1e5a6c106ccc609ccececd9e33e6b27c8b01fc7457ddb4c1dd266e780d6bc2  libinput-1.7.2.tar.xz
+diff -Naurp package/libinput/libinput.mk package-new/libinput/libinput.mk
+--- package/libinput/libinput.mk	2017-09-12 21:38:26.383675618 +0200
++++ package-new/libinput/libinput.mk	2017-12-07 14:12:11.623933808 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBINPUT_VERSION = 1.7.0
++LIBINPUT_VERSION = 1.7.2
+ LIBINPUT_SOURCE = libinput-$(LIBINPUT_VERSION).tar.xz
+ LIBINPUT_SITE = http://www.freedesktop.org/software/libinput
+ LIBINPUT_DEPENDENCIES = pkgconf libevdev mtdev udev
+diff -Naurp package/libnspr/libnspr.hash package-new/libnspr/libnspr.hash
+--- package/libnspr/libnspr.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libnspr/libnspr.hash	2017-12-07 14:12:11.719933805 +0100
+@@ -1,2 +1,4 @@
+-# From https://ftp.mozilla.org/pub/nspr/releases/v4.14/src/SHA256SUMS
+-sha256	64fc18826257403a9132240aa3c45193d577a84b08e96f7e7770a97c074d17d5	nspr-4.14.tar.gz
++# From https://ftp.mozilla.org/pub/nspr/releases/v4.17/src/SHA256SUMS
++sha256	590a0aea29412ae22d7728038c21ef2ab42646e48172a47d2e4bb782846d1095  nspr-4.17.tar.gz
++# Locally calculated
++sha256	fab3dd6bdab226f1c08630b1dd917e11fcb4ec5e1e020e2c16f83a0a13863e85  nspr/LICENSE
+diff -Naurp package/libnspr/libnspr.mk package-new/libnspr/libnspr.mk
+--- package/libnspr/libnspr.mk	2017-09-12 21:38:26.279675619 +0200
++++ package-new/libnspr/libnspr.mk	2017-12-07 14:12:11.703933806 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBNSPR_VERSION = 4.14
++LIBNSPR_VERSION = 4.17
+ LIBNSPR_SOURCE = nspr-$(LIBNSPR_VERSION).tar.gz
+ LIBNSPR_SITE = https://ftp.mozilla.org/pub/mozilla.org/nspr/releases/v$(LIBNSPR_VERSION)/src
+ LIBNSPR_SUBDIR = nspr
+diff -Naurp package/libnss/libnss.hash package-new/libnss/libnss.hash
+--- package/libnss/libnss.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libnss/libnss.hash	2017-12-07 14:12:11.791933803 +0100
+@@ -1,2 +1,4 @@
+-# From https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_30_2_RTM/src/SHA256SUMS
+-sha256	0d4a77ff26bcee79fa8afe0125e0df6ae9e798b6b36782fa29e28febf7cfce24	nss-3.30.2.tar.gz
++# From https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_33_RTM/src/SHA256SUMS
++sha256	98f0dabd36408e83dd3a11727336cc3cdfee4cbdd9aede2b2831eb2389c284e4  nss-3.33.tar.gz
++# Locally calculated
++sha256	a20c1a32d1f8102432360b42e932869f7c11c7cdbacf9cac554c422132af47f4  nss/COPYING
+diff -Naurp package/libnss/libnss.mk package-new/libnss/libnss.mk
+--- package/libnss/libnss.mk	2017-09-12 21:38:26.295675619 +0200
++++ package-new/libnss/libnss.mk	2017-12-07 14:12:11.787933803 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBNSS_VERSION = 3.30.2
++LIBNSS_VERSION = 3.33
+ LIBNSS_SOURCE = nss-$(LIBNSS_VERSION).tar.gz
+ LIBNSS_SITE = https://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_$(subst .,_,$(LIBNSS_VERSION))_RTM/src
+ LIBNSS_DISTDIR = dist
+diff -Naurp package/libpng/libpng.hash package-new/libpng/libpng.hash
+--- package/libpng/libpng.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libpng/libpng.hash	2017-12-07 14:12:11.851933801 +0100
+@@ -1,4 +1,4 @@
+-# From http://sourceforge.net/projects/libpng/files/libpng16/1.6.29/
+-sha1 7dbe6a5088b938545fc0857c507d4e0cf5d9023e  libpng-1.6.29.tar.xz
++# From http://sourceforge.net/projects/libpng/files/libpng16/1.6.31/
++sha1 de695064363df331734466981ef7f6546ef516bf  libpng-1.6.31.tar.xz
+ # Locally computed:
+-sha256 4245b684e8fe829ebb76186327bb37ce5a639938b219882b53d64bd3cfc5f239  libpng-1.6.29.tar.xz
++sha256 232a602de04916b2b5ce6f901829caf419519e6a16cc9cd7c1c91187d3ee8b41  libpng-1.6.31.tar.xz
+diff -Naurp package/libpng/libpng.mk package-new/libpng/libpng.mk
+--- package/libpng/libpng.mk	2017-09-12 21:38:18.779675696 +0200
++++ package-new/libpng/libpng.mk	2017-12-07 14:12:11.851933801 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBPNG_VERSION = 1.6.29
++LIBPNG_VERSION = 1.6.31
+ LIBPNG_SERIES = 16
+ LIBPNG_SOURCE = libpng-$(LIBPNG_VERSION).tar.xz
+ LIBPNG_SITE = http://downloads.sourceforge.net/project/libpng/libpng${LIBPNG_SERIES}/$(LIBPNG_VERSION)
+diff -Naurp package/libssh/libssh.hash package-new/libssh/libssh.hash
+--- package/libssh/libssh.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libssh/libssh.hash	2017-12-07 14:12:11.935933798 +0100
+@@ -1,4 +1,5 @@
+ # from https://red.libssh.org/projects/libssh/files/
+-md5	05465da8004f3258db946346213209de	libssh-0.7.3.tar.xz
+-# Locally calculated after checking signature on uncompressed libssh-0.7.3.tar
+-sha256	26ef46be555da21112c01e4b9f5e3abba9194485c8822ab55ba3d6496222af98  libssh-0.7.3.tar.xz
++md5	d3fc864208bf607ad87cdee836894feb	libssh-0.7.5.tar.xz
++# Locally calculated after checking signature on uncompressed libssh-0.7.5.tar
++# https://red.libssh.org/attachments/download/217/libssh-0.7.5.tar.asc
++sha256	54e86dd5dc20e5367e58f3caab337ce37675f863f80df85b6b1614966a337095  libssh-0.7.5.tar.xz
+diff -Naurp package/libssh/libssh.mk package-new/libssh/libssh.mk
+--- package/libssh/libssh.mk	2017-09-12 21:38:29.499675586 +0200
++++ package-new/libssh/libssh.mk	2017-12-07 14:12:11.915933799 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBSSH_VERSION = 0.7.3
++LIBSSH_VERSION = 0.7.5
+ LIBSSH_SOURCE = libssh-$(LIBSSH_VERSION).tar.xz
+ LIBSSH_SITE = https://red.libssh.org/attachments/download/195
+ LIBSSH_LICENSE = LGPL-2.1
+diff -Naurp package/libssh2/libssh2.hash package-new/libssh2/libssh2.hash
+--- package/libssh2/libssh2.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libssh2/libssh2.hash	2017-12-07 14:12:11.995933796 +0100
+@@ -1,2 +1,3 @@
+ # Locally calculated after checking pgp signature
+-sha256	e4561fd43a50539a8c2ceb37841691baf03ecb7daf043766da1b112e4280d584	libssh2-1.7.0.tar.gz
++# https://www.libssh2.org/download/libssh2-1.8.0.tar.gz.asc
++sha256	39f34e2f6835f4b992cafe8625073a88e5a28ba78f83e8099610a7b3af4676d4	libssh2-1.8.0.tar.gz
+diff -Naurp package/libssh2/libssh2.mk package-new/libssh2/libssh2.mk
+--- package/libssh2/libssh2.mk	2017-09-12 21:38:27.275675609 +0200
++++ package-new/libssh2/libssh2.mk	2017-12-07 14:12:11.995933796 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBSSH2_VERSION = 1.7.0
++LIBSSH2_VERSION = 1.8.0
+ LIBSSH2_SITE = http://www.libssh2.org/download
+ LIBSSH2_LICENSE = BSD
+ LIBSSH2_LICENSE_FILES = COPYING
+diff -Naurp package/libtasn1/libtasn1.hash package-new/libtasn1/libtasn1.hash
+--- package/libtasn1/libtasn1.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libtasn1/libtasn1.hash	2017-12-07 14:12:12.055933795 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	4f6f7a8fd691ac2b8307c8ca365bad711db607d4ad5966f6938a9d2ecd65c920	libtasn1-4.9.tar.gz
++sha256	6753da2e621257f33f5b051cc114d417e5206a0818fe0b1ecfd6153f70934753	libtasn1-4.12.tar.gz
+diff -Naurp package/libtasn1/libtasn1.mk package-new/libtasn1/libtasn1.mk
+--- package/libtasn1/libtasn1.mk	2017-09-12 21:38:18.719675696 +0200
++++ package-new/libtasn1/libtasn1.mk	2017-12-07 14:12:12.051933795 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBTASN1_VERSION = 4.9
++LIBTASN1_VERSION = 4.12
+ LIBTASN1_SITE = $(BR2_GNU_MIRROR)/libtasn1
+ LIBTASN1_DEPENDENCIES = bison
+ LIBTASN1_LICENSE = GPL-3.0+ (tests, tools), LGPL-2.1+ (library)
+diff -Naurp package/libtirpc/libtirpc.hash package-new/libtirpc/libtirpc.hash
+--- package/libtirpc/libtirpc.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libtirpc/libtirpc.hash	2017-12-07 14:12:12.143933792 +0100
+@@ -1,4 +1,4 @@
+ # From sourceforge's info on download page:
+-sha1   8da1636f98b5909c0d587e7534bc1e91f5c1a970  libtirpc-1.0.1.tar.bz2
++sha1 2a8dc0e6eecc45be6597c8287b1d8e15cbee46e3  libtirpc-1.0.2.tar.bz2
+ # Locally computed
+-sha256 5156974f31be7ccbc8ab1de37c4739af6d9d42c87b1d5caf4835dda75fcbb89e  libtirpc-1.0.1.tar.bz2
++sha256 723c5ce92706cbb601a8db09110df1b4b69391643158f20ff587e20e7c5f90f5  libtirpc-1.0.2.tar.bz2
+diff -Naurp package/libtirpc/libtirpc.mk package-new/libtirpc/libtirpc.mk
+--- package/libtirpc/libtirpc.mk	2017-09-12 21:38:26.059675621 +0200
++++ package-new/libtirpc/libtirpc.mk	2017-12-07 14:12:12.115933793 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBTIRPC_VERSION = 1.0.1
++LIBTIRPC_VERSION = 1.0.2
+ LIBTIRPC_SOURCE = libtirpc-$(LIBTIRPC_VERSION).tar.bz2
+ LIBTIRPC_SITE = http://downloads.sourceforge.net/project/libtirpc/libtirpc/$(LIBTIRPC_VERSION)
+ LIBTIRPC_LICENSE = BSD-3-Clause
+diff -Naurp package/libunwind/libunwind.hash package-new/libunwind/libunwind.hash
+--- package/libunwind/libunwind.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libunwind/libunwind.hash	2017-12-07 14:12:12.203933790 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	9dfe0fcae2a866de9d3942c66995e4b460230446887dbdab302d41a8aee8d09a  libunwind-1.1.tar.gz
++sha256 3f3ecb90e28cbe53fba7a4a27ccce7aad188d3210bb1964a923a731a27a75acb  libunwind-1.2.1.tar.gz
+diff -Naurp package/libunwind/libunwind.mk package-new/libunwind/libunwind.mk
+--- package/libunwind/libunwind.mk	2017-09-12 21:38:25.287675629 +0200
++++ package-new/libunwind/libunwind.mk	2017-12-07 14:12:12.203933790 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBUNWIND_VERSION = 1.1
++LIBUNWIND_VERSION = 1.2.1
+ LIBUNWIND_SITE = http://download.savannah.gnu.org/releases/libunwind
+ LIBUNWIND_INSTALL_STAGING = YES
+ LIBUNWIND_LICENSE_FILES = COPYING
+diff -Naurp package/libuv/libuv.hash package-new/libuv/libuv.hash
+--- package/libuv/libuv.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libuv/libuv.hash	2017-12-07 14:12:12.271933788 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256  6ec7eec6ecc24b1a8ffedebedb2fe9313fffb5410de89aaf784dd01080411c7a  libuv-v1.11.0.tar.gz
++sha256  41ce914a88da21d3b07a76023beca57576ca5b376c6ac440c80bc581cbca1250  libuv-v1.12.0.tar.gz
+diff -Naurp package/libuv/libuv.mk package-new/libuv/libuv.mk
+--- package/libuv/libuv.mk	2017-09-12 21:38:22.927675653 +0200
++++ package-new/libuv/libuv.mk	2017-12-07 14:12:12.267933788 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBUV_VERSION = v1.11.0
++LIBUV_VERSION = v1.12.0
+ LIBUV_SITE = $(call github,libuv,libuv,$(LIBUV_VERSION))
+ LIBUV_DEPENDENCIES = pkgconf
+ LIBUV_INSTALL_STAGING = YES
+diff -Naurp package/libxml2/libxml2.hash package-new/libxml2/libxml2.hash
+--- package/libxml2/libxml2.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/libxml2/libxml2.hash	2017-12-07 14:12:12.339933785 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	ffb911191e509b966deb55de705387f14156e1a56b21824357cdf0053233633c	libxml2-2.9.4.tar.gz
++sha256	4031c1ecee9ce7ba4f313e91ef6284164885cdb69937a123f6a83bb6a72dcd38	libxml2-2.9.5.tar.gz
+diff -Naurp package/libxml2/libxml2.mk package-new/libxml2/libxml2.mk
+--- package/libxml2/libxml2.mk	2017-09-12 21:38:15.863675725 +0200
++++ package-new/libxml2/libxml2.mk	2017-12-07 14:12:12.327933786 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LIBXML2_VERSION = 2.9.4
++LIBXML2_VERSION = 2.9.5
+ LIBXML2_SITE = ftp://xmlsoft.org/libxml2
+ LIBXML2_INSTALL_STAGING = YES
+ LIBXML2_LICENSE = MIT
+diff -Naurp package/ltp-testsuite/ltp-testsuite.hash package-new/ltp-testsuite/ltp-testsuite.hash
+--- package/ltp-testsuite/ltp-testsuite.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/ltp-testsuite/ltp-testsuite.hash	2017-12-07 14:12:12.431933782 +0100
+@@ -1,2 +1,2 @@
+-# From: https://github.com/linux-test-project/ltp/releases/download/20170116/ltp-full-20170116.tar.xz.sha1
+-sha1 b42047fe0d30db9b2c760bd1ab901ecb133835fc  ltp-full-20170116.tar.xz
++# From: https://github.com/linux-test-project/ltp/releases/download/20170516/ltp-full-20170516.tar.xz.sha1
++sha1 bd5210b73b14708c88449089a3a3c64ace3cd22a  ltp-full-20170516.tar.xz
+diff -Naurp package/ltp-testsuite/ltp-testsuite.mk package-new/ltp-testsuite/ltp-testsuite.mk
+--- package/ltp-testsuite/ltp-testsuite.mk	2017-09-12 21:38:23.991675642 +0200
++++ package-new/ltp-testsuite/ltp-testsuite.mk	2017-12-07 14:12:12.407933783 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LTP_TESTSUITE_VERSION = 20170116
++LTP_TESTSUITE_VERSION = 20170516
+ LTP_TESTSUITE_SOURCE = ltp-full-$(LTP_TESTSUITE_VERSION).tar.xz
+ LTP_TESTSUITE_SITE = https://github.com/linux-test-project/ltp/releases/download/$(LTP_TESTSUITE_VERSION)
+ LTP_TESTSUITE_LICENSE = GPL-2.0, GPL-2.0+
+diff -Naurp package/lua-ev/lua-ev.hash package-new/lua-ev/lua-ev.hash
+--- package/lua-ev/lua-ev.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/lua-ev/lua-ev.hash	2017-12-07 14:12:12.527933779 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256 f7f5df5ecfe4bd54797261d1b1bd3f770d39128b7aba72deef6d1d8d8e2b53fe  lua-ev-v1.4.tar.gz
++sha256 4e26e05830955fdd882a1b48b535be94356582eea310327f839f830cd9250d3a  lua-ev-339426fbe528f11cb3cd1af69a88f06bba367981.tar.gz
+diff -Naurp package/lua-ev/lua-ev.mk package-new/lua-ev/lua-ev.mk
+--- package/lua-ev/lua-ev.mk	2017-09-12 21:38:16.751675716 +0200
++++ package-new/lua-ev/lua-ev.mk	2017-12-07 14:12:12.499933780 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LUA_EV_VERSION = v1.4
++LUA_EV_VERSION = 339426fbe528f11cb3cd1af69a88f06bba367981
+ LUA_EV_SITE = $(call github,brimworks,lua-ev,$(LUA_EV_VERSION))
+ LUA_EV_DEPENDENCIES = luainterpreter libev
+ LUA_EV_LICENSE = MIT
+diff -Naurp package/lvm2/lvm2.hash package-new/lvm2/lvm2.hash
+--- package/lvm2/lvm2.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/lvm2/lvm2.hash	2017-12-07 14:12:12.619933776 +0100
+@@ -1,2 +1,2 @@
+ # From ftp://sources.redhat.com/pub/lvm2/releases/sha512.sum
+-sha512 971a40f93db2b18a4b5c04f2b34d48cbcce81e6e3999760a474ddc52e8653317ac4969f402b9c9e12e486772bc27da8d9ca448f0551338b2a62031082a113f7c  LVM2.2.02.170.tgz
++sha512 801adcc2ae483f81edf6bfba73090b6b8f710370e48764f08a62da71d617157075bea01593c2535ad5ba71dcb5e0cfe83cec9a65180a6e8b9e0d214bdee79883  LVM2.2.02.171.tgz
+diff -Naurp package/lvm2/lvm2.mk package-new/lvm2/lvm2.mk
+--- package/lvm2/lvm2.mk	2017-09-12 21:38:28.999675591 +0200
++++ package-new/lvm2/lvm2.mk	2017-12-07 14:12:12.595933777 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-LVM2_VERSION = 2.02.170
++LVM2_VERSION = 2.02.171
+ LVM2_SOURCE = LVM2.$(LVM2_VERSION).tgz
+ LVM2_SITE = ftp://sources.redhat.com/pub/lvm2/releases
+ LVM2_INSTALL_STAGING = YES
+diff -Naurp package/mcelog/mcelog.hash package-new/mcelog/mcelog.hash
+--- package/mcelog/mcelog.hash	1970-01-01 01:00:00.000000000 +0100
++++ package-new/mcelog/mcelog.hash	2017-12-07 14:12:12.679933775 +0100
+@@ -0,0 +1,2 @@
++# Locally computed
++sha256 825644a6cfd9b149e848d91d322724f2fb48f3a98441a25d9d38a5dbe02fe1ef  mcelog-v152.tar.gz
+diff -Naurp package/mcelog/mcelog.mk package-new/mcelog/mcelog.mk
+--- package/mcelog/mcelog.mk	2017-09-12 21:38:28.739675594 +0200
++++ package-new/mcelog/mcelog.mk	2017-12-07 14:12:12.675933775 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-MCELOG_VERSION = v111
++MCELOG_VERSION = v152
+ MCELOG_SITE = $(BR2_KERNEL_MIRROR)/scm/utils/cpu/mce/mcelog.git
+ MCELOG_SITE_METHOD = git
+ MCELOG_LICENSE = GPL-2.0
+diff -Naurp package/mono/mono.hash package-new/mono/mono.hash
+--- package/mono/mono.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/mono/mono.hash	2017-12-07 14:12:12.763933772 +0100
+@@ -1,2 +1,2 @@
+ # sha256 locally computed
+-sha256 8965d107f4ebf4583ba1b50e0dcad39f0dc6adac8df7a083e9c5879ad93c0ea4  mono-4.6.2.16.tar.bz2
++sha256 18cb38a670e51609c36c687ed90ad42cfedabeffd0a2dc5f7f0c46249eb8dbef  mono-4.8.1.0.tar.bz2
+diff -Naurp package/mono/mono.mk package-new/mono/mono.mk
+--- package/mono/mono.mk	2017-09-12 21:38:27.419675607 +0200
++++ package-new/mono/mono.mk	2017-12-07 14:12:12.743933772 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-MONO_VERSION = 4.6.2.16
++MONO_VERSION = 4.8.1.0
+ MONO_SITE = http://download.mono-project.com/sources/mono
+ MONO_SOURCE = mono-$(MONO_VERSION).tar.bz2
+ MONO_LICENSE = GPL-2.0 or MIT (compiler, tools), MIT (libs) or commercial
+diff -Naurp package/nano/nano.hash package-new/nano/nano.hash
+--- package/nano/nano.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/nano/nano.hash	2017-12-07 14:12:12.839933769 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256 e935a8bb373345c833dff3a304c6d392775d206b94c802d9285ae80ac6b66d0b  nano-2.8.1.tar.xz
++sha256 c7cf264f0f3e4af43ecdbc4ec72c3b1e831c69a1a5f6512d5b0c109e6bac7b11  nano-2.8.4.tar.xz
+diff -Naurp package/nano/nano.mk package-new/nano/nano.mk
+--- package/nano/nano.mk	2017-09-12 21:38:20.203675681 +0200
++++ package-new/nano/nano.mk	2017-12-07 14:12:12.827933770 +0100
+@@ -5,7 +5,7 @@
+ ################################################################################
+ 
+ NANO_VERSION_MAJOR = 2.8
+-NANO_VERSION = $(NANO_VERSION_MAJOR).1
++NANO_VERSION = $(NANO_VERSION_MAJOR).4
+ NANO_SITE = https://www.nano-editor.org/dist/v$(NANO_VERSION_MAJOR)
+ NANO_SOURCE = nano-$(NANO_VERSION).tar.xz
+ NANO_LICENSE = GPL-3.0+
+diff -Naurp package/nasm/nasm.hash package-new/nasm/nasm.hash
+--- package/nasm/nasm.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/nasm/nasm.hash	2017-12-07 14:12:12.915933767 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256	4c866b60c0b1c4ebc715205d007b4640ff4e36af637c9a7deb87b2900e544321	nasm-2.12.02.tar.xz
++sha256 aa0213008f0433ecbe07bb628506a5c4be8079be20fc3532a5031fd639db9a5e  nasm-2.13.01.tar.xz
+diff -Naurp package/nasm/nasm.mk package-new/nasm/nasm.mk
+--- package/nasm/nasm.mk	2017-09-12 21:38:16.107675723 +0200
++++ package-new/nasm/nasm.mk	2017-12-07 14:12:12.911933767 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-NASM_VERSION = 2.12.02
++NASM_VERSION = 2.13.01
+ NASM_SOURCE = nasm-$(NASM_VERSION).tar.xz
+ NASM_SITE = http://www.nasm.us/pub/nasm/releasebuilds/$(NASM_VERSION)
+ NASM_LICENSE = BSD-2-Clause
+diff -Naurp package/nodejs/nodejs.hash package-new/nodejs/nodejs.hash
+--- package/nodejs/nodejs.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/nodejs/nodejs.hash	2017-12-07 14:12:13.011933764 +0100
+@@ -1,2 +1,2 @@
+-# From upstream URL: http://nodejs.org/dist/v7.10.0/SHASUMS256.txt
+-sha256  dc34dd15524ba821ffcae7b245eabe8631e2614d5e3cb8ff08fbfdadf5919f21  node-v7.10.0.tar.xz
++# From upstream URL: http://nodejs.org/dist/v8.2.1/SHASUMS256.txt
++sha256  02c46d8914540eea73d0ad33bf9f371a28aa0dc8c5d740948491fef044ad8c8b  node-v8.2.1.tar.xz
+diff -Naurp package/nodejs/nodejs.mk package-new/nodejs/nodejs.mk
+--- package/nodejs/nodejs.mk	2017-09-12 21:38:19.095675692 +0200
++++ package-new/nodejs/nodejs.mk	2017-12-07 14:12:12.983933765 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-NODEJS_VERSION = 7.10.0
++NODEJS_VERSION = 8.2.1
+ NODEJS_SOURCE = node-v$(NODEJS_VERSION).tar.xz
+ NODEJS_SITE = http://nodejs.org/dist/v$(NODEJS_VERSION)
+ NODEJS_DEPENDENCIES = python nodejs zlib \
+diff -Naurp package/openal/openal.hash package-new/openal/openal.hash
+--- package/openal/openal.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/openal/openal.hash	2017-12-07 14:12:13.095933761 +0100
+@@ -1,6 +1,2 @@
+ # Locally calculated
+-sha256	a341f8542f1f0b8c65241a17da13d073f18ec06658e1a1606a8ecc8bbc2b3314	openal-soft-1.17.2.tar.bz2
+-sha256	9c9040269376aba77b1277bbae0f055aee535e14ad4a3ab4e66e39830504e83f	27916ce3db023454a0295ee63ea196fbc246674c.patch
+-sha256	4621f6b79d4bbac5ce423f227c92ad1e4f833d7e1f2ff1cc3b5f03721f75b933	a52cfc804813aef8e4b304e20cf843fa6907af6c.patch
+-sha256	f442da31b4001a5133f2762a5bc1e780b11d5e2d9f21b257f54695ee6d87d997	c3c283a0b5d0130afafaa2a5b6ce6fbc30b6e6a1.patch
+-sha256	3691c1a327b87d5fb487841459fd00d3baaa79808ecb5e3b33b349363663640f	46b3e1d08ca10e809eb2e20b6371812958b97e1f.patch
++sha256	4433b1391c61a7ca36d82c946c8f0ffe410569d6437e4ce72b3547aaf966ecde	openal-soft-1.18.0.tar.bz2
+diff -Naurp package/openal/openal.mk package-new/openal/openal.mk
+--- package/openal/openal.mk	2017-09-12 21:38:17.659675707 +0200
++++ package-new/openal/openal.mk	2017-12-07 14:12:13.079933762 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-OPENAL_VERSION = 1.17.2
++OPENAL_VERSION = 1.18.0
+ OPENAL_SOURCE = openal-soft-$(OPENAL_VERSION).tar.bz2
+ OPENAL_SITE = http://kcat.strangesoft.net/openal-releases
+ OPENAL_PATCH = \
+diff -Naurp package/openldap/openldap.hash package-new/openldap/openldap.hash
+--- package/openldap/openldap.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/openldap/openldap.hash	2017-12-07 14:12:13.183933758 +0100
+@@ -1,4 +1,4 @@
+-# From http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.4.44.md5
+-md5	693ac26de86231f8dcae2b4e9d768e51	openldap-2.4.44.tgz
+-# From http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.4.44.sha1
+-sha1	016a738d050a68d388602a74b5e991035cdba149	openldap-2.4.44.tgz
++# From http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.4.45.md5
++md5 00ff8301277cdfd0af728a6927042a13  openldap-2.4.45.tgz
++# From http://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.4.45.sha1
++sha1 c98437385d3eaee80c9e2c09f3f0d4b7c140233d  openldap-2.4.45.tgz
+diff -Naurp package/openldap/openldap.mk package-new/openldap/openldap.mk
+--- package/openldap/openldap.mk	2017-09-12 21:38:24.107675641 +0200
++++ package-new/openldap/openldap.mk	2017-12-07 14:12:13.163933759 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-OPENLDAP_VERSION = 2.4.44
++OPENLDAP_VERSION = 2.4.45
+ OPENLDAP_SOURCE = openldap-$(OPENLDAP_VERSION).tgz
+ OPENLDAP_SITE = http://www.openldap.org/software/download/OpenLDAP/openldap-release
+ OPENLDAP_LICENSE = OpenLDAP Public License
+diff -Naurp package/openssl/openssl.hash package-new/openssl/openssl.hash
+--- package/openssl/openssl.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/openssl/openssl.hash	2017-12-07 14:12:13.255933756 +0100
+@@ -1,5 +1,5 @@
+-# From https://www.openssl.org/source/openssl-1.0.2k.tar.gz.sha256
+-sha256	6b3977c61f2aedf0f96367dcfb5c6e578cf37e7b8d913b4ecb6643c3cb88d8c0	openssl-1.0.2k.tar.gz
++# From https://www.openssl.org/source/openssl-1.0.2l.tar.gz.sha256
++sha256	ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c	openssl-1.0.2l.tar.gz
+ # Locally computed
+ sha256	eddd8a5123748052c598214487ac178e4bfa4e31ba2ec520c70d59c8c5bfa2e9	openssl-1.0.2a-parallel-install-dirs.patch?id=c8abcbe8de5d3b6cdd68c162f398c011ff6e2d9d
+ sha256	147c3eeaad614c044749ea527cb433eae5e2d5cad34a78c6ba61cd967bfbe01f	openssl-1.0.2a-parallel-obj-headers.patch?id=c8abcbe8de5d3b6cdd68c162f398c011ff6e2d9d
+diff -Naurp package/openssl/openssl.mk package-new/openssl/openssl.mk
+--- package/openssl/openssl.mk	2017-09-12 21:38:22.239675660 +0200
++++ package-new/openssl/openssl.mk	2017-12-07 14:12:13.243933756 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-OPENSSL_VERSION = 1.0.2k
++OPENSSL_VERSION = 1.0.2l
+ OPENSSL_SITE = http://www.openssl.org/source
+ OPENSSL_LICENSE = OpenSSL or SSLeay
+ OPENSSL_LICENSE_FILES = LICENSE
+diff -Naurp package/p7zip/p7zip.hash package-new/p7zip/p7zip.hash
+--- package/p7zip/p7zip.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/p7zip/p7zip.hash	2017-12-07 14:12:13.339933753 +0100
+@@ -1,3 +1,5 @@
+-# From https://sourceforge.net/projects/p7zip/files/p7zip/
+-md5	92cca093312b5a71a7be7dc7d1d32509	p7zip_15.14.1_src_all.tar.bz2
+-sha1	9b15a79f94230fab9b9d4f9f532c723117145c7a	p7zip_15.14.1_src_all.tar.bz2
++# From https://sourceforge.net/projects/p7zip/files/p7zip/16.02/
++md5 a0128d661cfe7cc8c121e73519c54fbf  p7zip_16.02_src_all.tar.bz2
++sha1 e8819907132811aa1afe5ef296181d3a15cc8f22  p7zip_16.02_src_all.tar.bz2
++# Locally computed
++sha256 5eb20ac0e2944f6cb9c2d51dd6c4518941c185347d4089ea89087ffdd6e2341f  p7zip_16.02_src_all.tar.bz2
+diff -Naurp package/p7zip/p7zip.mk package-new/p7zip/p7zip.mk
+--- package/p7zip/p7zip.mk	2017-09-12 21:38:23.631675646 +0200
++++ package-new/p7zip/p7zip.mk	2017-12-07 14:12:13.319933754 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-P7ZIP_VERSION = 15.14.1
++P7ZIP_VERSION = 16.02
+ P7ZIP_SOURCE = p7zip_$(P7ZIP_VERSION)_src_all.tar.bz2
+ P7ZIP_SITE = http://downloads.sourceforge.net/project/p7zip/p7zip/$(P7ZIP_VERSION)
+ P7ZIP_LICENSE = LGPL-2.1+ with unRAR restriction
+diff -Naurp package/parted/parted.hash package-new/parted/parted.hash
+--- package/parted/parted.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/parted/parted.hash	2017-12-07 14:12:13.423933751 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	5e9cc1f91eaf016e5033d85b9b893fd6d3ffaca532a48de1082df9b94225ca15	parted-3.1.tar.xz
++sha256	858b589c22297cacdf437f3baff6f04b333087521ab274f7ab677cb8c6bb78e4  parted-3.2.tar.xz
+diff -Naurp package/parted/parted.mk package-new/parted/parted.mk
+--- package/parted/parted.mk	2017-09-12 21:38:19.235675691 +0200
++++ package-new/parted/parted.mk	2017-12-07 14:12:13.399933752 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PARTED_VERSION = 3.1
++PARTED_VERSION = 3.2
+ PARTED_SOURCE = parted-$(PARTED_VERSION).tar.xz
+ PARTED_SITE = $(BR2_GNU_MIRROR)/parted
+ PARTED_DEPENDENCIES = pkgconf util-linux
+diff -Naurp package/pciutils/pciutils.hash package-new/pciutils/pciutils.hash
+--- package/pciutils/pciutils.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/pciutils/pciutils.hash	2017-12-07 14:12:13.491933749 +0100
+@@ -1,2 +1,2 @@
+ # From https://www.kernel.org/pub/software/utils/pciutils/sha256sums.asc
+-sha256	3a99141a9f40528d0a0035665a06dc37ddb1ae341658e51b50a76ecf86235efc	pciutils-3.5.2.tar.xz
++sha256	1d62f8fa192f90e61c35a6fc15ff3cb9a7a792f782407acc42ef67817c5939f5	pciutils-3.5.5.tar.xz
+diff -Naurp package/pciutils/pciutils.mk package-new/pciutils/pciutils.mk
+--- package/pciutils/pciutils.mk	2017-09-12 21:38:30.123675580 +0200
++++ package-new/pciutils/pciutils.mk	2017-12-07 14:12:13.483933749 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PCIUTILS_VERSION = 3.5.2
++PCIUTILS_VERSION = 3.5.5
+ PCIUTILS_SITE = $(BR2_KERNEL_MIRROR)/software/utils/pciutils
+ PCIUTILS_SOURCE = pciutils-$(PCIUTILS_VERSION).tar.xz
+ PCIUTILS_INSTALL_STAGING = YES
+diff -Naurp package/pcre/pcre.hash package-new/pcre/pcre.hash
+--- package/pcre/pcre.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/pcre/pcre.hash	2017-12-07 14:12:13.555933747 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated after checking pgp signature
+-sha256	00e27a29ead4267e3de8111fcaa59b132d0533cdfdbdddf4b0604279acbcf4f4	pcre-8.40.tar.bz2
++sha256 e62c7eac5ae7c0e7286db61ff82912e1c0b7a0c13706616e94a7dd729321b530  pcre-8.41.tar.bz2
+diff -Naurp package/pcre/pcre.mk package-new/pcre/pcre.mk
+--- package/pcre/pcre.mk	2017-09-12 21:38:29.955675581 +0200
++++ package-new/pcre/pcre.mk	2017-12-07 14:12:13.555933747 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PCRE_VERSION = 8.40
++PCRE_VERSION = 8.41
+ PCRE_SITE = https://ftp.pcre.org/pub/pcre
+ PCRE_SOURCE = pcre-$(PCRE_VERSION).tar.bz2
+ PCRE_LICENSE = BSD-3-Clause
+diff -Naurp package/perl/perl.hash package-new/perl/perl.hash
+--- package/perl/perl.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/perl/perl.hash	2017-12-07 14:12:13.635933744 +0100
+@@ -1,7 +1,7 @@
+-# Hashes from: http://www.cpan.org/src/5.0/perl-5.24.1.tar.xz.{md5,sha1,sha256}.txt
+-md5    af6a84c7c3e2b8b269c105a5db2f6d53                                 perl-5.24.1.tar.xz
+-sha1   5bec25d8821b81a5939ee220997f4c8ab1c13e31                         perl-5.24.1.tar.xz
+-sha256 03a77bac4505c270f1890ece75afc7d4b555090b41aa41ea478747e23b2afb3f perl-5.24.1.tar.xz
++# Hashes from: http://www.cpan.org/src/5.0/perl-5.24.2.tar.xz.{md5,sha1,sha256}.txt
++md5    b7c027975a476dbb9aa7202f760d8eca                                 perl-5.24.2.tar.xz
++sha1   61761989df70b10470bc387050974be72e33217e                         perl-5.24.2.tar.xz
++sha256 b25dd465ef32edf853078eb540b26243db0a3b5e1b1cc84393703d9564be67c0 perl-5.24.2.tar.xz
+ 
+-# Hashes from: http://github.com/arsv/perl-cross/releases/download/1.1.4/perl-cross-1.1.4.hash
+-sha256 c840a327d5464ca271cac40d52e2d199330875527bf1003c28a6e550fb7bcc57 perl-cross-1.1.4.tar.gz
++# Hashes from: http://github.com/arsv/perl-cross/releases/download/1.1.6/perl-cross-1.1.6.hash
++sha256	2b3b88f54d85beb438bd2dddd948e2d89461db5ab6253f01b3c2c9ae3ddc30b4  perl-cross-1.1.6.tar.gz
+diff -Naurp package/protobuf/protobuf.hash package-new/protobuf/protobuf.hash
+--- package/protobuf/protobuf.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/protobuf/protobuf.hash	2017-12-07 14:12:13.707933742 +0100
+@@ -1,3 +1,2 @@
+ # Locally calculated
+-sha256 51d773e4297238b282eaa4c1dd317099675b12eef2b414732b851c00459225c6 protobuf-cpp-3.2.0.tar.gz
+-sha256 da80c39838515913633f4cbd875fdd4ad711be95c83a50ff5096b9f1254033b3 416f90939d4de58fe1a4e2489120010313183291.patch
++sha256 5e2587dea2f9287885e3b04d3a94ed4e8b9b2d2c5dd1f0032ceef3ea1d153bd7 protobuf-cpp-3.3.0.tar.gz
+diff -Naurp package/protobuf/protobuf.mk package-new/protobuf/protobuf.mk
+--- package/protobuf/protobuf.mk	2017-09-12 21:38:24.235675640 +0200
++++ package-new/protobuf/protobuf.mk	2017-12-07 14:12:13.703933742 +0100
+@@ -7,7 +7,7 @@
+ # When bumping this package, make sure to also verify if the
+ # python-protobuf package still works, as they share the same
+ # version/site variables.
+-PROTOBUF_VERSION = 3.2.0
++PROTOBUF_VERSION = 3.3.0
+ PROTOBUF_SOURCE = protobuf-cpp-$(PROTOBUF_VERSION).tar.gz
+ PROTOBUF_SITE = https://github.com/google/protobuf/releases/download/v$(PROTOBUF_VERSION)
+ PROTOBUF_LICENSE = BSD-3-Clause
+diff -Naurp package/psmisc/psmisc.hash package-new/psmisc/psmisc.hash
+--- package/psmisc/psmisc.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/psmisc/psmisc.hash	2017-12-07 14:12:13.763933740 +0100
+@@ -1,3 +1,5 @@
++# From https://sourceforge.net/projects/psmisc/files/psmisc/
++md5 bbba1f701c02fb50d59540d1ff90d8d1 psmisc-23.1.tar.xz
++sha1 d19031a5ba18a530aa0bb768cb74593f9af74b08 psmisc-23.1.tar.xz
+ # Locally computed:
+-sha256  97323cad619210845b696d7d722c383852b2acb5c49b5b0852c4f29c77a8145a  psmisc-22.21.tar.gz
+-sha256  4f1cb11c7182ad96e682ec50a2d9a6a22079a2b11dffde3bb3cb67823b679422  e7203c36a2a4dc10cd8268a5dc036fc9c2a73b6c.diff
++sha256  2e84d474cf75dfbe3ecdacfb797bbfab71a35c7c2639d1b9f6d5f18b2149ba30  psmisc-23.1.tar.xz
+diff -Naurp package/psmisc/psmisc.mk package-new/psmisc/psmisc.mk
+--- package/psmisc/psmisc.mk	2017-09-12 21:38:17.875675705 +0200
++++ package-new/psmisc/psmisc.mk	2017-12-07 14:12:13.763933740 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PSMISC_VERSION = 22.21
++PSMISC_VERSION = 23.1
+ PSMISC_SITE = http://downloads.sourceforge.net/project/psmisc/psmisc
+ PSMISC_PATCH = \
+ 	https://gitlab.com/psmisc/psmisc/commit/e7203c36a2a4dc10cd8268a5dc036fc9c2a73b6c.diff
+diff -Naurp package/python-attrs/python-attrs.hash package-new/python-attrs/python-attrs.hash
+--- package/python-attrs/python-attrs.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-attrs/python-attrs.hash	2017-12-07 14:12:13.839933737 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/attrs/json, sha256 locally computed
+-md5	4ec003c49360853cf935113d1ae56151  attrs-16.3.0.tar.gz
+-sha256	80203177723e36f3bbe15aa8553da6e80d47bfe53647220ccaa9ad7a5e473ccc  attrs-16.3.0.tar.gz
++md5	3b7136a570f3ff8a4ff42e7360073f9f  attrs-17.2.0.tar.gz
++sha256	5d4d1b99f94d69338f485984127e4473b3ab9e20f43821b0e546cc3b2302fd11  attrs-17.2.0.tar.gz
+diff -Naurp package/python-attrs/python-attrs.mk package-new/python-attrs/python-attrs.mk
+--- package/python-attrs/python-attrs.mk	2017-09-12 21:38:17.903675704 +0200
++++ package-new/python-attrs/python-attrs.mk	2017-12-07 14:12:13.819933738 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_ATTRS_VERSION = 16.3.0
++PYTHON_ATTRS_VERSION = 17.2.0
+ PYTHON_ATTRS_SOURCE = attrs-$(PYTHON_ATTRS_VERSION).tar.gz
+ PYTHON_ATTRS_SITE = https://pypi.python.org/packages/01/b0/3ac73bf6df716a38568a16f6a9cbc46cc9e8ed6fe30c8768260030db55d4
+ PYTHON_ATTRS_SETUP_TYPE = setuptools
+diff -Naurp package/python-can/python-can.hash package-new/python-can/python-can.hash
+--- package/python-can/python-can.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-can/python-can.hash	2017-12-07 14:12:13.923933735 +0100
+@@ -1,3 +1,3 @@
+-# md5 from https://pypi.python.org/pypi?:action=show_md5&digest=b9b556fe6f016c0a3b27cc67790cf821, sha256 locally computed
+-md5     b9b556fe6f016c0a3b27cc67790cf821  python-can-1.4.3.tar.gz
+-sha256  2dcd32737cc39fbf39f41521146a9685f594942c99c6183bad7e3c404930198b  python-can-1.4.3.tar.gz
++# md5 from https://pypi.python.org/pypi/python-can/json, sha256 locally computed
++md5     f653aecf8b9034bbba32cc04ca6a7b6d  python-can-1.5.2.tar.gz
++sha256  edabb426e6cd11c2dc7a98980340135aa0eb02143b0d51bf14e3e6178c131cc3  python-can-1.5.2.tar.gz
+diff -Naurp package/python-can/python-can.mk package-new/python-can/python-can.mk
+--- package/python-can/python-can.mk	2017-09-12 21:38:16.831675715 +0200
++++ package-new/python-can/python-can.mk	2017-12-07 14:12:13.899933736 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_CAN_VERSION = 1.4.3
++PYTHON_CAN_VERSION = 1.5.2
+ PYTHON_CAN_SITE = https://pypi.python.org/packages/source/p/python-can
+ PYTHON_CAN_LICENSE = LGPL-3.0
+ PYTHON_CAN_LICENSE_FILES = LICENSE.txt
+diff -Naurp package/python-certifi/python-certifi.hash package-new/python-certifi/python-certifi.hash
+--- package/python-certifi/python-certifi.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-certifi/python-certifi.hash	2017-12-07 14:12:13.983933733 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/certifi/json, sha256 locally computed
+-md5 b72521a8badff5e89a8eabea586d79ab certifi-2017.1.23.tar.gz
+-sha256 81877fb7ac126e9215dfb15bfef7115fdc30e798e0013065158eed0707fd99ce certifi-2017.1.23.tar.gz
++md5	db40445044feda1437ce3ccd5fc28a57  certifi-2017.4.17.tar.gz
++sha256	f7527ebf7461582ce95f7a9e03dd141ce810d40590834f4ec20cddd54234c10a  certifi-2017.4.17.tar.gz
+diff -Naurp package/python-certifi/python-certifi.mk package-new/python-certifi/python-certifi.mk
+--- package/python-certifi/python-certifi.mk	2017-09-12 21:38:17.655675707 +0200
++++ package-new/python-certifi/python-certifi.mk	2017-12-07 14:12:13.979933733 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_CERTIFI_VERSION = 2017.1.23
++PYTHON_CERTIFI_VERSION = 2017.4.17
+ PYTHON_CERTIFI_SOURCE = certifi-$(PYTHON_CERTIFI_VERSION).tar.gz
+ PYTHON_CERTIFI_SITE = https://pypi.python.org/packages/b6/fa/ca682d5ace0700008d246664e50db8d095d23750bb212c0086305450c276
+ PYTHON_CERTIFI_SETUP_TYPE = setuptools
+diff -Naurp package/python-cffi/python-cffi.hash package-new/python-cffi/python-cffi.hash
+--- package/python-cffi/python-cffi.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-cffi/python-cffi.hash	2017-12-07 14:12:14.051933731 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/cffi/json, sha256 locally computed
+-md5 b8fa7ccb87790531db3316ab17aa8244 cffi-1.9.1.tar.gz
+-sha256 563e0bd53fda03c151573217b3a49b3abad8813de9dd0632e10090f6190fdaf8 cffi-1.9.1.tar.gz
++md5 2b5fa41182ed0edaf929a789e602a070 cffi-1.10.0.tar.gz
++sha256 b3b02911eb1f6ada203b0763ba924234629b51586f72a21faacc638269f4ced5 cffi-1.10.0.tar.gz
+diff -Naurp package/python-cffi/python-cffi.mk package-new/python-cffi/python-cffi.mk
+--- package/python-cffi/python-cffi.mk	2017-09-12 21:38:28.303675598 +0200
++++ package-new/python-cffi/python-cffi.mk	2017-12-07 14:12:14.047933731 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_CFFI_VERSION = 1.9.1
++PYTHON_CFFI_VERSION = 1.10.0
+ PYTHON_CFFI_SOURCE = cffi-$(PYTHON_CFFI_VERSION).tar.gz
+ PYTHON_CFFI_SITE = https://pypi.python.org/packages/a1/32/e3d6c3a8b5461b903651dd6ce958ed03c093d2e00128e3f33ea69f1d7965
+ PYTHON_CFFI_SETUP_TYPE = setuptools
+diff -Naurp package/python-chardet/python-chardet.hash package-new/python-chardet/python-chardet.hash
+--- package/python-chardet/python-chardet.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-chardet/python-chardet.hash	2017-12-07 14:12:14.115933729 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/chardet/json, sha256 locally computed
+-md5	25274d664ccb5130adae08047416e1a8  chardet-2.3.0.tar.gz
+-sha256	e53e38b3a4afe6d1132de62b7400a4ac363452dc5dfcf8d88e8e0cce663c68aa  chardet-2.3.0.tar.gz
++md5	7dd1ba7f9c77e32351b0a0cfacf4055c  chardet-3.0.4.tar.gz
++sha256	84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae  chardet-3.0.4.tar.gz
+diff -Naurp package/python-chardet/python-chardet.mk package-new/python-chardet/python-chardet.mk
+--- package/python-chardet/python-chardet.mk	2017-09-12 21:38:29.575675585 +0200
++++ package-new/python-chardet/python-chardet.mk	2017-12-07 14:12:14.111933729 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_CHARDET_VERSION = 2.3.0
++PYTHON_CHARDET_VERSION = 3.0.4
+ PYTHON_CHARDET_SOURCE = chardet-$(PYTHON_CHARDET_VERSION).tar.gz
+ PYTHON_CHARDET_SITE = https://pypi.python.org/packages/7d/87/4e3a3f38b2f5c578ce44f8dc2aa053217de9f0b6d737739b0ddac38ed237
+ PYTHON_CHARDET_SETUP_TYPE = setuptools
+diff -Naurp package/python-cherrypy/python-cherrypy.hash package-new/python-cherrypy/python-cherrypy.hash
+--- package/python-cherrypy/python-cherrypy.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-cherrypy/python-cherrypy.hash	2017-12-07 14:12:14.179933727 +0100
+@@ -1,3 +1,3 @@
+-# md5 from https://pypi.python.org/pypi?:action=show_md5&digest=4b765329b0b4b65ec25811e3febb6c93, sha256 locally computed
+-md5	4b765329b0b4b65ec25811e3febb6c93  CherryPy-4.0.0.tar.gz
+-sha256	73ad4f8870b5a3e9988a7778b5d3003a390d440527ec3458a0c7e58865d2611a  CherryPy-4.0.0.tar.gz
++# md5 from https://pypi.python.org/pypi/CherryPy/json, sha256 locally computed
++md5	105cbcd4f7cd139ab4107f1b0e39afe3  CherryPy-10.2.2.tar.gz
++sha256	32d93334df765c7fd5d22815ab643333e850f0cc4f6d51fee62a68f23eea8ff8  CherryPy-10.2.2.tar.gz
+diff -Naurp package/python-cherrypy/python-cherrypy.mk package-new/python-cherrypy/python-cherrypy.mk
+--- package/python-cherrypy/python-cherrypy.mk	2017-09-12 21:38:29.071675591 +0200
++++ package-new/python-cherrypy/python-cherrypy.mk	2017-12-07 14:12:14.179933727 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_CHERRYPY_VERSION = 4.0.0
++PYTHON_CHERRYPY_VERSION = 10.2.2
+ PYTHON_CHERRYPY_SOURCE = CherryPy-$(PYTHON_CHERRYPY_VERSION).tar.gz
+ PYTHON_CHERRYPY_SITE = http://pypi.python.org/packages/source/C/CherryPy
+ PYTHON_CHERRYPY_LICENSE = BSD-3-Clause
+diff -Naurp package/python-coherence/python-coherence.hash package-new/python-coherence/python-coherence.hash
+--- package/python-coherence/python-coherence.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-coherence/python-coherence.hash	2017-12-07 14:12:14.247933724 +0100
+@@ -1,2 +1,2 @@
+ # Locally computed:
+-sha256  fd5a2db9661994a57232ace4a90d259b6554c43b8bf5bfbf8ec2518c03627922  python-coherence-0.6.6.2.tar.gz
++sha256  97c8b700b3fe73d48eacb259008f410d6567e5d7d1b8e96386f8cc2422135ca5  python-coherence-b7856985fd496689ca1f9024925ae737297c00d1.tar.gz
+diff -Naurp package/python-coherence/python-coherence.mk package-new/python-coherence/python-coherence.mk
+--- package/python-coherence/python-coherence.mk	2017-09-12 21:38:27.471675607 +0200
++++ package-new/python-coherence/python-coherence.mk	2017-12-07 14:12:14.243933724 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_COHERENCE_VERSION = 0.6.6.2
++PYTHON_COHERENCE_VERSION = b7856985fd496689ca1f9024925ae737297c00d1
+ PYTHON_COHERENCE_SITE = $(call github,coherence-project,Coherence,Coherence-$(PYTHON_COHERENCE_VERSION))
+ PYTHON_COHERENCE_SETUP_TYPE = setuptools
+ PYTHON_COHERENCE_LICENSE = MIT
+diff -Naurp package/python-dataproperty/python-dataproperty.hash package-new/python-dataproperty/python-dataproperty.hash
+--- package/python-dataproperty/python-dataproperty.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-dataproperty/python-dataproperty.hash	2017-12-07 14:12:14.315933722 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/dataproperty/json, sha256 locally computed
+-md5 70199d3e6e021810d0d3b4a42c37916f  DataProperty-0.18.1.tar.gz
+-sha256 950131bd9fb874be606835e5f4a84d99f505d919aed94145932ec010190c7c66  DataProperty-0.18.1.tar.gz
++md5 cdc032e071164aaf31ab3e2b76cd4a1b  DataProperty-0.23.0.tar.gz
++sha256 be42eba1febaab6e37f5e07d558d87bb79e46092dce7deb2934d788d48e80e82  DataProperty-0.23.0.tar.gz
+diff -Naurp package/python-dataproperty/python-dataproperty.mk package-new/python-dataproperty/python-dataproperty.mk
+--- package/python-dataproperty/python-dataproperty.mk	2017-09-12 21:38:16.895675715 +0200
++++ package-new/python-dataproperty/python-dataproperty.mk	2017-12-07 14:12:14.303933723 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_DATAPROPERTY_VERSION = 0.18.1
++PYTHON_DATAPROPERTY_VERSION = 0.23.0
+ PYTHON_DATAPROPERTY_SOURCE = DataProperty-$(PYTHON_DATAPROPERTY_VERSION).tar.gz
+ PYTHON_DATAPROPERTY_SITE = https://pypi.python.org/packages/42/b6/591366869e9fc7b19420ca4c177727f25dcccc07a46cecbda8d6abffa866
+ PYTHON_DATAPROPERTY_SETUP_TYPE = setuptools
+diff -Naurp package/python-flask/python-flask.hash package-new/python-flask/python-flask.hash
+--- package/python-flask/python-flask.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-flask/python-flask.hash	2017-12-07 14:12:14.411933719 +0100
+@@ -1,3 +1,3 @@
+-# md5 from https://pypi.python.org/pypi/flask/json, sha256 locally computed
+-md5	c1d30f51cff4a38f9454b23328a15c5a  Flask-0.12.tar.gz
+-sha256	93e803cdbe326a61ebd5c5d353959397c85f829bec610d59cb635c9f97d7ca8b  Flask-0.12.tar.gz
++# md5 from https://pypi.python.org/pypi/Flask/json, sha256 locally computed
++md5	97278dfdafda98ba7902e890b0289177  Flask-0.12.2.tar.gz
++sha256	49f44461237b69ecd901cc7ce66feea0319b9158743dd27a2899962ab214dac1  Flask-0.12.2.tar.gz
+diff -Naurp package/python-flask/python-flask.mk package-new/python-flask/python-flask.mk
+--- package/python-flask/python-flask.mk	2017-09-12 21:38:28.235675599 +0200
++++ package-new/python-flask/python-flask.mk	2017-12-07 14:12:14.387933720 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_FLASK_VERSION = 0.12
++PYTHON_FLASK_VERSION = 0.12.2
+ PYTHON_FLASK_SOURCE = Flask-$(PYTHON_FLASK_VERSION).tar.gz
+ PYTHON_FLASK_SITE = https://pypi.python.org/packages/4b/3a/4c20183df155dd2e39168e35d53a388efb384a512ca6c73001d8292c094a
+ PYTHON_FLASK_SETUP_TYPE = setuptools
+diff -Naurp package/python-idna/python-idna.hash package-new/python-idna/python-idna.hash
+--- package/python-idna/python-idna.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-idna/python-idna.hash	2017-12-07 14:12:14.503933716 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/idna/json, sha256 locally computed
+-md5 e2d3f8a45d3d048a653eb186896e9e3e idna-2.2.tar.gz
+-sha256 0ac27740937d86850010e035c6a10a564158a5accddf1aa24df89b0309252426 idna-2.2.tar.gz
++md5 fc1d992bef73e8824db411bb5d21f012 idna-2.5.tar.gz
++sha256 3cb5ce08046c4e3a560fc02f138d0ac63e00f8ce5901a56b32ec8b7994082aab idna-2.5.tar.gz
+diff -Naurp package/python-idna/python-idna.mk package-new/python-idna/python-idna.mk
+--- package/python-idna/python-idna.mk	2017-09-12 21:38:28.931675592 +0200
++++ package-new/python-idna/python-idna.mk	2017-12-07 14:12:14.467933717 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_IDNA_VERSION = 2.2
++PYTHON_IDNA_VERSION = 2.5
+ PYTHON_IDNA_SOURCE = idna-$(PYTHON_IDNA_VERSION).tar.gz
+ PYTHON_IDNA_SITE = https://pypi.python.org/packages/94/fe/efb1cb6f505e1a560b3d080ae6b9fddc11e7c542d694ce4635c49b1ccdcb
+ PYTHON_IDNA_LICENSE =  BSD-3-Clause
+diff -Naurp package/python-ipython/python-ipython.hash package-new/python-ipython/python-ipython.hash
+--- package/python-ipython/python-ipython.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-ipython/python-ipython.hash	2017-12-07 14:12:14.583933714 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/ipython/json, sha256 locally computed
+-md5 19e4a46ec7d7a32d068de4c253c9b459 ipython-5.2.2.tar.gz
+-sha256 6ee1c89f6031e0c86727820ad394c6eb4d3ac28de48e0df3b9367ccf92e212e2 ipython-5.2.2.tar.gz
++md5 d8cc938f46801060239184a35ec9c5a6 ipython-5.4.0.tar.gz
++sha256 6907826c427c917bf0cdab71ee728288b1f1975c4b94b3ed608b67db3183c974 ipython-5.4.0.tar.gz
+diff -Naurp package/python-ipython/python-ipython.mk package-new/python-ipython/python-ipython.mk
+--- package/python-ipython/python-ipython.mk	2017-09-12 21:38:24.003675642 +0200
++++ package-new/python-ipython/python-ipython.mk	2017-12-07 14:12:14.563933714 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_IPYTHON_VERSION = 5.2.2
++PYTHON_IPYTHON_VERSION = 5.4.0
+ PYTHON_IPYTHON_SOURCE = ipython-$(PYTHON_IPYTHON_VERSION).tar.gz
+ PYTHON_IPYTHON_SITE = https://pypi.python.org/packages/6e/cf/c2a3ca5942e2d8084574157a8f818efafb7218204cd9e41166c92c452e07
+ PYTHON_IPYTHON_LICENSE = BSD-3-Clause
+diff -Naurp package/python-markupsafe/python-markupsafe.hash package-new/python-markupsafe/python-markupsafe.hash
+--- package/python-markupsafe/python-markupsafe.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-markupsafe/python-markupsafe.hash	2017-12-07 14:12:14.663933711 +0100
+@@ -1,3 +1,3 @@
+-# md5 from https://pypi.python.org/pypi?:action=show_md5&digest=f5ab3deee4c37cd6a922fb81e730da6e, sha256 locally computed
+-md5	f5ab3deee4c37cd6a922fb81e730da6e  MarkupSafe-0.23.tar.gz
+-sha256	a4ec1aff59b95a14b45eb2e23761a0179e98319da5a7eb76b56ea8cdc7b871c3  MarkupSafe-0.23.tar.gz
++# md5 from https://pypi.python.org/pypi/markupsafe/json, sha256 locally computed
++md5	2fcedc9284d50e577b5192e8e3578355  MarkupSafe-1.0.tar.gz
++sha256	a6be69091dac236ea9c6bc7d012beab42010fa914c459791d627dad4910eb665  MarkupSafe-1.0.tar.gz
+diff -Naurp package/python-markupsafe/python-markupsafe.mk package-new/python-markupsafe/python-markupsafe.mk
+--- package/python-markupsafe/python-markupsafe.mk	2017-09-12 21:38:16.591675718 +0200
++++ package-new/python-markupsafe/python-markupsafe.mk	2017-12-07 14:12:14.643933712 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_MARKUPSAFE_VERSION = 0.23
++PYTHON_MARKUPSAFE_VERSION = 1.0
+ PYTHON_MARKUPSAFE_SOURCE = MarkupSafe-$(PYTHON_MARKUPSAFE_VERSION).tar.gz
+ PYTHON_MARKUPSAFE_SITE = http://pypi.python.org/packages/source/M/MarkupSafe
+ PYTHON_MARKUPSAFE_SETUP_TYPE = setuptools
+diff -Naurp package/python-paramiko/python-paramiko.hash package-new/python-paramiko/python-paramiko.hash
+--- package/python-paramiko/python-paramiko.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-paramiko/python-paramiko.hash	2017-12-07 14:12:14.727933709 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/paramiko/json, sha256 locally computed
+-md5	9e8abe635baa6bb75a4cd55dcb56a264  paramiko-2.1.1.tar.gz
+-sha256	d51dada7ad0736c116f8bfe3263627925947e4a50e61436a83d58bfe7055b575  paramiko-2.1.1.tar.gz
++md5	d44932891b1ce4bfd3e9e9e06c90395d  paramiko-2.2.0.tar.gz
++sha256	24b6cdb42eedb50f3b9d994ab0ca63e74db57555346e97c6e4b8c2ab51cdfd81  paramiko-2.2.0.tar.gz
+diff -Naurp package/python-paramiko/python-paramiko.mk package-new/python-paramiko/python-paramiko.mk
+--- package/python-paramiko/python-paramiko.mk	2017-09-12 21:38:22.111675662 +0200
++++ package-new/python-paramiko/python-paramiko.mk	2017-12-07 14:12:14.723933709 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_PARAMIKO_VERSION = 2.1.1
++PYTHON_PARAMIKO_VERSION = 2.2.0
+ PYTHON_PARAMIKO_SOURCE = paramiko-$(PYTHON_PARAMIKO_VERSION).tar.gz
+ PYTHON_PARAMIKO_SITE = https://pypi.python.org/packages/d1/5a/ebd00d884f30baf208359a027eb7b38372d81d0c004724bb1aa71ae43b37
+ PYTHON_PARAMIKO_SETUP_TYPE = setuptools
+diff -Naurp package/python-pathpy/python-pathpy.hash package-new/python-pathpy/python-pathpy.hash
+--- package/python-pathpy/python-pathpy.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-pathpy/python-pathpy.hash	2017-12-07 14:12:14.803933707 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/path.py/json, sha256 locally computed
+-md5	eb8469ad498d2e462bff8f3b2b5ea68d  path.py-10.0.tar.gz
+-sha256	ba984a2b536158a8841dd33150fce16bcf04210e83f92da674cad0a8a8f61e00  path.py-10.0.tar.gz
++md5	9c130bc6c1fd04365a3dac010f07b8f2  path.py-10.3.1.tar.gz
++sha256	412706be1cd8ab723c77829f9aa0c4d4b7c7b26c7b1be0275a6841c3cb1001e0  path.py-10.3.1.tar.gz
+diff -Naurp package/python-pathpy/python-pathpy.mk package-new/python-pathpy/python-pathpy.mk
+--- package/python-pathpy/python-pathpy.mk	2017-09-12 21:38:23.879675643 +0200
++++ package-new/python-pathpy/python-pathpy.mk	2017-12-07 14:12:14.779933707 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_PATHPY_VERSION = 10.0
++PYTHON_PATHPY_VERSION = 10.3.1
+ PYTHON_PATHPY_SOURCE = path.py-$(PYTHON_PATHPY_VERSION).tar.gz
+ PYTHON_PATHPY_SITE = https://pypi.python.org/packages/f3/4e/3bce93c0d9e20abc6ed3aa7866beb688e889828ca2666743df11d9a30050
+ PYTHON_PATHPY_SETUP_TYPE = setuptools
+diff -Naurp package/python-pathvalidate/python-pathvalidate.hash package-new/python-pathvalidate/python-pathvalidate.hash
+--- package/python-pathvalidate/python-pathvalidate.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-pathvalidate/python-pathvalidate.hash	2017-12-07 14:12:14.867933705 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/pathvalidate/json, sha256 locally computed
+-md5 869d111f587836920f5ae36751d422fc  pathvalidate-0.15.0.tar.gz
+-sha256 5d0bb777b4a6b95426d4a4ac47dcf6a2c8173a78b4019e94b8e8a0d59b0095ed  pathvalidate-0.15.0.tar.gz
++md5	fa119fcdbc744dc3a9de11185437992c  pathvalidate-0.16.0.tar.gz
++sha256	81c665a16e41203dc7698caf4f7ee15b7da97e36368e30e76e76e968ce77f468  pathvalidate-0.16.0.tar.gz
+diff -Naurp package/python-pathvalidate/python-pathvalidate.mk package-new/python-pathvalidate/python-pathvalidate.mk
+--- package/python-pathvalidate/python-pathvalidate.mk	2017-09-12 21:38:28.227675599 +0200
++++ package-new/python-pathvalidate/python-pathvalidate.mk	2017-12-07 14:12:14.867933705 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_PATHVALIDATE_VERSION = 0.15.0
++PYTHON_PATHVALIDATE_VERSION = 0.16.0
+ PYTHON_PATHVALIDATE_SOURCE = pathvalidate-$(PYTHON_PATHVALIDATE_VERSION).tar.gz
+ PYTHON_PATHVALIDATE_SITE = https://pypi.python.org/packages/a6/7b/2c3026ead121829ed27eba4fba7b4cd6ec8c210f76b0601119a915918f6c
+ PYTHON_PATHVALIDATE_SETUP_TYPE = setuptools
+diff -Naurp package/python-pillow/python-pillow.hash package-new/python-pillow/python-pillow.hash
+--- package/python-pillow/python-pillow.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-pillow/python-pillow.hash	2017-12-07 14:12:14.955933702 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/pillow/json, sha256 locally computed
+-md5 d040e1155b4d9d8b011aab67ee0ea86b  Pillow-4.1.0.tar.gz
+-sha256 a0fd487fed4a35717401b7566e51a1520b34e7c0f7f2a315a6509f82bc86299f  Pillow-4.1.0.tar.gz
++md5 f2565954955c8d10f3b4f1f72f852bf7  Pillow-4.1.1.tar.gz
++sha256 00b6a5f28d00f720235a937ebc2f50f4292a5c7e2d6ab9a8b26153b625c4f431  Pillow-4.1.1.tar.gz
+diff -Naurp package/python-pillow/python-pillow.mk package-new/python-pillow/python-pillow.mk
+--- package/python-pillow/python-pillow.mk	2017-09-12 21:38:23.511675647 +0200
++++ package-new/python-pillow/python-pillow.mk	2017-12-07 14:12:14.927933703 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_PILLOW_VERSION = 4.1.0
++PYTHON_PILLOW_VERSION = 4.1.1
+ PYTHON_PILLOW_SOURCE = Pillow-$(PYTHON_PILLOW_VERSION).tar.gz
+ PYTHON_PILLOW_SITE = https://pypi.python.org/packages/80/38/5cb561c68155834c596018c47caa44da88ed34b09579b921c0e493fb06c7
+ PYTHON_PILLOW_LICENSE = PIL Software License
+diff -Naurp package/python-pyicu/python-pyicu.hash package-new/python-pyicu/python-pyicu.hash
+--- package/python-pyicu/python-pyicu.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-pyicu/python-pyicu.hash	2017-12-07 14:12:15.015933700 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/PyICU/json, sha256 locally computed
+-md5	30f85b7272f15b26c110c9f3e3a9e7a0  PyICU-1.9.5.tar.gz
+-sha256	73b052b800861fae3281dbaf9c92d12a81cabf3d31912d94c51862e093ef359b  PyICU-1.9.5.tar.gz
++md5 7656f5cc53a7c18b40e653d6eefdee14   PyICU-1.9.7.tar.gz
++sha256 db27cd1cc150b879c5465872bec7fdaf340eca140aa922be03891d5b9f855b61  PyICU-1.9.7.tar.gz
+diff -Naurp package/python-pyicu/python-pyicu.mk package-new/python-pyicu/python-pyicu.mk
+--- package/python-pyicu/python-pyicu.mk	2017-09-12 21:38:23.647675646 +0200
++++ package-new/python-pyicu/python-pyicu.mk	2017-12-07 14:12:15.015933700 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_PYICU_VERSION = 1.9.5
++PYTHON_PYICU_VERSION = 1.9.7
+ PYTHON_PYICU_SOURCE = PyICU-$(PYTHON_PYICU_VERSION).tar.gz
+ PYTHON_PYICU_SITE = https://pypi.python.org/packages/a2/9f/1947f288143191b903e58633ee597cb98bc284de28dafb1231b6f8b67b99
+ PYTHON_PYICU_LICENSE = MIT
+diff -Naurp package/python-pyparted/python-pyparted.hash package-new/python-pyparted/python-pyparted.hash
+--- package/python-pyparted/python-pyparted.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-pyparted/python-pyparted.hash	2017-12-07 14:12:15.099933697 +0100
+@@ -1,2 +1,2 @@
+ # Locally computed
+-sha256  5914e3a60437fe3e3758a9e86ee4a539dfa46cfe18e3df386a5cf1f75a963431  python-pyparted-v3.10.7.tar.gz
++sha256  a9ec181bf3c7c0635862413fc86cb0950b5af957541535f530ea86a0f9d14e73  python-pyparted-v3.11.0.tar.gz
+diff -Naurp package/python-pyparted/python-pyparted.mk package-new/python-pyparted/python-pyparted.mk
+--- package/python-pyparted/python-pyparted.mk	2017-09-12 21:38:29.423675587 +0200
++++ package-new/python-pyparted/python-pyparted.mk	2017-12-07 14:12:15.075933698 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_PYPARTED_VERSION = v3.10.7
++PYTHON_PYPARTED_VERSION = v3.11.0
+ PYTHON_PYPARTED_SITE = $(call github,rhinstaller,pyparted,$(PYTHON_PYPARTED_VERSION))
+ PYTHON_PYPARTED_SETUP_TYPE = distutils
+ PYTHON_PYPARTED_LICENSE = GPL-2.0+
+diff -Naurp package/python-pysocks/python-pysocks.hash package-new/python-pysocks/python-pysocks.hash
+--- package/python-pysocks/python-pysocks.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-pysocks/python-pysocks.hash	2017-12-07 14:12:15.191933694 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/pysocks/json, sha256 locally computed
+-md5 571f4c23982fa86bf0e7a441f1b6c881 PySocks-1.6.6.tar.gz
+-sha256 02419a225ff5dcfc3c9695ef8fc9b4d8cc99658e650c6d4718d4c8f451e63f41 PySocks-1.6.6.tar.gz
++md5  07007ec7ed46292dab06013f2e3af365  PySocks-1.6.7.tar.gz
++sha256  d00329f27efa157db7efe3ca26fcd69033cd61f83822461ee3f8a353b48e33cf  PySocks-1.6.7.tar.gz
+diff -Naurp package/python-pysocks/python-pysocks.mk package-new/python-pysocks/python-pysocks.mk
+--- package/python-pysocks/python-pysocks.mk	2017-09-12 21:38:23.179675651 +0200
++++ package-new/python-pysocks/python-pysocks.mk	2017-12-07 14:12:15.167933695 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_PYSOCKS_VERSION = 1.6.6
++PYTHON_PYSOCKS_VERSION = 1.6.7
+ PYTHON_PYSOCKS_SOURCE = PySocks-$(PYTHON_PYSOCKS_VERSION).tar.gz
+ PYTHON_PYSOCKS_SITE = https://pypi.python.org/packages/fd/70/ba9982cedc9b3ed3c06934f1f46a609e0f23c7bfdf567c52a09f1296b8cb
+ PYTHON_PYSOCKS_LICENSE = BSD-3-Clause
+diff -Naurp package/python-pytablewriter/python-pytablewriter.hash package-new/python-pytablewriter/python-pytablewriter.hash
+--- package/python-pytablewriter/python-pytablewriter.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-pytablewriter/python-pytablewriter.hash	2017-12-07 14:12:15.263933692 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/pytablewriter/json, sha256 locally computed
+-md5 c63d4d14836ae291e11448219abdf348  pytablewriter-0.17.2.tar.gz
+-sha256 629ecb7bfe3fb033427e02e0291270d13ff14bfc4caf2cac66b797ac5aea5fd1  pytablewriter-0.17.2.tar.gz
++md5 f45f065cad97c00aaeb72db6768ff6e5  pytablewriter-0.19.9.tar.gz
++sha256 00f657b656267945d565488f1676d91f22d90748a0a06dd94d513a551e4c12d9  pytablewriter-0.19.9.tar.gz
+diff -Naurp package/python-pytablewriter/python-pytablewriter.mk package-new/python-pytablewriter/python-pytablewriter.mk
+--- package/python-pytablewriter/python-pytablewriter.mk	2017-09-12 21:38:24.167675641 +0200
++++ package-new/python-pytablewriter/python-pytablewriter.mk	2017-12-07 14:12:15.247933692 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_PYTABLEWRITER_VERSION = 0.17.2
++PYTHON_PYTABLEWRITER_VERSION = 0.19.9
+ PYTHON_PYTABLEWRITER_SOURCE = pytablewriter-$(PYTHON_PYTABLEWRITER_VERSION).tar.gz
+ PYTHON_PYTABLEWRITER_SITE = https://pypi.python.org/packages/47/5c/cbfed107164e56a6739d52694c4c584635970d6621b7e531464e89534956
+ PYTHON_PYTABLEWRITER_SETUP_TYPE = setuptools
+diff -Naurp package/python-requests/python-requests.hash package-new/python-requests/python-requests.hash
+--- package/python-requests/python-requests.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-requests/python-requests.hash	2017-12-07 14:12:15.335933690 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/requests/json, sha256 locally computed
+-md5 921ec6b48f2ddafc8bb6160957baf444 requests-2.13.0.tar.gz
+-sha256 5722cd09762faa01276230270ff16af7acf7c5c45d623868d9ba116f15791ce8 requests-2.13.0.tar.gz
++md5	40f723ed01dddeaf990d0609d073f021  requests-2.18.1.tar.gz
++sha256	c6f3bdf4a4323ac7b45d01e04a6f6c20e32a052cd04de81e05103abc049ad9b9  requests-2.18.1.tar.gz
+diff -Naurp package/python-requests/python-requests.mk package-new/python-requests/python-requests.mk
+--- package/python-requests/python-requests.mk	2017-09-12 21:38:29.107675590 +0200
++++ package-new/python-requests/python-requests.mk	2017-12-07 14:12:15.335933690 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_REQUESTS_VERSION = 2.13.0
++PYTHON_REQUESTS_VERSION = 2.18.1
+ PYTHON_REQUESTS_SOURCE = requests-$(PYTHON_REQUESTS_VERSION).tar.gz
+ PYTHON_REQUESTS_SITE = https://pypi.python.org/packages/16/09/37b69de7c924d318e51ece1c4ceb679bf93be9d05973bb30c35babd596e2
+ PYTHON_REQUESTS_SETUP_TYPE = setuptools
+diff -Naurp package/python-service-identity/python-service-identity.hash package-new/python-service-identity/python-service-identity.hash
+--- package/python-service-identity/python-service-identity.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-service-identity/python-service-identity.hash	2017-12-07 14:12:15.419933687 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/service_identity/json, sha256 locally computed
+-md5	d52392597b9c44a740abf322bfdb21e6  service_identity-16.0.0.tar.gz
+-sha256	0630e222f59f91f3db498be46b1d879ff220955d7bbad719a5cb9ad14e3c3036  service_identity-16.0.0.tar.gz
++md5 f509cb41ca2f8420bd8496291136d6cc  service_identity-17.0.0.tar.gz
++sha256 4001fbb3da19e0df22c47a06d29681a398473af4aa9d745eca525b3b2c2302ab  service_identity-17.0.0.tar.gz
+diff -Naurp package/python-service-identity/python-service-identity.mk package-new/python-service-identity/python-service-identity.mk
+--- package/python-service-identity/python-service-identity.mk	2017-09-12 21:38:28.347675598 +0200
++++ package-new/python-service-identity/python-service-identity.mk	2017-12-07 14:12:15.395933688 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_SERVICE_IDENTITY_VERSION = 16.0.0
++PYTHON_SERVICE_IDENTITY_VERSION = 17.0.0
+ PYTHON_SERVICE_IDENTITY_SOURCE = service_identity-$(PYTHON_SERVICE_IDENTITY_VERSION).tar.gz
+ PYTHON_SERVICE_IDENTITY_SITE = https://pypi.python.org/packages/f3/2a/7c04e7ab74f9f2be026745a9ffa81fd9d56139fa6f5f4b4c8a8c07b2bfba
+ PYTHON_SERVICE_IDENTITY_LICENSE = MIT
+diff -Naurp package/python-setuptools/python-setuptools.hash package-new/python-setuptools/python-setuptools.hash
+--- package/python-setuptools/python-setuptools.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-setuptools/python-setuptools.hash	2017-12-07 14:12:15.479933685 +0100
+@@ -1,4 +1,2 @@
+-# From https://pypi.python.org/pypi/setuptools/18.7.1
+-md5 a0984da9cd8d7b582e1fd7de67dfdbcc setuptools-18.7.1.tar.gz
+ # Locally calculated
+-sha256  aff36c95035e0b311eacb1434e3f7e85f5ccaad477773847e582978f8f45bd74  setuptools-18.7.1.tar.gz
++sha256  99339ac1b4c9bc0a74745d6ff196a207ddfb5f7ca75df76f3d8d081a7f70cecc  python-setuptools-v36.0.1.tar.gz
+diff -Naurp package/python-setuptools/python-setuptools.mk package-new/python-setuptools/python-setuptools.mk
+--- package/python-setuptools/python-setuptools.mk	2017-09-12 21:38:16.207675722 +0200
++++ package-new/python-setuptools/python-setuptools.mk	2017-12-07 14:12:15.479933685 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_SETUPTOOLS_VERSION = 18.7.1
++PYTHON_SETUPTOOLS_VERSION = v36.0.1
+ PYTHON_SETUPTOOLS_SOURCE = setuptools-$(PYTHON_SETUPTOOLS_VERSION).tar.gz
+ PYTHON_SETUPTOOLS_SITE = http://pypi.python.org/packages/source/s/setuptools
+ PYTHON_SETUPTOOLS_LICENSE = Python Software Foundation or Zope Public License
+diff -Naurp package/python-sh/python-sh.hash package-new/python-sh/python-sh.hash
+--- package/python-sh/python-sh.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-sh/python-sh.hash	2017-12-07 14:12:15.547933683 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/sh/json, sha256 locally computed
+-md5 ddc128a8d943d25afa6e01af11e0063b sh-1.12.9.tar.gz
+-sha256 579aa19bae7fe86b607df1afaf4e8537c453d2ce3d84e1d3957e099359a51677 sh-1.12.9.tar.gz
++md5 a8351aef25d25f707c17e0a7a6280251 sh-1.12.14.tar.gz
++sha256 b52bf5833ed01c7b5c5fb73a7f71b3d98d48e9b9b8764236237bdc7ecae850fc sh-1.12.14.tar.gz
+diff -Naurp package/python-sh/python-sh.mk package-new/python-sh/python-sh.mk
+--- package/python-sh/python-sh.mk	2017-09-12 21:38:30.395675577 +0200
++++ package-new/python-sh/python-sh.mk	2017-12-07 14:12:15.543933683 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_SH_VERSION = 1.12.9
++PYTHON_SH_VERSION = 1.12.14
+ PYTHON_SH_SOURCE = sh-$(PYTHON_SH_VERSION).tar.gz
+ PYTHON_SH_SITE = https://pypi.python.org/packages/fd/14/6deb4e89cc237ee4bc1c0b0485c77d7868477f96c47962366bc5fabc31fd
+ PYTHON_SH_SETUP_TYPE = setuptools
+diff -Naurp package/python-simplejson/python-simplejson.hash package-new/python-simplejson/python-simplejson.hash
+--- package/python-simplejson/python-simplejson.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-simplejson/python-simplejson.hash	2017-12-07 14:12:15.603933681 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/simplejson/json, sha256 locally computed
+-md5 426a9631d22851a7a970b1a677368b15 simplejson-3.10.0.tar.gz
+-sha256 953be622e88323c6f43fad61ffd05bebe73b9fd9863a46d68b052d2aa7d71ce2 simplejson-3.10.0.tar.gz
++md5 6e2f1bd5fb0a926facf5d89d217a7183 simplejson-3.11.1.tar.gz
++sha256 01a22d49ddd9a168b136f26cac87d9a335660ce07aa5c630b8e3607d6f4325e7 simplejson-3.11.1.tar.gz
+diff -Naurp package/python-simplejson/python-simplejson.mk package-new/python-simplejson/python-simplejson.mk
+--- package/python-simplejson/python-simplejson.mk	2017-09-12 21:38:29.131675590 +0200
++++ package-new/python-simplejson/python-simplejson.mk	2017-12-07 14:12:15.603933681 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_SIMPLEJSON_VERSION = 3.10.0
++PYTHON_SIMPLEJSON_VERSION = 3.11.1
+ PYTHON_SIMPLEJSON_SOURCE = simplejson-$(PYTHON_SIMPLEJSON_VERSION).tar.gz
+ PYTHON_SIMPLEJSON_SITE = https://pypi.python.org/packages/40/ad/52c1f3a562df3b210e8f165e1aa243a178c454ead65476a39fa3ce1847b6
+ PYTHON_SIMPLEJSON_LICENSE = Academic Free License (AFL), MIT
+diff -Naurp package/python-txaio/python-txaio.hash package-new/python-txaio/python-txaio.hash
+--- package/python-txaio/python-txaio.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-txaio/python-txaio.hash	2017-12-07 14:12:15.723933677 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/txaio/json, sha256 locally computed.
+-md5	7b0f5321515d380ad5d32f01666b6ee7  txaio-2.5.1.tar.gz
+-sha256	625076477182e2dde78b79d0b2b0d6b3cecb0e24fe0ea7eaf2abd26a4c0dd1de  txaio-2.5.1.tar.gz
++md5	643ac20b895b878786cd6a46790367d0  txaio-2.8.0.tar.gz
++sha256	8029d956591107ff9a2221d2a288fdd3718713a6991f59b97359d3d4f4b7b564  txaio-2.8.0.tar.gz
+diff -Naurp package/python-txaio/python-txaio.mk package-new/python-txaio/python-txaio.mk
+--- package/python-txaio/python-txaio.mk	2017-09-12 21:38:18.511675698 +0200
++++ package-new/python-txaio/python-txaio.mk	2017-12-07 14:12:15.671933679 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_TXAIO_VERSION = 2.5.1
++PYTHON_TXAIO_VERSION = 2.8.0
+ PYTHON_TXAIO_SOURCE = txaio-$(PYTHON_TXAIO_VERSION).tar.gz
+ PYTHON_TXAIO_SITE = https://pypi.python.org/packages/45/e1/f7d88767d65dbfc20d4b4aa0dad657dbbe8ca629ead2bef24da04630a12a
+ PYTHON_TXAIO_LICENSE = MIT
+diff -Naurp package/python-urllib3/python-urllib3.hash package-new/python-urllib3/python-urllib3.hash
+--- package/python-urllib3/python-urllib3.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-urllib3/python-urllib3.hash	2017-12-07 14:12:15.795933675 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/urllib3/json, sha256 locally computed
+-md5 34691d4e7e20a8e9cdb452ea24fc38e7 urllib3-1.20.tar.gz
+-sha256 97ef2b6e2878d84c0126b9f4e608e37a951ca7848e4855a7f7f4437d5c34a72f urllib3-1.20.tar.gz
++md5	ef6c72c79b9c6bcd68c204f9b92abc86  urllib3-1.21.1.tar.gz
++sha256	b14486978518ca0901a76ba973d7821047409d7f726f22156b24e83fd71382a5  urllib3-1.21.1.tar.gz
+diff -Naurp package/python-urllib3/python-urllib3.mk package-new/python-urllib3/python-urllib3.mk
+--- package/python-urllib3/python-urllib3.mk	2017-09-12 21:38:16.303675721 +0200
++++ package-new/python-urllib3/python-urllib3.mk	2017-12-07 14:12:15.791933675 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_URLLIB3_VERSION = 1.20
++PYTHON_URLLIB3_VERSION = 1.21.1
+ PYTHON_URLLIB3_SOURCE = urllib3-$(PYTHON_URLLIB3_VERSION).tar.gz
+ PYTHON_URLLIB3_SITE = https://pypi.python.org/packages/20/56/a6aa403b0998f857b474a538343ee483f5c02491bd1aebf61d42a3f60f77
+ PYTHON_URLLIB3_LICENSE = MIT
+diff -Naurp package/python-werkzeug/python-werkzeug.hash package-new/python-werkzeug/python-werkzeug.hash
+--- package/python-werkzeug/python-werkzeug.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-werkzeug/python-werkzeug.hash	2017-12-07 14:12:15.871933672 +0100
+@@ -1,3 +1,3 @@
+-# md5 from https://pypi.python.org/pypi/werkzeug/json, sha256 locally computed
+-md5 cb4010478dd33905f95920e4880204a2 Werkzeug-0.11.15.tar.gz
+-sha256 455d7798ac263266dbd38d4841f7534dd35ca9c3da4a8df303f8488f38f3bcc0 Werkzeug-0.11.15.tar.gz
++# md5 from https://pypi.python.org/pypi/Werkzeug/json, sha256 locally computed
++md5	e385b2c5a7193cff24c689b31e1124dc  Werkzeug-0.12.2.tar.gz
++sha256	903a7b87b74635244548b30d30db4c8947fe64c5198f58899ddcd3a13c23bb26  Werkzeug-0.12.2.tar.gz
+diff -Naurp package/python-werkzeug/python-werkzeug.mk package-new/python-werkzeug/python-werkzeug.mk
+--- package/python-werkzeug/python-werkzeug.mk	2017-09-12 21:38:16.783675716 +0200
++++ package-new/python-werkzeug/python-werkzeug.mk	2017-12-07 14:12:15.851933673 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_WERKZEUG_VERSION = 0.11.15
++PYTHON_WERKZEUG_VERSION = 0.12.2
+ PYTHON_WERKZEUG_SOURCE = Werkzeug-$(PYTHON_WERKZEUG_VERSION).tar.gz
+ PYTHON_WERKZEUG_SITE = https://pypi.python.org/packages/fe/7f/6d70f765ce5484e07576313897793cb49333dd34e462488ee818d17244af
+ PYTHON_WERKZEUG_SETUP_TYPE = setuptools
+diff -Naurp package/python-zope-interface/python-zope-interface.hash package-new/python-zope-interface/python-zope-interface.hash
+--- package/python-zope-interface/python-zope-interface.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/python-zope-interface/python-zope-interface.hash	2017-12-07 14:12:15.939933670 +0100
+@@ -1,3 +1,3 @@
+ # md5 from https://pypi.python.org/pypi/zope-interface/json, sha256 locally computed
+-md5	ba3f32eacaea66094b7e2ae2788cec89  zope.interface-4.3.3.tar.gz
+-sha256	8780ef68ca8c3fe1abb30c058a59015129d6e04a6b02c2e56b9c7de6078dfa88  zope.interface-4.3.3.tar.gz
++md5	d69131352ef06753388c3da09cd8c8aa  zope.interface-4.4.2.tar.gz
++sha256	4e59e427200201f69ef82956ddf9e527891becf5b7cde8ec3ce39e1d0e262eb0  zope.interface-4.4.2.tar.gz
+diff -Naurp package/python-zope-interface/python-zope-interface.mk package-new/python-zope-interface/python-zope-interface.mk
+--- package/python-zope-interface/python-zope-interface.mk	2017-09-12 21:38:27.363675608 +0200
++++ package-new/python-zope-interface/python-zope-interface.mk	2017-12-07 14:12:15.939933670 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-PYTHON_ZOPE_INTERFACE_VERSION = 4.3.3
++PYTHON_ZOPE_INTERFACE_VERSION = 4.4.2
+ PYTHON_ZOPE_INTERFACE_SOURCE = zope.interface-$(PYTHON_ZOPE_INTERFACE_VERSION).tar.gz
+ PYTHON_ZOPE_INTERFACE_SITE = https://pypi.python.org/packages/44/af/cea1e18bc0d3be0e0824762d3236f0e61088eeed75287e7b854d65ec9916
+ PYTHON_ZOPE_INTERFACE_SETUP_TYPE = setuptools
+diff -Naurp package/samba4/samba4.hash package-new/samba4/samba4.hash
+--- package/samba4/samba4.hash	2017-06-18 14:13:59.535995064 +0200
++++ package-new/samba4/samba4.hash	2017-12-07 14:12:16.007933668 +0100
+@@ -1,2 +1,2 @@
+ # Locally calculated
+-sha256 7cb753f5f6d5527ef40d4c1f47dacafb7c876cb304b4906ccb390c6a18477714  samba-4.5.10.tar.gz
++sha256 581deeb2543f5cedcb556cb950d0e82690d9f0cd33811d76624502ca0c32575d  samba-4.6.8.tar.gz
+diff -Naurp package/samba4/samba4.mk package-new/samba4/samba4.mk
+--- package/samba4/samba4.mk	2017-09-12 21:38:25.135675631 +0200
++++ package-new/samba4/samba4.mk	2017-12-07 14:12:15.995933668 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-SAMBA4_VERSION = 4.5.10
++SAMBA4_VERSION = 4.6.8
+ SAMBA4_SITE = https://download.samba.org/pub/samba/stable
+ SAMBA4_SOURCE = samba-$(SAMBA4_VERSION).tar.gz
+ SAMBA4_INSTALL_STAGING = YES
+diff -Naurp package/sqlite/sqlite.hash package-new/sqlite/sqlite.hash
+--- package/sqlite/sqlite.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/sqlite/sqlite.hash	2017-12-07 14:12:16.095933665 +0100
+@@ -1,4 +1,4 @@
+ # From http://www.sqlite.org/download.html
+-sha1 74559194e1dd9b9d577cac001c0e9d370856671b  sqlite-autoconf-3180000.tar.gz
++sha1 58f2cabffb3ff4761a3ac7f834d9db7b46307c1f  sqlite-autoconf-3190300.tar.gz
+ # Calculated based on the hash above
+-sha256 a4e485ad3a16e054765baf6371826b5000beed07e626510896069c0bf013874c  sqlite-autoconf-3170000.tar.gz
++sha256 06129c03dced9f87733a8cba408871bd60673b8f93b920ba8d815efab0a06301  sqlite-autoconf-3190300.tar.gz
+diff -Naurp package/sqlite/sqlite.mk package-new/sqlite/sqlite.mk
+--- package/sqlite/sqlite.mk	2017-09-12 21:38:22.411675658 +0200
++++ package-new/sqlite/sqlite.mk	2017-12-07 14:12:16.075933666 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-SQLITE_VERSION = 3180000
++SQLITE_VERSION = 3190300
+ SQLITE_SOURCE = sqlite-autoconf-$(SQLITE_VERSION).tar.gz
+ SQLITE_SITE = http://www.sqlite.org/2017
+ SQLITE_LICENSE = Public domain
+diff -Naurp package/sudo/sudo.hash package-new/sudo/sudo.hash
+--- package/sudo/sudo.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/sudo/sudo.hash	2017-12-07 14:12:16.175933663 +0100
+@@ -1,2 +1,2 @@
+ # From: http://www.sudo.ws/download.html
+-sha256 237e18e67c2ad59ecacfa4b7707198b09fcf84914621585a9bc670dcc31a52e0  sudo-1.8.19p2.tar.gz
++sha256 bd42ae1059e935f795c69ea97b3de09fe9410a58a74b5d5e6836eb5067a445d9  sudo-1.8.20p2.tar.gz
+diff -Naurp package/sudo/sudo.mk package-new/sudo/sudo.mk
+--- package/sudo/sudo.mk	2017-09-12 21:38:22.591675657 +0200
++++ package-new/sudo/sudo.mk	2017-12-07 14:12:16.151933663 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-SUDO_VERSION = 1.8.19p2
++SUDO_VERSION = 1.8.20p2
+ SUDO_SITE = http://www.sudo.ws/sudo/dist
+ SUDO_LICENSE = ISC, BSD-3-Clause
+ SUDO_LICENSE_FILES = doc/LICENSE
+diff -Naurp package/syslog-ng/syslog-ng.hash package-new/syslog-ng/syslog-ng.hash
+--- package/syslog-ng/syslog-ng.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/syslog-ng/syslog-ng.hash	2017-12-07 14:12:16.247933660 +0100
+@@ -1,2 +1,2 @@
+ # Locally computed
+-sha256 5678856a550ae790618fabde9d1447f932ce7a9080d55dca8fc5df1202c70a17  syslog-ng-3.9.1.tar.gz
++sha256 a905fe7bad09dcf40bf03650ef1c287b511bf262d004464b8993a28ce58c9136  syslog-ng-3.10.1.tar.gz
+diff -Naurp package/syslog-ng/syslog-ng.mk package-new/syslog-ng/syslog-ng.mk
+--- package/syslog-ng/syslog-ng.mk	2017-09-12 21:38:25.643675625 +0200
++++ package-new/syslog-ng/syslog-ng.mk	2017-12-07 14:12:16.231933661 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-SYSLOG_NG_VERSION = 3.9.1
++SYSLOG_NG_VERSION = 3.10.1
+ SYSLOG_NG_SITE = https://github.com/balabit/syslog-ng/releases/download/syslog-ng-$(SYSLOG_NG_VERSION)
+ SYSLOG_NG_LICENSE = LGPL-2.1+ (syslog-ng core), GPL-2.0+ (modules)
+ SYSLOG_NG_LICENSE_FILES = COPYING
+diff -Naurp package/systemd/systemd.hash package-new/systemd/systemd.hash
+--- package/systemd/systemd.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/systemd/systemd.hash	2017-12-07 14:12:16.331933658 +0100
+@@ -1,2 +1,2 @@
+ # sha256 locally computed
+-sha256 8b3e99da3d4164b66581830a7f2436c0c8fe697b5fbdc3927bdb960646be0083  systemd-233.tar.gz
++sha256 da3e69d10aa1c983d33833372ad4929037b411ac421fb085c8cee79ae1d80b6a  systemd-234.tar.gz
+diff -Naurp package/systemd/systemd.mk package-new/systemd/systemd.mk
+--- package/systemd/systemd.mk	2017-09-12 21:38:26.163675620 +0200
++++ package-new/systemd/systemd.mk	2017-12-07 14:12:16.311933658 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-SYSTEMD_VERSION = 233
++SYSTEMD_VERSION = 234
+ SYSTEMD_SITE = $(call github,systemd,systemd,v$(SYSTEMD_VERSION))
+ SYSTEMD_LICENSE = LGPL-2.1+, GPL-2.0+ (udev), Public Domain (few source files, see README)
+ SYSTEMD_LICENSE_FILES = LICENSE.GPL2 LICENSE.LGPL2.1 README
+diff -Naurp package/tiff/tiff.hash package-new/tiff/tiff.hash
+--- package/tiff/tiff.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/tiff/tiff.hash	2017-12-07 14:12:16.411933655 +0100
+@@ -1,2 +1,2 @@
+ # Locally computed
+-sha256 9f43a2cfb9589e5cecaa66e16bf87f814c945f22df7ba600d63aac4632c4f019  tiff-4.0.7.tar.gz
++sha256 59d7a5a8ccd92059913f246877db95a2918e6c04fb9d43fd74e5c3390dac2910  tiff-4.0.8.tar.gz
+diff -Naurp package/tiff/tiff.mk package-new/tiff/tiff.mk
+--- package/tiff/tiff.mk	2017-09-12 21:38:25.339675629 +0200
++++ package-new/tiff/tiff.mk	2017-12-07 14:12:16.395933656 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-TIFF_VERSION = 4.0.7
++TIFF_VERSION = 4.0.8
+ TIFF_SITE = http://download.osgeo.org/libtiff
+ TIFF_LICENSE = tiff license
+ TIFF_LICENSE_FILES = COPYRIGHT
+diff -Naurp package/tslib/tslib.hash package-new/tslib/tslib.hash
+--- package/tslib/tslib.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/tslib/tslib.hash	2017-12-07 14:12:16.491933653 +0100
+@@ -1,2 +1,2 @@
+-# https://github.com/kergoth/tslib/releases/download/1.9/tslib-1.9.tar.xz.sha256
+-sha256  af4e40a4cf2aa7a81f1602de1613190a101760689709103cc3590132266ac7b8  tslib-1.9.tar.xz
++# https://github.com/kergoth/tslib/releases/download/1.11/tslib-1.11.tar.xz.sha256
++sha256  90d22b2f1b6dc9899d9491bc0480dfdcb2b55ff6e620ebb999d607aa5389af06  tslib-1.11.tar.xz
+diff -Naurp package/tslib/tslib.mk package-new/tslib/tslib.mk
+--- package/tslib/tslib.mk	2017-09-12 21:38:25.747675624 +0200
++++ package-new/tslib/tslib.mk	2017-12-07 14:12:16.475933653 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-TSLIB_VERSION = 1.9
++TSLIB_VERSION = 1.11
+ TSLIB_SITE = https://github.com/kergoth/tslib/releases/download/$(TSLIB_VERSION)
+ TSLIB_SOURCE = tslib-$(TSLIB_VERSION).tar.xz
+ TSLIB_LICENSE = GPL, LGPL
+diff -Naurp package/unrar/unrar.hash package-new/unrar/unrar.hash
+--- package/unrar/unrar.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/unrar/unrar.hash	2017-12-07 14:12:16.579933650 +0100
+@@ -1,2 +1,3 @@
+ # Locally computed:
+-sha256	e470c584332422893fb52e049f2cbd99e24dc6c6da971008b4e2ae4284f8796c	unrarsrc-5.4.5.tar.gz
++sha256	9b66e4353a9944bc140eb2a919ff99482dd548f858f5e296d809e8f7cdb2fcf4	unrarsrc-5.5.8.tar.gz
++sha256	6ecc1687808b7d66b24f874755abfed7464d9751ed0001cd4e8e5d9bf397ff8a	license.txt
+diff -Naurp package/unrar/unrar.mk package-new/unrar/unrar.mk
+--- package/unrar/unrar.mk	2017-09-12 21:38:19.615675687 +0200
++++ package-new/unrar/unrar.mk	2017-12-07 14:12:16.555933651 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-UNRAR_VERSION = 5.4.5
++UNRAR_VERSION = 5.5.8
+ UNRAR_SOURCE = unrarsrc-$(UNRAR_VERSION).tar.gz
+ UNRAR_SITE = http://www.rarlab.com/rar
+ UNRAR_LICENSE = unrar
+diff -Naurp package/webkitgtk/webkitgtk.hash package-new/webkitgtk/webkitgtk.hash
+--- package/webkitgtk/webkitgtk.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/webkitgtk/webkitgtk.hash	2017-12-07 14:12:16.739933645 +0100
+@@ -1,4 +1,4 @@
+-# From http://www.webkitgtk.org/releases/webkitgtk-2.12.5.tar.xz.sha1
+-sha1	2d73fd5b47c68c73aea8b3d7b88acc8e62bdb99c	webkitgtk-2.12.5.tar.xz
+-# Calculated based on the hash above
+-sha256	6b147854b864a5f115fadb97b2b6200b2f696db015216a34e7298d11c88b1c40	webkitgtk-2.12.5.tar.xz
++# From https://webkitgtk.org/releases/webkitgtk-2.18.1.tar.xz.sums
++md5 951a6082ada2f7d0292d3251a3f9532b webkitgtk-2.18.1.tar.xz
++sha1 5054dd6b8afdc6e98b947e361011d6dca6da74e2 webkitgtk-2.18.1.tar.xz
++sha256 9cdb7b302fbc8a2a7e1e783b80391e64f8b12d70d6ebad4eb756dd59bf3ed795 webkitgtk-2.18.1.tar.xz
+diff -Naurp package/webkitgtk/webkitgtk.mk package-new/webkitgtk/webkitgtk.mk
+--- package/webkitgtk/webkitgtk.mk	2017-09-12 21:38:25.179675630 +0200
++++ package-new/webkitgtk/webkitgtk.mk	2017-12-07 14:12:16.715933645 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-WEBKITGTK_VERSION = 2.12.5
++WEBKITGTK_VERSION = 2.18.1
+ WEBKITGTK_SITE = http://www.webkitgtk.org/releases
+ WEBKITGTK_SOURCE = webkitgtk-$(WEBKITGTK_VERSION).tar.xz
+ WEBKITGTK_INSTALL_STAGING = YES
+diff -Naurp package/x11r7/xapp_xkbcomp/xapp_xkbcomp.hash package-new/x11r7/xapp_xkbcomp/xapp_xkbcomp.hash
+--- package/x11r7/xapp_xkbcomp/xapp_xkbcomp.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/x11r7/xapp_xkbcomp/xapp_xkbcomp.hash	2017-12-07 14:12:16.819933642 +0100
+@@ -1,2 +1,5 @@
+-# From http://lists.x.org/archives/xorg-announce/2015-November/002653.html
+-sha256	0304dc9e0d4ac10831a9ef5d5419722375ddbc3eac3ff4413094d57bc1f1923d	xkbcomp-1.3.1.tar.bz2
++# From https://lists.x.org/archives/xorg-announce/2017-May/002797.html
++md5 cc22b232bc78a303371983e1b48794ab  xkbcomp-1.4.0.tar.bz2
++sha1 9578a564ff8fcf96581fb52860828fbab8c67b4f  xkbcomp-1.4.0.tar.bz2
++sha256 bc69c8748c03c5ad9afdc8dff9db11994dd871b614c65f8940516da6bf61ce6b  xkbcomp-1.4.0.tar.bz2
++sha512 c96a63fc2d9a6ac17123297574966c45d0dcfd4ae3d4073ce863c7738d453f4c0a5f7a87c06efdec19f0b270207a7170fe1aa72a73ef1b50f95c7ca262f4882e  xkbcomp-1.4.0.tar.bz2
+diff -Naurp package/x11r7/xapp_xkbcomp/xapp_xkbcomp.mk package-new/x11r7/xapp_xkbcomp/xapp_xkbcomp.mk
+--- package/x11r7/xapp_xkbcomp/xapp_xkbcomp.mk	2017-09-12 21:38:20.783675675 +0200
++++ package-new/x11r7/xapp_xkbcomp/xapp_xkbcomp.mk	2017-12-07 14:12:16.799933643 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-XAPP_XKBCOMP_VERSION = 1.3.1
++XAPP_XKBCOMP_VERSION = 1.4.0
+ XAPP_XKBCOMP_SOURCE = xkbcomp-$(XAPP_XKBCOMP_VERSION).tar.bz2
+ XAPP_XKBCOMP_SITE = http://xorg.freedesktop.org/releases/individual/app
+ XAPP_XKBCOMP_LICENSE = MIT
+diff -Naurp package/x11r7/xdriver_xf86-input-tslib/xdriver_xf86-input-tslib.hash package-new/x11r7/xdriver_xf86-input-tslib/xdriver_xf86-input-tslib.hash
+--- package/x11r7/xdriver_xf86-input-tslib/xdriver_xf86-input-tslib.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/x11r7/xdriver_xf86-input-tslib/xdriver_xf86-input-tslib.hash	2017-12-07 14:12:16.895933640 +0100
+@@ -1,2 +1,2 @@
+-# https://github.com/merge/xf86-input-tslib/releases/download/0.0.7/xf86-input-tslib-0.0.7.tar.bz2.sha256
+-sha256 6f23cc9702b0ae16086d364b275335c094efbf6acde57f8a030e4db5b9aece03  xf86-input-tslib-0.0.7.tar.bz2
++# https://github.com/merge/xf86-input-tslib/releases/download/1.0.0/xf86-input-tslib-1.0.0.tar.bz2.sha256
++sha256 2e888893b766bb987ed4d788555dc221e3974068580ba782753a4a80532a42e7  xf86-input-tslib-1.0.0.tar.bz2
+diff -Naurp package/x11r7/xdriver_xf86-input-tslib/xdriver_xf86-input-tslib.mk package-new/x11r7/xdriver_xf86-input-tslib/xdriver_xf86-input-tslib.mk
+--- package/x11r7/xdriver_xf86-input-tslib/xdriver_xf86-input-tslib.mk	2017-09-12 21:38:21.423675669 +0200
++++ package-new/x11r7/xdriver_xf86-input-tslib/xdriver_xf86-input-tslib.mk	2017-12-07 14:12:16.875933640 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-XDRIVER_XF86_INPUT_TSLIB_VERSION = 0.0.7
++XDRIVER_XF86_INPUT_TSLIB_VERSION = 1.0.0
+ XDRIVER_XF86_INPUT_TSLIB_SOURCE = xf86-input-tslib-$(XDRIVER_XF86_INPUT_TSLIB_VERSION).tar.bz2
+ XDRIVER_XF86_INPUT_TSLIB_SITE = https://github.com/merge/xf86-input-tslib/releases/download/$(XDRIVER_XF86_INPUT_TSLIB_VERSION)
+ XDRIVER_XF86_INPUT_TSLIB_LICENSE = MIT
+diff -Naurp package/x11r7/xkeyboard-config/xkeyboard-config.hash package-new/x11r7/xkeyboard-config/xkeyboard-config.hash
+--- package/x11r7/xkeyboard-config/xkeyboard-config.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/x11r7/xkeyboard-config/xkeyboard-config.hash	2017-12-07 14:12:17.059933634 +0100
+@@ -1,2 +1,4 @@
+-# From https://lists.x.org/archives/xorg-announce/2017-February/002775.html
+-sha256 d1bfc72553c4e3ef1cd6f13eec0488cf940498b612ab8a0b362e7090c94bc134  xkeyboard-config-2.20.tar.bz2
++# From https://lists.x.org/archives/xorg-announce/2017-May/002800.html
++md5 af9498e8954907d0a47f0f7b3d21e1ef  xkeyboard-config-2.21.tar.bz2
++sha1 ccdc53ad0ff6bbabda19ef30a47c2cbe014d42ec  xkeyboard-config-2.21.tar.bz2
++sha256 30c17049fae129fc14875656da9aa3099e3031d6ce0ee1d77aae190fd9edcec5  xkeyboard-config-2.21.tar.bz2
+diff -Naurp package/x11r7/xkeyboard-config/xkeyboard-config.mk package-new/x11r7/xkeyboard-config/xkeyboard-config.mk
+--- package/x11r7/xkeyboard-config/xkeyboard-config.mk	2017-09-12 21:38:20.423675679 +0200
++++ package-new/x11r7/xkeyboard-config/xkeyboard-config.mk	2017-12-07 14:12:17.031933635 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-XKEYBOARD_CONFIG_VERSION = 2.20
++XKEYBOARD_CONFIG_VERSION = 2.21
+ XKEYBOARD_CONFIG_SOURCE = xkeyboard-config-$(XKEYBOARD_CONFIG_VERSION).tar.bz2
+ XKEYBOARD_CONFIG_SITE = http://www.x.org/releases/individual/data/xkeyboard-config
+ XKEYBOARD_CONFIG_LICENSE = MIT
+diff -Naurp package/xfsprogs/xfsprogs.hash package-new/xfsprogs/xfsprogs.hash
+--- package/xfsprogs/xfsprogs.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/xfsprogs/xfsprogs.hash	2017-12-07 14:12:16.971933637 +0100
+@@ -1,3 +1,2 @@
+-# Locally calculated after checking pgp signature:
+-#   https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-4.8.0.tar.sign
+-sha256 82ce9cb3a55f4e208e8fe3471ff0aff0602b8300f3e50bdf05cc7e11549686f9  xfsprogs-4.8.0.tar.xz
++# From https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/sha256sums.asc
++sha256 c3a6d87b564d7738243c507df82276bed982265e345363a95f2c764e8a5f5bb2  xfsprogs-4.11.0.tar.xz
+diff -Naurp package/xfsprogs/xfsprogs.mk package-new/xfsprogs/xfsprogs.mk
+--- package/xfsprogs/xfsprogs.mk	2017-09-12 21:38:24.547675637 +0200
++++ package-new/xfsprogs/xfsprogs.mk	2017-12-07 14:12:16.955933638 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-XFSPROGS_VERSION = 4.8.0
++XFSPROGS_VERSION = 4.11.0
+ XFSPROGS_SITE = $(BR2_KERNEL_MIRROR)/linux/utils/fs/xfs/xfsprogs
+ XFSPROGS_SOURCE = xfsprogs-$(XFSPROGS_VERSION).tar.xz
+ 
+diff -Naurp package/xvisor/xvisor.hash package-new/xvisor/xvisor.hash
+--- package/xvisor/xvisor.hash	2017-05-17 10:27:16.000000000 +0200
++++ package-new/xvisor/xvisor.hash	2017-12-07 14:12:17.135933632 +0100
+@@ -1,2 +1,2 @@
+ # Locally generated
+-sha256 9347080c3481fb8586d196dd51a580a57084bfea1bc425e89f7fa0da7170708a xvisor-0.2.8.tar.gz
++sha256 29b3b830380dde4f596611abd34487fb753e120ce462dbb0056f3025b88ef14f  xvisor-0.2.9.tar.gz
+diff -Naurp package/xvisor/xvisor.mk package-new/xvisor/xvisor.mk
+--- package/xvisor/xvisor.mk	2017-09-12 21:38:27.631675605 +0200
++++ package-new/xvisor/xvisor.mk	2017-12-07 14:12:17.115933633 +0100
+@@ -4,7 +4,7 @@
+ #
+ ################################################################################
+ 
+-XVISOR_VERSION = 0.2.8
++XVISOR_VERSION = 0.2.9
+ XVISOR_SITE = http://www.xhypervisor.org/tarball
+ XVISOR_LICENSE = GPL-2.0+
+ XVISOR_LICENSE_FILES = COPYING

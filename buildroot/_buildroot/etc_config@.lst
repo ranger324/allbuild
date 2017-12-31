@@ -1,0 +1,42 @@
+##cfg#configs
+#acpid
+D etc/acpi/actions
+D etc/acpi/events
+
+#openrc
+D etc/conf.d
+D etc/sysctl.d
+
+#dbus
+D etc/dbus-1
+
+#busybox-sys
+D etc/default
+
+#fontconfig
+D etc/fonts
+
+#glibc
+D etc/ld.so.conf.d
+
+#kmod
+D etc/modprobe.d
+D etc/modprobe.d*
+
+#linux-pam
+D etc/pam.d
+
+#polkit
+D etc/polkit-1
+
+#bash
+D etc/profile.d
+
+#eudev
+D etc/udev/rules.d
+
+#keyutils
+D etc/request-key.d
+
+#sudo
+D etc/sudoers.d

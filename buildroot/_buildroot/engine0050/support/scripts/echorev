@@ -1,0 +1,34 @@
+#!/bin/bash
+
+set -e
+
+main() {
+    local pkgname="${1}"
+    [ ! -d _scripts ] && mkdir _scripts
+
+    case "${pkgname}" in
+	glibc-tgt)
+	    pkgname="glibc"
+	;;
+	gcc-tgt)
+	    pkgname="gcc"
+	;;
+	python-*)
+	    [ -e $BUILDROOT/.python_version ] && PYTHON_VER=`cat $BUILDROOT/.python_version`
+	    if [ ! -z "$PYTHON_VER" -a "$PYTHON_VER" = 3 ]; then
+		pkgname=`echo "${pkgname}" | sed 's/^python-/python3-/'`
+	    fi
+	;;
+    esac
+
+    if [ -e _scripts/"${pkgname}.rev" ]; then
+	REV=`cat _scripts/"${pkgname}.rev"`
+	echo "$(expr $REV + 1)" > _scripts/"${pkgname}.rev"
+    else
+	echo 1 > _scripts/"${pkgname}.rev"
+    fi
+}
+
+BUILDROOT=output/build
+
+main "${@}"

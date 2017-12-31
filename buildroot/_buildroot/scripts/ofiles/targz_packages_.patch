@@ -1,0 +1,40 @@
+--- targz_packages	2017-12-10 10:41:44.479947948 +0100
++++ targz_packages_	2017-12-10 10:28:50.255955850 +0100
+@@ -372,20 +372,20 @@ if [ "$1" = "end" ] && [ "$2" = "install
+ 	SHORT_DESC=`cat _scripts/$PKG.desc`
+     fi
+     #write pkginfo
+-    echo -ne "NAME=$NAME\nVERSION=$VERSION\nREV=$REV\nDESC=\"$SHORT_DESC\"\nSIZE=$SIZE\n" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/info
++    echo -ne "NAME=$NAME\nVERSION=$VERSION\nREV=$REV\nDESC=\"$SHORT_DESC\"\nSIZE=$SIZE\n" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/$PKG.info
+     #buildroot descriptions
+     tar xzf _scripts/files/desc.tar.gz -C $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV desc/$PKG.desc@ 2> /dev/null
+     [ -e $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc/$PKG.desc@ ] && \
+-	mv $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc/$PKG.desc@ $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc@
++	mv $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc/$PKG.desc@ $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/$PKG.desc@
+     rm -rf $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc
+ 
+     ###overwrite
+     [ ! -e _scripts/$PKG.deps ] && touch _scripts/$PKG.deps
+     ###overwrite
+ 
+-    sort -u _scripts/$PKG.deps > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends
+-    cat $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends | tr '\n' ' ' | \
+-	sed 's% $%%' > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depend@
++    sort -u _scripts/$PKG.deps > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/$PKG.depends
++    cat $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/$PKG.depends | tr '\n' ' ' | \
++	sed 's% $%%' > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/$PKG.depend@
+     GRP=`grep "package.*/$PKG/Config.in" package/_pkgs.group@@@@ | cut -d " " -f 1-2`
+ 
+     ###overwrite
+@@ -396,9 +396,9 @@ if [ "$1" = "end" ] && [ "$2" = "install
+     [ -z "$GRP" ] && GRP="unknown other"
+ 
+     #write groups entry
+-    echo "$GRP" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/groups
++    echo "$GRP" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/$PKG.groups
+     #copy install file
+-    [ -e _scripts/$PKG.install ] && cp -dp _scripts/$PKG.install $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/install
++    [ -e _scripts/$PKG.install ] && cp -dp _scripts/$PKG.install $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV
+ 
+ 
+     #targz

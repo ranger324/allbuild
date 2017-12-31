@@ -1,0 +1,6 @@
+#D recursive dir perm&user
+D 755 root root var/lib/alsa
+#d dir perm&user
+d 755 root root var/lib/alsa
+#f file
+f 644 root root var/lib/alsa/asound.state

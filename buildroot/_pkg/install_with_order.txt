@@ -1,0 +1,2 @@
+todo (data on remote repository)
+pkg install - rm package busybox links

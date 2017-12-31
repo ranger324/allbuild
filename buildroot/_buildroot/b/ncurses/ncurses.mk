@@ -81,17 +81,6 @@ define NCURSES_LINK_LIBS_SHARED
 		$(STAGING_DIR)/usr/lib/libcurses.so
 endef
 
-define NCURSES_LINK_LIBS_SHARED
-	ln -sf $(lib)$(NCURSES_LIB_SUFFIX).so $(TARGET_DIR)/usr/lib/$(lib).so \
-	ln -sf libncurses$(NCURSES_LIB_SUFFIX).so \
-		$(STAGING_DIR)/usr/lib/libcurses.so
-	$(foreach lib,$(NCURSES_LIBS:%=lib%), \
-		ln -sf $(lib)$(NCURSES_LIB_SUFFIX).so $(STAGING_DIR)/usr/lib/$(lib).so
-	)
-	ln -sf libncurses$(NCURSES_LIB_SUFFIX).so \
-		$(STAGING_DIR)/usr/lib/libcurses.so
-endef
-
 define NCURSES_LINK_PC
 	$(foreach pc,$(NCURSES_LIBS), \
 		ln -sf $(pc)$(NCURSES_LIB_SUFFIX).pc \
@@ -138,6 +127,16 @@ endif
 define NCURSES_TARGET_CLEANUP_TERMINFO
 	$(RM) -rf $(TARGET_DIR)/usr/share/terminfo $(TARGET_DIR)/usr/share/tabset
 #	$(foreach t,$(NCURSES_TERMINFO_FILES), \
+#		$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/share/terminfo/$(t) \
+#			$(TARGET_DIR)/usr/share/terminfo/$(t)
+#	)
+endef
+NCURSES_POST_INSTALL_TARGET_HOOKS += NCURSES_TARGET_CLEANUP_TERMINFO
+
+
+define NCURSES_TARGET_CLEANUP_TERMINFO
+	$(RM) -rf $(TARGET_DIR)/usr/share/terminfo $(TARGET_DIR)/usr/share/tabset
+#	$(foreach t,$(TERMINFO_FILES), \
 #		$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/share/terminfo/$(t) \
 #			$(TARGET_DIR)/usr/share/terminfo/$(t)
 #	)

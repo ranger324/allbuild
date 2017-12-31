@@ -1,0 +1,17 @@
+#edit this file
+#optional - create pkg.install
+#DEPENDS list of dependencies (0 or more)
+#DEPENDS="pkg1 pkg2"
+#GRP - package group (2)
+#GRP="group1 group2"
+##DONTSTRIP 0 (or "" without value) or 1 ("1" value checked) - strip debug info or not
+##DONTSTRIP=0
+
+NAME=linux-headers
+VERSION=4.14.4
+REV=1
+SHORT_DESC="Linux kernel headers (for compiling sources)"
+DEPENDS=""
+GRP="base development"
+PKG=$NAME
+DONTSTRIP=1

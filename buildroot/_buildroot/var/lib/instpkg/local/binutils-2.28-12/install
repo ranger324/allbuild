@@ -1,0 +1,17 @@
+infodir=usr/share/info
+filelist=('as.info' 'bfd.info' 'binutils.info' 'gprof.info' 'ld.info')
+post_install() {
+for file in ${filelist[@]}; do
+    install-info $root/$infodir/$file $root/$infodir/dir 2> /dev/null
+done
+}
+post_upgrade() {
+for file in ${filelist[@]}; do
+    install-info $root/$infodir/$file $root/$infodir/dir 2> /dev/null
+done
+}
+pre_remove() {
+for file in ${filelist[@]}; do
+    install-info --delete $root/$infodir/$file $root/$infodir/dir 2> /dev/null
+done
+}

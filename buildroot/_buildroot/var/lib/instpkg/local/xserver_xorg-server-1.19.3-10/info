@@ -1,0 +1,5 @@
+NAME=xserver_xorg-server
+VERSION=1.19.3
+REV=10
+DESC="the X server accepts requests from client applications to create windows, which are (normally rectangular) 'virtual screens' that the client program can draw into"
+SIZE=4936

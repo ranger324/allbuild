@@ -2,5 +2,6 @@
  	- - input -1 * - - - Input device group
  	sshd -1 sshd -1 * - - - SSH drop priv user
  	pulse -1 pulse -1 * /var/run/pulse - audio,pulse-access
+ 	transmission -1 transmission -1 * /var/lib/transmission - transmission Transmission Daemon
  	- - weston-launch -1 - - - - Weston launcher group
 

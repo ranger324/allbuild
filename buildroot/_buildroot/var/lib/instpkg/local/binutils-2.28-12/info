@@ -1,0 +1,5 @@
+NAME=binutils
+VERSION=2.28
+REV=12
+DESC="this package contains various GNU compilers, assemblers, linkers, debuggers, etc., plus their support routines, definitions, and documentation"
+SIZE=24556

@@ -1,0 +1,499 @@
+#! /bin/sh
+
+#/bin/_add_linefeed.sh
+#/bin/_lsexecs.sh
+#/bin/_find_dirlinks.sh
+#_mkcpio
+#_strip
+#/run/... may be needed to add (pkg@run.cpio)
+#_scripts/pkg.ver may be needed to add
+#package/_pkgs.group@@@@
+#---- -review "----" reamarked code "lines" 
+
+CREATEDIRS="\
+etc/pam.d \
+etc/profile.d \
+etc/init.d \
+etc \
+bin \
+sbin \
+lib \
+usr/share/doc \
+usr/share/man \
+usr/share/info \
+usr/share \
+usr/bin \
+usr/sbin \
+usr/lib \
+usr/include \
+usr \
+var/cache \
+var/lib \
+var/log \
+var/spool \
+var \
+"
+
+PKG=$3
+
+###overwrite
+[ "$PKG" = "gcc-tgt" ] && PKG=gcc
+[ "$PKG" = "glibc-tgt" ] && PKG=glibc
+###overwrite
+
+DONTINSTALL=" skeleton toolchain toolchain-external toolchain-external-custom initscripts jpeg busybox coreutils "
+DONTINSTALL2=" getent jpeg toolchain-external toolchain-external-custom libgl libegl busybox mcookie libfm-extra "
+SKIPGROUP=" input "
+BUSYBOX_CHK=" acpid inetutils net-tools util-linux grep sed gawk findutils gzip bzip2 coreutils cpio tar psmisc procps-ng dos2unix eject fbset e2fsprogs hdparm kmod kbd cups pciutils usbutils xz man-db dosfstools reiserfsprogs ntp patch diffutils debianutils sendmail bash ash zip unzip vim wget which "
+
+echo "$DONTINSTALL2" | grep -q " $PKG " && exit 0
+
+DIRSCRIPT=$(cd $(dirname "$0") && pwd -P)
+echo "***********"
+pwd -P
+echo "***********"
+
+DESTROOT=output/target
+BUILDROOT=output/build
+PKGDEST=/dest
+retval=0
+echo "###### PKG_SCRIPT $PKG $(cat $BUILDROOT/build-sysinit.log) $1 $2"
+
+if [ "$1" = "start" ] && [ "$2" = "install-target" -o "$2" = "install-staging" ]; then
+
+    #install-staging - install-target
+    [ -e $BUILDROOT/inst_start.log ] && exit 0
+    touch $BUILDROOT/inst_start.log
+
+    rm -f _scripts/$PKG.scr
+
+    rm -rf $DESTROOT/*
+
+    for i in $CREATEDIRS; do
+	mkdir -p $DESTROOT/$i
+    done
+    ln -sf share/doc $DESTROOT/usr/doc
+    ln -sf share/man $DESTROOT/usr/man
+    ln -sf share/info $DESTROOT/usr/info
+    ln -sf lib $DESTROOT/usr/lib64
+    ln -sf lib $DESTROOT/lib64
+
+    [ -e _scripts/$PKG.inst_start.sh ] && source _scripts/$PKG.inst_start.sh
+fi
+
+if [ "$1" = "end" ] && [ "$2" = "install-target" ]; then
+    source $BUILDROOT/.package_source
+    #NAME
+    #VERSION
+    #SOURCE_DIR
+
+    ###overwrite
+    [ "$PKG" = "glibc" ] && NAME="glibc"
+    [ "$PKG" = "gcc" ] && NAME="gcc"
+    ###overwrite
+
+    [ -e $BUILDROOT/.python_version ] && PYTHON_VER=`cat $BUILDROOT/.python_version`
+    if [ ! -z "$PYTHON_VER" -a "$PYTHON_VER" = 3 ]; then
+	###overwrite
+	if echo "$PKG" | grep -q "^python-"; then
+	    NAME=`echo "$PKG" | sed 's/^python-/python3-/'`
+	    #buildroot description->
+	    tar xzf _scripts/files/desc.tar.gz -C _scripts desc/$PKG.desc@ 2> /dev/null
+	    mv _scripts/desc/$PKG.desc@ _scripts/desc/desc@
+	    #buildroot description<-
+	    [ -e _scripts/$PKG.desc ] && cp _scripts/$PKG.desc _scripts/$NAME.desc
+	    [ -e _scripts/$PKG.deps ] && cp _scripts/$PKG.deps _scripts/$NAME.deps
+	    PKG="$NAME"
+	    GRP="development python3"
+	fi
+	###overwrite
+    fi
+
+    ###overwrite
+    [ ! -e _scripts/$PKG.rev ] && echo 1 > _scripts/$PKG.rev
+    ###overwrite
+
+    #update revision
+    REV=`cat _scripts/$PKG.rev`
+    [ -e _scripts/$PKG.ver ] && VERSION=`cat _scripts/$PKG.ver`
+
+
+    #rearrange some dirs
+    if [ -e $DESTROOT/var/lock ]; then
+	mkdir -p $DESTROOT/run/lock
+	LSFILE=`find $DESTROOT/var/lock -mindepth 1 -maxdepth 1 -print -quit 2> /dev/null`
+	#mv doesn't move hidden files (.*|the dot char started filenames)
+	[ ! -z "$LSFILE" ] && mv $DESTROOT/var/lock/* $DESTROOT/run/lock
+	rmdir $DESTROOT/var/lock
+    fi
+    LSFILE=
+
+    if [ -e $DESTROOT/run ]; then
+	mkdir -p $DESTROOT/var/run
+	LSFILE=`find $DESTROOT/run -mindepth 1 -maxdepth 1 -print -quit 2> /dev/null`
+	#mv doesn't move hidden files (.*|the dot char started filenames)
+	[ ! -z "$LSFILE" ] && mv $DESTROOT/run/* $DESTROOT/var/run
+	rmdir $DESTROOT/run
+    fi
+    LSFILE=
+
+    if [ -e $DESTROOT/var/run ]; then
+	echo "###### PKG_SCRIPT $PKG /var/run"
+	if ! rmdir $DESTROOT/var/run 2> /dev/null; then
+	    (ODIR=`pwd`; cd $DESTROOT/var/run && _mkcpio $ODIR/_scripts/$PKG@run.cpio)
+	    rm -rf $DESTROOT/var/run 2> /dev/null
+	    if [ ! -e _scripts/$PKG.inst_end.sh ]; then
+		echo 'rm -rf $DESTROOT/var/run 2> /dev/null' > _scripts/$PKG.inst_end.sh
+	    else
+		sh /bin/_add_linefeed.sh _scripts/$PKG.inst_end.sh
+		! grep -qFx 'rm -rf $DESTROOT/var/run 2> /dev/null' _scripts/$PKG.inst_end.sh && \
+		    echo 'rm -rf $DESTROOT/var/run 2> /dev/null' >> _scripts/$PKG.inst_end.sh
+	    fi
+	fi
+    fi
+
+
+    #remove created links (symbolic links to put some files into other directory)
+    rm -f $DESTROOT/usr/share/info/dir
+    rm -f $DESTROOT/tools/share/info/dir
+
+    rm $DESTROOT/usr/doc
+    rm $DESTROOT/usr/man
+    rm $DESTROOT/usr/info
+    rm $DESTROOT/usr/lib64
+    rm $DESTROOT/lib64
+    for i in $CREATEDIRS; do
+	rmdir $DESTROOT/$i 2> /dev/null
+    done
+
+
+    #call package update script
+    [ -e _scripts/$PKG.inst_end.sh ] && source _scripts/$PKG.inst_end.sh
+
+
+    #update some special packages
+    if [ -e $DESTROOT/usr/lib/perl5 ]; then
+	if [ -e _scripts/perl.ver ]; then
+	    PERL=`cat _scripts/perl.ver`
+	    rm -f $DESTROOT/usr/lib/perl5/$PERL/x86_64-linux/perllocal.pod
+	    find $DESTROOT/usr/lib/perl5/site_perl/$PERL/x86_64-linux/auto -name ".packlist" -type f | \
+		xargs sed -i -n '/^\/usr\//p'
+	fi
+    fi
+    #...
+    #...
+
+
+    [ -e _scripts/$PKG.inc ] && cp _scripts/$PKG.inc _scripts/$PKG.scr
+
+
+    #create update scripts for packages which may be replaced with busybox
+    if echo "$BUSYBOX_CHK" | grep -q " $PKG "; then
+	#----run _lsexecs.sh earlyer
+	EXEC_FILES=`sh /bin/_lsexecs.sh -l $DESTROOT | sort`
+	OIFS=$IFS
+	IFS=$'\n'
+	for i in $EXEC_FILES; do
+	    i=`basename "$i"`
+	    [ -z "$EXEC_VAR" ] && EXEC_VAR="'$i'" || EXEC_VAR="$EXEC_VAR '$i'"
+	done
+	IFS=$OIFS
+	echo "#INC#busybox-update" >> _scripts/$PKG.scr
+	echo "#VAR#cmdlist=($EXEC_VAR)" >> _scripts/$PKG.scr
+    fi
+
+
+    #create mime-info's (raw) script
+    if [ -e "$DESTROOT/usr/share/mime" ]; then
+	echo "#INC#shared-mime-info" >> _scripts/$PKG.scr
+    fi
+
+
+    #create texinfo's (raw) script
+    TEXINFO=`find $DESTROOT/usr/share/info -name "*.info*" -print -quit 2> /dev/null`
+    if [ -n "$TEXINFO" ]; then
+	OPWD=`pwd`
+	cd $DESTROOT/usr/share/info
+	TI_FILES=`ls *.info*`
+	OIFS=$IFS
+	IFS=$'\n'
+	for i in $TI_FILES; do
+	    [ -z "$TI_VAR" ] && TI_VAR="'$i'" || TI_VAR="$TI_VAR '$i'"
+	done
+	IFS=$OIFS
+	cd "$OPWD"
+	echo "#INC#texinfo" >> _scripts/$PKG.scr
+	echo "#VAR#filelist=($TI_VAR)" >> _scripts/$PKG.scr
+    fi
+
+
+    #create package user related files
+    F_PASSWD="$BUILDROOT/tmp_passwd"
+    F_GROUP="$BUILDROOT/tmp_group"
+
+    if [ -e _scripts/$PKG.users ]; then
+	cat _scripts/$PKG.users | \
+	while read username uid group gid passwd home shell groups comment; do
+	    if [ "$group" != "-" ]; then
+		GRPID=`grep "^${group}:" "$F_GROUP" | cut -d : -f 3`
+		if [ -z "$GRPID" ]; then
+		    echo "**Group not found: ${group}**"
+		else
+		if ! echo "$processed" | grep -q "^${group}$"; then
+		    if ! echo "$SKIPGROUP" | grep -q " $group "; then
+			echo "#PRI#addgroup -g $GRPID $group 2> /dev/null" >> _scripts/$PKG.scr
+			echo "#POR#delgroup $group 2> /dev/null" >> _scripts/$PKG.scr
+		    fi
+		    [ -z "$processed" ] && processed="$group" || processed=`echo -ne "$processed\n$group"`
+		fi
+		fi
+	    fi
+	    if [ "$groups" != "-" ]; then
+		OIFS=$IFS
+		IFS=$','
+		for i in $groups; do
+		    GRPID=`grep "^${i}:" "$F_GROUP" | cut -d : -f 3`
+		    if [ -z "$GRPID" ]; then
+			echo "**Group not found: ${i}**"
+		    else
+		    if ! echo "$processed" | grep -q "^${i}$"; then
+			if ! echo "$SKIPGROUP" | grep -q " $i "; then
+			    echo "#PRI#addgroup -g $GRPID $i 2> /dev/null" >> _scripts/$PKG.scr
+			    echo "#POR#delgroup $i 2> /dev/null" >> _scripts/$PKG.scr
+			fi
+			[ -z "$processed" ] && processed="$i" || processed=`echo -ne "$processed\n$i"`
+		    fi
+		    fi
+		done
+		IFS=$OIFS
+	    fi
+	done
+	cat _scripts/$PKG.users | \
+	while read username uid group gid passwd home shell groups comment; do
+	    [ "$shell" != "-" ] && SHELL="-s $shell" || SHELL=
+	    [ "$home" != "-" ] && HHOME="-h $home" || HHOME=
+	    [ "$group" != "-" ] && GROUP="-G $group" || GROUP=
+	    [ "$comment" != "-" -a ! -z "$comment" ] && COMMENT="-g '$comment'" || COMMENT=
+	    if [ "$username" != "-" ]; then
+		USRID=`grep "^${username}:" "$F_PASSWD" | cut -d : -f 3`
+		if [ -z "$USRID" ]; then
+		    echo "**User not found: ${username}**"
+		else
+		echo "#PRI#adduser $HHOME $COMMENT $GROUP $SHELL -D -H -u $USRID $username 2> /dev/null" >> _scripts/$PKG.scr
+		echo "#POR#deluser $username 2> /dev/null" >> _scripts/$PKG.scr
+		if [ "$groups" != "-" ]; then
+		    OIFS=$IFS
+		    IFS=$','
+		    for i in $groups; do
+			echo "#PRI#adduser $username $i 2> /dev/null" >> _scripts/$PKG.scr
+			echo "#POR#delgroup $username $i 2> /dev/null" >> _scripts/$PKG.scr
+		    done
+		    IFS=$OIFS
+		fi
+		fi
+	    fi
+	done
+    fi
+
+
+    #create install files
+    if [ -e _scripts/$PKG.scr ]; then
+	echo -n > _scripts/$PKG.install
+	if INC=$(grep "^#INC#" _scripts/$PKG.scr); then
+	    OIFS=$IFS
+	    IFS=$'\n'
+	    for i in $INC; do
+		INCVAL=`echo "$i" | sed 's/^#INC#//'`
+		if [ -e _scripts/scripts/$INCVAL.scr ]; then
+		    [ -z "$INCSCR" ] && INCSCR="$INCVAL" || INCSCR=`echo -ne "$INCSCR\n$INCVAL"`
+		fi
+	    done
+	    #IFS=$OIFS
+
+	    for i in $INCSCR; do
+		grep "^#VAR#" _scripts/scripts/$i.scr | sed 's/^#VAR#//' >> _scripts/$PKG.install
+	    done
+
+	    grep "^#VAR#" _scripts/$PKG.scr | sed 's/^#VAR#//' >> _scripts/$PKG.install
+
+	    for i in $INCSCR; do
+		grep "^#PCD#" _scripts/scripts/$i.scr | sed 's/^#PCD#//' >> _scripts/$PKG.install
+	    done
+
+	    echo "post_install() {" >> _scripts/$PKG.install
+	    for i in $INCSCR; do
+		grep "^#POI#" _scripts/scripts/$i.scr | sed 's/^#POI#//' >> _scripts/$PKG.install
+	    done
+	    grep "^#POI#" _scripts/$PKG.scr | sed 's/^#POI#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "post_upgrade() {" >> _scripts/$PKG.install
+	    for i in $INCSCR; do
+		grep "^#POU#" _scripts/scripts/$i.scr | sed 's/^#POU#//' >> _scripts/$PKG.install
+	    done
+	    grep "^#POU#" _scripts/$PKG.scr | sed 's/^#POU#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "post_remove() {" >> _scripts/$PKG.install
+	    for i in $INCSCR; do
+		grep "^#POR#" _scripts/scripts/$i.scr | sed 's/^#POR#//' >> _scripts/$PKG.install
+	    done
+	    grep "^#POR#" _scripts/$PKG.scr | sed 's/^#POR#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "pre_install() {" >> _scripts/$PKG.install
+	    for i in $INCSCR; do
+		grep "^#PRI#" _scripts/scripts/$i.scr | sed 's/^#PRI#//' >> _scripts/$PKG.install
+	    done
+	    grep "^#PRI#" _scripts/$PKG.scr | sed 's/^#PRI#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "pre_upgrade() {" >> _scripts/$PKG.install
+	    for i in $INCSCR; do
+		grep "^#PRU#" _scripts/scripts/$i.scr | sed 's/^#PRU#//' >> _scripts/$PKG.install
+	    done
+	    grep "^#PRU#" _scripts/$PKG.scr | sed 's/^#PRU#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "pre_remove() {" >> _scripts/$PKG.install
+	    for i in $INCSCR; do
+		grep "^#PRR#" _scripts/scripts/$i.scr | sed 's/^#PRR#//' >> _scripts/$PKG.install
+	    done
+	    grep "^#PRR#" _scripts/$PKG.scr | sed 's/^#PRR#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    IFS=$OIFS
+	else
+	    grep "^#VAR#" _scripts/$PKG.scr | sed 's/^#VAR#//' >> _scripts/$PKG.install
+
+	    echo "post_install() {" >> _scripts/$PKG.install
+	    grep "^#POI#" _scripts/$PKG.scr | sed 's/^#POI#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "post_upgrade() {" >> _scripts/$PKG.install
+	    grep "^#POU#" _scripts/$PKG.scr | sed 's/^#POU#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "post_remove() {" >> _scripts/$PKG.install
+	    grep "^#POR#" _scripts/$PKG.scr | sed 's/^#POR#//' | tac >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "pre_install() {" >> _scripts/$PKG.install
+	    grep "^#PRI#" _scripts/$PKG.scr | sed 's/^#PRI#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "pre_upgrade() {" >> _scripts/$PKG.install
+	    grep "^#PRU#" _scripts/$PKG.scr | sed 's/^#PRU#//' >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+
+	    echo "pre_remove() {" >> _scripts/$PKG.install
+	    grep "^#PRR#" _scripts/$PKG.scr | sed 's/^#PRR#//' | tac >> _scripts/$PKG.install
+	    echo "}" >> _scripts/$PKG.install
+	fi
+	anum=0
+	grep -A 1 -n "() {$" _scripts/$PKG.install | grep "^[0-9]\+-}$" | sed "s/-}$//" | \
+	while read num; do
+	    sed -i "$(expr $num - $anum)d" _scripts/$PKG.install
+	    sed -i "$(expr $num - 1 - $anum)d" _scripts/$PKG.install
+	    anum=$(expr $anum + 2)
+	done
+    fi
+
+
+    #copy in (auto)generated cpio
+    if [ -e _scripts/${PKG}@run.cpio ]; then
+	mkdir -p $DESTROOT/etc/rundir
+	cp -Rdp _scripts/${PKG}@run.cpio $DESTROOT/etc/rundir
+    fi
+    #buildroot's sysvinit scripts()()
+    if [ -e $DESTROOT/etc/init.d ]; then
+	[ "$PKG" != "openrc" ] && mv $DESTROOT/etc/init.d $DESTROOT/etc/sysvinit.d
+	####rm sysvinit runscript if there is
+	[ -e $DESTROOT/etc/sysvinit.d/rcS ] && rm $DESTROOT/etc/sysvinit.d/rcS
+	[ -e $DESTROOT/etc/sysvinit.d/rcK ] && rm $DESTROOT/etc/sysvinit.d/rcK
+    fi
+    #execute permissions in /etc/profile.d
+    if [ -e $DESTROOT/etc/profile.d ]; then
+	LSFILE=`find $DESTROOT/etc/profile.d -mindepth 1 -maxdepth 1 -print -quit 2> /dev/null`
+	[ ! -z "$LSFILE" ] && chmod 755 $DESTROOT/etc/profile.d/*
+    fi
+
+
+    #copy raw package files
+    #cp ... -p -> cp ... --preserve=mode,ownership (new timestamp)
+    [ -d _scripts/files/$PKG/etc ] && cp -Rdp _scripts/files/$PKG/etc $DESTROOT
+    [ -d _scripts/files/$PKG/@file ] && cp -Rdp _scripts/files/$PKG/@file/* $DESTROOT
+
+
+    #strip
+    _strip $DESTROOT
+
+
+    #make package info files
+    mkdir -p $DESTROOT/var/lib/instpkg/local
+    mkdir -p $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV
+    mkdir -p $DESTROOT/var/lib/instpkg/local/.local
+    ln -sf ../$PKG-$VERSION-$REV $DESTROOT/var/lib/instpkg/local/.local/$PKG
+    #----move diskusage to the end of the script
+    SIZE=`du -sk $DESTROOT | grep -o "^[0-9]\+"`
+    #short descriptions
+    if [ -e _scripts/$PKG.desc ]; then
+	SHORT_DESC=`cat _scripts/$PKG.desc`
+    fi
+    #write pkginfo
+    echo -ne "NAME=$NAME\nVERSION=$VERSION\nREV=$REV\nDESC=\"$SHORT_DESC\"\nSIZE=$SIZE\n" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/info
+    #buildroot descriptions
+    #-description from python to python3
+    [ -e _scripts/desc/desc@ ] && mv _scripts/desc/desc@ $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc@ && rm -rf _scripts/desc
+    #-other
+    tar xzf _scripts/files/desc.tar.gz -C $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV desc/$PKG.desc@ 2> /dev/null
+    [ -e $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc/$PKG.desc@ ] && \
+	mv $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc/$PKG.desc@ $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc@
+    rm -rf $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/desc
+
+    ###overwrite
+    [ ! -e _scripts/$PKG.deps ] && touch _scripts/$PKG.deps
+    ###overwrite
+
+    sort -u _scripts/$PKG.deps > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends
+    cat $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depends | tr '\n' ' ' | \
+	sed 's% $%%' > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/depend@
+    [ -z "$GRP" ] && GRP=`grep "package.*/$PKG/Config.in" package/_pkgs.group@@@@ | cut -d " " -f 1-2`
+
+    ###overwrite
+    [ "$PKG" = "busybox" ] && GRP="base system"
+    [ "$PKG" = "glibc" ] && GRP="base development"
+    [ "$PKG" = "gcc" ] && GRP="base development"
+    [ "$PKG" = "grub-dist" ] && GRP="base system"
+    [ "$PKG" = "busybox-init" ] && GRP="base system"
+    [ "$PKG" = "busybox-pwdutils" ] && GRP="base system"
+    [ "$PKG" = "busybox-utils" ] && GRP="base system"
+    [ "$PKG" = "busybox-dist" ] && GRP="base system"
+    ###overwrite
+    [ -z "$GRP" ] && GRP="unknown other"
+
+    #write groups entry
+    echo "$GRP" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/groups
+    #copy install file
+    [ -e _scripts/$PKG.install ] && cp -dp _scripts/$PKG.install $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/install
+    #copy keepdirs file
+    [ -e _scripts/$PKG.keepdirs ] && cp -dp _scripts/$PKG.keepdirs $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/keepdirs
+    #find execs
+    LS_EXECS=`sh /bin/_lsexecs.sh $DESTROOT | sort`
+    [ ! -z "$LS_EXECS" ] && echo "$LS_EXECS" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/execs
+    #find dirlinks
+    LS_DIRLINKS=`sh /bin/_find_dirlinks.sh $DESTROOT | sort`
+    [ ! -z "$LS_DIRLINKS" ] && echo "$LS_DIRLINKS" > $DESTROOT/var/lib/instpkg/local/$PKG-$VERSION-$REV/dirlinks
+
+
+    #targz
+    (cd $DESTROOT; tar czf $PKGDEST/$PKG-$VERSION-$REV.tar.gz *)
+    retval=$?
+#
+    echo "$DONTINSTALL" | grep -q " $PKG " || tar xzf $PKGDEST/$PKG-$VERSION-$REV.tar.gz -C /
+#
+    rm -rf $DESTROOT/*
+
+    rm -f $BUILDROOT/inst_start.log
+fi
+exit $retval

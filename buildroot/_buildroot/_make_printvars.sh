@@ -1,0 +1,1 @@
+make -s printvars VARS=BUSYBOX_%DEPENDENCIES
