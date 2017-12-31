@@ -1,6 +1,0 @@
-#! /bin/sh
-
-start-stop-daemon -K -q -p /run/dhcpcd-wlp2s0.pid > /dev/null 2>&1
-start-stop-daemon -K -q -p /run/wpa_supplicant.pid > /dev/null 2>&1
-rm -f /run/wpa_supplicant.pid
-ip link set dev wlp2s0 down

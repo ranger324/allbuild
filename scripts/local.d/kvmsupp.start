@@ -2,3 +2,4 @@
 
 grep "^flags[[:space:]]\+: " /proc/cpuinfo | grep -qw svm && modprobe -q kvm-amd
 grep "^flags[[:space:]]\+: " /proc/cpuinfo | grep -qw vmx && modprobe -q kvm-intel
+exit 0
