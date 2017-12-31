@@ -1,0 +1,25 @@
+#!/bin/sh
+
+#[$1 -f] force openvt
+#[$1 -w] wait process to exit
+# $1 user
+# $2 ttyN (without /dev)
+
+while [ "${1:0:1}" = '-' ]; do
+    case "$1" in
+	'-f')
+	    forceopen="-f"
+	    shift
+	;;
+	'-w')
+	    wait_exit="-w"
+	    shift
+	;;
+    esac
+done
+
+[ -z "$1" -o -z "$2" ] && echo "usage: $0 [-f] [-w] user ttyN" && exit 1
+
+ttynum=`echo "$2" | sed 's/^tty//'`
+openvt -c $ttynum -s $forceopen $wait_exit -- loginuser $1 $2
+#openvt -c $ttynum -s $forceopen $wait_exit -- sh -c 'exit 0'

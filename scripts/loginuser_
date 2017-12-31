@@ -1,5 +1,0 @@
-#!/bin/sh
-
-#openvt -c 11 -s -f -- env TTYPERM=620 login -f $1
-#openvt -c 11 -s -f -- sudo -u $1 bash
-#openvt -c 11 -s -f -- sudo -u $1 bash -l
