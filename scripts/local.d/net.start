@@ -19,4 +19,8 @@ nic=wlan0
 [ ! -e /sys/class/net/$nic ] && exit 0
 ip link set dev $nic up
 start-stop-daemon -S -b -q -m -p /var/run/wpa_supplicant.pid -x /usr/sbin/wpa_supplicant -- -c /etc/wpa_supplicant.conf -i $nic > /dev/null 2>&1
+sleep 0.5
 start-stop-daemon -S -q -x /sbin/dhcpcd -- $nic > /dev/null 2>&1
+#check if it is connected
+#wpa_cli -i $nic list_networks | grep "^[0-9]\+" | grep -q "\[CURRENT\]"
+#ping -c 1 8.8.8.8
