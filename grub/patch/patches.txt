@@ -1,3 +1,14 @@
-initrd patches - to handle (configuration generation) multiple files in initrd lines
-no grub-mount
-ucode - look for microcode images
+- initrd patches - to handle (configuration generation) multiple files in initrd lines
+
+grub-2.02-initrd.patch
+os-prober-1.75-grub-initrd.patch
+
+- ucode - look for microcode images (eg.: ucode.img)
+
+grub-2.02-ucode-2.patch
+
+- no grub-mount (grub-mount - read-only fuse based mount utility (makes searches in filesystems
+  while it is mounted) - which is very slow)
+  (this patch limits the mount capability to filesystems which are known by the linux kernel)
+
+os-prober-1.75-no-grub-mount.patch

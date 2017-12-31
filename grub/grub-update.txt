@@ -1,12 +1,41 @@
-modify grub2 and os-prober (create backup; copy files by overwriting original)
-to make it "distribution friendly"
-(eg.: some linux disrto loads microcode by initrd line "separately")
+update grub2 and os-prober to make it "distribution friendly"
+patches for (grub 2.02) and (os-prober 1.75)
+
+(some linux disrto loads microcode by initrd line as a separate image file)
 (grub-mount replaced with mount)
+
+your distribution may contain distribution specific (modified) os-prober and
+grub packages - or newer versions
+
+--
+patches:
+- initrd patches - to handle (configuration generation) multiple files in initrd lines
+
+grub-2.02-initrd.patch
+os-prober-1.75-grub-initrd.patch
+
+- ucode - look for microcode images (eg.: ucode.img)
+
+grub-2.02-ucode-2.patch
+
+- no grub-mount (grub-mount - read-only fuse based mount utility (makes searches in filesystems
+  while it is mounted) - which is very slow)
+  (this patch limits the mount capability to filesystems which are known by the linux kernel)
+
+os-prober-1.75-no-grub-mount.patch
+
+--
+you may try to update these scripts by overwriting original files if these
+packages are installed (create backup; copy files by overwriting original)
+
+"files" directory contains:
+- os-prober package's updated files and other files (scripts) without "newns" binary
+  "/usr/lib/os-prober/newns"
+- and updated grub files: "/etc/grub.d/10_linux" "/etc/grub.d/30_os-prober"
+
 (you may set up grub to find other os-es on other partitions
 	execute permission on file: /etc/grub.d/30_os-prober
 	#turn on
 	chmod 755 /etc/grub.d/30_os-prober
 	#turn off
 	chmod 644 /etc/grub.d/30_os-prober)
-(grub 2.02)
-(os-prober 1.75)
