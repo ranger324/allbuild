@@ -1,0 +1,52 @@
+#! /bin/sh
+
+: ${DIALOG=dialog}
+
+tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
+trap "rm -f $tempfile" 0 1 2 5 15
+
+lsswappart()
+{
+for drv in $(find /dev -maxdepth 1 -name "[hs]d[a-z]" -o -name "ub[a-z]" | sort); do
+    LC_ALL=C sfdisk -d $drv 2> /dev/null | grep "^/dev/" | \
+    while read LINE; do
+	if echo "$LINE" | grep -q "type=82"; then
+	    DEVICE=$(echo "$LINE" | cut -d : -f 1 | tr -d " ")
+	    DEVNAME=$(basename $DEVICE)
+	    shopt -s lastpipe
+	    (cd /dev/disk/by-id; ls -l ata-* usb-* scsi-* 2> /dev/null | \
+		sed -n -e 's%.*[[:space:]]\+\(ata-.*\)%\1%p' -e 's%.*[[:space:]]\+\(usb-.*\)%\1%p' \
+		-e 's%.*[[:space:]]\+\(scsi-.*\)%\1%p' | grep "/$DEVNAME$") | read -r DEV_ID LNK_S LNK
+	    shopt -u lastpipe
+	    if [ -n "$DEV_ID" ]; then
+		echo -n "$DEV_ID "
+		eval $(echo "$LINE" | cut -d : -f 2 | cut -d , -f 2 | tr -d " ")
+		echo -n "$(expr $size \* 512 / 1048576)MB "
+	    fi
+	fi
+    done
+done
+}
+
+$DIALOG --backtitle "Create swap on device" \
+	--title "" --clear \
+	--menu "Select partition" 20 70 15 \
+	`lsswappart` 2> $tempfile
+
+retval=$?
+
+choice=`cat $tempfile`
+case $retval in
+    0)
+	if [ ! -z "$choice" ]; then
+	    DEV=`realpath /dev/disk/by-id/$choice`
+	    mkswap $DEV
+	fi
+    ;;
+    1)
+	#cancel pressed
+    ;;
+    255)
+	#ESC pressed
+    ;;
+esac
