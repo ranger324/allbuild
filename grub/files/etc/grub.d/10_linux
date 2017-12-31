@@ -133,27 +133,25 @@ linux_entry ()
 	echo	'$(echo "$message" | grub_quote)'
 	linux	${rel_dirname}/${basename} root=${linux_root_device_thisversion} ro ${args}
 EOF
-if test -n "${ucode}" ; then
-  if test -n "${initrd}" ; then
-    # TRANSLATORS: ramdisk isn't identifier. Should be translated.
-    message="$(gettext_printf "Loading initial ramdisk ...")"
-    sed "s/^/$submenu_indentation/" << EOF
+  if test -n "${ucode}" ; then
+    if test -n "${initrd}" ; then
+      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
+      message="$(gettext_printf "Loading initial ramdisk ...")"
+      sed "s/^/$submenu_indentation/" << EOF
 	echo	'$(echo "$message" | grub_quote)'
-	initrd	${rel_dirname}/${ucode}
+	initrd	${rel_dirname}/${ucode} ${rel_dirname}/${initrd}
+EOF
+    fi
+  else
+    if test -n "${initrd}" ; then
+      # TRANSLATORS: ramdisk isn't identifier. Should be translated.
+      message="$(gettext_printf "Loading initial ramdisk ...")"
+      sed "s/^/$submenu_indentation/" << EOF
+	echo	'$(echo "$message" | grub_quote)'
 	initrd	${rel_dirname}/${initrd}
 EOF
+    fi
   fi
-else
-  if test -n "${initrd}" ; then
-    # TRANSLATORS: ramdisk isn't identifier. Should be translated.
-    message="$(gettext_printf "Loading initial ramdisk ...")"
-    sed "s/^/$submenu_indentation/" << EOF
-	echo	'$(echo "$message" | grub_quote)'
-	initrd	${rel_dirname}/${initrd}
-EOF
-  fi
-
-fi
   sed "s/^/$submenu_indentation/" << EOF
 }
 EOF
