@@ -4,9 +4,20 @@
 
 lsservices()
 {
-    find /etc/runlevels -maxdepth 1 -type l | sort | while read svc; do
-	SVCSTATUS=`rc-service ${svc##*/} status 2> /dev/null | cut -d : -f 2`
-	[ ! -z "$SVCSTATUS" ] && echo "${svc##*/}$SVCSTATUS"
+    find /etc/runlevels -maxdepth 1 -type l | sort | \
+    while read svc; do
+	TMPRESULT=`rc-service ${svc##*/} status 2> /dev/null`
+	retval=$?
+	if [ -z "$TMPRESULT" ]; then
+	    if [ "$retval" != 0 ]; then
+		SVCSTATUS=" error"
+	    else
+		SVCSTATUS=" novalue"
+	    fi
+	else
+	    SVCSTATUS=`echo "$TMPRESULT" | cut -d : -f 2`
+	fi
+	echo "${svc##*/}$SVCSTATUS"
     done
 }
 
