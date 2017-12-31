@@ -2,6 +2,11 @@
 
 # $1 user
 # $2 ttyN (without /dev)
-[ -z "$1" -o -z "$2" ] && echo "usage: $0 user ttyN" && exit 1
-[ "$(tty)" != "/dev/$2" ] && echo "use loginuser_openvt on other tty" && exit 1
+[ -z "$1" -o -z "$2" ] && echo "usage: $0 user ttyN (ttyN without /dev)" && exit 1
+if [ "$(tty)" != "/dev/$2" ]; then
+    echo "use loginuser_openvt on other tty"
+    exit 1
+fi
+[ "$2" = "$(echo "$2" | sed 's/^tty//')" ] && exit 1
+who | grep -q "^[^[:space:]]\+[[:space:]]\+$2[[:space:]]\+" && exit 1
 exec env TTYPERM=620 login -f $1 < /dev/$2 > /dev/$2

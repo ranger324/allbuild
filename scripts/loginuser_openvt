@@ -2,6 +2,7 @@
 
 #[$1 -f] force openvt
 #[$1 -w] wait process to exit
+#[$1 -s] switch terminal
 # $1 user
 # $2 ttyN (without /dev)
 
@@ -15,11 +16,20 @@ while [ "${1:0:1}" = '-' ]; do
 	    wait_exit="-w"
 	    shift
 	;;
+	'-s')
+	    switch="-s"
+	    shift
+	;;
+	*)
+	    echo "unknown option: $1" && exit 1
+	;;
     esac
 done
 
-[ -z "$1" -o -z "$2" ] && echo "usage: $0 [-f] [-w] user ttyN" && exit 1
+[ -z "$1" -o -z "$2" ] && echo "usage: $0 [-f] [-w] [-s] user ttyN" && exit 1
 
+[ "$2" = "$(echo "$2" | sed 's/^tty//')" ] && exit 1
+who | grep -q "^[^[:space:]]\+[[:space:]]\+$2[[:space:]]\+" && exit 1
 ttynum=`echo "$2" | sed 's/^tty//'`
-openvt -c $ttynum -s $forceopen $wait_exit -- loginuser $1 $2
+openvt -c $ttynum $switch $forceopen $wait_exit -- loginuser $1 $2
 #openvt -c $ttynum -s $forceopen $wait_exit -- sh -c 'exit 0'
