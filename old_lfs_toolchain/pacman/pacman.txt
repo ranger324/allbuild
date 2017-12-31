@@ -1,7 +1,7 @@
 #commands
 #build
 makepkg
-#install/upgrade/remove
+#install/upgrade/remove/query
 pacman -Sy
 pacman -Su
 pacman -S pkg
@@ -9,3 +9,4 @@ pacman -R pkg
 pacman -U pkg
 pacman -Sl
 pacman -Ql
+pacman -Qo file

@@ -41,6 +41,6 @@ if [ -d $pkgdir/usr/info ]; then
     mv $pkgdir/usr/info $pkgdir/usr/share
 fi
 rm -f $pkgdir/usr/share/info/dir
-[ -d $startdir/etc ] && cp -RP $startdir/etc $pkgdir
+[ -d $startdir/etc ] && cp -Rdp $startdir/etc $pkgdir
 return 0
 }

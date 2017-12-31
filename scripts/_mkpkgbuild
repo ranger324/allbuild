@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#pacman 3.5.4(and other) addon script
+#template build (compile) file creator
+
 [ -f PKGBUILD ] && exit 1
 
 ARCHIVE=`find -maxdepth 1 -type f \( -name "*.tar.*" -o -name "*.tgz" \) -printf "%f\n" | sort | tail -n 1`
@@ -59,7 +62,7 @@ if [ -d \$pkgdir/usr/info ]; then
     mv \$pkgdir/usr/info \$pkgdir/usr/share
 fi
 rm -f \$pkgdir/usr/share/info/dir
-[ -d \$startdir/etc ] && cp -RP \$startdir/etc \$pkgdir
+[ -d \$startdir/etc ] && cp -Rdp \$startdir/etc \$pkgdir
 return 0
 }
 EOF
