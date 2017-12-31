@@ -13,4 +13,4 @@ FEND=`od -v -A n -t x1 -N 1 -j $(expr $SIZE - 1) "$FILE"`
 retval=$?
 [ "$retval" != 0 ] && exit $retval
 
-[ "$FEND" != " 0a" ] && echo >> "$FILE"
+[ "$FEND" != " 0a" ] && echo >> "$FILE" || true
