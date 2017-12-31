@@ -8,8 +8,8 @@ trap "rm -f $tempfile" 0 1 2 5 15
 lsdev()
 {
 test -L /sys/block/$(ls /sys/block | head -n 1) && \
-    find /sys/devices -path "*/block/*" \( -name "[hs]d[a-z]*" -o -name "ub[a-z]*" \) || \
-    find /sys/block \( -name "[hs]d[a-z]*" -o -name "ub[a-z]*" \)
+    find /sys/devices -path "*/block/*" \( -name "sd[a-z]*" -o -name "ub[a-z]*" \) || \
+    find /sys/block \( -name "sd[a-z]*" -o -name "ub[a-z]*" \)
 }
 
 lsblk()
@@ -24,7 +24,7 @@ lsblk()
 $DIALOG --backtitle "Configuring system settings" \
 	--title "" --clear \
 	--menu "Install boot loader on device" 20 61 15 \
-	`lsblk | sed -e 's%^/dev/[hs]d[a-z]%& :%' -e 's%^/dev/ub[a-z]%& :%' | sort -t : -k 1,1 -k 2n | sed -e 's% :%%' -e 's/.*/& </'` 2> $tempfile
+	`lsblk | sort | sed "s/.*/& </"` 2> $tempfile
 
 retval=$?
 

@@ -38,6 +38,10 @@ done
 #ls_sessions
 #exit 0
 
+[ ! -e /usr/share/xsessions ] && exit 1
+LSFILE=`find /usr/share/xsessions -mindepth 1 -maxdepth 1 -print -quit 2> /dev/null`
+[ -z "$LSFILE" ] && exit 1
+
 $DIALOG --backtitle "Select default desktop environment" \
 	--title "" --clear \
 	--menu "" 20 61 15 \

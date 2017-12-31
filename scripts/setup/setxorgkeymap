@@ -5,7 +5,12 @@
 tempfile=`mktemp 2> /dev/null` || tempfile=/tmp/test$$
 trap "rm -f $tempfile" 0 1 2 5 15
 
-[ -r /usr/share/X11/xkb/rules/evdev.lst -a -e /etc/X11/xorg.conf.d/90-inputclass-setting.conf ] || exit 0
+#conf_key=XkbLayout
+conf_key=xkb_layout
+#conf_file=/etc/X11/xorg.conf.d/00-keyboard.conf
+conf_file=/etc/X11/xorg.conf.d/90-inputclass-setting.conf
+
+[ -r /usr/share/X11/xkb/rules/evdev.lst -a -e $conf_file ] || exit 0
 
 list_keymaps(){
     LN1=`expr $(grep -n "^! layout" /usr/share/X11/xkb/rules/evdev.lst | cut -d : -f 1) + 1`
@@ -30,9 +35,9 @@ choice=`cat $tempfile`
 case $retval in
     0)
 	if [ -z $choice ]; then
-	    sed -i "s%.*Option.*\"xkb_layout\".*%#    Option \"xkb_layout\" \"us\"%" /etc/X11/xorg.conf.d/90-inputclass-setting.conf
+	    sed -i "s%.*Option.*\"$conf_key\".*%#    Option \"$conf_key\" \"us\"%" $conf_file
 	else
-	    sed -i "s%.*Option.*\"xkb_layout\".*%    Option \"xkb_layout\" \"$choice\"%" /etc/X11/xorg.conf.d/90-inputclass-setting.conf
+	    sed -i "s%.*Option.*\"$conf_key\".*%    Option \"$conf_key\" \"$choice\"%" $conf_file
 	fi
     ;;
     1)
