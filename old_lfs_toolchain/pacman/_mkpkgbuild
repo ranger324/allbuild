@@ -9,12 +9,12 @@ ARCHIVE=`find -maxdepth 1 -type f \( -name "*.tar.*" -o -name "*.tgz" \) -printf
 
 echo $ARCHIVE | grep -q "-" || exit 1
 NAME=${ARCHIVE%-*}
-[ $ARCHIVE != ${ARCHIVE/.tar.gz//} ] && EXT=".tar.gz"
-[ $ARCHIVE != ${ARCHIVE/.tar.bz2//} ] && EXT=".tar.bz2"
-[ $ARCHIVE != ${ARCHIVE/.tar.xz//} ] && EXT=".tar.xz"
-[ $ARCHIVE != ${ARCHIVE/.tgz//} ] && EXT=".tgz"
-NAME_WO_EXT=${ARCHIVE/$EXT/}
-VER=${NAME_WO_EXT/$NAME-/}
+[ $ARCHIVE != ${ARCHIVE%.tar.gz} ] && EXT=".tar.gz"
+[ $ARCHIVE != ${ARCHIVE%.tar.bz2} ] && EXT=".tar.bz2"
+[ $ARCHIVE != ${ARCHIVE%.tar.xz} ] && EXT=".tar.xz"
+[ $ARCHIVE != ${ARCHIVE%.tgz} ] && EXT=".tgz"
+NAME_WO_EXT=${ARCHIVE/%$EXT/}
+VER=${NAME_WO_EXT/#$NAME-/}
 
 cat > PKGBUILD << EOF
 pkgname=$NAME
