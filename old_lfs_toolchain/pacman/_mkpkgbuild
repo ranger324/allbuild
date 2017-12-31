@@ -13,8 +13,8 @@ NAME=${ARCHIVE%-*}
 [ $ARCHIVE != ${ARCHIVE%.tar.bz2} ] && EXT=".tar.bz2"
 [ $ARCHIVE != ${ARCHIVE%.tar.xz} ] && EXT=".tar.xz"
 [ $ARCHIVE != ${ARCHIVE%.tgz} ] && EXT=".tgz"
-NAME_WO_EXT=${ARCHIVE/%$EXT/}
-VER=${NAME_WO_EXT/#$NAME-/}
+NAME_WO_EXT=${ARCHIVE%$EXT}
+VER=${NAME_WO_EXT#${NAME}-}
 
 cat > PKGBUILD << EOF
 pkgname=$NAME
