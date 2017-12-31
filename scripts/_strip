@@ -5,5 +5,11 @@ if [ ! -z "$1" ]; then
     [ ! -d "$DIR" ] && echo "No such directory" && exit 1
     cd "$DIR"
 fi
-find -type f -name "*.a" | xargs -r strip -d
+
+find -type f -name "*.a" | \
+while read file; do
+    HEADER=`od -v -x -j 0 -N 7 "$file" 2> /dev/null | head -n 1 | cut -d ' ' -f 2-`
+    [ "$HEADER" = "3c21 7261 6863 003e" ] && strip -d "$file"
+done
+
 _findbin | xargs -r strip -d

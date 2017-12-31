@@ -1,4 +1,39 @@
 #! /bin/sh
 
-[ "$1" = "-n" ] && maxdepth="-maxdepth 1"
-find -mindepth 1 $maxdepth -printf "%T@ %p\n" | sort -n -r
+while [ "$#" != 0 ]; do
+    case "$1" in
+	'-n')
+	    maxdepth="-maxdepth 1"
+	    shift
+	;;
+	'-t')
+	    print_time_data=1
+	    shift
+	;;
+	'-b')
+	    back_num_days=1
+	    shift
+	    days="$1"
+	    [ -z "$days" ] && echo "No days given" && exit 1
+	    shift
+	;;
+	*)
+	    shift
+	;;
+    esac
+done
+
+
+if [ $back_num_days ]; then
+    if [ $print_time_data ]; then
+	find -mindepth 1 $maxdepth -mtime -$days -printf "%T@ %p\n" | sort -n -r
+    else
+	find -mindepth 1 $maxdepth -mtime -$days -printf "%TY/%Tm/%Td %TH:%TM %p\n" | sort -n -r
+    fi
+else
+    if [ $print_time_data ]; then
+	find -mindepth 1 $maxdepth -printf "%T@ %p\n" | sort -n -r
+    else
+	find -mindepth 1 $maxdepth -printf "%TY/%Tm/%Td %TH:%TM %p\n" | sort -n -r
+    fi
+fi

@@ -1,0 +1,3 @@
+#! /bin/sh
+
+ps axwwo user,pid,command | tail -n +2 | sort

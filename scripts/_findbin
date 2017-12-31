@@ -7,6 +7,11 @@ if [ "$1" = "--file" ]; then
 	find -type f | while read file; do file "$file" | grep -q "ELF 32-bit" && echo "$file"; done
     fi
 else
+    if [ "$1" = "-l" ]; then
+	findlinks=1
+	shift
+    fi
+
     if [ ! -z "$1" ]; then
         if [ ! -d "$1" ]; then
             echo "Directory not found: $1"
@@ -15,10 +20,20 @@ else
         DIR="$1"
         cd "$DIR"
     fi
+
+    if [ $findlinks ]; then
+    find -type f -printf "%P\n" -o -type l -printf "%P\n" | \
+    while read line; do
+	if [ "$(od -v -x -j 1 -N 3 "$line" 2> /dev/null | head -n 1 | cut -d ' ' -f 2-)" = "4c45 0046" ]; then
+	    echo "$line"
+	fi
+    done
+    else
     find -type f -printf "%P\n" | \
     while read line; do
 	if [ "$(od -v -x -j 1 -N 3 "$line" 2> /dev/null | head -n 1 | cut -d ' ' -f 2-)" = "4c45 0046" ]; then
 	    echo "$line"
 	fi
     done
+    fi
 fi

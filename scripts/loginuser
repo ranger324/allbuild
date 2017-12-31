@@ -1,3 +1,10 @@
 #!/bin/sh
 
-TTYPERM=620 login -f $1 < /dev/$2 > /dev/$2
+#[$1 -f] force openvt
+# $1 user
+# $2 ttyN (without /dev)
+[ "$1" = "-f" ] && forceopen="-f" && shift
+[ -z "$1" -o -z "$2" ] && echo "usage: $0 user ttyN" && exit 1
+ttynum=`echo "$2" | sed 's/^tty//'`
+openvt -c $ttynum -s $forceopen -- env TTYPERM=620 login -f $1
+#openvt -c $ttynum -s $forceopen -- sh -c 'exit 0'

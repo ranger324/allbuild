@@ -1,3 +1,4 @@
 #! /bin/bash
 
-ls *.pkg.tar.gz | rev | cut -d '-' -f 4- | rev
+#ls *.pkg.tar.gz | rev | cut -d '-' -f 4- | rev
+ls *.tar.gz | rev | cut -d '-' -f 3- | rev

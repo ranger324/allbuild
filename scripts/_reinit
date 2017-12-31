@@ -1,0 +1,14 @@
+#! /bin/sh
+
+#'exec chroot . /bin/sh > dev/console < dev/console 2>&1'
+#SHPARAM=""
+#/var/lib/chmntp
+chrootinit=/var/lib/chmntp/sbin/init-chroot
+
+[ -z "$1" ] && echo "Add param!" && exit 1
+
+if [ "$1" = "-p" ]; then
+    sed -i "s%SHPARAM=\"\"%SHPARAM=\"-c 'poweroff -f'\"%" $chrootinit
+elif [ "$1" = "-r" ]; then
+    sed -i "s%SHPARAM=\"\"%SHPARAM=\"-c 'reboot -f'\"%" $chrootinit
+fi

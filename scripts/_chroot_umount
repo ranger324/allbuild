@@ -1,0 +1,6 @@
+#! /bin/sh
+
+[ -z "$1" ] && DIR="." || DIR="$1"
+umount $DIR/dev
+umount $DIR/sys
+umount $DIR/proc

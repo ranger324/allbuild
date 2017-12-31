@@ -383,7 +383,7 @@ for i in $NUMS; do
 			    tail -n +$i "$file" | head -n $ENDNUMA
 			fi
 		    fi
-		    #tail -n +$i "$file"
+		    #tail -n +$i "$file" | head -n $ENDNUMA
 		fi
 	    fi
 	fi
