@@ -1,0 +1,10 @@
+nofiles()
+{
+    echo "no files"
+    exit 1
+}
+
+[ -z "$1" ] && cd /dest || cd "$1"
+ls *.files > /dev/null 2>&1 || nofiles
+echo -n > /_filelist.dat
+for i in *.files; do echo "%%$i%%" >> /_filelist.dat; cat $i >> /_filelist.dat; done

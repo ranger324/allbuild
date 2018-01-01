@@ -9,4 +9,4 @@ nofiles()
 rm -f *.files
 ls *.tar.gz > /dev/null 2>&1 || nofiles
 # sort LC_COLLATE=C
-for i in *.tar.gz; do echo $i; tar tzf $i > $i.files; done
+for i in *.tar.gz; do echo $i; tar tzf $i | LC_COLLATE=C sort > $i.files; done
