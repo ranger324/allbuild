@@ -2,8 +2,8 @@
 
 echo "Unmounting /media devices"
 
-pidof udisks-daemon > /dev/null && udisk=1
-pidof udisksd > /dev/null && udisk2=1
+pidof udisks-daemon > /dev/null 2>&1 && udisk=1
+pidof udisksd > /dev/null 2>&1 && udisk2=1
 if [ -z "$udisk" -a -z "$udisk2" ]; then
     find /media -mindepth 1 -maxdepth 1 -type d -print0 2> /dev/null | xargs -r -0 -i umount {}
 else
