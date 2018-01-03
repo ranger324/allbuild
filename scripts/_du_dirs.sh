@@ -1,6 +1,6 @@
-[ $1 = "-b" ] && bytes=1 && shift
+[ "$1" = "-b" ] && bytes=1 && shift
 if [ ! -z "$1" ]; then
-    DIR=$1
+    DIR="$1"
     [ ! -d "$DIR" ] && echo "No such directory" && exit 1
     cd $DIR
 fi
