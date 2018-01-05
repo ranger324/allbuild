@@ -1,6 +1,6 @@
 #! /bin/sh
 
-[ "$1" = "-r" ] && opts="-o ro"
+[ "$1" = "-r" ] && opts="-o ro" && udisk_opts="--mount-options $(echo "$opts" | sed 's/^-o //')"
 
 validfs()
 {
@@ -48,7 +48,11 @@ while read dev; do
 			mount $opts /dev/$dev /media/$UUID
 		else
 		    if [ ! -z "$udisk" ]; then
-			udiskctl mount $opts -b /dev/$dev
+			if which udiskctl > /dev/null 2>&1; then
+			    udiskctl mount $opts -b /dev/$dev
+			else
+			    udisks $udisk_opts --mount /dev/$dev
+			fi
 		    else
 			udisksctl mount $opts -b /dev/$dev
 		    fi
@@ -60,7 +64,11 @@ while read dev; do
 			mount $opts /dev/$dev /media/$UUID
 		else
 		    if [ ! -z "$udisk" ]; then
-			udiskctl mount $opts -b /dev/$dev
+			if which udiskctl > /dev/null 2>&1; then
+			    udiskctl mount $opts -b /dev/$dev
+			else
+			    udisks $udisk_opts --mount /dev/$dev
+			fi
 		    else
 			udisksctl mount $opts -b /dev/$dev
 		    fi
