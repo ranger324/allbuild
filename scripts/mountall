@@ -27,7 +27,7 @@ fi
 
 find /sys/devices -path "*/block/*" \( -name "sd*" -o -name "ub*" -o -name "hd*" -o -name "mmcblk*" \) | sed "s%.*/%%" | \
 while read dev; do
-    type=`blkid -o udev -s TYPE -p /dev/$dev`
+    type=`blkid -o udev -s TYPE -p /dev/$dev 2> /dev/null`
     if [ ! -z "$type" ]; then
 	eval $type
 	validfs $ID_FS_TYPE || continue
