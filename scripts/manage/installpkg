@@ -75,50 +75,6 @@ else
 fi
 }
 
-noinfodialog()
-{
-    choice=`$DIALOG --backtitle "Install packages" --stdout \
-	--title "" --ok-label "Add" --cancel-label "Back" \
-	--checklist "Select packages" 20 61 15 \
-	$(pkgmenu) 2> /dev/null`
-    retval=$?
-    case $retval in
-	0)
-	    if [ ! -z "$choice" ]; then
-		echo -n "$choice " >> $tempfile
-		break
-	    fi
-	;;
-	*)  break;;
-    esac
-}
-
-infodialog()
-{
-    choice=`$DIALOG --backtitle "Install packages" --stdout \
-	--title "" --default-item "${choice//\"/}" --ok-label "Add" \
-	--extra-button --extra-label "Info" --cancel-label "Back" \
-	--checklist "Select packages" 20 61 15 \
-	$(pkgmenu) 2> /dev/null`
-    retval=$?
-    case $retval in
-	0)
-	    if [ ! -z "$choice" ]; then
-		echo -n "$choice " >> $tempfile
-		break
-	    fi
-	;;
-	3)
-	    if [ ! -z "$choice" ]; then
-		for i in $choice; do
-		    $DIALOG --title "${i//\"/}" --msgbox "Description:\n\n$(grep "^${GRPPAIR/,/ } ${i//\"/} " $DATABASE | cut -d " " -f 6-)" 10 61 2> /dev/null
-		done
-	    fi
-	;;
-	*)  break;;
-    esac
-}
-
 setupdialog()
 {
     choice=`$DIALOG --backtitle "instpkg settings" --stdout \
@@ -155,9 +111,47 @@ case $retval in
 	if [ ! -z "$GRPPAIR" ]; then
 	    while true; do
 	    if [ $infobutton ]; then
-		infodialog
+		#if ... not in function - break doesn't work from function
+		choice=`$DIALOG --backtitle "Install packages" --stdout \
+		    --title "" --default-item "${choice//\"/}" --ok-label "Add" \
+		    --extra-button --extra-label "Info" --cancel-label "Back" \
+		    --checklist "Select packages" 20 61 15 \
+		    $(pkgmenu) 2> /dev/null`
+		retval=$?
+		case $retval in
+		    0)
+			if [ ! -z "$choice" ]; then
+			    echo -n "$choice " >> $tempfile
+			    break
+			fi
+		    ;;
+		    3)
+			if [ ! -z "$choice" ]; then
+			    for i in $choice; do
+				$DIALOG --title "${i//\"/}" --msgbox "Description:\n\n$(grep "^${GRPPAIR/,/ } ${i//\"/} " $DATABASE | cut -d " " -f 6-)" 10 61 2> /dev/null
+			    done
+			fi
+		    ;;
+		    *)  break;;
+		esac
+		#if
 	    else
-		noinfodialog
+		#if ... not in function - break doesn't work from function
+		choice=`$DIALOG --backtitle "Install packages" --stdout \
+		    --title "" --ok-label "Add" --cancel-label "Back" \
+		    --checklist "Select packages" 20 61 15 \
+		    $(pkgmenu) 2> /dev/null`
+		retval=$?
+		case $retval in
+		    0)
+			if [ ! -z "$choice" ]; then
+			    echo -n "$choice " >> $tempfile
+			    break
+			fi
+		    ;;
+		    *)  break;;
+		esac
+		#if
 	    fi
 	    done
 	fi
