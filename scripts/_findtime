@@ -17,8 +17,15 @@ while [ "$#" != 0 ]; do
 	    [ -z "$days" ] && echo "No days given" && exit 1
 	    shift
 	;;
+	'-h')
+	    echo "usage: $0 [-n] [-t] [-b num]"
+	    echo "	-n	find maxdepth 1 (directories)"
+	    echo "	-t	print time data"
+	    echo "	-b num	modified num days ago"
+	    exit 0
+	;;
 	*)
-	    shift
+	    echo "unknown option: $1" && exit 1
 	;;
     esac
 done
