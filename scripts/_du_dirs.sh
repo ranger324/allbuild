@@ -6,7 +6,7 @@ if [ ! -z "$1" ]; then
 fi
 
 if [ $bytes ]; then
-    find -mindepth 1 -maxdepth 1 -type d | sort -V | xargs -r -i sh -c "echo -ne '{} '; du -sb {} | cut -d $'\t' -f 1"
+    find -mindepth 1 -maxdepth 1 -type d | sort -V | xargs -r -i sh -c "echo -ne '{} '; du -sb '{}' | cut -d $'\t' -f 1"
 else
-    find -mindepth 1 -maxdepth 1 -type d | sort -V | xargs -r -i sh -c "echo -ne '{} '; du -sh {} | cut -d $'\t' -f 1"
+    find -mindepth 1 -maxdepth 1 -type d | sort -V | xargs -r -i sh -c "echo -ne '{} '; du -sh '{}' | cut -d $'\t' -f 1"
 fi
