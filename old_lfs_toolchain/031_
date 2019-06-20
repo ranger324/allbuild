@@ -1,6 +1,0 @@
-#! /bin/bash
-#flex
-source ../009_
-./configure --prefix=/tools
-make
-make install

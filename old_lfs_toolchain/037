@@ -1,6 +1,0 @@
-#!/bin/sh
-#libfetch
-source ../035__
-sed -i -e 's|-O2 -pipe -I\. -fPIC|& -specs=/root/specs|' -e 's|-lc -lssl -lcrypto|& -specs=/root/specs|' Makefile
-make
-make prefix=/tools install

@@ -1,9 +1,0 @@
-#! /bin/sh
-#linux kernel source
-make mrproper
-make headers_check
-make INSTALL_HDR_PATH=dest headers_install
-find dest -type f -name .install -o -name ..install.cmd | xargs rm
-
-mkdir -p /tools/usr
-cp -Rdp dest/include /tools/usr

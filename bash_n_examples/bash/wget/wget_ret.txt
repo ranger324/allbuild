@@ -1,4 +1,0 @@
-#1 error param
-#4 no host
-#8 no file
-#130 ctrl-c

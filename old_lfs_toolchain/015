@@ -1,6 +1,0 @@
-#! /bin/bash
-#gawk
-
-./configure --prefix=/tools
-make
-make install

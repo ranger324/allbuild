@@ -1,6 +1,0 @@
-#! /bin/bash
-#gettext
-source ../009_
-./configure --prefix=/tools --disable-libasprintf --without-csharp
-make
-make install

@@ -1,1 +1,0 @@
-CC=/usr/lib/musl/bin/musl-gcc make

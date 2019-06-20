@@ -1,1 +1,0 @@
-pacman-key --refresh-keys

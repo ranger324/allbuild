@@ -1,7 +1,0 @@
-#! /bin/bash
-#bash
-source ../009_
-FORCE_UNSAFE_CONFIGURE=1 ./configure --prefix=/tools --without-bash-malloc
-make
-make install
-ln -s bash /tools/bin/sh

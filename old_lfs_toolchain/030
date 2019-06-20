@@ -1,6 +1,0 @@
-#! /bin/bash
-#m4
-source ../009_
-./configure --prefix=/tools
-make
-make install

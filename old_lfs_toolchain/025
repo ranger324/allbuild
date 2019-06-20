@@ -1,7 +1,0 @@
-#! /bin/bash
-#ncurses
-source ../009_
-./configure --prefix=/tools --with-shared \
-    --without-debug --without-ada --without-gpm --enable-symlinks
-make
-make install

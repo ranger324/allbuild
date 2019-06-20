@@ -1,1 +1,0 @@
-nasm -f elf64 -l hello_64.lst  hello_64.asm

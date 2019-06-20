@@ -1,6 +1,0 @@
-#! /bin/bash
-#3mpfr
-
-./configure --prefix=/tools --enable-thread-safe
-make
-make install

@@ -1,6 +1,0 @@
-#!/bin/sh
-#pacman
-source ../035__
-./configure --prefix=/tools
-make
-make install

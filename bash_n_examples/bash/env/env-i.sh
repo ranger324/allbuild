@@ -1,1 +1,0 @@
-env -i bash --noprofile

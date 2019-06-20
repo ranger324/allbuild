@@ -1,7 +1,0 @@
-set logging on
-set pagination off
-file 8cc
-b main.c:168
-run -w -D _FILE_OFFSET_BITS=64 -D _XOPEN_SOURCE=700 -D _GNU_SOURCE -o mount.o -c mount.c
-while true
-    step

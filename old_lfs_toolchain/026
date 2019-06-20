@@ -1,6 +1,0 @@
-#! /bin/bash
-#patch
-source ../009_
-CPPFLAGS="-D_GNU_SOURCE $CPPFLAGS" ./configure --prefix=/tools
-make
-make install

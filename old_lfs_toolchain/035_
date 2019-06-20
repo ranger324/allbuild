@@ -1,5 +1,0 @@
-#!/bin/sh
-# source this (. file)
-export PATH=/tools/bin
-gcc -dumpspecs > /root/specs
-sed -i 's#/lib/#/tools/lib/#g' /root/specs

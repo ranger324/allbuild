@@ -1,6 +1,0 @@
-#! /bin/bash
-#grep
-source ../009_
-./configure --prefix=/tools --disable-perl-regexp
-make
-make install

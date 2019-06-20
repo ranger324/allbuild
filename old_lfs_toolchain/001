@@ -1,6 +1,0 @@
-#! /bin/bash
-#2gmp
-#i686 no --build pentium4
-./configure --prefix=/tools --build=i686-pc-linux-gnu --enable-cxx --enable-mpbsd
-make
-make install

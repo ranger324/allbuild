@@ -1,6 +1,0 @@
-#! /bin/bash
-
-#mpc
-./configure --prefix=/tools --with-mpfr=/tools --with-gmp=/tools
-make
-make install
