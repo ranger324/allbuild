@@ -1,0 +1,17 @@
+#list installed packages
+apt list --installed
+#list all packages (available and installed)
+apt list
+#upgrade (update) packages
+#
+apt-get update
+apt-get upgrade
+#
+#install package (download and install)
+apt-get install [package]
+#remove package
+apt remove [package]
+#(after eg.: kernel update - remove old kernels - command to remove not needed packages)
+apt autoremove
+#apt-cache
+apt-cache pkgnames

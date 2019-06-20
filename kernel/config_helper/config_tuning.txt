@@ -9,7 +9,7 @@ make menuconfig
 #turn off "Security options"/* -
 
 #On x86_64 the following modifications should be done
-#(serial driver - don't compile)
+#(serial driver - doesn't compile)
 #set "Device Drivers" / "Character devices" / "Serial drivers" /
 #	/ "8250/16550 and compatible serial support" - to "*" (compile into kernel image)
 #	CONFIG_SERIAL_8250=y

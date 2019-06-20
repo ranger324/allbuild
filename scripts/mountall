@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 [ "$1" = "-r" ] && opts="-o ro" && udisk_opts="--mount-options $(echo "$opts" | sed 's/^-o //')"
 
@@ -25,7 +25,23 @@ if [ -z "$udisk" -a -z "$udisk2" ]; then
     ! mountpoint /media > /dev/null && mount -t tmpfs tmpfs /media
 fi
 
-find /sys/devices -path "*/block/*" \( -name "sd*" -o -name "ub*" -o -name "hd*" -o -name "mmcblk*" \) | sed "s%.*/%%" | \
+
+DEVS=`find /sys/devices -path "*/block/*" \( -name "sd*" -o -name "ub*" -o -name "hd*" -o -name "mmcblk*" \) | sed "s%.*/%%"`
+kpartx=`ls /dev/mapper/loop?p?* | sed "s%^/dev/%%"`
+
+
+lsdevs()
+{
+for i in $DEVS; do
+    echo "$i"
+done
+for i in $kpartx; do
+    echo "$i"
+done
+}
+
+
+lsdevs | \
 while read dev; do
     type=`blkid -o udev -s TYPE -p /dev/$dev`
     if [ ! -z "$type" ]; then

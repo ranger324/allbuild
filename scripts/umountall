@@ -10,6 +10,10 @@ else
     if [ -e /run/media ]; then
 	find /run/media -mindepth 2 -maxdepth 2 -type d -print0 2> /dev/null | xargs -r -0 -i umount {}
     else
-	find /media -mindepth 1 -maxdepth 1 -type d -print0 2> /dev/null | xargs -r -0 -i umount {}
+	if [ -e /media/`whoami` ]; then
+	    find /media/`whoami` -mindepth 1 -maxdepth 1 -type d -print0 2> /dev/null | xargs -r -0 -i umount {}
+	else
+	    find /media -mindepth 1 -maxdepth 1 -type d -print0 2> /dev/null | xargs -r -0 -i umount {}
+	fi
     fi
 fi

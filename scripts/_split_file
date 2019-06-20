@@ -1,0 +1,24 @@
+#!/bin/sh
+
+dir="$1"
+file="$2"
+#dir=/storage/sdcard0/android
+#file=android.zip
+[ -z "$dir" -o -z "$file" ] && echo "usage: _split_file 'directory' 'file' parts_num parts_size_in_megabytes" && exit 1
+
+parts="$3"
+size="$4"
+#parts=5
+#size=10
+[ -z "$parts" -o -z "$size" ] && echo "usage: _split_file 'directory' 'file' parts_num size" && exit 1
+num=0
+while true; do
+
+    if [ $num = $parts ]; then
+	break
+    fi
+
+    dd if=${dir}/${file} of=${dir}/${file}.$num bs=${size}M count=1 skip=$num
+    num=$(expr $num + 1)
+
+done

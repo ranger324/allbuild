@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 : ${DIALOG=dialog}
 
@@ -10,7 +10,7 @@ lsswappart()
 for drv in $(find /dev -maxdepth 1 -name "[hs]d[a-z]" -o -name "ub[a-z]" | sort); do
     LC_ALL=C sfdisk -d $drv 2> /dev/null | grep "^/dev/" | \
     while read LINE; do
-	if echo "$LINE" | grep -q "type=82"; then
+	if echo "$LINE" | grep -q "type=82\|type=0657FD6D-A4AB-43C4-84E5-0933C84B4F4F"; then
 	    DEVICE=$(echo "$LINE" | cut -d : -f 1 | tr -d " ")
 	    DEVNAME=$(basename $DEVICE)
 	    shopt -s lastpipe

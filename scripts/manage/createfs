@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 : ${DIALOG=dialog}
 
@@ -11,7 +11,7 @@ lslinpart()
 for drv in $(find /dev -maxdepth 1 -name "[hs]d[a-z]" -o -name "ub[a-z]" | sort); do
     LC_ALL=C sfdisk -d $drv 2> /dev/null | grep "^/dev/" | \
     while read LINE; do
-	if echo "$LINE" | grep -q "type=83"; then
+	if echo "$LINE" | grep -q "type=83\|type=0FC63DAF-8483-4772-8E79-3D69D8477DE4"; then
 	    echo -n "$(echo "$LINE" | cut -d : -f 1 | tr -d " ") "
 	    eval $(echo "$LINE" | cut -d : -f 2 | cut -d , -f 2 | tr -d " ")
 	    echo -n "$(expr $size \* 512 / 1048576)MB "

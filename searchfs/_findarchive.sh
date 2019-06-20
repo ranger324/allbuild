@@ -52,11 +52,11 @@ else
 fi
 
 if [ "$VER" != 0 ]; then
-if [ -z "$DIR" ]; then
-    echo "$NAME $VER $EXT" >> /tmp/file2
-else
-    echo "$NAME $VER $EXT $DIR" >> /tmp/file2
-fi
+    if [ -z "$DIR" ]; then
+	echo "$NAME $VER $EXT" >> /tmp/file2
+    else
+	echo "$NAME $VER $EXT $DIR" >> /tmp/file2
+    fi
 fi
 done
 

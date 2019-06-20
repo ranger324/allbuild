@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 : ${DIALOG=dialog}
 
@@ -7,12 +7,27 @@ trap "rm -f $tempfile" 0 1 2 5 15
 
 gptlspart()
 {
+    ###sgdisk - test if sgdisk prints the name of partition type or not
+
+    lsnum=0
     for drv in $(find /dev -maxdepth 1 -name "[hs]d[a-z]" -o -name "ub[a-z]" | sort); do
 	LC_ALL=C sgdisk -p $drv | grep "Linux filesystem$" | \
 	while read num start end size amo rest; do
 	    echo "$drv$num $size$amo"
+	    lsnum=`expr $lsnum + 1`
 	done
     done
+
+    if [ $lsnum = 0 ]; then
+
+    for drv in $(find /dev -maxdepth 1 -name "[hs]d[a-z]" -o -name "ub[a-z]" | sort); do
+	LC_ALL=C sgdisk -p $drv | grep "8300  $" | \
+	while read num start end size amo rest; do
+	    echo "$drv$num $size$amo"
+	done
+    done
+
+    fi
 }
 #LC_ALL=C fdisk -l | grep "^/dev/.*Linux$" | cut -d " " -f 1 | sed 's/.*/& </'
 
