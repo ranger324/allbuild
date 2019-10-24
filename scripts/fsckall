@@ -18,7 +18,7 @@ lsdev | \
 while read dev; do
     type=`blkid -o udev -s TYPE -p /dev/$dev`
     if [ ! -z "$type" ]; then
-	grep -qw "^/dev/$dev" /proc/mounts && continue
+	grep -q "^/dev/$dev " /proc/mounts && continue
 	eval $type
 	validfs $ID_FS_TYPE || continue
 	case "$ID_FS_TYPE" in

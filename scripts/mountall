@@ -27,7 +27,7 @@ fi
 
 
 DEVS=`find /sys/devices -path "*/block/*" \( -name "sd*" -o -name "ub*" -o -name "hd*" -o -name "mmcblk*" \) | sed "s%.*/%%"`
-kpartx=`ls /dev/mapper/loop?p?* | sed "s%^/dev/%%"`
+kpartx=`ls /dev/mapper/loop?p?* 2> /dev/null | sed "s%^/dev/%%"`
 
 
 lsdevs()
