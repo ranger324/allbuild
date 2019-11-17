@@ -1,8 +1,0 @@
-#! /bin/sh
-
-[ `id -u` != 0 ] && exit 0
-
-if [ -x /usr/bin/update-desktop-database ]; then
-    update-desktop-database -q 2> /dev/null
-fi
-exit 0

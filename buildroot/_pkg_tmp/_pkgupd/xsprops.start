@@ -1,5 +1,0 @@
-#!/bin/sh
-
-if [ ! -e /var/lib/instpkg/xsession.props ]; then
-    ls /etc/X11/xinit.d /etc/X11/xresources.d > /var/lib/instpkg/xsession.props 2> /dev/null
-fi

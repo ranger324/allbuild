@@ -1,9 +1,0 @@
-#!/bin/sh
-
-if [ "$PAM_TYPE" = "open_session" ]; then
-  echo -e "User: $PAM_USER\nRuser: $PAM_RUSER\nRhost: $PAM_RHOST\nService: $PAM_SERVICE\nTTY: $PAM_TTY\nDate: $(date)" > /var/lib/lxdm/xsession-$PAM_USER-$PAM_TTY
-fi
-
-[ "$PAM_TYPE" = "close_session" ] && rm -f /var/lib/lxdm/xsession-$PAM_USER-$PAM_TTY
-
-exit 0
