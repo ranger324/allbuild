@@ -35,6 +35,7 @@ done < /dev/stdin
 
 if [ "$#" = 3 ]; then
     TGZ="$1"
+    [ ! -f "$TGZ" ] && echo "No such targz file" && exit 1
     shift
 fi
 
